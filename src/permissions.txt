@@ -1,0 +1,2 @@
+tnc.notify
+tnc.notcheck
