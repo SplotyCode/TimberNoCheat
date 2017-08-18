@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.CheckManager;
+package me.david.TimberNoCheat.checkmanager;
 
 import org.bukkit.event.Listener;
 
@@ -14,6 +14,8 @@ public class Check implements Listener{
     public String getName() {
         return name;
     }
+
+    public void disable(){}
 
     public void setName(String name) {
         this.name = name;
