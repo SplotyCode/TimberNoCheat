@@ -40,6 +40,14 @@ public class PlayerData {
     private int timerflag;
     private boolean morepacketsblacklist2;
     private int fly_nodown;
+    private int moveslastticks;
+    private int blockbreakslastsec;
+    private long lastitemwsitch;
+    private float lastpitch;
+    private float lastyaw;
+    private long lastinv;
+    private long lastcheststealer;
+    private ArrayList<Long> cheststealercon;
 
     public PlayerData(String uuid) {
         this.uuid = uuid;
@@ -77,6 +85,78 @@ public class PlayerData {
         this.timerflag = 0;
         this.morepacketsblacklist2 = false;
         this.fly_nodown = 0;
+        this.moveslastticks = 0;
+        this.blockbreakslastsec = 0;
+        this.lastitemwsitch = System.currentTimeMillis()-15000L;
+        this.lastyaw = 1000;
+        this.lastpitch = 1000;
+        this.lastinv = System.currentTimeMillis()-15000L;
+        this.lastcheststealer = System.currentTimeMillis()-15000L;
+        this.cheststealercon = new ArrayList<Long>();
+    }
+
+    public ArrayList<Long> getCheststealercon() {
+        return cheststealercon;
+    }
+
+    public void setCheststealercon(ArrayList<Long> cheststealercon) {
+        this.cheststealercon = cheststealercon;
+    }
+
+    public long getLastcheststealer() {
+        return lastcheststealer;
+    }
+
+    public void setLastcheststealer(long lastcheststealer) {
+        this.lastcheststealer = lastcheststealer;
+    }
+
+    public long getLastinv() {
+        return lastinv;
+    }
+
+    public void setLastinv(long lastinv) {
+        this.lastinv = lastinv;
+    }
+
+    public float getLastpitch() {
+        return lastpitch;
+    }
+
+    public void setLastpitch(float lastpitch) {
+        this.lastpitch = lastpitch;
+    }
+
+    public float getLastyaw() {
+        return lastyaw;
+    }
+
+    public void setLastyaw(float lastyaw) {
+        this.lastyaw = lastyaw;
+    }
+
+    public long getLastitemwsitch() {
+        return lastitemwsitch;
+    }
+
+    public void setLastitemwsitch(long lastitemwsitch) {
+        this.lastitemwsitch = lastitemwsitch;
+    }
+
+    public int getBlockbreakslastsec() {
+        return blockbreakslastsec;
+    }
+
+    public void setBlockbreakslastsec(int blockbreakslastsec) {
+        this.blockbreakslastsec = blockbreakslastsec;
+    }
+
+    public int getMoveslastticks() {
+        return moveslastticks;
+    }
+
+    public void setMoveslastticks(int moveslastticks) {
+        this.moveslastticks = moveslastticks;
     }
 
     public int getFly_nodown() {

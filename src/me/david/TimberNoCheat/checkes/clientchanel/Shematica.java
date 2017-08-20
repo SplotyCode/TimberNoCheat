@@ -4,7 +4,6 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.Packet;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -23,7 +22,7 @@ import java.math.BigInteger;
 
 public class Shematica extends Check implements PluginMessageListener {
 
-    public String channel = "schematica";
+    public final String channel = "schematica";
     public Shematica(){
         super("Shematica", Category.CLIENT_CHANEL);
         Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, channel, this);
@@ -88,11 +87,7 @@ public class Shematica extends Check implements PluginMessageListener {
                 player.sendPluginMessage(TimberNoCheat.instance, channel, payload);
                 removeChannel.invoke((Object)player, channel);
             }
-        }catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }catch (IllegalAccessException e){
-            e.printStackTrace();
-        }catch (InvocationTargetException e){
+        }catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }

@@ -88,6 +88,12 @@ public class Settings {
     public boolean other_mcleaks_sendcommand = false;
     public String other_mcleaks_command = "";
 
+    public int other_pingspoof_checkspeed = 0;
+    public int other_pingspoof_maxdiffrence = 0;
+    public int other_pingspoof_maxping = 0;
+
+    public int other_nuker_maxblockbreakssec = 0;
+
 
     public int movement_derb_maxpitch = 0;
     public int movement_derb_minpitch = 0;
@@ -121,7 +127,7 @@ public class Settings {
     public int fight_fightspeed_maxhitspersecond = 0;
     public int fight_fightspeed_maxinteractspersecond = 0;
 
-    public int fight_fastbow_ignoreforce = 0;
+    public double fight_fastbow_ignoreforce = 0;
     public int fight_fastbow_delay   = 0;
 
     public double fight_killaura_defaultrange = 0;
@@ -153,6 +159,7 @@ public class Settings {
     public boolean interact_block = false;
     public boolean interact_sleep = false;
     public boolean interact_invisible = false;
+    public boolean interact_openinv = false;
 
     public int player_fasteat_delay = 0;
 
@@ -160,12 +167,36 @@ public class Settings {
     public boolean player_inv_sneak = false;
     public boolean player_inv_sprint = false;
     public boolean player_inv_block = false;
+    public boolean player_inv_sleep = false;
+    public long player_inv_hitdelayinmili = 0;
+    public boolean player_inv_openinvhit = false;
+    public long player_inv_invchatdelay = 0;
+    public boolean player_inv_openinvchat = false;
 
     public long player_morepackets_elapsed = 0;
     public int player_morepackets_maxpackets = 0;
     public int player_morepackets_blacklistadd = 0;
     public int player_morepackets_blacklistremove = 0;
     public int player_morepackets_worlddownloadingdelayinticks = 0;
+
+    public boolean player_skinblinker_sleep = false;
+    public boolean player_skinblinker_sprint = false;
+    public boolean player_skinblinker_block = false;
+    public boolean player_skinblinker_sneak = false;
+    public int player_skinblinker_movemindelay = 0;
+
+    public int player_badpackets_maxmoves = 0;
+
+    public int player_fastswitch_maxping = 0;
+    public int player_fastswitch_delaymili = 0;
+
+    public long player_cheststeler_delay = 0;
+    public boolean player_cheststeler_consistent = false;
+    public long player_cheststeler_consistent_cacheinmilis = 0;
+    public int player_cheststeler_consistent_maxdelaymilis = 0;
+    public int player_cheststeler_consistent_maxcachesize = 0;
+    public int player_cheststeler_consistent_mincachesize = 0;
+    public int player_cheststeler_maxping = 0;
 
     public Settings(){
         load();
@@ -258,6 +289,12 @@ public class Settings {
             other_mcleaks_command = yml.getString("other_mcleaks_command");
         }
 
+        other_pingspoof_checkspeed = yml.getInt("other_pingspoof_checkspeed");
+        other_pingspoof_maxdiffrence = yml.getInt("other_pingspoof_maxdiffrence");
+        other_pingspoof_maxping = yml.getInt("other_pingspoof_maxping");
+
+        other_nuker_maxblockbreakssec = yml.getInt("other_nuker_maxblockbreakssec");
+
 
         movement_derb_cmd = yml.getString("player_derb_cmd");
         movement_derb_maxpitch = yml.getInt("player_derb_maxpitch");
@@ -292,7 +329,7 @@ public class Settings {
         fight_fightspeed_maxinteractspersecond = yml.getInt("fight_fightspeed_maxinteractspersecond");
 
         fight_fastbow_delay = yml.getInt("fight_fastbow_delay");
-        fight_fastbow_ignoreforce = yml.getInt("fight_fastbow_ignoreforce");
+        fight_fastbow_ignoreforce = yml.getDouble("fight_fastbow_ignoreforce");
 
         fight_killaura_defaultrange = yml.getDouble("fight_killaura_defaultrange");
         fight_killaura_rangespeed1 = yml.getDouble("fight_killaura_rangespeed1");
@@ -324,6 +361,7 @@ public class Settings {
         interact_water = yml.getBoolean("interact_water");
         interact_sleep = yml.getBoolean("interact_sleep");
         interact_invisible = yml.getBoolean("interact_invisible");
+        interact_openinv = yml.getBoolean("interact_openinv");
 
 
         player_fasteat_delay = yml.getInt("player_fasteat_delay");
@@ -332,12 +370,36 @@ public class Settings {
         player_inv_sneak = yml.getBoolean("player_inv_sneak");
         player_inv_sprint = yml.getBoolean("player_inv_sprint");
         player_inv_block = yml.getBoolean("player_inv_block");
+        player_inv_sleep = yml.getBoolean("player_inv_sleep");
+        player_inv_hitdelayinmili = yml.getLong("player_inv_hitdelayinmili");
+        player_inv_openinvchat = yml.getBoolean("player_inv_openinvchat");
+        player_inv_openinvhit = yml.getBoolean("player_inv_openinvhit");
+        player_inv_invchatdelay = yml.getLong("player_inv_invchatdelay");
 
         player_morepackets_elapsed = yml.getLong("player_morepackets_elapsed");
         player_morepackets_maxpackets = yml.getInt("player_morepackets_maxpackets");
         player_morepackets_blacklistadd = yml.getInt("player_morepackets_blacklistadd");
         player_morepackets_blacklistremove = yml.getInt("player_morepackets_blacklistremove");
         player_morepackets_worlddownloadingdelayinticks = yml.getInt("player_morepackets_worlddownloadingdelayinticks");
+
+        player_skinblinker_block = yml.getBoolean("player_skinblinker_block");
+        player_skinblinker_sleep = yml.getBoolean("player_skinblinker_sleep");
+        player_skinblinker_sneak = yml.getBoolean("player_skinblinker_sneak");
+        player_skinblinker_sprint = yml.getBoolean("player_skinblinker_sprint");
+        player_skinblinker_movemindelay = yml.getInt("player_skinblinker_movemindelay");
+
+        player_badpackets_maxmoves = yml.getInt("player_badpackets_maxmoves");
+
+        player_fastswitch_delaymili = yml.getInt("player_fastswitch_delaymili");
+        player_fastswitch_maxping = yml.getInt("player_fastswitch_maxping");
+
+        player_cheststeler_delay = yml.getLong("player_cheststeler_delay");
+        player_cheststeler_consistent = yml.getBoolean("player_cheststeler_consistent");
+        player_cheststeler_consistent_cacheinmilis = yml.getLong("player_cheststeler_consistent_cacheinmilis");
+        player_cheststeler_consistent_maxdelaymilis = yml.getInt("player_cheststeler_consistent_maxdelaymilis");
+        player_cheststeler_consistent_maxcachesize = yml.getInt("player_cheststeler_consistent_maxcachesize");
+        player_cheststeler_consistent_mincachesize = yml.getInt("player_cheststeler_consistent_mincachesize");
+        player_cheststeler_maxping = yml.getInt("player_cheststeler_maxping");
     }
 
 }

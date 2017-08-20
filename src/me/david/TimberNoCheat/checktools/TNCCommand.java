@@ -3,14 +3,9 @@ package me.david.TimberNoCheat.checktools;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.api.commands.Checker;
 import me.david.api.commands.Command;
-import me.david.api.commands.checkers.multichoice.Choice;
-import me.david.api.commands.checkers.multichoice.MultiChoices;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginDescriptionFile;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TNCCommand extends Command{
 

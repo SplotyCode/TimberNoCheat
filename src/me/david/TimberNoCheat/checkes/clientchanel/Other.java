@@ -20,17 +20,17 @@ import java.util.ArrayList;
 
 public class Other extends Check implements PluginMessageListener {
 
-    String chanelZIG = "5zig_Set";
-    String chanelBSPRINT = "BSprint";
-    String chanelBSM = "BSM";
-    String chanelWDLINIT = "WDL|INIT";
-    String chanelWDLCONTROL = "WDL|CONTROL";
-    String chanelMCBRAND = "MC|Brand";
-    String chanelWDLREQ = "WDL|REQUEST";
-    String chanelFML = "FML";
-    String chanelFMLHS = "FMLHS";
+    final String chanelZIG = "5zig_Set";
+    final String chanelBSPRINT = "BSprint";
+    final String chanelBSM = "BSM";
+    final String chanelWDLINIT = "WDL|INIT";
+    final String chanelWDLCONTROL = "WDL|CONTROL";
+    final String chanelMCBRAND = "MC|Brand";
+    final String chanelWDLREQ = "WDL|REQUEST";
+    final String chanelFML = "FML";
+    final String chanelFMLHS = "FMLHS";
 
-    ArrayList<String>jsons = new ArrayList<String>();
+    final ArrayList<String>jsons = new ArrayList<String>();
 
     @Override
     public void onPluginMessageReceived(String chanel, Player player, byte[] bytes) {

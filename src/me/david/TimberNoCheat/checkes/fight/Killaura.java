@@ -122,7 +122,7 @@ public class Killaura extends Check {
 
                 int level = (int)Math.round(b < 0.0D?0.00000000001D:b / a < 0.0D?0.00000000001D:a * 100);
                 pd.getReaches().clear();
-                TimberNoCheat.checkmanager.notify(this, damager, " §6TYPE: §bREACH", " §6Level: §b" + level, " §6Reach: §b" + reach, " §6CalculatetMacReach: §b" + maxreach);
+                TimberNoCheat.checkmanager.notify(this, damager, " §6TYPE: §bREACH", " §6WAHRSCHEINLICHKEIT: §b" + level +"%", " §6Reach: §b" + reach, " §6CalculatetMacReach: §b" + maxreach);
             }
         }
     }

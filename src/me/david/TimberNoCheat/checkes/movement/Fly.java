@@ -41,7 +41,7 @@ public class Fly extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        if(inair(p) && !Velocity.velocity.containsKey(p.getUniqueId()) && !p.getAllowFlight() && to.getY() >= from.getY() && !p.getActivePotionEffects().stream().anyMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP)){
+        if(inair(p) && !Velocity.velocity.containsKey(p.getUniqueId()) && !p.getAllowFlight() && to.getY() >= from.getY() && p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP)){
             pd.setFly_nodown(pd.getFly_nodown()+1);
         }else{
             pd.setFly_nodown(0);

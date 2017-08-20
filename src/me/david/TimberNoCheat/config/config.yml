@@ -95,6 +95,15 @@ exploit_craher_swingpersec: 180
 #we will auto-replace / playername:%player%
 other_mcleaks_sendcommand: true
 other_mcleaks_command: "idk"
+
+#pingspoof-check idea ist from Tonda
+#the checkspeed is the probability that the player is checked 1 minimum 0 disable
+other_pingspoof_checkspeed: 8
+other_pingspoof_maxdiffrence: 13
+#maxping is the realping
+other_pingspoof_maxping: 120
+
+other_nuker_maxblockbreakssec: 40
 #------[other]------
 #servercraher is now in exploits
 #------[movement]------
@@ -132,7 +141,7 @@ fight_fightspeed_maxinteractspersecond: 45
 
 fight_fastbow_delay: 560
 #if force bigger or equals ignore
-fight_fastbow_ignoreforce: 3
+fight_fastbow_ignoreforce: 0.2
 
 fight_killaura_defaultrange: 3.9
 fight_killaura_rangespeed1: 4.1
@@ -165,6 +174,7 @@ interact_keepalive: true
 interact_water: true
 interact_sleep: true
 interact_invisible: true
+interact_openinv: true
 #------[interact]------
 #------[player]------
 player_fasteat_delay: 1200
@@ -173,6 +183,12 @@ player_inv_delay_inmilis: 90
 player_inv_sneak: true
 player_inv_sprint: true
 player_inv_block: true
+player_inv_sleep: true
+player_inv_hitdelayinmili: 190
+player_inv_openinvchat: true
+player_inv_openinvhit: true
+#inmilis
+player_inv_invchatdelay: 900
 
 player_derb_cmd: ""
 #do not change this values if not nesery -1 to disble
@@ -185,4 +201,26 @@ player_morepackets_maxpackets: 49
 player_morepackets_blacklistadd: 100
 player_morepackets_blacklistremove: 1
 player_morepackets_worlddownloadingdelayinticks: 45
+
+player_skinblinker_block: true
+player_skinblinker_sleep: true
+player_skinblinker_sneak: true
+player_skinblinker_sprint: true
+player_skinblinker_movemindelay: 1200
+
+#maxmoves in 3 ticks
+player_badpackets_maxmoves: 10
+
+player_fastswitch_delaymili: 50
+player_fastswitch_maxping: 400
+
+#aacpro has that value to 51 in my checks 190 is okay
+player_cheststeler_delay: 190
+player_cheststeler_consistent: true
+player_cheststeler_consistent_cacheinmilis: 8000
+player_cheststeler_consistent_maxdelaymilis: 2
+player_cheststeler_consistent_maxcachesize: 12
+player_cheststeler_consistent_mincachesize: 5
+#-1 to disable
+player_cheststeler_maxping: 400
 #------[player]------

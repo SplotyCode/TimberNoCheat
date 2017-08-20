@@ -33,6 +33,7 @@ public class FightSpeed extends Check{
         }, 20);
         if(pd.getInteractslastsecond() > TimberNoCheat.instance.settings.fight_fightspeed_maxinteractspersecond && TimberNoCheat.instance.settings.fight_fightspeed_maxinteractspersecond != -1){
             TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bINTERACTS", " §6INTERACTLASTSECOND: §b" + pd.getInteractslastsecond());
+            pd.setInteractslastsecond(0);
             e.setCancelled(true);
         }
     }
@@ -57,6 +58,7 @@ public class FightSpeed extends Check{
             }
         }, 20);
         if(pd.getHitslastsecond() > TimberNoCheat.instance.settings.fight_fightspeed_maxhitspersecond && TimberNoCheat.instance.settings.fight_fightspeed_maxhitspersecond != -1){
+            pd.setHitslastsecond(0);
             TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bHITS", " §6HITSTSECOND: §b" + pd.getHitslastsecond());
             e.setCancelled(true);
         }

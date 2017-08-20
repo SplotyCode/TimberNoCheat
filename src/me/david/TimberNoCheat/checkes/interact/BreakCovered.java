@@ -32,11 +32,8 @@ public class BreakCovered extends Check {
             TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6BED: §bfalse");
         }
     }
-    public boolean checkbed(Block b){
-        if(getbedblockface(b) == null){
-            return false;
-        }
-        return check(getbedblockface(b)) && check(b);
+    public boolean checkbed(Block b) {
+        return getbedblockface(b) != null && check(getbedblockface(b)) && check(b);
     }
     public Block getbedblockface(Block b){
         int i = 0;

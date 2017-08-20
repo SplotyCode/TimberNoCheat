@@ -1,7 +1,6 @@
 package me.david.TimberNoCheat.checkes.player;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import me.david.TimberNoCheat.TimberNoCheat;
@@ -9,8 +8,6 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.api.utils.DateTimeUtil;
-import me.ezjamo.helios.packets.events.PacketPlayerEvent;
-import me.ezjamo.helios.packets.events.PacketPlayerType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -113,7 +110,7 @@ public class MorePackets extends Check {
                 if(count > TimberNoCheat.instance.settings.player_morepackets_maxpackets) {
                     //flag
                     TimberNoCheat.checkmanager.notify(this, p, " §6PACKETS: §b" + count);
-                    pd.setMorepackets(new AbstractMap.SimpleEntry(0, System.currentTimeMillis()));
+                    pd.setMorepackets(new AbstractMap.SimpleEntry<Integer, Long>(0, System.currentTimeMillis()));
                     pd.setLastpacket(System.currentTimeMillis());
                     return true;
                 }
@@ -122,7 +119,7 @@ public class MorePackets extends Check {
             }
         }
 
-        pd.setMorepackets(new AbstractMap.SimpleEntry(count, time));
+        pd.setMorepackets(new AbstractMap.SimpleEntry<Integer, Long>(count, time));
         pd.setLastpacket(System.currentTimeMillis());
         return false;
     }

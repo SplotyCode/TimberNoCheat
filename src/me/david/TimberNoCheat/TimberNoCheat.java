@@ -21,8 +21,8 @@ public class TimberNoCheat extends JavaPlugin{
     public static TimberNoCheat instance;
     public static CheckManager checkmanager;
     public String prefix = "§7[§9T§cN§eC§7] §6";
-    public File config = new File(getDataFolder() + "/config.yml");
-    public int configversion = 8;
+    public final File config = new File(getDataFolder() + "/config.yml");
+    public final int configversion = 8;
     public int curconfigversion = -1;
     public Settings settings;
     public ProtocolManager protocolmanager;
@@ -72,6 +72,7 @@ public class TimberNoCheat extends JavaPlugin{
         getServer().getPluginManager().registerEvents(new JoinLeave(), this);
         getServer().getPluginManager().registerEvents(new Velocity(), this);
         CommandManager.commands.add(new TNCCommand());
+        getLogger().log(Level.INFO, "Es wurden " + checkmanager.checks.size() + " module geladen mit vielen unterchecks!");
     }
 
     @Override

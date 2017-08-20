@@ -42,7 +42,7 @@ public class DamageIndicator extends Check{
             StructureModifier watcher = event.getPacket().getWatchableCollectionModifier();
             for (WrappedWatchableObject watch : (List<WrappedWatchableObject>)watcher.read(0)) {
                 if (watch.getIndex() != 6 || (Float)watch.getValue() <= 0.0f) continue;
-                watch.setValue(Float.valueOf((float)new Random().nextInt((int)((LivingEntity)entity).getMaxHealth()) + new Random().nextFloat()));
+                watch.setValue(new Random().nextInt((int)((LivingEntity)entity).getMaxHealth()) + new Random().nextFloat());
             }
         }
     }

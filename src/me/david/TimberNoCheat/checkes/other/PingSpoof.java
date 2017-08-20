@@ -27,7 +27,7 @@ public class PingSpoof extends Check {
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }
-        if(NumberUtil.randInt(0, 10) != 1){
+        if(NumberUtil.randInt(0, TimberNoCheat.instance.settings.other_pingspoof_checkspeed) != 1){
             return;
         }
         try{
@@ -42,13 +42,14 @@ public class PingSpoof extends Check {
             }
             double realping = Double.valueOf(sb.toString().split(" ")[12].substring(5));
             double ping = ((CraftPlayer)p).getHandle().ping;
-            if(ping-realping > 20){
+            if(realping >= TimberNoCheat.instance.settings.other_pingspoof_maxping){
+                return;
+            }
+            if(ping-realping > TimberNoCheat.instance.settings.other_pingspoof_maxdiffrence){
                 TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6PING: §b" + ping, " §6REALPING: §b" + realping);
             }
-        }catch (IOException ex){
+        }catch (IOException | InterruptedException ex){
             ex.printStackTrace();
-        }catch (InterruptedException ex2){
-            ex2.printStackTrace();
         }
     }
 }

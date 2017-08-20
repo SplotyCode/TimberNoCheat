@@ -15,10 +15,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Velocity implements Listener{
-    public static HashMap<UUID, Map.Entry<Long, Vector>> velocity = new HashMap();
+    public static HashMap<UUID, Map.Entry<Long, Vector>> velocity = new HashMap<UUID, Map.Entry<Long, Vector>>();
     @EventHandler
-    public void Velocity(PlayerVelocityEvent event) {
-        this.velocity.put(event.getPlayer().getUniqueId(), new AbstractMap.SimpleEntry(Long.valueOf(System.currentTimeMillis()), event.getVelocity()));
+    public void onVelocity(PlayerVelocityEvent event) {
+        velocity.put(event.getPlayer().getUniqueId(), new AbstractMap.SimpleEntry<Long, Vector>(System.currentTimeMillis(), event.getVelocity()));
     }
     @EventHandler
     public void Update(UpdateEvent event) {

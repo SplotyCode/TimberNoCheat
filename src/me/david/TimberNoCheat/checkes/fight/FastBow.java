@@ -20,12 +20,13 @@ public class FastBow extends Check{
             return;
         }
         final Player p = (Player) e.getEntity();
+        p.sendMessage(e.getForce()+"");
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         long delay = System.currentTimeMillis() - pd.getLastbowshot();
-        if(e.getForce() >= TimberNoCheat.instance.settings.fight_fastbow_ignoreforce){
+        if(e.getForce() <= TimberNoCheat.instance.settings.fight_fastbow_ignoreforce){
             return;
         }
         if(delay < TimberNoCheat.instance.settings.fight_fastbow_delay){

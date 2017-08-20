@@ -35,6 +35,7 @@ public class FastPlace extends Check{
         }, 20);
         if(pd.getBlockplacelastsecond() > TimberNoCheat.instance.settings.interact_fasplace_cps){
             e.setCancelled(true);
+            pd.setBlockplacelastsecond(0);
             TimberNoCheat.checkmanager.notify(this, p, " §6BLOCKPLACEPERSECOND: §b" + pd.getBlockplacelastsecond());
         }
     }

@@ -192,9 +192,6 @@ public class MCLeaks extends Check{
         Object reponse = Reflection.getMethod(this.classYggdrasilAuthenticationService, "makeRequest", java.net.URL.class, java.lang.Object.class, java.lang.Class.class)
                 .invoke(service, url, null, this.classHasJoinedMinecraftServerResponse);
 
-        if ((reponse != null) && (Reflection.getMethod(this.classHasJoinedMinecraftServerResponse, "getId").invoke(reponse) != null)) {
-            return true;
-        }
-        return false;
+        return (reponse != null) && (Reflection.getMethod(this.classHasJoinedMinecraftServerResponse, "getId").invoke(reponse) != null);
     }
 }

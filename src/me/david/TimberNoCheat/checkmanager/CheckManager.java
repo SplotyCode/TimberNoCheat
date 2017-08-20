@@ -12,13 +12,8 @@ import me.david.TimberNoCheat.checkes.interact.FastPlace;
 import me.david.TimberNoCheat.checkes.interact.Interact;
 import me.david.TimberNoCheat.checkes.interact.NoSwing;
 import me.david.TimberNoCheat.checkes.movement.*;
-import me.david.TimberNoCheat.checkes.other.DamageIndicator;
-import me.david.TimberNoCheat.checkes.other.Grifing;
-import me.david.TimberNoCheat.checkes.other.MCLeaks;
-import me.david.TimberNoCheat.checkes.other.PingSpoof;
-import me.david.TimberNoCheat.checkes.player.FastEat;
-import me.david.TimberNoCheat.checkes.player.Inventory;
-import me.david.TimberNoCheat.checkes.player.MorePackets;
+import me.david.TimberNoCheat.checkes.other.*;
+import me.david.TimberNoCheat.checkes.player.*;
 import me.david.TimberNoCheat.checktools.Tps;
 import me.david.api.utils.StringUtil;
 import org.bukkit.Bukkit;
@@ -73,6 +68,12 @@ public class CheckManager {
         register(new Inventory());
         register(new MorePackets());
         register(new PingSpoof());
+        register(new SkinBlinker());
+        register(new BadPackets());
+        register(new Nuker());
+        register(new FastSwitch());
+        register(new Rotate());
+        register(new ChestStealer());
     }
     public void execute(String cmd, String player){
         if(!cmd.equals("")){
@@ -113,6 +114,17 @@ public class CheckManager {
         getPlayerdata(p).setLastflagmessage(System.currentTimeMillis());
         TimberNoCheat.instance.getLogger().log(Level.INFO, message.replace("§", "&"));
     }
+    public void notify(Check check, String arg, Player p, String...args){
+        if(System.currentTimeMillis() - getPlayerdata(p).getLastflagmessage() < 1200L){
+            return;
+        }
+        String message = "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayerName: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + arg + StringUtil.toString(args, "");
+        for(Player p1 : notify){
+            p1.sendMessage(TimberNoCheat.instance.prefix + message);
+        }
+        getPlayerdata(p).setLastflagmessage(System.currentTimeMillis());
+        TimberNoCheat.instance.getLogger().log(Level.INFO, message.replace("§", "&"));
+    }
     private String gettpscolor(){
         double tps = Tps.getTPS();
         if(tps >= 20L){
@@ -132,6 +144,9 @@ public class CheckManager {
             return "§e"+ping;
         }
         return "§c"+ (ping <= 0?"0":ping);
+    }
+    public int getping(Player p){
+        return ((CraftPlayer)p).getHandle().ping<0?0:((CraftPlayer)p).getHandle().ping;
     }
     public Check getCheckbyName(String name){
         for(Check c : checks){

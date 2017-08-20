@@ -4,12 +4,12 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.api.utils.BlockUtil;
+import me.david.api.utils.PlayerUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Set;
@@ -42,25 +42,26 @@ public class Interact extends Check {
         if(e.getClickedBlock() != null && e.getClickedBlock().isLiquid() && TimberNoCheat.instance.settings.interact_water){
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bLIQUIDS");
-            return;
         }
         if(p.isDead() && TimberNoCheat.instance.settings.interact_keepalive){
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bDEAD");
+        }
+        if(e.getAction() == Action.PHYSICAL){
             return;
         }
         if(p.isSleeping() && TimberNoCheat.instance.settings.interact_sleep){
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSLEEP");
-            return;
-        }
-        if(e.getAction() == Action.PHYSICAL){
-            return;
         }
         if(p.isBlocking() && TimberNoCheat.instance.settings.interact_block){
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bBLOCK");
-            return;
+        }
+        if(PlayerUtil.hasInventoryOpen(p) && TimberNoCheat.instance.settings.interact_openinv){
+            e.setCancelled(true);
+            System.out.println(p.getOpenInventory().getType());
+            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bOPENINV");
         }
         if(e.getClickedBlock() == null || p.getTargetBlock((Set<Material>) null, 6) == null || !TimberNoCheat.instance.settings.interact_ghosthand){
             return;
