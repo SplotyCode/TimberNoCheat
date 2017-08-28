@@ -19,6 +19,7 @@ import me.david.api.utils.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -27,6 +28,7 @@ public class CheckManager {
     public ArrayList<Check> checks = new ArrayList<Check>();
     public ArrayList<PlayerData> playerdata = new ArrayList<PlayerData>();
     public ArrayList<Player> notify = new ArrayList<Player>();
+    public ArrayList<Player> tocheck = new ArrayList<Player>();
 
     public CheckManager(){
         register(new Address());
@@ -74,6 +76,9 @@ public class CheckManager {
         register(new FastSwitch());
         register(new Rotate());
         register(new ChestStealer());
+        register(new FastLadder());
+        register(new Respawn());
+        register(new VanillaBug());
     }
     public void execute(String cmd, String player){
         if(!cmd.equals("")){
@@ -83,7 +88,7 @@ public class CheckManager {
         }
     }
     public boolean isvalid_create(Player p ){
-        if(p.hasPermission("tnc.notcheck")){
+        if(!tocheck.contains(p)){
             return false;
         }
         if(getPlayerdata(p) == null){
@@ -103,29 +108,27 @@ public class CheckManager {
         checks.add(check);
         TimberNoCheat.instance.getServer().getPluginManager().registerEvents(check, TimberNoCheat.instance);
     }
+    public void unregister(Check check) {
+        checks.remove(check);
+        HandlerList.unregisterAll(check);
+    }
     public void notify(Check check, Player p, String... args){
-        if(System.currentTimeMillis() - getPlayerdata(p).getLastflagmessage() < 1200L){
+        if(System.currentTimeMillis() - getPlayerdata(p).getLastflagmessage() < 1200L)
             return;
-        }
-        String message = "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayerName: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + StringUtil.toString(args, "");
-        for(Player p1 : notify){
-            p1.sendMessage(TimberNoCheat.instance.prefix + message);
-        }
-        getPlayerdata(p).setLastflagmessage(System.currentTimeMillis());
-        TimberNoCheat.instance.getLogger().log(Level.INFO, message.replace("§", "&"));
+        notify(p, "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayerName: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + StringUtil.toString(args, ""));
     }
     public void notify(Check check, String arg, Player p, String...args){
-        if(System.currentTimeMillis() - getPlayerdata(p).getLastflagmessage() < 1200L){
+        if(System.currentTimeMillis() - getPlayerdata(p).getLastflagmessage() < 1200L)
             return;
-        }
-        String message = "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayerName: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + arg + StringUtil.toString(args, "");
-        for(Player p1 : notify){
+        notify(p, "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayerName: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + arg + StringUtil.toString(args, ""));
+    }
+    private void notify(Player p, String message){
+        for(Player p1 : notify)
             p1.sendMessage(TimberNoCheat.instance.prefix + message);
-        }
         getPlayerdata(p).setLastflagmessage(System.currentTimeMillis());
         TimberNoCheat.instance.getLogger().log(Level.INFO, message.replace("§", "&"));
     }
-    private String gettpscolor(){
+    public String gettpscolor(){
         double tps = Tps.getTPS();
         if(tps >= 20L){
             return "§a20";
@@ -136,14 +139,14 @@ public class CheckManager {
         }
         return "§c" + Math.round(tps);
     }
-    private String getpingcolor(Player p){
-        int ping = ((CraftPlayer)p).getHandle().ping;
+    public String getpingcolor(Player p){
+        int ping = getping(p);
         if(ping < 80){
-            return "§a"+ping;
+            return "§a"+;
         }else if(ping < 160){
             return "§e"+ping;
         }
-        return "§c"+ (ping <= 0?"0":ping);
+        return "§c"+ ping;
     }
     public int getping(Player p){
         return ((CraftPlayer)p).getHandle().ping<0?0:((CraftPlayer)p).getHandle().ping;

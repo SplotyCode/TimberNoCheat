@@ -4,12 +4,15 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import me.david.TimberNoCheat.checktools.Velocity;
 import me.david.api.utils.PlayerUtil;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class Inventory extends Check {
@@ -26,7 +29,7 @@ public class Inventory extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         long delay = System.currentTimeMillis() - pd.getLastmove();
-        if(delay < TimberNoCheat.instance.settings.player_inv_delay_inmilis){
+        if(delay < TimberNoCheat.instance.settings.player_inv_delay_inmilis && !Velocity.velocity.containsKey(p.getUniqueId()) && !p.isInsideVehicle() && p.getFallDistance() == 0F && p.getLocation().getWorld().getBlockAt(p.getLocation()).getType() != Material.WATER){
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bMOVE", " §6DELAY: §b" + delay);
         }
@@ -46,7 +49,25 @@ public class Inventory extends Check {
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSLEEP");
         }
+        if(e.getCursor() != null && p.getLocation().getBlock().getType() == Material.PORTAL || p.getLocation().add(0, 0, 1).getBlock().getType() == Material.PORTAL){
+            e.setCancelled(true);
+            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bPORTALCLICK", " §6CLOSE: §bTRUE");
+            p.closeInventory();
+        }
         pd.setLastinv(System.currentTimeMillis());
+    }
+    @EventHandler
+    public void onInventoryOpen(InventoryOpenEvent e){
+        final Player p = (Player) e.getPlayer();
+        if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()){
+            return;
+        }
+        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        if(p.getLocation().getBlock().getType() == Material.PORTAL || p.getLocation().add(0, 0, 1).getBlock().getType() == Material.PORTAL){
+            e.setCancelled(true);
+            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bPORTALOPEN", " §6CLOSE: §bTRUE");
+            p.closeInventory();
+        }
     }
     @EventHandler
     public void hit(EntityDamageByEntityEvent e){

@@ -1,5 +1,8 @@
 package me.david.TimberNoCheat.checkes.movement;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
@@ -11,10 +14,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.potion.PotionEffect;
@@ -26,6 +31,75 @@ public class Speed extends Check {
 
     public Speed(){
         super("Speed", Category.MOVEMENT);
+    }
+
+    @EventHandler
+    public void Update(UpdateEvent event) {
+        if (event.getType().equals(UpdateType.TICK)) {
+            for(Player p : TimberNoCheat.checkmanager.tocheck){
+                PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+                if(pd == null || p.isInsideVehicle() || pd.getLastspeedloc() == null || p.getAllowFlight() || !pd.getLastspeedloc().getWorld().getName().equals(p.getLocation().getWorld().getName()))
+                    pd.setLastspeedloc(p.getLocation());
+                    continue;
+                if(p.getLocation().getZ() > pd.getLastspeedloc().getZ()+getmodi(p, 0.27) || !PLayerUtil.isonclimpabel){
+                    p.teleport(pd.getLastspeedloc(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    TimberNoCheat.checkmanager.notify(this, p, " §6MODE: §bSIMPLEHIGHT", " §6HIGHT: §b" + p.getLocation().getZ(), " §6MAXALLOWED: §b" + pd.getLastspeedloc().getZ()+getmodi(p, 0.27));
+                }
+                final double diff = pd.getLastspeedloc().clone().subtract(0, 0, pd.getLastspeedloc().getZ()).distance(p.getLocation().clone().subtract(0, 0, p.getLocation().getZ()));
+                if(diff > getmodi(p, 0.6)){
+                    p.teleport(pd.getLastspeedloc(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    TimberNoCheat.checkmanager.notify(this, p, " §6MODE: §bSIMPLEXY", " §6XYDIFF: §b" + diff, " §6MAXXYDIFF: §b" + getmodi(p, 0.6));
+                }
+                pd.setLastspeedloc(p.getLocation());
+            }
+        }
+    }
+    private double getmodi(Player p, double modi){
+        for(PotionEffect ef : p.getActivePotionEffects()){
+            if(ef.getType() == PotionEffectType.SPEED){
+                modi += (ef.getAmplifier()+1)*0.2;
+            }else if(ef.getType() == PotionEffectType.SLOW){
+                modi += (ef.getAmplifier()+1)*0.15;
+            }
+        }
+        if(PlayerUtil.stairsNear(p.getLocation())) {
+            modi += 0.45;
+        }
+
+        if(PlayerUtil.slabsNear(p.getLocation())) {
+            modi += 0.05;
+        }
+        if(p.isSneaking()){
+            modi -= 3.02;
+        }
+        if(p.isSprinting()){
+            modi += 1.28;
+        }
+        if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.SOUL_SAND){
+            modi /= 2;
+        }else if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.ICE){
+            modi *= 2.8;
+        }
+        if(p.getLocation().getBlock().getType() == Material.WEB){
+            modi *= -85/100;
+        }else if(p.getLocation().getBlock().getType() == Material.STATIONARY_WATER || p.getLocation().getBlock().getType() == Material.STATIONARY_LAVA){
+            if(p.getEquipment().getBoots() != null && p.getEquipment().getBoots().containsEnchantment(Enchantment.WATER_WORKER)){
+                switch (p.getEquipment().getBoots().getEnchantmentLevel(Enchantment.WATER_WORKER)){
+                    //33
+                    case 1:
+                        modi -= 2.0703;
+                        break;
+                    //66
+                    case 2:
+                        modi -= 1.0506;
+                        break;
+                    //3 is 100%
+                }
+            }else{
+                modi -= 3.09;
+            }
+        }
+        return modi;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -44,6 +118,14 @@ public class Speed extends Check {
         if(p.isSprinting() && p.isSneaking()){
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAK&SPRINT");
+        }
+        if(p.isSprinting() && p.getFoodLevel() <= 6){
+            e.setCancelled(true);
+            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bFOODLEVELSPRINT", " §6NEED: §b6", " §6HAS: §b" + p.getFoodLevel());
+        }
+        if(p.isSprinting() && p.isBlocking()){
+            e.setCancelled(true);
+            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bBLOCKSPRINT");
         }
         if(to.getX() != from.getX() || to.getY() != from.getY() || to.getZ() != from.getZ()){
             pd.setLastrealmove(System.currentTimeMillis());
@@ -149,6 +231,10 @@ public class Speed extends Check {
         if(e.isSprinting() && e.getPlayer().isSneaking()){
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSPRINT");
+        }
+        if(e.isSprinting() && e.getPlayer().getFoodLevel() <= 6){
+            e.setCancelled(true);
+            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bFOODLEVELSPRINTSTART", " §6NEED: §b6", " §6HAS: §b" + p.getFoodLevel());
         }
     }
     @EventHandler(priority = EventPriority.LOWEST)

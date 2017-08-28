@@ -10,9 +10,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class JoinLeave implements Listener{
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
-        if(e.getPlayer().hasPermission("tnc.notify")){
+        if(e.getPlayer().hasPermission("tnc.notify"))
             TimberNoCheat.checkmanager.notify.add(e.getPlayer());
-        }
+        if(e.getPlayer().hasPermission("tnc.notcheck") && !TimberNoCheat.checkmanager.tocheck.contains(e.getPlayer()))
+            TimberNoCheat.checkmanager.tocheck.add(e.getPlayer());
     }
     @EventHandler
     public void onLeave(PlayerQuitEvent e){

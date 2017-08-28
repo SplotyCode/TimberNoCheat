@@ -1,7 +1,5 @@
 package me.david.TimberNoCheat.checktools;
 
-import me.ezjamo.helios.update.UpdateType;
-import me.ezjamo.helios.update.events.UpdateEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

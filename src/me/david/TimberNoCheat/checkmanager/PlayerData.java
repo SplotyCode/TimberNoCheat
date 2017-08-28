@@ -1,5 +1,7 @@
 package me.david.TimberNoCheat.checkmanager;
 
+import org.bukkit.Location;
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Map;
@@ -48,6 +50,11 @@ public class PlayerData {
     private long lastinv;
     private long lastcheststealer;
     private ArrayList<Long> cheststealercon;
+    private Location lastspeedloc;
+    private double lastfastladderlongZ;
+    private long fastladderlongstart;
+    private Location fastladderstart;
+    private long lastdead;
 
     public PlayerData(String uuid) {
         this.uuid = uuid;
@@ -93,6 +100,51 @@ public class PlayerData {
         this.lastinv = System.currentTimeMillis()-15000L;
         this.lastcheststealer = System.currentTimeMillis()-15000L;
         this.cheststealercon = new ArrayList<Long>();
+        this.lastspeedloc = null;
+        this.lastfastladderlongZ = -1;
+        this.fastladderlongstart = System.currentTimeMillis()-15000L;
+        this.fastladderstart = null;
+        this.lastdead = System.currentTimeMillis()-15000L;
+    }
+
+    public long getLastdead() {
+        return lastdead;
+    }
+
+    public void setLastdead(long lastdead) {
+        this.lastdead = lastdead;
+    }
+
+    public Location getFastladderstart() {
+        return fastladderstart;
+    }
+
+    public void setFastladderstart(Location fastladderstart) {
+        this.fastladderstart = fastladderstart;
+    }
+
+    public double getLastfastladderlongZ() {
+        return lastfastladderlongZ;
+    }
+
+    public void setLastfastladderlongZ(double lastfastladderlongZ) {
+        this.lastfastladderlongZ = lastfastladderlongZ;
+    }
+
+    public long getFastladderlongstart() {
+        return fastladderlongstart;
+    }
+
+    public void setFastladderlongstart(long fastladderlongstart) {
+        this.fastladderlongstart = fastladderlongstart;
+    }
+
+    public Location getLastspeedloc() {
+        return lastspeedloc;
+    }
+
+    public void setLastspeedloc(Location lastspeedloc) {
+        this.lastspeedloc = lastspeedloc;
     }
 
     public ArrayList<Long> getCheststealercon() {

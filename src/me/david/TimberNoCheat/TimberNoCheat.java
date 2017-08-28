@@ -28,7 +28,6 @@ public class TimberNoCheat extends JavaPlugin{
     public ProtocolManager protocolmanager;
     public boolean crash = false;
 
-
     @Override
     public void onEnable() {
         protocolmanager = ProtocolLibrary.getProtocolManager();
