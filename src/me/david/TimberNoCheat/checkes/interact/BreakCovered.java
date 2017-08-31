@@ -23,13 +23,13 @@ public class BreakCovered extends Check {
         if(isbed(e.getBlock())){
             if(checkbed(e.getBlock())){
                 e.setCancelled(true);
-                TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6BED: §btrue");
+                updatevio(this, e.getPlayer(), 1, " §6BED: §bTRUE");
             }
             return;
         }
         if(check(e.getBlock())){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6BED: §bfalse");
+            updatevio(this, e.getPlayer(), 1, " §6BED: §bFALSE");
         }
     }
     public boolean checkbed(Block b) {

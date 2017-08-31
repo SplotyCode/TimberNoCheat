@@ -12,8 +12,10 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class FastPlace extends Check{
 
+    int persecond;
     public FastPlace(){
         super("FastPlace", Category.INTERACT);
+        persecond = getInt("persecond");
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -33,10 +35,10 @@ public class FastPlace extends Check{
                 pd.setBlockplacelastsecond(pd.getBlockplacelastsecond()-1);
             }
         }, 20);
-        if(pd.getBlockplacelastsecond() > TimberNoCheat.instance.settings.interact_fasplace_cps){
+        if(pd.getBlockplacelastsecond() > persecond){
             e.setCancelled(true);
             pd.setBlockplacelastsecond(0);
-            TimberNoCheat.checkmanager.notify(this, p, " §6BLOCKPLACEPERSECOND: §b" + pd.getBlockplacelastsecond());
+            updatevio(this, p, pd.getBlockplacelastsecond()-persecond, " §6BLOCKPLACEPERSECOND: §b" + pd.getBlockplacelastsecond());
         }
     }
 }

@@ -46,6 +46,16 @@ public class TNCAPI {
     public static void disablecheck(String s){
         disablecheck(TimberNoCheat.checkmanager.getCheckbyName(s));
     }
+    public boolean isEnabled(Check c){
+        if(c == null){
+            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Falsche API benutzung: Check darf nicht null sein");
+            return false;
+        }
+        return isEnabled(c.getName());
+    }
+    public boolean isEnabled(String c){
+        return TimberNoCheat.checkmanager.getCheckbyName(c) != null;
+    }
     public static Category[] getCategorys(){
         return Category.values();
     }

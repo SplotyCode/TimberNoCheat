@@ -37,7 +37,8 @@ public class VanillaBug extends Check {
             return;
         }
         e.setCancelled(true);
-        TimberNoCheat.instance.getLogger().log(Level.INFO, "[VanillaBug] " + e.getPlayer().getDisplayName() + " versucht den VanillaFenceBug zu nutzen! Die Aktion wurde gestoppt!");
-        e.getPlayer().sendMessage(TimberNoCheat.instance.prefix + "Durch einen Bug in Minecraft darfst du nur mit blöcken auf ein " + e.getClickedBlock().getType().name() + " Rechts klicken!");
+        updatevio(this, e.getPlayer(), 1);
+        //TimberNoCheat.instance.getLogger().log(Level.INFO, "[VanillaBug] " + e.getPlayer().getDisplayName() + " versucht den VanillaFenceBug zu nutzen! Die Aktion wurde gestoppt!");
+        //e.getPlayer().sendMessage(TimberNoCheat.instance.prefix + "Durch einen Bug in Minecraft darfst du nur mit blöcken auf ein " + e.getClickedBlock().getType().name() + " Rechts klicken!");
     }
 }

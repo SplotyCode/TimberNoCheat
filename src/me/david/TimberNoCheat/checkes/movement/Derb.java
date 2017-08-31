@@ -8,18 +8,22 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class Derb extends Check{
 
+    double minpitch;
+    double maxpitch;
     public Derb(){
         super("Derb", Category.MOVEMENT);
+        minpitch = getDouble("minpitch");
+        maxpitch = getDouble("maxpitch");
     }
     @EventHandler
     public void onMove(PlayerMoveEvent e){
         if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
             return;
         }
-        if((e.getTo().getPitch() > TimberNoCheat.instance.settings.movement_derb_maxpitch && TimberNoCheat.instance.settings.movement_derb_maxpitch != -1) || (e.getTo().getPitch() < TimberNoCheat.instance.settings.movement_derb_minpitch && TimberNoCheat.instance.settings.movement_derb_minpitch != -1)){
+        if((e.getTo().getPitch() > maxpitch && maxpitch != -1) || (e.getTo().getPitch() < minpitch && minpitch != -1)){
             TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6PITCH: §b" + e.getTo().getPitch());
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.execute(TimberNoCheat.instance.settings.movement_derb_cmd, e.getPlayer().getName());
+            updatevio(this, e.getPlayer(), 1);
         }
     }
 }

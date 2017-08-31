@@ -27,64 +27,48 @@ public class Clip extends Check{
         }
         Location to = e.getTo().clone();
         Location from = e.getFrom().clone();
-        double dis = to.getX() - from.getX();
-        int blocks = 0;
-        double xDist = to.getX() - from.getX();
-        if(xDist < -0.9D || xDist > 0.9D) {
-            int x = (int)Math.round(Math.abs(xDist));
 
-            for(int i = 0; i < x; ++i) {
-                Location l = xDist < -0.9D?to.clone().add((double)i, 0.0D, 0.0D):from.clone().add((double)i, 0.0D, 0.0D);
-                if(l.getBlock() != null && l.getBlock().getType().isSolid() && l.getBlock().getType().isBlock() && l.getBlock().getType() != Material.AIR) {
-                    if(TimberNoCheat.instance.settings.movement_clip_onlyfullblocks){
-                        if(!BlockUtil.HOLLOW_MATERIALS.contains(l.getBlock().getType())){
-                            blocks++;
-                        }
-                    }else{
-                        blocks++;
-                    }
+        double xDist = Math.abs(to.getX() - from.getX());
+        if(xDist < -0.9D || xDist > 0.9D)
+            for(int i = 0; i < Math.round(Math.abs(xDist)); ++i) {
+                Location l = xDist < -0.9D?to.clone().add(i, 0, 0):from.clone().add(i, 0, 0.);
+                if(checkblock(l)){
+                    e.setCancelled(true);
+                    updatevio(this, e.getPlayer(), 1);
+                    return;
                 }
             }
-        }
-
-        double zDist = to.getX() - from.getX();
-        if(zDist < -0.9D || zDist > 0.9D) {
-            int z = (int)Math.round(Math.abs(xDist));
-
-            for(int i = 0; i < z; ++i) {
-                Location l = zDist < -0.9D?to.clone().add(0.0D, 0.0D, (double)i):from.clone().add(0.0D, 0.0D, (double)i);
-                if(l.getBlock() != null && l.getBlock().getType().isSolid() && l.getBlock().getType().isBlock() && l.getBlock().getType() != Material.AIR) {
-                    if(TimberNoCheat.instance.settings.movement_clip_onlyfullblocks){
-                        if(!BlockUtil.HOLLOW_MATERIALS.contains(l.getBlock().getType())){
-                            blocks++;
-                        }
-                    }else{
-                        blocks++;
-                    }
+        double zDist = Math.abs(to.getZ() - from.getZ());
+        if(zDist < -0.9D || zDist > 0.9D)
+            for(int i = 0; i < Math.round(Math.abs(zDist)); ++i) {
+                Location l = zDist < -0.9D?to.clone().add(0, 0, i):from.clone().add(0, 0, i);
+                if(checkblock(l)){
+                    e.setCancelled(true);
+                    updatevio(this, e.getPlayer(), 1);
+                    return;
                 }
             }
-        }
-        double yDist = to.getY() - from.getY();
-        if(yDist < -0.9D || yDist > 0.9D) {
-            int y = (int)Math.round(Math.abs(yDist));
-
-            for(int i = 0; i < y; ++i) {
-                Location l = yDist < -0.9D?to.clone().add(0.0D, (double)i, 0.0D):from.clone().add(0.0D, (double)i, 0.0D);
-                if(l.getBlock() != null && l.getBlock().getType().isSolid() && l.getBlock().getType().isBlock() && l.getBlock().getType() != Material.AIR) {
-                    if(TimberNoCheat.instance.settings.movement_clip_onlyfullblocks){
-                        if(!BlockUtil.HOLLOW_MATERIALS.contains(l.getBlock().getType())){
-                            blocks++;
-                        }
-                    }else{
-                        blocks++;
-                    }
+        double yDist = Math.abs(to.getY() - from.getY());
+        if(yDist < -0.9D || yDist > 0.9D)
+            for(int i = 0; i < Math.round(Math.abs(yDist)); ++i) {
+                Location l = yDist < -0.9D?to.clone().add(0, i, 0):from.clone().add(0, i, 0);
+                if(checkblock(l)){
+                    e.setCancelled(true);
+                    updatevio(this, e.getPlayer(), 1);
+                    return;
                 }
             }
+    }
+    public boolean checkblock(Location l){
+        if(l.getBlock() != null && l.getBlock().getType().isSolid() && l.getBlock().getType().isBlock() && l.getBlock().getType() != Material.AIR) {
+            if(TimberNoCheat.instance.settings.movement_clip_onlyfullblocks){
+                if(!BlockUtil.HOLLOW_MATERIALS.contains(l.getBlock().getType())){
+                    return true;
+                }
+            }else{
+                return true;
+            }
         }
-
-        if(blocks > 0) {
-            e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, p);
-        }
+        return false;
     }
 }

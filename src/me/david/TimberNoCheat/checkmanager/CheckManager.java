@@ -1,7 +1,7 @@
 package me.david.TimberNoCheat.checkmanager;
 
 import me.david.TimberNoCheat.TimberNoCheat;
-import me.david.TimberNoCheat.checkes.fight.*;
+import me.david.TimberNoCheat.checkes.combat.*;
 import me.david.TimberNoCheat.checkes.interact.BreakCovered;
 import me.david.TimberNoCheat.checkes.chat.*;
 import me.david.TimberNoCheat.checkes.clientchanel.LabyMod;
@@ -17,6 +17,7 @@ import me.david.TimberNoCheat.checkes.player.*;
 import me.david.TimberNoCheat.checktools.Tps;
 import me.david.api.utils.StringUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -105,6 +106,8 @@ public class CheckManager {
         return null;
     }
     public void register(Check check){
+        if(!YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config).getBoolean(check.getName().toLowerCase() + ".enable"))
+            return;
         checks.add(check);
         TimberNoCheat.instance.getServer().getPluginManager().registerEvents(check, TimberNoCheat.instance);
     }

@@ -145,13 +145,14 @@ public class MCLeaks extends Check{
         Bukkit.getServer().getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
             @Override
             public void run() {
-                if (TimberNoCheat.instance.settings.other_mcleaks_sendcommand) {
+                /*if (TimberNoCheat.instance.settings.other_mcleaks_sendcommand) {
                     String message = TimberNoCheat.instance.settings.other_mcleaks_command;
                     message.replace("/", "");
                     message.replaceAll("%player%", p.getName());
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), TimberNoCheat.instance.settings.other_mcleaks_command);
                 }
-                TimberNoCheat.checkmanager.notify(MCLeaks.this, p);
+                TimberNoCheat.checkmanager.notify(MCLeaks.this, p);*/
+                updatevio(MCLeaks.this, p, 1);
             }
         }, 180L);
     }

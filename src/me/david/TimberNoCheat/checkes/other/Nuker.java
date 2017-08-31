@@ -11,8 +11,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 public class Nuker extends Check {
 
+    int maxblockpersec;
     public Nuker(){
         super("Nuker", Category.OTHER);
+        maxblockpersec = getInt("maxblockpersec");
     }
 
     @EventHandler
@@ -29,9 +31,10 @@ public class Nuker extends Check {
                 pd.setBlockbreakslastsec(pd.getBlockbreakslastsec()-1);
             }
         }, 20);
-        if(pd.getBlockbreakslastsec() > TimberNoCheat.instance.settings.other_nuker_maxblockbreakssec){
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6BLOCKBREAKS: §b" + pd.getBlockbreakslastsec());
-            pd.setBlockbreakslastsec(0);
+        if(pd.getBlockbreakslastsec() > maxblockpersec){
+            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6BLOCKBREAKS: §b" + pd.getBlockbreakslastsec());
+            updatevio(this, p, pd.getBlockbreakslastsec()-maxblockpersec*2, " §6BLOCKBREAKS: §b" + pd.getBlockbreakslastsec());
+            //pd.setBlockbreakslastsec(0);
         }
 
     }

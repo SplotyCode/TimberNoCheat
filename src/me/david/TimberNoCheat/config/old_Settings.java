@@ -6,7 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Settings {
+public class old_Settings {
     public int chat_delay_schwelle = 6;
     public double chat_delay_small = 0.0;
     public double chat_delay_big = 0.0;
@@ -198,7 +198,7 @@ public class Settings {
     public int player_cheststeler_consistent_mincachesize = 0;
     public int player_cheststeler_maxping = 0;
 
-    public Settings(){
+    public old_Settings(){
         load();
     }
 

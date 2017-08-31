@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.checkes.fight;
+package me.david.TimberNoCheat.checkes.combat;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
@@ -13,8 +13,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class FightSpeed extends Check{
 
+    int hitspersecond;
+    int interactspersecond;
     public FightSpeed(){
-        super("FightSpeed", Category.FIGHT);
+        super("FightSpeed", Category.COBMAT);
+        hitspersecond = getInt("hitspersecond");
+        interactspersecond = getInt("interactspersecond");
     }
 
     @EventHandler
@@ -31,18 +35,14 @@ public class FightSpeed extends Check{
                 pd.setInteractslastsecond(pd.getInteractslastsecond()-1);
             }
         }, 20);
-        if(pd.getInteractslastsecond() > TimberNoCheat.instance.settings.fight_fightspeed_maxinteractspersecond && TimberNoCheat.instance.settings.fight_fightspeed_maxinteractspersecond != -1){
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bINTERACTS", " §6INTERACTLASTSECOND: §b" + pd.getInteractslastsecond());
-            pd.setInteractslastsecond(0);
+        if(pd.getInteractslastsecond() > interactspersecond){
+            updatevio(this, p , pd.getInteractslastsecond()-interactspersecond," §6CHECK: §bINTERACTS", " §6INTERACTLASTSECOND: §b" + pd.getInteractslastsecond());
             e.setCancelled(true);
         }
     }
     @EventHandler
     public void onHit(EntityDamageByEntityEvent e){
-        if(!(e.getDamager() instanceof  Player)){
-            return;
-        }
-        if(e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+        if(!(e.getDamager() instanceof  Player) || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK){
             return;
         }
         final Player p = (Player) e.getDamager();
@@ -57,9 +57,8 @@ public class FightSpeed extends Check{
                 pd.setHitslastsecond(pd.getHitslastsecond()-1);
             }
         }, 20);
-        if(pd.getHitslastsecond() > TimberNoCheat.instance.settings.fight_fightspeed_maxhitspersecond && TimberNoCheat.instance.settings.fight_fightspeed_maxhitspersecond != -1){
-            pd.setHitslastsecond(0);
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bHITS", " §6HITSTSECOND: §b" + pd.getHitslastsecond());
+        if(pd.getHitslastsecond() > hitspersecond){
+            updatevio(this, p , pd.getHitslastsecond()-hitspersecond, " §6CHECK: §bHITS", " §6HITSTSECOND: §b" + pd.getHitslastsecond());
             e.setCancelled(true);
         }
     }

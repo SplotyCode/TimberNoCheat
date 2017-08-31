@@ -10,8 +10,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class Address extends Check{
 
+    public boolean block;
     public Address(){
         super("Address", Category.CHAT);
+        block = getBoolean("block");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -23,11 +25,8 @@ public class Address extends Check{
             return;
         }
         if(UrlUtil.blockURL(e.getMessage()) != e.getMessage()){
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MESSAGE: §b" + e.getMessage());
-            if(TimberNoCheat.instance.settings.chat_address_blockcompletly){
-                e.setCancelled(true);
-            }
-            e.getPlayer().sendMessage(TimberNoCheat.instance.prefix + "§cBitte mache keine Werbung!");
+            updatevio(this, e.getPlayer(), 1, " §6MESSAGE: §b" + e.getMessage());
+            if(block) e.setCancelled(true);
         }
     }
 }

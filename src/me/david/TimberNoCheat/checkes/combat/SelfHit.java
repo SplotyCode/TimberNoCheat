@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.checkes.fight;
+package me.david.TimberNoCheat.checkes.combat;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
@@ -12,7 +12,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 public class SelfHit extends Check {
 
     public SelfHit(){
-        super("SelfHit", Category.FIGHT);
+        super("SelfHit", Category.COBMAT);
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -29,7 +29,7 @@ public class SelfHit extends Check {
         }
         if(e.getEntity().getName().equals(e.getDamager().getName())){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, (Player)e.getDamager());
+            updatevio(this, p, 1);
         }
     }
 

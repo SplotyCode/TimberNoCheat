@@ -18,8 +18,32 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class LabyMod extends Check {
+    
+    boolean animations;
+    boolean armor;
+    boolean blockbuild;
+    boolean chat;
+    boolean damageindicator;
+    boolean extras;
+    boolean food;
+    boolean gui;
+    boolean minimap_radar;
+    boolean nick;
+    boolean potions;
+
     public LabyMod() {
         super("LabyMod", Category.CLIENT_CHANEL);
+        animations = getBoolean("animations");
+        armor = getBoolean("armor");
+        blockbuild = getBoolean("blockbuild");
+        chat = getBoolean("chat");
+        damageindicator = getBoolean("damageindicator");
+        extras = getBoolean("extras");
+        food = getBoolean("food");
+        gui = getBoolean("gui");
+        minimap_radar = getBoolean("minimap_radar");
+        nick = getBoolean("nick");
+        potions = getBoolean("potions");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -29,17 +53,17 @@ public class LabyMod extends Check {
         }
         try {
             HashMap<String, Boolean> list = new HashMap<String, Boolean>();
-            list.put("ARMOR", TimberNoCheat.instance.settings.labymod_use_armor);
-            list.put("ANIMATIONS", TimberNoCheat.instance.settings.labymod_use_animations);
-            list.put("BLOCKBUILD", TimberNoCheat.instance.settings.labymod_use_blockbuild);
-            list.put("CHAT", TimberNoCheat.instance.settings.labymod_use_chat);
-            list.put("DAMAGEINDICATOR", TimberNoCheat.instance.settings.labymod_use_damageindicator);
-            list.put("EXTRAS", TimberNoCheat.instance.settings.labymod_use_extras);
-            list.put("FOOD", TimberNoCheat.instance.settings.labymod_use_food);
-            list.put("GUI", TimberNoCheat.instance.settings.labymod_use_gui);
-            list.put("MINIMAP_RADAR", TimberNoCheat.instance.settings.labymod_use_minimap_radar);
-            list.put("NICK", TimberNoCheat.instance.settings.labymod_use_nick);
-            list.put("POTIONS", TimberNoCheat.instance.settings.labymod_use_potions);
+            list.put("ARMOR", armor);
+            list.put("ANIMATIONS", animations);
+            list.put("BLOCKBUILD", blockbuild);
+            list.put("CHAT", chat);
+            list.put("DAMAGEINDICATOR", damageindicator);
+            list.put("EXTRAS", extras);
+            list.put("FOOD", food);
+            list.put("GUI", gui);
+            list.put("MINIMAP_RADAR", minimap_radar);
+            list.put("NICK", nick);
+            list.put("POTIONS", potions);
 
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(byteOut);

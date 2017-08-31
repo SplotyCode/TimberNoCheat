@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.checkes.fight;
+package me.david.TimberNoCheat.checkes.combat;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
@@ -20,8 +20,33 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Killaura extends Check {
 
+    long multi_delay;
+    double defaultrange;
+    double speed;
+    double ping_100_200;
+    double ping_200_250;
+    double ping_250_300;
+    double ping_300_350;
+    double ping_350_400;
+    double ping_over400;
+    double viomodifier;
+    double max_velocity;
+    double lowgroud_mofier;
+
     public Killaura() {
-        super("Killaura", Category.FIGHT);
+        super("Killaura", Category.COBMAT);
+        multi_delay = getLong("multi_delay");
+        defaultrange = getDouble("range.defaultrange");
+        speed = getDouble("range.speed");
+        ping_100_200 = getDouble("range.ping_100_200");
+        ping_200_250 = getDouble("range.ping_200_250");
+        ping_250_300 = getDouble("range.ping_250_300");
+        ping_300_350 = getDouble("range.ping_300_350");
+        ping_350_400 = getDouble("range.ping_350_400");
+        ping_over400 = getDouble("range.ping_over400");
+        viomodifier = getDouble("range.viomodifier");
+        max_velocity = getDouble("range.max_velocity");
+        lowgroud_mofier = getDouble("range.lowgroud_mofier");
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -30,14 +55,11 @@ public class Killaura extends Check {
             return;
         }
         final Player p = (Player) e.getDamager();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
+        if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || e.isCancelled()) {
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        if (e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || e.isCancelled() || p.getAllowFlight()) {
-            return;
-        }
-        if(e.getEntity() instanceof Player && !((Player)e.getEntity()).getAllowFlight()){
+        if(e.getEntity() instanceof Player && !((Player)e.getEntity()).getAllowFlight() && !p.getAllowFlight()){
             check_range(e, pd);
         }
         check_multi(e, pd);
@@ -48,11 +70,9 @@ public class Killaura extends Check {
             pd.setLasthitentity(e.getEntity().getEntityId());
         }
         long delay = System.currentTimeMillis()-pd.getLasthitmutli();
-        if(pd.getLasthitentity() != e.getEntity().getEntityId() && delay < TimberNoCheat.instance.settings.fight_killaura_multiauradelay){
+        if(pd.getLasthitentity() != e.getEntity().getEntityId() && delay < multi_delay){
             e.setCancelled(true);
-            pd.setLasthitmutli(System.currentTimeMillis()-20000L);
-            TimberNoCheat.checkmanager.notify(this, (Player) e.getDamager(), " §6TYPE: §bMULTI_AURA", " §6DELAY: §b" + delay);
-            return;
+            updatevio(this, (Player) e.getDamager(), 1, " §6TYPE: §bMULTI_AURA", " §6DELAY: §b" + delay);
         }
         pd.setLasthitmutli(System.currentTimeMillis());
         pd.setLasthitentity(e.getEntity().getEntityId());
@@ -61,56 +81,45 @@ public class Killaura extends Check {
         Player damager = (Player)e.getDamager();
         Player player = (Player)e.getEntity();
 
-        double maxreach = TimberNoCheat.instance.settings.fight_killaura_defaultrange;
+        double maxreach = defaultrange;
         if(damager.hasPotionEffect(PotionEffectType.SPEED)) {
-            int level = 0;
             for(PotionEffect po : damager.getActivePotionEffects())
                 if(po.getType().equals(PotionEffectType.SPEED)) {
-                    level = po.getAmplifier();
+                    maxreach = (po.getAmplifier()+1)*speed;
                     break;
                 }
-            switch(level) {
-                case 0:
-                    maxreach = TimberNoCheat.instance.settings.fight_killaura_rangespeed1;
-                    break;
-                case 1:
-                    maxreach = TimberNoCheat.instance.settings.fight_killaura_rangespeed2;
-                    break;
-            }
         }
 
-        if(player.getVelocity().length() <= TimberNoCheat.instance.settings.fight_killaura_rangevectorlen && !Velocity.velocity.containsKey(player.getUniqueId())) {
+        if(player.getVelocity().length() <= maxreach && !Velocity.velocity.containsKey(player.getUniqueId())) {
             double reach = PlayerUtil.getEyeLocation(damager).distance(player.getLocation());
-            int Ping = ((CraftPlayer)damager).getHandle().ping;
-            if(Ping >= 100 && Ping < 200) {
-                maxreach += TimberNoCheat.instance.settings.fight_killaura_rangeping_100_200;
-            } else if(Ping >= 200 && Ping < 250) {
-                maxreach += TimberNoCheat.instance.settings.fight_killaura_rangeping_200_250;
-            } else if(Ping >= 250 && Ping < 300) {
-                maxreach += TimberNoCheat.instance.settings.fight_killaura_rangeping_250_300;
-            } else if(Ping >= 300 && Ping < 350) {
-                maxreach += TimberNoCheat.instance.settings.fight_killaura_rangeping_300_350;
-            } else if(Ping >= 350 && Ping < 400) {
-                maxreach += TimberNoCheat.instance.settings.fight_killaura_rangeping_350_400;
-            } else if(Ping > 400) {
-                maxreach += TimberNoCheat.instance.settings.fight_killaura_rangeping_over400;
+            int ping = ((CraftPlayer)damager).getHandle().ping;
+            if(ping >= 100 && ping < 200) {
+                maxreach += ping_100_200;
+            } else if(ping >= 200 && ping < 250) {
+                maxreach += ping_200_250;
+            } else if(ping >= 250 && ping < 300) {
+                maxreach += ping_250_300;
+            } else if(ping >= 300 && ping < 350) {
+                maxreach += ping_300_350;
+            } else if(ping >= 350 && ping < 400) {
+                maxreach += ping_350_400;
+            } else if(ping > 400) {
+                maxreach += ping_over400;
             }
 
-            double diff;
             if(damager.getLocation().getY() > player.getLocation().getY()) {
-                diff = damager.getLocation().getY() - player.getLocation().getY();
-                maxreach += diff / TimberNoCheat.instance.settings.fight_killaura_rangeisup;
+                maxreach += damager.getLocation().getY() - player.getLocation().getY() / lowgroud_mofier;
             } else if(player.getLocation().getY() > damager.getLocation().getY()) {
-                diff = player.getLocation().getY() - damager.getLocation().getY();
-                maxreach += diff / TimberNoCheat.instance.settings.fight_killaura_rangeisup;
+                maxreach += player.getLocation().getY() - damager.getLocation().getY() / lowgroud_mofier;
             }
 
             if(reach > maxreach) {
-                pd.getReaches().add(reach);
-                pd.setLastreach(System.currentTimeMillis());
+                updatevio(this, damager, reach-maxreach*12, " §6TYPE: §bREACH", " §6MAXREACH: §b" + maxreach, " §6REACH: §b" + reach);
+                //pd.getReaches().add(reach);
+                //pd.setLastreach(System.currentTimeMillis());
             }
 
-            if(DateTimeUtil.elapsed(pd.getLastreach(), TimberNoCheat.instance.settings.fight_killaura_rangeclearaftermilis)) {
+            /*if(DateTimeUtil.elapsed(pd.getLastreach(), TimberNoCheat.instance.settings.fight_killaura_rangeclearaftermilis)) {
                 pd.getReaches().clear();
                 pd.setLastreach(System.currentTimeMillis());
             }
@@ -124,6 +133,7 @@ public class Killaura extends Check {
                 pd.getReaches().clear();
                 TimberNoCheat.checkmanager.notify(this, damager, " §6TYPE: §bREACH", " §6WAHRSCHEINLICHKEIT: §b" + level +"%", " §6Reach: §b" + reach, " §6CalculatetMacReach: §b" + maxreach);
             }
+            */
         }
     }
 

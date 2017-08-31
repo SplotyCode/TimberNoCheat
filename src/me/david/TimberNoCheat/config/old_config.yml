@@ -1,0 +1,226 @@
+#TimberNoCheat(TNC) Config File
+# lines that start with # are comments
+#for number type -1 to disable for string just nothing
+#------[Genell]------
+#prefix in console comes from Bukkit
+generel_prefix: "§7[§9T§cN§eC§7] §6"
+#to not change this
+generel_configversion: 8
+#------[Genell]------
+#------[Chat]------
+#when shoud he use small and when big delay
+chat_delay_schwelle: 6
+chat_delay_small_milis: 1000.0
+chat_delay_big_milis: 4000.0
+
+#shoud a message with web address be deletet?
+delete_domain_complety: true
+
+#chatspam
+chat_spamming_equlsignore: true
+chat_spamming_toshort: 4
+chat_spamming_whitelist: []
+chat_spamming_whitelist_equlsignore: true
+
+#commandspam
+chat_commanddelay_delay: 0.0
+#chat blacklist
+chat_blacklist: []
+#------[Chat]------
+#only clients with api (no hack clients)
+#------[clientchanel]-----
+#shematica true = block
+shematica_kick: false
+shematica_load: true
+shematica_print: true
+shematica_save: true
+shematica_block: true
+#laby mod true = idk
+labymod_use_animations: true
+labymod_use_armor: true
+labymod_use_blockbuild: false
+labymod_use_chat: true
+labymod_use_damageindicator: false
+labymod_use_extras: true
+labymod_use_food: true
+labymod_use_gui: true
+labymod_use_minimap_radar: false
+labymod_use_nick: false
+labymod_use_potions: true
+#other true = can use
+betterpvp_use: false
+reiminimap_use: false
+damageindicators_use: false
+voxelmap_use: false
+smartmoving_use: false
+zig5_kick: true
+wdl_kick: true
+bsprint_kick: true
+bsm_kick: true
+fml_kick: true
+liteloader_kick: true
+#------[clientchanel]-----
+#------[exploits]------
+expoit_sign_notiyplayer: true
+expoit_sign_sendcommand: false
+#we will auto-replace / playername:%player%
+expoit_sign_command: "idk"
+
+exploit_book_cancel: true
+exploit_book_sendcommand: false
+#we will auto-replace / playername:%player%
+exploit_book_command: "idk"
+
+#we will auto-replace / playername:%player%
+exploit_nbt_nonbtdatacmd: ""
+exploit_nbt_nullcmd: ""
+exploit_nbt_nopagescmd: ""
+exploit_nbt_toomanypagescmd: ""
+exploit_nbt_toomanypages: 50
+exploit_nbt_toolongcmd: ""
+#idk the maxleath and if spaces count
+exploit_nbt_toolong: -1
+
+exploit_nbtchannel_cmd: ""
+exploit_nbtchannel_toomany: 124
+
+exploit_nbtpacketfloor_cmd: ""
+exploit_nbtpacketfloor_toomany: 100
+
+#dings hat 200 zuminest bei swing
+exploit_craher_itempersec: 180
+exploit_craher_swingpersec: 180
+#------[exploits]------
+#------[other]------
+#we will auto-replace / playername:%player%
+other_mcleaks_sendcommand: true
+other_mcleaks_command: "idk"
+
+#pingspoof-check idea ist from Tonda
+#the checkspeed is the probability that the player is checked 1 minimum 0 disable
+other_pingspoof_checkspeed: 8
+other_pingspoof_maxdiffrence: 13
+#maxping is the realping
+other_pingspoof_maxping: 120
+
+other_nuker_maxblockbreakssec: 40
+#------[other]------
+#servercraher is now in exploits
+#------[movement]------
+movement_blink_distance: 12
+
+movement_clip_onlyfullblocks: false
+
+movement__timeraverage_inmilis: 48
+movement_speed_timercheck: 20
+movement_speed_timerflagtomessage: 4
+movement_speed_togglesnekinsec: 12
+movement_speed_normal_normal: 0.4
+movement_speed_normal_normalground: 0.33
+movement_speed_normal_modistairs: 0.45
+movement_speed_normal_modislabs: 0.05
+movement_speed_normal_modisolid: 0.69
+#following 2 are not modifier
+movement_speed_normal_modiice: 0.75
+movement_speed_normal_modiicesolic: 1.0
+#speedposion
+movement_speed_normal_modispeed: 0.02
+movement_speed_normal_modispeedground: 0.06
+movement_speed_normal_elapsedtoret: 60000
+movement_speed_normal_elapsedtoretflag: 150
+movement_speed_normal_flagcountertoflag: 3
+movement_speed_normal_tofastnewcount: 6
+
+movement_fly_nodowntonotify: 7
+#------[movement]------
+#------[combat]------
+#ncp = 15 aac = 19
+fight_fightspeed_maxhitspersecond: 16
+#aac = 50
+fight_fightspeed_maxinteractspersecond: 45
+
+fight_fastbow_delay: 560
+#if force bigger or equals ignore
+fight_fastbow_ignoreforce: 0.2
+
+fight_killaura_defaultrange: 3.9
+fight_killaura_rangespeed1: 4.1
+fight_killaura_rangespeed2: 4.3
+fight_killaura_rangeping_100_200: 0.2
+fight_killaura_rangeping_200_250: 0.4
+fight_killaura_rangeping_250_300: 0.8
+fight_killaura_rangeping_300_350: 1.0
+fight_killaura_rangeping_350_400: 1.2
+fight_killaura_rangeping_over400: 1.6
+fight_killaura_rangevectorlen: 0.08
+fight_killaura_rangeisup: 3.95
+#when player dont make wrongatack for %value% reset value in milis
+fight_killaura_rangeclearaftermilis: 25000
+fight_killaura_range_levelrange: 6.0
+fight_killaura_range_toohitslongtoreport: 3
+fight_killaura_multiauradelay: 8
+
+fight_regen_delay: 3000
+#------[combat]------
+#------[interact]------
+#aac = 10
+interact_fasplace_cps: 8
+interact_noswing_delayticks: 2
+
+interact_block: true
+interact_ghosthand: false
+interact_keepalive: true
+#all liquids
+interact_water: true
+interact_sleep: true
+interact_invisible: true
+interact_openinv: true
+#------[interact]------
+#------[player]------
+player_fasteat_delay: 1200
+
+player_inv_delay_inmilis: 90
+player_inv_sneak: true
+player_inv_sprint: true
+player_inv_block: true
+player_inv_sleep: true
+player_inv_hitdelayinmili: 190
+player_inv_openinvchat: true
+player_inv_openinvhit: true
+#inmilis
+player_inv_invchatdelay: 900
+
+player_derb_cmd: ""
+#do not change this values if not nesery -1 to disble
+player_derb_maxpitch: 91
+player_derb_minpitch: -91
+
+#in milis
+player_morepackets_elapsed: 1000
+player_morepackets_maxpackets: 49
+player_morepackets_blacklistadd: 100
+player_morepackets_blacklistremove: 1
+player_morepackets_worlddownloadingdelayinticks: 45
+
+player_skinblinker_block: true
+player_skinblinker_sleep: true
+player_skinblinker_sneak: true
+player_skinblinker_sprint: true
+player_skinblinker_movemindelay: 1200
+
+#maxmoves in 3 ticks
+player_badpackets_maxmoves: 10
+
+player_fastswitch_delaymili: 50
+player_fastswitch_maxping: 400
+
+#aacpro has that value to 51 in my checks 190 is okay
+player_cheststeler_delay: 190
+player_cheststeler_consistent: true
+player_cheststeler_consistent_cacheinmilis: 8000
+player_cheststeler_consistent_maxdelaymilis: 2
+player_cheststeler_consistent_maxcachesize: 12
+player_cheststeler_consistent_mincachesize: 5
+#-1 to disable
+player_cheststeler_maxping: 400
+#------[player]------

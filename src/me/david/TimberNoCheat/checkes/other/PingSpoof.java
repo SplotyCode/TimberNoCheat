@@ -8,6 +8,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,23 +18,39 @@ import java.nio.charset.StandardCharsets;
 
 public class PingSpoof extends Check {
 
+    int maxrealping;
+    int movespeed;
+    int interactspeed;
     public PingSpoof(){
         super("PingSpoof", Category.OTHER);
+        maxrealping = getInt("maxrealping");
+        movespeed = getInt("move_checkverscheinlichkeit");
+        interactspeed = getInt("interact_checkverscheinlichkeit");
     }
 
     @EventHandler
-    public void oninteract(PlayerInteractEvent e){
-        final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
+    public void onMove(PlayerMoveEvent e){
+        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
             return;
         }
-        if(NumberUtil.randInt(0, TimberNoCheat.instance.settings.other_pingspoof_checkspeed) != 1){
+        if(NumberUtil.randInt(0, movespeed) == 1){
+            check(e.getPlayer());
+        }
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e){
+        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
             return;
         }
+        if(NumberUtil.randInt(0, interactspeed) == 1){
+            check(e.getPlayer());
+        }
+    }
+    public void check(Player p ){
         try{
             Process cmd = Runtime.getRuntime().exec("ping -c 1 " +p.getAddress().getAddress().getHostAddress());
             cmd.waitFor();
-            InputStream is = cmd.getInputStream();
             BufferedReader r = new BufferedReader(new InputStreamReader(cmd.getInputStream(), StandardCharsets.UTF_8));
             String str = null;
             StringBuilder sb = new StringBuilder(8192);
@@ -42,11 +59,12 @@ public class PingSpoof extends Check {
             }
             double realping = Double.valueOf(sb.toString().split(" ")[12].substring(5));
             double ping = ((CraftPlayer)p).getHandle().ping;
-            if(realping >= TimberNoCheat.instance.settings.other_pingspoof_maxping){
+            if(realping >= maxrealping){
                 return;
             }
-            if(ping-realping > TimberNoCheat.instance.settings.other_pingspoof_maxdiffrence){
-                TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6PING: §b" + ping, " §6REALPING: §b" + realping);
+            if(ping>realping){
+                updatevio(this, p, realping-ping, " §6PING: §b" + ping, " §6REALPING: §b" + realping);
+                //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6PING: §b" + ping, " §6REALPING: §b" + realping);
             }
         }catch (IOException | InterruptedException ex){
             ex.printStackTrace();

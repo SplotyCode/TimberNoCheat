@@ -11,8 +11,10 @@ import org.bukkit.event.player.PlayerBedLeaveEvent;
 
 public class BedLeave extends Check{
 
+    int maxrange;
     public BedLeave(){
         super("BedLeave", Category.MOVEMENT);
+        maxrange = getInt("maxrange");
     }
 
     @EventHandler
@@ -21,9 +23,9 @@ public class BedLeave extends Check{
             return;
         }
         Location loc = e.getBed().getLocation();
-        for(int x = loc.getBlockX() - 10; x < loc.getBlockX() + 10; ++x) {
-            for(int y = loc.getBlockY() - 10; y < loc.getBlockY() + 10; ++y) {
-                for(int z = loc.getBlockZ() - 10; z < loc.getBlockZ() + 10; ++z) {
+        for(int x = loc.getBlockX() - maxrange; x < loc.getBlockX() + maxrange; ++x) {
+            for(int y = loc.getBlockY() - maxrange; y < loc.getBlockY() + maxrange; ++y) {
+                for(int z = loc.getBlockZ() - maxrange; z < loc.getBlockZ() + maxrange; ++z) {
                     Block b = (new Location(loc.getWorld(), x, y, z)).getBlock();
                     if(b.getType().equals(Material.BED) || b.getType().equals(Material.BED_BLOCK)) {
                         return;
@@ -31,6 +33,6 @@ public class BedLeave extends Check{
                 }
             }
         }
-        TimberNoCheat.checkmanager.notify(this, e.getPlayer());
+        updatevio(this, e.getPlayer(), 1);
     }
 }

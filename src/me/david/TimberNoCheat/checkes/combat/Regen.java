@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.checkes.fight;
+package me.david.TimberNoCheat.checkes.combat;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
@@ -11,8 +11,10 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 public class Regen extends Check {
 
+    long delay;
     public Regen(){
-        super("Regen", Category.FIGHT);
+        super("Regen", Category.COBMAT);
+        delay = getLong("delay");
     }
 
     @EventHandler
@@ -26,10 +28,9 @@ public class Regen extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         long delay = System.currentTimeMillis() - pd.getLastregen();
-        if(delay < TimberNoCheat.instance.settings.fight_regen_delay){
+        if(delay < this.delay){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, p, " §6DELAY: §b" + delay);
-            return;
+            updatevio(this, p, 1, " §6DELAY: §b" + delay);
         }
         pd.setLastregen(System.currentTimeMillis());
     }

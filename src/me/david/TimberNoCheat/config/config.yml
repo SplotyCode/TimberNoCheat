@@ -1,226 +1,679 @@
-#TimberNoCheat(TNC) Config File
-# lines that start with # are comments
-#for number type -1 to disable for string just nothing
-#------[Genell]------
-#prefix in console comes from Bukkit
-generel_prefix: "§7[§9T§cN§eC§7] §6"
-#to not change this
-generel_configversion: 8
-#------[Genell]------
-#------[Chat]------
-#when shoud he use small and when big delay
-chat_delay_schwelle: 6
-chat_delay_small_milis: 1000.0
-chat_delay_big_milis: 4000.0
+#TimberNoCheat config
 
-#shoud a message with web address be deletet?
-delete_domain_complety: true
+#all lines that starts with # are comments
 
-#chatspam
-chat_spamming_equlsignore: true
-chat_spamming_toshort: 4
-chat_spamming_whitelist: []
-chat_spamming_whitelist_equlsignore: true
 
-#commandspam
-chat_commanddelay_delay: 0.0
-#chat blacklist
-chat_blacklist: []
-#------[Chat]------
-#only clients with api (no hack clients)
-#------[clientchanel]-----
-#shematica true = block
-shematica_kick: false
-shematica_load: true
-shematica_print: true
-shematica_save: true
-shematica_block: true
-#laby mod true = idk
-labymod_use_animations: true
-labymod_use_armor: true
-labymod_use_blockbuild: false
-labymod_use_chat: true
-labymod_use_damageindicator: false
-labymod_use_extras: true
-labymod_use_food: true
-labymod_use_gui: true
-labymod_use_minimap_radar: false
-labymod_use_nick: false
-labymod_use_potions: true
-#other true = can use
-betterpvp_use: false
-reiminimap_use: false
-damageindicators_use: false
-voxelmap_use: false
-smartmoving_use: false
-zig5_kick: true
-wdl_kick: true
-bsprint_kick: true
-bsm_kick: true
-fml_kick: true
-liteloader_kick: true
-#------[clientchanel]-----
-#------[exploits]------
-expoit_sign_notiyplayer: true
-expoit_sign_sendcommand: false
-#we will auto-replace / playername:%player%
-expoit_sign_command: "idk"
+#[RN]generl check structure[EN]
+#[DE]generelle check struktur[DE]
+#checkname:
+#   enable: true
+#   max_ping: -1
+#   min_tps: -1
+#   vioresetafteraction: true
+#   viocachedelay: 1000
+#   vioactions:
+#      "1:MESSAGE:Bitte mache das nicht"
+#      "2:NOTIFY"
+#      "4:KICK:Du wurdest gekickt!"
+#      "12:CMD:ban %player% Dein Name: %player% Deine uuid: %uuid% Deine ip: %ip% Dein ping %ping% ServerPort: %port% Dein ping %ping% Server TPS: %tps% Deine Violation: %vio%"
+#[EN]Lines:[EN]
+#[EN]1: checkname[EN]
+#[EN]2: shoud the plugin be enabled?(true or false)[EN]
+#[EN]3: max player ping for violation[EN]
+#[EN]4: min server tps for violation[EN]
+#[EN]5: shoud we reset the violation afer a action runs (NOTIFY action is whitelisted)[EN]
+#[EN]6: when shoud we remove a violation from the violationcache?(number in miliseconds)[EN]
+#[EN]7 and more: Violation is seperaet by ":" First number is the violation that is required for this action, second is the action type(NOTIFY, KICK, CMD, MESSAGE), you can write more commands seperated by ":"[EN]
+#[EN]You can use § or & for colorcodes[EN]
+#[EN] for kick, cmd and message you habe a few place marker:[EN]
+#[EN] %player% returns the players name[EN]
+#[EN] %uuid% returns the players uuid[EN]
+#[EN] %ip% returns the players ipaddress[EN]
+#[EN] %ping% returns the players ping[EN]
+#[EN] %pingcolor% returns the players ping with color[EN]
+#[EN] %display% returns the players displayname from the chat[EN]
+#[EN] %tapname% returns the players displayname from the tap[EN]
+#[EN] %vio% returns the players violation level[EN]
+#[EN] %tps% returns the servers tps[EN]
+#[EN] %tpscolor% returns the servers tps with color[EN]
+#[EN] %port% returns the servers port[EN]
 
-exploit_book_cancel: true
-exploit_book_sendcommand: false
-#we will auto-replace / playername:%player%
-exploit_book_command: "idk"
+#[DE]Zeilen:[DE]
+#[DE]1: Name des Checks[DE]
+#[DE]2: Soll der Check überhaubt an sein?true oder false (true = an, false = aus)[DE]
+#[DE]3: Maximum Spieler ping für Violation[DE]
+#[DE]4: Minimum Server tps für Violation[DE]
+#[DE]5: Soll die violation nach einer action auf null gesetzt werden?(ausser NOTIFY)[DE]
+#[DE]6: Wann soll die Violation aus dem Violationcache genommen werden?(number in ms)[DE]
+#[DE]7 und mehr: Die Einzelnen ViolationAaktionen sind seperiert durch ein ":". Die erste nummer ist das benötigte Violation Level für die Violation Aktion, Das zweite ist der Aktions(verügbare Violation Aktionen: NOTIFY, KICK, CMD, MESSAGE), Du kannst mehr Kommandos ausführen in dem du sie mit einem ":" seperiest[DE]
+#[DE]Du kannst § oder & für die Farbcodes benutzen[DE]
+#[DE] Für die Aktionen kick, CMD und MESSAGE hast du mehrere Platzhalter:[DE]
+#[DE] %player% gibt den Spielernamen zurück[DE]
+#[DE] %uuid% gibt die Spieleruuid zurück[DE]
+#[DE] %ip% gibt die SpielerIpAdresse zurück[DE]
+#[DE] %ping% gibt den SpielerPing in MS zurück[DE]
+#[DE] %pingcolor% gibt den SpielerPing mit farbcode zurück[DE]
+#[EN] %display% gibt den Spielernamen vom chat[EN]
+#[EN] %tapname% gibt den Spielernamen vom tap[EN]
+#[DE] %vio% gibt das ViolationLevel des Spielers zurück[DE]
+#[DE] %tps% gibt die ServerTPS zurück[DE]
+#[DE] %tpscolor% gibt die ServerTPS mit farbcode zurück[DE]
+#[DE] %port% gibt die ServerPort zurück[DE]
 
-#we will auto-replace / playername:%player%
-exploit_nbt_nonbtdatacmd: ""
-exploit_nbt_nullcmd: ""
-exploit_nbt_nopagescmd: ""
-exploit_nbt_toomanypagescmd: ""
-exploit_nbt_toomanypages: 50
-exploit_nbt_toolongcmd: ""
-#idk the maxleath and if spaces count
-exploit_nbt_toolong: -1
+#[DE-EN]--------------[DE-EN]
+#[DE-EN]--------------[DE-EN]
+#[DE]Generlle Optionen[DE]
+#[EN]Generl Options[EN]
+#[DE-EN]--------------[DE-EN]
+#[DE-EN]--------------[DE-EN]
+generel:
+   #[DE-EN]config version[DE-EN]
+   version: 201
+   #[DE]globaler plugin prefix[DE]
+   #[EN]global plugin prefix[EN]
+   prefix: "&7[&9T&cN&eC&7] &6"
 
-exploit_nbtchannel_cmd: ""
-exploit_nbtchannel_toomany: 124
+#[DE-EN]-----------[DE-EN]
+#[DE-EN]-----------[DE-EN]
+#[DE-EN]Chat Checks[DE-EN]
+#[DE-EN]-----------[DE-EN]
+#[DE-EN]-----------[DE-EN]
 
-exploit_nbtpacketfloor_cmd: ""
-exploit_nbtpacketfloor_toomany: 100
+address:
+   enable: true
+   #[EN]Shoud we block the message with the Address?[EN]
+   #[DE]Soll die Nahcicht komplet geblockt werden![DE]
+   block: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:MESSAGE:&cBitte mache keine Werbung!"
+      "1:NOTIFY"
+      "2:KICK:&cBitte mache keine Werbung!"
+#[EN]Clears BlackListed words[EN]
+#[DE]Löscht falsche wörter[DE]
+blacklist:
+   enable: true
+   blacklist: ["fucker", "arschloch"]
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:MESSAGE:§cDeine Nachicht enthält schimpfwörter!"
+      "1:NOTIFY"
+      "5:KICK:&cBitte benehme dich!"
+commanddelay:
+   enable: true
+   #[DE-EN]commanddelay in ms[DE-EN]
+   delay: 200
+   #[DE]wie viele commands darf man in 10 sekunden schriben?[DE]
+   #[EN]How many commands can you write in 10 seconds?[EN]
+   in10seconds: 6
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:MESSAGE:§cBitte warte ein wenig bis zum nägsten command!"
+      "1:NOTIFY"
+      "3:KICK:&cBitte spamme nicht!"
+delay:
+   enable: true
+   #[DE-EN]commanddelay in ms[DE-EN]
+   delaybig: 1600
+   delaysmall: 400
+   #[DE]wie viele nachichten darf man in 10 sekunden schriben?[DE]
+   #[EN]How many messages can you write in 10 seconds?[EN]
+   in10seconds: 8
+   #[DE]Ab wann soll das grosse delay genommen werden?[DE]
+   #[EN]When shoud we use the small delay and when the big?[EN]
+   schwelle: 4
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:MESSAGE:§cBitte warte ein wenig bis zur nägsten Nachicht!"
+      "1:NOTIFY"
+      "3:KICK:&cBitte spamme nicht!"
+spamming:
+   enable: true
+   #[DE]Gross und Kleinschreibung ignorieren?[DE]
+   #[EN]Shoud we ignorecase?[EN]
+   ignorecase: true
+   #[DE]Ab wann ist eine Nachicht zu kurtz für den Check?[DE]
+   #[EN]Wehen is a message to short for the check>[EN]
+   toshort: 4
+   #[DE]Trage messages ein die man spammen darf[DE]
+   #[EN]Messages that users can spam[EN]
+   whitelist: []
+   #[DE]Gross und Kleinschreibung bei der Whitelist ignorieren?[DE]
+   #[EN]Shoud we ignorecase by the whitelist?[EN]
+   whitelist_ignorecase: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:MESSAGE:§cBitte wiederhole dich nicht!"
+      "1:NOTIFY"
+      "6:KICK:&cBitte wiederhole dich nicht!"
+#[DE-EN]--------------------[DE-EN]
+#[DE-EN]--------------------[DE-EN]
+#[DE-EN]Clientchannel Checks[DE-EN]
+#[DE-EN]--------------------[DE-EN]
+#[DE-EN]--------------------[DE-EN]
+labymod:
+   enable: true
+   animations: true
+   armor: true
+   blockbuild: false
+   chat: true
+   damageindicator: false
+   extras: true
+   food: true
+   gui: true
+   minimap_radar: false
+   nick: false
+   potions: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   #[DE]Dieses Modul schweisst keine violations[DE]
+   #[EN]This module dont throws violations[EN]
+   vioactions:
+      "1:NOTIFY"
+shematica:
+   enable: true
+   load: true
+   print: true
+   save: true
+   block: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:&cBitte deninstaliere Shematica"
+other:
+   enable: true
+   betterpvp_block: false
+   reiminimap_block: false
+   damageindicators_block: false
+   voxelmap_block: false
+   smartmoving_block: false
+   zig5_kick: true
+   wdl_kick: true
+   bsprint_kick: true
+   bsm_kick: true
+   fml_kick: true
+   liteloader_kick: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   #[DE]Nur Mods die man kicken kann werfen Violations[DE]
+   #[EN]Only Mods that can be kicked thorows Violations[EN]
+   vioactions:
+      "1:NOTIFY"
+#[DE-EN]--------[DE-EN]
+#[DE-EN]--------[DE-EN]
+#[EN-DE]Exploits[EN-DE]
+#[DE-EN]--------[DE-EN]
+#[DE-EN]--------[DE-EN]
 
-#dings hat 200 zuminest bei swing
-exploit_craher_itempersec: 180
-exploit_craher_swingpersec: 180
-#------[exploits]------
-#------[other]------
-#we will auto-replace / playername:%player%
-other_mcleaks_sendcommand: true
-other_mcleaks_command: "idk"
-
-#pingspoof-check idea ist from Tonda
-#the checkspeed is the probability that the player is checked 1 minimum 0 disable
-other_pingspoof_checkspeed: 8
-other_pingspoof_maxdiffrence: 13
-#maxping is the realping
-other_pingspoof_maxping: 120
-
-other_nuker_maxblockbreakssec: 40
-#------[other]------
-#servercraher is now in exploits
-#------[movement]------
-movement_blink_distance: 12
-
-movement_clip_onlyfullblocks: false
-
-movement_speed_timeraverage_inmilis: 48
-movement_speed_timercheck: 20
-movement_speed_timerflagtomessage: 4
-movement_speed_togglesnekinsec: 12
-movement_speed_normal_normal: 0.4
-movement_speed_normal_normalground: 0.33
-movement_speed_normal_modistairs: 0.45
-movement_speed_normal_modislabs: 0.05
-movement_speed_normal_modisolid: 0.69
-#following 2 are not modifier
-movement_speed_normal_modiice: 0.75
-movement_speed_normal_modiicesolic: 1.0
-#speedposion
-movement_speed_normal_modispeed: 0.02
-movement_speed_normal_modispeedground: 0.06
-movement_speed_normal_elapsedtoret: 60000
-movement_speed_normal_elapsedtoretflag: 150
-movement_speed_normal_flagcountertoflag: 3
-movement_speed_normal_tofastnewcount: 6
-
-movement_fly_nodowntonotify: 7
-#------[movement]------
-#------[fight]------
-#ncp = 15 aac = 19
-fight_fightspeed_maxhitspersecond: 16
-#aac = 50
-fight_fightspeed_maxinteractspersecond: 45
-
-fight_fastbow_delay: 560
-#if force bigger or equals ignore
-fight_fastbow_ignoreforce: 0.2
-
-fight_killaura_defaultrange: 3.9
-fight_killaura_rangespeed1: 4.1
-fight_killaura_rangespeed2: 4.3
-fight_killaura_rangeping_100_200: 0.2
-fight_killaura_rangeping_200_250: 0.4
-fight_killaura_rangeping_250_300: 0.8
-fight_killaura_rangeping_300_350: 1.0
-fight_killaura_rangeping_350_400: 1.2
-fight_killaura_rangeping_over400: 1.6
-fight_killaura_rangevectorlen: 0.08
-fight_killaura_rangeisup: 3.95
-#when player dont make wrongatack for %value% reset value in milis
-fight_killaura_rangeclearaftermilis: 25000
-fight_killaura_range_levelrange: 6.0
-fight_killaura_range_toohitslongtoreport: 3
-fight_killaura_multiauradelay: 8
-
-fight_regen_delay: 3000
-#------[fight]------
-#------[interact]------
-#aac = 10
-interact_fasplace_cps: 8
-interact_noswing_delayticks: 2
-
-interact_block: true
-interact_ghosthand: false
-interact_keepalive: true
-#all liquids
-interact_water: true
-interact_sleep: true
-interact_invisible: true
-interact_openinv: true
-#------[interact]------
-#------[player]------
-player_fasteat_delay: 1200
-
-player_inv_delay_inmilis: 90
-player_inv_sneak: true
-player_inv_sprint: true
-player_inv_block: true
-player_inv_sleep: true
-player_inv_hitdelayinmili: 190
-player_inv_openinvchat: true
-player_inv_openinvhit: true
-#inmilis
-player_inv_invchatdelay: 900
-
-player_derb_cmd: ""
-#do not change this values if not nesery -1 to disble
-player_derb_maxpitch: 91
-player_derb_minpitch: -91
-
-#in milis
-player_morepackets_elapsed: 1000
-player_morepackets_maxpackets: 49
-player_morepackets_blacklistadd: 100
-player_morepackets_blacklistremove: 1
-player_morepackets_worlddownloadingdelayinticks: 45
-
-player_skinblinker_block: true
-player_skinblinker_sleep: true
-player_skinblinker_sneak: true
-player_skinblinker_sprint: true
-player_skinblinker_movemindelay: 1200
-
-#maxmoves in 3 ticks
-player_badpackets_maxmoves: 10
-
-player_fastswitch_delaymili: 50
-player_fastswitch_maxping: 400
-
-#aacpro has that value to 51 in my checks 190 is okay
-player_cheststeler_delay: 190
-player_cheststeler_consistent: true
-player_cheststeler_consistent_cacheinmilis: 8000
-player_cheststeler_consistent_maxdelaymilis: 2
-player_cheststeler_consistent_maxcachesize: 12
-player_cheststeler_consistent_mincachesize: 5
-#-1 to disable
-player_cheststeler_maxping: 400
-#------[player]------
+#[EN-DE]Book op Exploit[EN-DE]
+book:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:CMD:ban %player% hackclient oder so"
+channels:
+   enable: true
+   maxchannels: 124
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 4800
+   #[EN-DE]maxchannels-channels=violations[EN-DE]
+   vioactions:
+      "1:NOTIFY"
+      "12:CMD:ban %player% hackclient oder so"
+charaters:
+   enable: true
+   rename: true
+   messages: true
+   commands: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:MESSAGE:Dieses Zeichen ist nicht erlaubt!"
+crasher:
+   enable: true
+   swingitem: true
+   switchitem: true
+   swingspersecond: 180
+   switchspersecond: 180
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 6200
+   #[EN-DE]max-curennt=violations[EN-DE]
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:ServerCrasher?"
+      "25:CMD:ban %player% ServerCrasher(TNC)"
+#[DE]gerade nur für bücher[DE]
+#[EN]curently only for books[EN]
+nbt:
+   enable: true
+   nonbt: true
+   noitem: true
+   nopages: true
+   toomanypahes: 51
+   #[EN]the length has changed over versions so to enable the check you can test it out or search for your version[EN]
+   #[DE]Die maximal länge einer Buchseite wurde im laufe der Versionen mehrmach geämdert! Um den Check zu aktivieren kannst du der die Zahl suchen oder selbertesten[DE]
+   toolongtext: -1
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   #[EN-DE]max-curennt=violations[EN-DE]
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:Bitte Deinstaliere deinen Client!"
+#[DE]Nur für einen NBT Clints! Bitte nicht mit MorePackets verwegseln![DE]
+#[EN]Only for NBT Clints! It is not the same as MorePackets![EN]
+packet_flood:
+   enable: true
+   delay: 120
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:Bitte Deinstaliere deinen Client!"
+#[DE]Es gibt ein Clinet der Crash Clients macht! Diese Crashen den Server und lassen die Welt nicht mehr laden![DE]
+#[EN]For the Clinet with a SignCrasher it crashs the Server and you can not load the world anymore![EN]
+sign:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:Bitte Deinstaliere deinen Client!"
+#[DE-EN]-------------[DE-EN]
+#[DE-EN]-------------[DE-EN]
+#[DE-EN]Combat Checks[DE-EN]
+#[DE-EN]-------------[DE-EN]
+#[DE-EN]-------------[DE-EN]
+fastbow:
+   enable: true
+   delay: 560
+   #[EN-DE]MIN: 0 MAX: 1[EN-DE]
+   minimumforce: 0.2
+   max_ping: 350
+   min_tps: 16
+   vioresetafteraction: true
+   viocachedelay: 4000
+   #[EN-DE]maximum-current=violations[EN-DE]
+   vioactions:
+      "1:NOTIFY"
+      "25:KICK:FastBow?"
+fightspeed:
+   enable: true
+   hitspersecond: 16
+   interactspersecond: 45
+   max_ping: 320
+   min_tps: 18
+   vioresetafteraction: true
+   viocachedelay: -1
+    viocachedelay: 1300
+   #[EN-DE]maximum-current=violations[EN-DE]
+   vioactions:
+      "1:NOTIFY"
+      "23:KICK:Autoclicker?Killaura?"
+killaura:
+   enable: true
+   #[EN]How fast can you swab the entity? In ms[EN]
+   #[DE]Wie schnell kannst du das Entity wegseln? In ms[DE]
+   multi_delay: 8
+   range:
+      default: 3.9
+      #speedmodi
+      speed: 0.2
+      #pingmodis
+      ping_100_200: 0.2
+      ping_200_250: 0.4
+      ping_250_300: 0.8
+      ping_300_350: 1.0
+      ping_350_400: 1.2
+      ping_over400: 1.6
+      viomodifier: 12
+      max_velocity: 0.08
+      #lowgrouddis/lowgroud_mofier
+      lowgroud_mofier: 3.95
+   max_ping: -1
+   min_tps: 18
+   vioresetafteraction: true
+   viocachedelay: -1
+   viocachedelay: 25000
+   vioactions:
+      "1:NOTIFY"
+      "18:KICK:Killaura?"
+regen:
+   enable: true
+   delay: 3000
+   max_ping: -1
+   min_tps: 16
+   vioresetafteraction:
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "9:KICK:Regen?"
+selfhit:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:KP"
+#[DE-EN]---------------[DE-EN]
+#[DE-EN]---------------[DE-EN]
+#[DE-EN]Interact Checks[DE-EN]
+#[DE-EN]---------------[DE-EN]
+#[DE-EN]---------------[DE-EN]
+breakcovered:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "4:KICK:KP"
+fastplace:
+   enable: true
+   #aac = 10
+   persecond: 8
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 3200
+   vioactions:
+      "1:NOTIFY"
+      "4:KICK:FastPlace"
+interact:
+   enable: true
+   visible: true
+   visibleblocks: true
+   liquids: true
+   #aka keepalive
+   dead: true
+   itemcursor: true
+   sleep: true
+   block: true
+   openinv: true
+   #curently not working aka throws false positives
+   gost: false
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:Interact"
+#curently throws false positives
+noswing:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 12000
+   vioactions:
+      "1:NOTIFY"
+      "2:KICK:NoSwing?"
+#[DE-EN]---------------[DE-EN]
+#[DE-EN]---------------[DE-EN]
+#[DE-EN]Movement Checks[DE-EN]
+#[DE-EN]---------------[DE-EN]
+#[DE-EN]---------------[DE-EN]
+bedleave:
+   enable: true
+   maxrange: 10
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:KP!(TNC)"
+#[EN]Old check its acually not a blink check :D but it detects some longjumps[EN]
+#[DE]Alter Check es ist eingentlich kein blink check :D Aber es erkennt ein paar longjumps[DE]
+blink:
+   enable: true
+   maxrangetp: 3.5
+   maxrangemove: 4
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:KP!(TNC)"
+clip:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "3:NOTIFY"
+      "6:KICK:Clip/NoClip(TNC)"
+derb:
+   enable: true
+   minpitch: 91
+   maxpitch: -91
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "3:NOTIFY"
+      "6:KICK:Clip/NoClip(TNC)"
+fastladder:
+   enable: true
+   #(100/42)*1000(https://minecraft-de.gamepedia.com/Leiter)
+   msperblock: 420
+   #teleport
+   cancel_vl: 0.1
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   #[EN]Importend for cancel_vl![EN]
+   #[DE]Wichtig für cancel_vl![DE]
+   viocachedelay: 3000
+   vioactions:
+      "1:NOTIFY"
+      "12:KICK:FastLadder(TNC)"
+fly:
+   enable: true
+   #modes
+   vanilla:
+      enable: true
+      vio: 3
+   simple:
+      enable: true
+      vio: 1.3
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 7800
+   vioactions:
+      "2:NOTIFY"
+      "14:KICK:FLY!"
+jesus:
+   enable: true
+   #lower = more sesetiv
+   sensitivity: 8
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 7800
+   #depends on sensitivity
+   vioactions:
+      "63:NOTIFY"
+      "180:KICK:Jesus!"
+rotate:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 8000
+   vioactions:
+      "1:NOTIFY"
+      "7:KICK:Illegal Rotations!"
+speed:
+   enable: true
+   normal:
+      enable: true
+      #basevalues
+      base: 0.4
+      baseground: 0.33
+      baseice: 0.75
+      baseicesolid: 1
+      #modifiers
+      stairs: 0.45
+      slabs: 0.05
+      solid: 0.69
+      #speedpotionmodifier
+      speed: 0.02
+      speedground: 0.06
+      viomodi: 2.3
+   sneaksprint:
+      enable: true
+      viomodi: 10
+   sprintfood:
+      enable: true
+      foodlevel: 6
+      viomodi: 10
+   blocksprint:
+      enable: true
+      viomodi: 10
+   timer:
+     enbale: true
+     viomodi: 2
+     checksize: 20
+     #normal average
+     maxaverage: 48
+   sprintspam:
+     enable: true
+     viomodi: 40
+     maxpersecond: 12
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 8000
+   vioactions:
+      "1:NOTIFY"
+step:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:STEP!"
+#[DE-EN]------------[DE-EN]
+#[DE-EN]------------[DE-EN]
+#[DE-EN]Other Checks[DE-EN]
+#[DE-EN]------------[DE-EN]
+#[DE-EN]------------[DE-EN]
+damageindicator:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   #no violations
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+grifing:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+mcleaks:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:Not Autorized!"
+nuker:
+   enable: true
+   maxblockpersec: 40
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   #(cur-max)*2
+   vioactions:
+      "1:NOTIFY"
+pingspoof:
+   enable: true
+   maxrealping: 120
+   move_checkverscheinlichkeit: 45
+   interact_checkverscheinlichkeit: 8
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+vanillabug:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:MESSAGE:Durch einen Bug in Minecraft darfst du nur mit blöcken auf diesen Block Rechts klicken!"
+#[DE-EN]-------------[DE-EN]
+#[DE-EN]-------------[DE-EN]
+#[DE-EN]Player Checks[DE-EN]
+#[DE-EN]-------------[DE-EN]
+#[DE-EN]-------------[DE-EN]
+badpackets:
+   enable: true
+   max_moves: 10
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 2000
+   vioactions:
+      "1:NOTIFY"
+      "6:KICK:BadPackets"

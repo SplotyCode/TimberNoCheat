@@ -14,25 +14,19 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class NoSwing extends Check{
 
+    long checkdelay;
     public NoSwing(){
         super("NoSwing", Category.INTERACT);
+        checkdelay = getLong("checkdelay");
     }
 
+    @EventHandler
     public void onInventoryMoveItemEvent(final InventoryMoveItemEvent event) {
-        System.out.println(event.getSource().getHolder() + " " + event.getDestination().getHolder());
+        //System.out.println(event.getSource().getHolder() + " " + event.getDestination().getHolder());
     }
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEvent e){
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
-            return;
-        }
-        if(e.isCancelled()){
-            return;
-        }
-        if(TimberNoCheat.instance.settings.interact_noswing_delayticks == -1){
-            return;
-        }
-        if(e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK){
+        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled() || checkdelay == -1 || e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK){
             return;
         }
         TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer()).setShoudswing(true);
@@ -40,18 +34,15 @@ public class NoSwing extends Check{
             @Override
             public void run() {
                 if(TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer()).isShoudswing()){
-                    TimberNoCheat.checkmanager.notify(NoSwing.this, e.getPlayer());
+                    updatevio(NoSwing.this, e.getPlayer(), 1);
                 }
             }
-        }, TimberNoCheat.instance.settings.interact_noswing_delayticks);
+        }, checkdelay);
     }
     @EventHandler
     public void onSwing(PlayerAnimationEvent e){
-        System.out.println("a");
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
-            return;
-        }
-        if(e.getAnimationType() != PlayerAnimationType.ARM_SWING){
+        //System.out.println("a");
+        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.getAnimationType() != PlayerAnimationType.ARM_SWING) {
             return;
         }
         TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer()).setShoudswing(false);

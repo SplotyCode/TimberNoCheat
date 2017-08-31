@@ -18,17 +18,27 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Fly extends Check {
 
+    boolean vanilla;
+    double vanillavio;
+    double simplevio;
+    boolean simple;
+
     public Fly(){
         super("Fly", Category.MOVEMENT);
+        vanilla = getBoolean("vanilla");
+        simple = getBoolean("simple");
+        vanillavio = getDouble("vanilla.vio");
+        simplevio = getDouble("simple.vio");
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler
     public void Kick(PlayerKickEvent e) {
         if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) {
             return;
         }
-        if(e.getReason().equals("Flying is not enabled on this server")) {
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6CHECK: §bVANILLA_KICK");
+        if(vanilla && e.getReason().equals("Flying is not enabled on this server")) {
+            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6CHECK: §bVANILLA_KICK");
+            updatevio(this, e.getPlayer(), vanillavio, " §6CHECK: §bVANILLA");
         }
     }
 
@@ -41,14 +51,12 @@ public class Fly extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        if(inair(p) && !Velocity.velocity.containsKey(p.getUniqueId()) && !p.getAllowFlight() && to.getY() >= from.getY() && p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP)){
-            pd.setFly_nodown(pd.getFly_nodown()+1);
-        }else{
-            pd.setFly_nodown(0);
+        if(simple && inair(p) && !Velocity.velocity.containsKey(p.getUniqueId()) && !p.getAllowFlight() && to.getY() >= from.getY() && p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP)){
+            updatevio(this, p, simplevio, " §6CHECK: §bSIMPLE");
         }
-        if(pd.getFly_nodown() >= TimberNoCheat.instance.settings.movement_fly_nodowntonotify){
-            TimberNoCheat.checkmanager.notify(this, p);
-        }
+        //if(pd.getFly_nodown() >= TimberNoCheat.instance.settings.movement_fly_nodowntonotify){
+        //    TimberNoCheat.checkmanager.notify(this, p);
+        //}
     }
 
     public boolean inair(Player p){

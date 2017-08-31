@@ -17,8 +17,10 @@ import org.bukkit.util.NumberConversions;
 
 public class Jesus extends Check {
 
+    double sensitivity;
     public Jesus(){
         super("Jesus", Category.MOVEMENT);
+        sensitivity = getDouble("sensitivity");
     }
     @EventHandler(priority = EventPriority.LOWEST)
     public void onMove(PlayerMoveEvent e) {
@@ -30,16 +32,13 @@ public class Jesus extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        long time = pd.getJesus();
-        long ms = System.currentTimeMillis() - time;
-        if(cantStandAtWater(p.getWorld().getBlockAt(p.getLocation())) && isHoveringOverWater(p.getLocation()) && !isFullyInWater(p.getLocation()) && ms > 500L){
-            if(ms > 500L) {
-                TimberNoCheat.checkmanager.notify(this, p, " §6DELAY: §b" + ms);
-                e.setCancelled(true);
-            }
-            time = System.currentTimeMillis();
+        long ms = System.currentTimeMillis() - pd.getJesus();
+        if(cantStandAtWater(p.getWorld().getBlockAt(p.getLocation())) && isHoveringOverWater(p.getLocation()) && !isFullyInWater(p.getLocation())){
+            //TimberNoCheat.checkmanager.notify(this, p, " §6DELAY: §b" + ms);
+            updatevio(this, p, ms/sensitivity, " §6DEBUGDATA: §b" + ms);
+            e.setCancelled(true);
+            pd.setJesus(System.currentTimeMillis());
         }
-        pd.setJesus(time);
     }
     public static boolean cantStandAtWater(Block block) {
         Block otherBlock = block.getRelative(BlockFace.DOWN);

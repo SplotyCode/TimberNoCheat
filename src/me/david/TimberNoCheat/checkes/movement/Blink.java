@@ -9,8 +9,12 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class Blink extends Check{
 
+    double maxrangetp;
+    double maxrangemove;
     public Blink(){
         super("Blink", Category.MOVEMENT);
+        maxrangetp = getDouble("maxrangetp");
+        maxrangemove = getDouble("maxrangemove");
     }
 
     @EventHandler
@@ -19,9 +23,9 @@ public class Blink extends Check{
             return;
         }
         double dis = e.getTo().distance(e.getFrom());
-        if(e.getTo().distance(e.getFrom()) > TimberNoCheat.instance.settings.movement_blink_distance && TimberNoCheat.instance.settings.movement_blink_distance != -1){
+        if(dis > maxrangemove && maxrangemove != -1){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6DISTANCE: §b" + dis, " §6TYPE: §bmove");
+            updatevio(this, e.getPlayer(), dis-maxrangemove, " §6DISTANCE: §b" + dis, " §6TYPE: §bMOVE");
         }
     }
     @EventHandler
@@ -30,9 +34,9 @@ public class Blink extends Check{
             return;
         }
         double dis = e.getTo().distance(e.getFrom());
-        if(e.getTo().distance(e.getFrom()) > TimberNoCheat.instance.settings.movement_blink_distance && TimberNoCheat.instance.settings.movement_blink_distance != -1){
+        if(dis > maxrangemove && maxrangetp != -1){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6DISTANCE: §b" + dis, " §6TYPE: §bTELEPORT");
+            updatevio(this, e.getPlayer(), dis-maxrangemove, " §6DISTANCE: §b" + dis, " §6TYPE: §bTELEPORT");
         }
     }
 }

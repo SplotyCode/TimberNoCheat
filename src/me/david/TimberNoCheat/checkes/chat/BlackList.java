@@ -8,9 +8,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.ArrayList;
+
 public class BlackList extends Check{
+
+    ArrayList<String> blacklist;
     public BlackList(){
         super("BlackList", Category.CHAT);
+        blacklist = getStringList("blacklist");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -23,16 +28,15 @@ public class BlackList extends Check{
             return;
         }
         String key = "";
-        for(String black : TimberNoCheat.instance.settings.chat_blacklist){
+        for(String black : blacklist){
             if(e.getMessage().contains(black)){
                 key = black;
                 break;
             }
         }
-        if(key != ""){
+        if(!key.equals("")){
             e.setCancelled(true);
-            e.getPlayer().sendMessage(TimberNoCheat.instance.prefix + "§cDeine Nachicht enthält schimpfwörter!");
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6WORD: §b" + key, " §6MESSAGE: §b" + e.getMessage());
+            updatevio(this, p, 1, " §6WORD: §b" + key, " §6MESSAGE: §b" + e.getMessage());
         }
     }
 }

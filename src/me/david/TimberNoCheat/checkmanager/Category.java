@@ -8,5 +8,5 @@ public enum Category {
     INTERACT,
     PLAYER,
     MOVEMENT,
-    FIGHT;
+    COBMAT;
 }

@@ -29,7 +29,8 @@ public class Step extends Check {
         double yDist = e.getTo().getY() - e.getFrom().getY();
         if(yDist > 0.9D) {
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, p, " §6HEIGHT: §b" + yDist);
+            updatevio(this, p, 1, " §6HEIGHT: §b" + yDist);
+            //TimberNoCheat.checkmanager.notify(this, p, " §6HEIGHT: §b" + yDist);
         }
     }
 }

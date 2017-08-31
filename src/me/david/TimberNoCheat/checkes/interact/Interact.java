@@ -16,21 +16,45 @@ import java.util.Set;
 
 public class Interact extends Check {
 
+    boolean visible;
+    boolean visibleblocks;
+    boolean liquids;
+    boolean dead;
+    boolean itemcursor;
+    boolean sleep;
+    boolean block;
+    boolean openinv;
+    boolean gost;
+
     public Interact(){
         super("Interact", Category.INTERACT);
+        visible = getBoolean("visible");
+        visibleblocks = getBoolean("visibleblocks");
+        liquids = getBoolean("liquids");
+        dead = getBoolean("dead");
+        itemcursor = getBoolean("itemcursor");
+        sleep = getBoolean("sleep");
+        block = getBoolean("block");
+        openinv = getBoolean("openinv");
+        gost = getBoolean("gost");
     }
 
     @EventHandler
     public void onhitinteract(EntityDamageByEntityEvent e){
-        if(!(e.getDamager() instanceof Player) || !(e.getEntity() instanceof Player)){
+        if(!(e.getDamager() instanceof Player)){
             return;
         }
         final Player p = (Player)e.getDamager();
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }
-        if(!p.canSee((Player) e.getEntity())){
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bVISIBLE");
+        if(e.getEntity() instanceof Player && !p.canSee((Player) e.getEntity()) && visible){
+            updatevio(this, p, 1, " §6CHECK: §bVISIBLE");
+            e.setCancelled(true);
+        }
+        if(!p.hasLineOfSight(e.getEntity()) && visibleblocks){
+            updatevio(this, p, 1, " §6CHECK: §bVISIBLEBLOCKS");
+            e.setCancelled(true);
         }
     }
     @EventHandler
@@ -39,37 +63,41 @@ public class Interact extends Check {
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }
-        if(e.getClickedBlock() != null && e.getClickedBlock().isLiquid() && TimberNoCheat.instance.settings.interact_water){
+        if(e.getClickedBlock() != null && e.getClickedBlock().isLiquid() && liquids){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bLIQUIDS");
+            updatevio(this, p, 1, " §6CHECK: §bLIQUIDS");
         }
-        if(p.isDead() && TimberNoCheat.instance.settings.interact_keepalive){
+        if(p.isDead() && dead){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bDEAD");
+            updatevio(this, p, 1, " §6CHECK: §bDEAD");
         }
         if(e.getAction() == Action.PHYSICAL){
             return;
         }
-        if(p.isSleeping() && TimberNoCheat.instance.settings.interact_sleep){
+        if(p.getItemOnCursor() != null && itemcursor){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSLEEP");
+            updatevio(this, p, 1, " §6CHECK: §bITEMCURSOR");
         }
-        if(p.isBlocking() && TimberNoCheat.instance.settings.interact_block){
+        if(p.isSleeping() && sleep){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bBLOCK");
+            updatevio(this, p, 1, " §6CHECK: §bSLEEP");
         }
-        if(PlayerUtil.hasInventoryOpen(p) && TimberNoCheat.instance.settings.interact_openinv){
+        if(p.isBlocking() && block){
             e.setCancelled(true);
-            System.out.println(p.getOpenInventory().getType());
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bOPENINV");
+            updatevio(this, p, 1, " §6CHECK: §bBLOCK");
+        }
+        if(PlayerUtil.hasInventoryOpen(p) && openinv){
+            e.setCancelled(true);
+            //System.out.println(p.getOpenInventory().getType());
+            updatevio(this, p, 1, " §6CHECK: §bOPENINV");
         }
         if(e.getClickedBlock() == null || p.getTargetBlock((Set<Material>) null, 6) == null || !TimberNoCheat.instance.settings.interact_ghosthand){
             return;
         }
 
-        if(p.getTargetBlock((Set<Material>) null, 6) != e.getClickedBlock() && !BlockUtil.getSurrounding(p.getTargetBlock((Set<Material>) null, 6), false).contains(e.getClickedBlock())){
+        if(gost && p.getTargetBlock((Set<Material>) null, 6) != e.getClickedBlock() && !BlockUtil.getSurrounding(p.getTargetBlock((Set<Material>) null, 6), false).contains(e.getClickedBlock())){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bGHOST");
+            updatevio(this, p, 1, " §6CHECK: §bGHOST");
         }
         /*if(e.getClickedBlock() != null && !.contains(e.getClickedBlock())){
             e.setCancelled(true);

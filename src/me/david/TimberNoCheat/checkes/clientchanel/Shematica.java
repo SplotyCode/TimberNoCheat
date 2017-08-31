@@ -22,17 +22,24 @@ import java.math.BigInteger;
 
 public class Shematica extends Check implements PluginMessageListener {
 
-    public final String channel = "schematica";
+    final String channel = "schematica";
+    boolean block;
+    boolean print;
+    boolean load;
+    boolean save;
     public Shematica(){
         super("Shematica", Category.CLIENT_CHANEL);
+        block = getBoolean("block");
+        print = getBoolean("print");
+        load = getBoolean("load");
+        save = getBoolean("save");
         Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, channel, this);
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, channel);
     }
 
     @Override
     public void onPluginMessageReceived(String s, Player player, byte[] bytes) {
-        if(TimberNoCheat.instance.settings.shematica_kick)
-            player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere Schematica!");
+        updatevio(this, player, 1);
     }
 
     @Override
@@ -53,24 +60,21 @@ public class Shematica extends Check implements PluginMessageListener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
-        if(TimberNoCheat.instance.settings.shematica_block){
+        if(block && TimberNoCheat.checkmanager.isvalid_create(p)){
             String json = "{\"text\":\"\",\"extra\":[{\"text\":\"\u00a70\u00a72\u00a70\u00a70\u00a7e\u00a7f\"},{\"text\":\"\u00a70\u00a72\u00a71\u00a70\u00a7e\u00a7f\"},{\"text\":\"\u00a70\u00a72\u00a71\u00a71\u00a7e\u00a7f\"}]}";
             IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a(json);
             PacketPlayOutChat chat = new PacketPlayOutChat(icbc, BigInteger.valueOf(0).toByteArray()[0]);
             ((CraftPlayer)p).getHandle().playerConnection.sendPacket(chat);
         }
     }
-    public static byte[] getPayload() {
+    public byte[] getPayload() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
         try {
             dos.writeByte(0);
-            dos.writeBoolean(TimberNoCheat.instance.settings.shematica_print);
-            dos.writeBoolean(TimberNoCheat.instance.settings.shematica_save);
-            dos.writeBoolean(TimberNoCheat.instance.settings.shematica_load);
+            dos.writeBoolean(print);
+            dos.writeBoolean(save);
+            dos.writeBoolean(load);
             return baos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();

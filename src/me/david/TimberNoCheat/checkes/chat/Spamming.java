@@ -9,9 +9,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.ArrayList;
+
 public class Spamming extends Check{
+    boolean ignorecase;
+    boolean ignorecasewhitelist;
+    ArrayList<String> whitelist;
+    int toshort;
     public Spamming(){
         super("Spamming", Category.CHAT);
+        ignorecase = getBoolean("ignorecase");
+        ignorecasewhitelist = getBoolean("whitelist_ignorecase");
+        whitelist = getStringList("whitelist");
+        toshort = getInt("toshort");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -24,25 +34,24 @@ public class Spamming extends Check{
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer());
         String message = e.getMessage();
-        if(message.length() < TimberNoCheat.instance.settings.chat_spamming_toshort){
+        if(message.length() < toshort){
             return;
         }
-        if(TimberNoCheat.instance.settings.chat_spamming_whitelist_ignorecase && ArrayCollectUtil.containsignorecase(TimberNoCheat.instance.settings.chat_spamming_whitelist, message)){
+        if(ignorecasewhitelist && ArrayCollectUtil.containsignorecase(whitelist, message)){
             return;
         }
 
-        if(!TimberNoCheat.instance.settings.chat_spamming_whitelist_ignorecase && TimberNoCheat.instance.settings.chat_spamming_whitelist.contains(message)) {
+        if(!ignorecasewhitelist && whitelist.contains(message)) {
             return;
         }
-        if(!TimberNoCheat.instance.settings.chat_spamming_ignorecase && pd.getMessages().contains(message)){
+        if(!ignorecase && pd.getMessages().contains(message)){
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, e.getPlayer());
             return;
         }
-        if(TimberNoCheat.instance.settings.chat_spamming_ignorecase && ArrayCollectUtil.containsignorecase(pd.getMessages(), message)){
+        if(ignorecase && ArrayCollectUtil.containsignorecase(pd.getMessages(), message)){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer());
-            e.getPlayer().sendMessage(TimberNoCheat.instance.prefix + "§cBitte gebe die wiederhole dich nicht!");
+            updatevio(this, e.getPlayer(), 1);
             return;
         }
         pd.getMessages().add(message);

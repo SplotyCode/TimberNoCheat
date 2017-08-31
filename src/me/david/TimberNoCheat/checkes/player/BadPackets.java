@@ -11,8 +11,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class BadPackets extends Check {
 
+    int max_moves;
     public BadPackets(){
         super("BadPackets", Category.PLAYER);
+        max_moves = getInt("max_moves");
     }
 
     @EventHandler
@@ -29,9 +31,10 @@ public class BadPackets extends Check {
                 pd.setMoveslastticks(pd.getMoveslastticks()-1);
             }
         }, 3);
-        if(pd.getMoveslastticks() > TimberNoCheat.instance.settings.player_badpackets_maxmoves){
-            TimberNoCheat.checkmanager.notify(this, p, " §6LEVEL: §b" + (pd.getMoveslastticks()-TimberNoCheat.instance.settings.player_badpackets_maxmoves)/2);
-            pd.setMoveslastticks(0);
+        if(pd.getMoveslastticks() > max_moves){
+            updatevio(this, p, (pd.getMoveslastticks()-TimberNoCheat.instance.settings.player_badpackets_maxmoves)/2);
+            //TimberNoCheat.checkmanager.notify(this, p, " §6LEVEL: §b" + (pd.getMoveslastticks()-TimberNoCheat.instance.settings.player_badpackets_maxmoves)/2);
+            //pd.setMoveslastticks(0);
         }
 
     }

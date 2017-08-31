@@ -29,8 +29,59 @@ import java.util.*;
 
 public class Speed extends Check {
 
+    double nbase;
+    double nbaseground;
+    double nbaseice;
+    double nbaseicesolid;
+    double nstairs;
+    double nslabs;
+    double nsolid;
+    double nspeed;
+    double nspeedground;
+    double nviomodi;
+    boolean nenable;
+    boolean ssenable;
+    double ssviomodi;
+    boolean sfenable;
+    int sffood;
+    double sfvio;
+    boolean bsenable;
+    double bsvio;
+    boolean tenable;
+    double tvio;
+    int tchecksize;
+    double tmax_average;
+    boolean spenable;
+    int spmaxsecond;
+    double spvio;
+
     public Speed(){
         super("Speed", Category.MOVEMENT);
+        nbase = getDouble("normal.base");
+        nbaseground = getDouble("normal.baseground");
+        nbaseice = getDouble("normal.baseice");
+        nbaseicesolid = getDouble("normal.baseicesolid");
+        nstairs = getDouble("normal.stairs");
+        nslabs = getDouble("normal.slabs");
+        nsolid = getDouble("normal.solid");
+        nspeed = getDouble("normal.speed");
+        nspeedground = getDouble("normal.speedground");
+        nviomodi = getDouble("normal.viomodi");
+        nenable = getBoolean("normal.enable");
+        ssenable = getBoolean("sneaksprint.enable");
+        ssviomodi = getDouble("sneaksprint.viomodi");
+        sfenable = getBoolean("sprint.enable");
+        sffood = getInt("sprintfood.foodlevel");
+        sfvio = getDouble("sprintfood.viomodi");
+        bsvio = getDouble("blocksprint.viomodi");
+        bsenable = getBoolean("blocksprint.enable");
+        tenable = getBoolean("timer.enable");
+        tvio = getDouble("timer.viomodi");
+        tchecksize = getInt("timer.checksize");
+        tmax_average = getDouble("timer.maxaverage");
+        spenable = getBoolean("sprintspam.enable");
+        spmaxsecond = getInt("sprintspam.maxpersecond");
+        spvio = getDouble("sprintspam.viomodi");
     }
 
     @EventHandler
@@ -115,22 +166,23 @@ public class Speed extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setLastmove(System.currentTimeMillis());
-        if(p.isSprinting() && p.isSneaking()){
+        if(ssenable && p.isSprinting() && p.isSneaking()){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAK&SPRINT");
+            updatevio(this, p, ssviomodi, " §6MODE: §bSNEAK&SPRINT");
         }
-        if(p.isSprinting() && p.getFoodLevel() <= 6){
+        if(sfenable && p.isSprinting() && p.getFoodLevel() <= sffood){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bFOODLEVELSPRINT", " §6NEED: §b6", " §6HAS: §b" + p.getFoodLevel());
+            updatevio(this, p, sfvio, "§6MODE: §bSPRINTFOOD");
+            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bFOODLEVELSPRINT", " §6NEED: §b6", " §6HAS: §b" + p.getFoodLevel());
         }
-        if(p.isSprinting() && p.isBlocking()){
+        if(bsenable && p.isSprinting() && p.isBlocking()){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bBLOCKSPRINT");
+            updatevio(this, p, bsvio, " §6MODE: §bBLOCKSPRINT");
         }
         if(to.getX() != from.getX() || to.getY() != from.getY() || to.getZ() != from.getZ()){
             pd.setLastrealmove(System.currentTimeMillis());
             check_timer(e, pd);
-            check_normal(e, pd);
+            if(nenable)check_normal(e, pd);
         }
     }
     public void check_normal(PlayerMoveEvent e, PlayerData pd){
@@ -138,53 +190,29 @@ public class Speed extends Check {
         if(p.getAllowFlight() || p.getVehicle() != null || Velocity.velocity.containsKey(p.getUniqueId())){
             return;
         }
-        int count = pd.getSpeedticks().getKey();
+        /*int count = pd.getSpeedticks().getKey();
         long time = pd.getSpeedticks().getValue();
         int TooFastCount = 0;
-        if(!pd.isFirstspeedflag()) {
-            double OffsetXZ = LocationUtil.offset(LocationUtil.getHorizontalVector(e.getFrom().toVector()), LocationUtil.getHorizontalVector(e.getTo().toVector()));
-            double LimitXZ = PlayerUtil.isOnGround(p)?TimberNoCheat.instance.settings.movement_speed_normal_normalground:TimberNoCheat.instance.settings.movement_speed_normal_normal;
-            if(PlayerUtil.stairsNear(p.getLocation())) {
-                LimitXZ += TimberNoCheat.instance.settings.movement_speed_normal_modistairs;
-            }
+        if(!pd.isFirstspeedflag()) {*/
+            double offsetXZ = LocationUtil.offset(LocationUtil.getHorizontalVector(e.getFrom().toVector()), LocationUtil.getHorizontalVector(e.getTo().toVector()));
+            double limitXZ = PlayerUtil.isOnGround(p)?nbaseground:nbase;
+            if(PlayerUtil.stairsNear(p.getLocation()))limitXZ += nstairs;
+            if(PlayerUtil.slabsNear(p.getLocation()))limitXZ += nslabs;
+            final boolean top = PlayerUtil.getEyeLocation(p).clone().add(0, 1, 0).getBlock().getType != Material.AIR && !BlockUtil.canStandWithin(PlayerUtil.getEyeLocation(p).clone().add(0, 1, 0));
+            if(top)limitXZ += nsolid;
+            if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.ICE)
+                if(top)limitXZ = nbaseicesolid;
+                else limitXZ = nbaseice;
+            limitXZ += (p.getWalkSpeed() > 0.2F?p.getWalkSpeed() * 10.0F * 0.33F:0.0F);
+            for(PotionEffect effect : p.getActivePotionEffects()
+                if(effect.getType().equals(PotionEffectType.SPEED))
+                    if(PlayerUtil.isOnGround(p)) limitXZ += nspeedground * (effect.getAmplifier() + 1);
+                    else limitXZ += nspeed * (effect.getAmplifier() + 1);
+            if(offsetXZ > limitXZ)
+                updatevio(this, p, offsetXZ-limitXZ*nviomodi, " §6MODE: §bNORMAL");
+        //}
 
-            if(PlayerUtil.slabsNear(p.getLocation())) {
-                LimitXZ += TimberNoCheat.instance.settings.movement_speed_normal_modislabs;
-            }
-
-            Block b = PlayerUtil.getEyeLocation(p).clone().add(0, 1, 0).getBlock();
-            if(b.getType() != Material.AIR && !BlockUtil.canStandWithin(b)) {
-                LimitXZ += TimberNoCheat.instance.settings.movement_speed_normal_modisolid;
-            }
-
-            if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.ICE) {
-                if(b.getType() != Material.AIR && !BlockUtil.canStandWithin(b)) {
-                    LimitXZ = TimberNoCheat.instance.settings.movement_speed_normal_modiicesolic;
-                } else {
-                    LimitXZ = TimberNoCheat.instance.settings.movement_speed_normal_modiice;
-                }
-            }
-
-            float speed = p.getWalkSpeed();
-            LimitXZ += (speed > 0.2F?speed * 10.0F * 0.33F:0.0F);
-            for(PotionEffect effect : p.getActivePotionEffects()){
-                if(effect.getType().equals(PotionEffectType.SPEED)) {
-                    if(PlayerUtil.isOnGround(p)) {
-                        LimitXZ += TimberNoCheat.instance.settings.movement_speed_normal_modispeedground * (effect.getAmplifier() + 1);
-                    } else {
-                        LimitXZ += TimberNoCheat.instance.settings.movement_speed_normal_modispeed * (effect.getAmplifier() + 1);
-                    }
-                }
-            }
-
-            if(OffsetXZ > LimitXZ && !DateTimeUtil.elapsed(pd.getSpeedticksflagt().getValue(), TimberNoCheat.instance.settings.movement_speed_normal_elapsedtoretflag)) {
-                TooFastCount = pd.getSpeedticksflagt().getKey() + 1;
-            } else {
-                TooFastCount = 0;
-            }
-        }
-
-        if(TooFastCount > TimberNoCheat.instance.settings.movement_speed_normal_tofastnewcount) {
+        /*if(TooFastCount > TimberNoCheat.instance.settings.movement_speed_normal_tofastnewcount) {
             TooFastCount = 0;
             count++;
         }
@@ -203,38 +231,36 @@ public class Speed extends Check {
         pd.setFirstspeedflag(false);
         pd.setFirstspeed(false);
         pd.setSpeedticks(new AbstractMap.SimpleEntry<Integer, Long>(count, time));
-        pd.setSpeedticksflagt(new AbstractMap.SimpleEntry<Integer, Long>(TooFastCount, System.currentTimeMillis()));
+        pd.setSpeedticksflagt(new AbstractMap.SimpleEntry<Integer, Long>(TooFastCount, System.currentTimeMillis()));*/
     }
     public void check_timer(PlayerMoveEvent e, PlayerData pd){
-        long delay = System.currentTimeMillis() - pd.getLasttimer();
-        pd.getTimerms().add(delay);
-        if(pd.getTimerms().size() == TimberNoCheat.instance.settings.movement_speed_timercheck) {
-            Long average = MathUtil.averageLong(pd.getTimerms());
-            if(average < TimberNoCheat.instance.settings.movement_speed_timeraverage_inmilis) {
-                pd.setTimerflag(pd.getTimerflag()+1);
-            }else {
-                pd.setTimerflag(0);
+        pd.getTimerms().add(System.currentTimeMillis() - pd.getTimerms().get(pd.getTimerms().size()-1));
+        if(pd.getTimerms().size() == tchecksize) {
+            if(MathUtil.averageLong(pd.getTimerms()) < tmax_average) {
+                updatevio(this, e.getPlayer(), tvio, " §6MODE: TIMER");
             }
             pd.getTimerms().clear();
         }
-        if(pd.getTimerflag() > TimberNoCheat.instance.settings.movement_speed_timerflagtomessage){
+        /*if(pd.getTimerflag() > TimberNoCheat.instance.settings.movement_speed_timerflagtomessage){
             pd.setTimerflag(0);
             TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: TIMER");
-        }
-        pd.setLasttimer(System.currentTimeMillis());
+        }*/
+        //pd.setLasttimer(System.currentTimeMillis());
     }
     @EventHandler(priority = EventPriority.LOWEST)
     public void onSprint(PlayerToggleSprintEvent e){
         if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) {
             return;
         }
-        if(e.isSprinting() && e.getPlayer().isSneaking()){
+        if(ssenable && e.isSprinting() && e.getPlayer().isSneaking()){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSPRINT");
+            updatevio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSPRINTSNEAK(2)");
+            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSPRINTSNEAK(2)");
         }
-        if(e.isSprinting() && e.getPlayer().getFoodLevel() <= 6){
+        if(sfenable && e.isSprinting() && e.getPlayer().getFoodLevel() <= sffood){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bFOODLEVELSPRINTSTART", " §6NEED: §b6", " §6HAS: §b" + p.getFoodLevel());
+            updatevio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSPRINTFOOD(2)");
+            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bFOODLEVELSPRINTSTART", " §6NEED: §b6", " §6HAS: §b" + p.getFoodLevel());
         }
     }
     @EventHandler(priority = EventPriority.LOWEST)
@@ -253,13 +279,15 @@ public class Speed extends Check {
                 pd.setTogglesneaklastsec(pd.getTogglesneaklastsec()-1);
             }
         }, 20);
-        if(pd.getTogglesneaklastsec() > TimberNoCheat.instance.settings.movement_speed_togglesnekinsec){
+        if(spenable && pd.getTogglesneaklastsec() > spmaxsecond){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());
+            updatevio(this, e.getPlayer(), spvio, " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());
+            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());
         }
-        if(e.isSneaking() && e.getPlayer().isSprinting()){
+        if(ssenable && e.isSneaking() && e.getPlayer().isSprinting()){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAK");
+            updatevio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSNEAKSPRINT(2)");
+            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAK");
         }
     }
 }
