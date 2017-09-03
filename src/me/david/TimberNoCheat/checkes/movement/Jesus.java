@@ -17,7 +17,7 @@ import org.bukkit.util.NumberConversions;
 
 public class Jesus extends Check {
 
-    double sensitivity;
+    final double sensitivity;
     public Jesus(){
         super("Jesus", Category.MOVEMENT);
         sensitivity = getDouble("sensitivity");

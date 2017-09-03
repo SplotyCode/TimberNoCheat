@@ -19,17 +19,17 @@ import java.util.HashMap;
 
 public class LabyMod extends Check {
     
-    boolean animations;
-    boolean armor;
-    boolean blockbuild;
-    boolean chat;
-    boolean damageindicator;
-    boolean extras;
-    boolean food;
-    boolean gui;
-    boolean minimap_radar;
-    boolean nick;
-    boolean potions;
+    private final boolean animations;
+    private final boolean armor;
+    private final boolean blockbuild;
+    private final boolean chat;
+    private final boolean damageindicator;
+    private final boolean extras;
+    private final boolean food;
+    private final boolean gui;
+    private final boolean minimap_radar;
+    private final boolean nick;
+    private final boolean potions;
 
     public LabyMod() {
         super("LabyMod", Category.CLIENT_CHANEL);

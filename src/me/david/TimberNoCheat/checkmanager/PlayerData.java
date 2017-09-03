@@ -1,6 +1,7 @@
 package me.david.TimberNoCheat.checkmanager;
 
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -35,10 +36,10 @@ public class PlayerData {
    // private long lasttimer;
     private ArrayList<Long> timerms;
     private int togglesneaklastsec;
-    private Map.Entry<Integer, Long> speedticks;
+    /*private Map.Entry<Integer, Long> speedticks;
     private Map.Entry<Integer, Long> speedticksflagt;
     private boolean firstspeed;
-    private boolean firstspeedflag;
+    private boolean firstspeedflag;*/
    // private int timerflag;
     private boolean morepacketsblacklist2;
    // private int fly_nodown;
@@ -57,6 +58,13 @@ public class PlayerData {
     private long lastdead;
     private int commands10sec;
     private int chats10sec;
+    private double jumpspeed;
+    private long startslowdown;
+    private Location startsowdownloc;
+    private Block startbreak;
+    private long startbreaktime;
+    private int ticksonground;
+    private long lastrightclick;
 
     public PlayerData(String uuid) {
         this.uuid = uuid;
@@ -109,6 +117,69 @@ public class PlayerData {
         this.lastdead = System.currentTimeMillis()-15000L;
         this.chats10sec = 0;
         this.commands10sec = 0;
+        this.jumpspeed = 0;
+        this.startslowdown = 0;
+        this.startsowdownloc = null;
+        this.startbreak = null;
+        this.startbreaktime = 0;
+        this.ticksonground = 0;
+        this.lastrightclick = System.currentTimeMillis()-15000L;
+    }
+
+    public long getLastrightclick() {
+        return lastrightclick;
+    }
+
+    public void setLastrightclick(long lastrightclick) {
+        this.lastrightclick = lastrightclick;
+    }
+
+    public int getTicksonground() {
+        return ticksonground;
+    }
+
+    public void setTicksonground(int ticksonground) {
+        this.ticksonground = ticksonground;
+    }
+
+    public Block getStartbreak() {
+        return startbreak;
+    }
+
+    public void setStartbreak(Block startbreak) {
+        this.startbreak = startbreak;
+    }
+
+    public long getStartbreaktime() {
+        return startbreaktime;
+    }
+
+    public void setStartbreaktime(long startbreaktime) {
+        this.startbreaktime = startbreaktime;
+    }
+
+    public long getStartslowdown() {
+        return startslowdown;
+    }
+
+    public void setStartslowdown(long startslowdown) {
+        this.startslowdown = startslowdown;
+    }
+
+    public Location getStartsowdownloc() {
+        return startsowdownloc;
+    }
+
+    public void setStartsowdownloc(Location startsowdownloc) {
+        this.startsowdownloc = startsowdownloc;
+    }
+
+    public double getJumpspeed() {
+        return jumpspeed;
+    }
+
+    public void setJumpspeed(double jumpspeed) {
+        this.jumpspeed = jumpspeed;
     }
 
     public int getCommands10sec() {

@@ -5,23 +5,21 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.Velocity;
-import me.david.api.utils.BlockUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffectType;
 
 public class Fly extends Check {
 
-    boolean vanilla;
-    double vanillavio;
-    double simplevio;
-    boolean simple;
+    final boolean vanilla;
+    final double vanillavio;
+    final double simplevio;
+    final boolean simple;
 
     public Fly(){
         super("Fly", Category.MOVEMENT);

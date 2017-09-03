@@ -23,10 +23,10 @@ import java.math.BigInteger;
 public class Shematica extends Check implements PluginMessageListener {
 
     final String channel = "schematica";
-    boolean block;
-    boolean print;
-    boolean load;
-    boolean save;
+    final boolean block;
+    final boolean print;
+    final boolean load;
+    final boolean save;
     public Shematica(){
         super("Shematica", Category.CLIENT_CHANEL);
         block = getBoolean("block");
@@ -87,9 +87,9 @@ public class Shematica extends Check implements PluginMessageListener {
             if (playerClass.getSimpleName().equals("CraftPlayer")) {
                 Method addChannel = playerClass.getDeclaredMethod("addChannel", String.class);
                 Method removeChannel = playerClass.getDeclaredMethod("removeChannel", String.class);
-                addChannel.invoke((Object)player, channel);
+                addChannel.invoke(player, channel);
                 player.sendPluginMessage(TimberNoCheat.instance, channel, payload);
-                removeChannel.invoke((Object)player, channel);
+                removeChannel.invoke(player, channel);
             }
         }catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();

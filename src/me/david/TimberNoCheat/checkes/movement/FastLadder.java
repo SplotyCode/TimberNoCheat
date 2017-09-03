@@ -4,16 +4,14 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class FastLadder extends Check {
 
-    long msperblock;
-    double cancel_vl;
+    private final long msperblock;
+    private final double cancel_vl;
     public FastLadder(){
         super("", Category.MOVEMENT);
         msperblock = getLong("msperblock");

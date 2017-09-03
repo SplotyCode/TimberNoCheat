@@ -14,16 +14,17 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class NoSwing extends Check{
 
-    long checkdelay;
+    private final long checkdelay;
     public NoSwing(){
         super("NoSwing", Category.INTERACT);
         checkdelay = getLong("checkdelay");
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onInventoryMoveItemEvent(final InventoryMoveItemEvent event) {
         //System.out.println(event.getSource().getHolder() + " " + event.getDestination().getHolder());
-    }
+    }*/
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEvent e){
         if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled() || checkdelay == -1 || e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK){

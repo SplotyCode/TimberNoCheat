@@ -5,9 +5,6 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.Velocity;
-import me.david.api.utils.DateTimeUtil;
-import me.david.api.utils.MathUtil;
-import me.david.api.utils.PlayerUtil;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,18 +17,18 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Killaura extends Check {
 
-    long multi_delay;
-    double defaultrange;
-    double speed;
-    double ping_100_200;
-    double ping_200_250;
-    double ping_250_300;
-    double ping_300_350;
-    double ping_350_400;
-    double ping_over400;
-    double viomodifier;
-    double max_velocity;
-    double lowgroud_mofier;
+    private final long multi_delay;
+    private final double defaultrange;
+    private final double speed;
+    private final double ping_100_200;
+    private final double ping_200_250;
+    private final double ping_250_300;
+    private final double ping_300_350;
+    private final double ping_350_400;
+    private final double ping_over400;
+    private double viomodifier;
+    private double max_velocity;
+    private final double lowgroud_mofier;
 
     public Killaura() {
         super("Killaura", Category.COBMAT);

@@ -4,7 +4,6 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.TimberNoCheat;
-import me.david.api.utils.ArrayCollectUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -12,10 +11,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.ArrayList;
 
 public class Spamming extends Check{
-    boolean ignorecase;
-    boolean ignorecasewhitelist;
-    ArrayList<String> whitelist;
-    int toshort;
+    final boolean ignorecase;
+    final boolean ignorecasewhitelist;
+    final ArrayList<String> whitelist;
+    final int toshort;
     public Spamming(){
         super("Spamming", Category.CHAT);
         ignorecase = getBoolean("ignorecase");

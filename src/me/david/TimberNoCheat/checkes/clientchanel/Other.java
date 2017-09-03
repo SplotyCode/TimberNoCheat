@@ -5,7 +5,6 @@ import com.google.common.io.ByteStreams;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
-import me.david.api.utils.StringUtil;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
@@ -20,28 +19,28 @@ import java.util.ArrayList;
 
 public class Other extends Check implements PluginMessageListener {
 
-    final String chanelZIG = "5zig_Set";
-    final String chanelBSPRINT = "BSprint";
-    final String chanelBSM = "BSM";
-    final String chanelWDLINIT = "WDL|INIT";
-    final String chanelWDLCONTROL = "WDL|CONTROL";
-    final String chanelMCBRAND = "MC|Brand";
-    final String chanelWDLREQ = "WDL|REQUEST";
-    final String chanelFML = "FML";
-    final String chanelFMLHS = "FMLHS";
-    boolean betterpvp_block;
-    boolean reiminimap_block;
-    boolean damageindicators_block;
-    boolean voxelmap_block;
-    boolean smartmoving_block;
-    boolean zig5_kick;
-    boolean wdl_kick;
-    boolean bsprint_kick;
-    boolean bsm_kick;
-    boolean fml_kick;
-    boolean liteloader_kick;
+    private final String chanelZIG = "5zig_Set";
+    private final String chanelBSPRINT = "BSprint";
+    private final String chanelBSM = "BSM";
+    private final String chanelWDLINIT = "WDL|INIT";
+    private final String chanelWDLCONTROL = "WDL|CONTROL";
+    private final String chanelMCBRAND = "MC|Brand";
+    private final String chanelWDLREQ = "WDL|REQUEST";
+    private final String chanelFML = "FML";
+    private final String chanelFMLHS = "FMLHS";
+    private final boolean betterpvp_block;
+    private final boolean reiminimap_block;
+    private final boolean damageindicators_block;
+    private final boolean voxelmap_block;
+    private final boolean smartmoving_block;
+    private final boolean zig5_kick;
+    private final boolean wdl_kick;
+    private final boolean bsprint_kick;
+    private final boolean bsm_kick;
+    private final boolean fml_kick;
+    private final boolean liteloader_kick;
 
-    ArrayList<String>jsons = new ArrayList<String>();
+    private final ArrayList<String>jsons = new ArrayList<String>();
 
     @Override
     public void onPluginMessageReceived(String chanel, Player player, byte[] bytes) {

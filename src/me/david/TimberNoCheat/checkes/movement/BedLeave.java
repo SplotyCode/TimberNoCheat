@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerBedLeaveEvent;
 
 public class BedLeave extends Check{
 
-    int maxrange;
+    private final int maxrange;
     public BedLeave(){
         super("BedLeave", Category.MOVEMENT);
         maxrange = getInt("maxrange");

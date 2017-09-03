@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 public class Regen extends Check {
 
-    long delay;
+    final long delay;
     public Regen(){
         super("Regen", Category.COBMAT);
         delay = getLong("delay");

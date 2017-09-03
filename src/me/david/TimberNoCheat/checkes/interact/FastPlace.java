@@ -12,7 +12,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class FastPlace extends Check{
 
-    int persecond;
+    private final int persecond;
     public FastPlace(){
         super("FastPlace", Category.INTERACT);
         persecond = getInt("persecond");

@@ -9,8 +9,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class Blink extends Check{
 
-    double maxrangetp;
-    double maxrangemove;
+    private final double maxrangetp;
+    private final double maxrangemove;
     public Blink(){
         super("Blink", Category.MOVEMENT);
         maxrangetp = getDouble("maxrangetp");

@@ -2,20 +2,16 @@ package me.david.TimberNoCheat.checkmanager;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkes.combat.*;
-import me.david.TimberNoCheat.checkes.interact.BreakCovered;
+import me.david.TimberNoCheat.checkes.interact.*;
 import me.david.TimberNoCheat.checkes.chat.*;
 import me.david.TimberNoCheat.checkes.clientchanel.LabyMod;
 import me.david.TimberNoCheat.checkes.clientchanel.Other;
 import me.david.TimberNoCheat.checkes.clientchanel.Shematica;
 import me.david.TimberNoCheat.checkes.exploits.*;
-import me.david.TimberNoCheat.checkes.interact.FastPlace;
-import me.david.TimberNoCheat.checkes.interact.Interact;
-import me.david.TimberNoCheat.checkes.interact.NoSwing;
 import me.david.TimberNoCheat.checkes.movement.*;
 import me.david.TimberNoCheat.checkes.other.*;
 import me.david.TimberNoCheat.checkes.player.*;
 import me.david.TimberNoCheat.checktools.Tps;
-import me.david.api.utils.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -80,11 +76,19 @@ public class CheckManager {
         register(new FastLadder());
         register(new Respawn());
         register(new VanillaBug());
+        register(new FreeCam());
+        register(new NoFall());
+        register(new BreakReach());
+        register(new PlaceReach());
+        register(new InteractReach());
+        register(new Scaffold());
+        register(new Break());
+        register(new RightClickTimer());
     }
     public void execute(String cmd, String player){
         if(!cmd.equals("")){
-            cmd.replaceAll("/", "");
-            cmd.replaceAll("%player%", player);
+            cmd = cmd.replaceAll("/", "");
+            cmd = cmd.replaceAll("%player%", player);
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
         }
     }
@@ -145,7 +149,7 @@ public class CheckManager {
     public String getpingcolor(Player p){
         int ping = getping(p);
         if(ping < 80){
-            return "§a"+;
+            return "§a"+ping;
         }else if(ping < 160){
             return "§e"+ping;
         }

@@ -1,8 +1,6 @@
 package me.david.TimberNoCheat.checktools;
 
 import me.david.TimberNoCheat.TimberNoCheat;
-import me.david.api.commands.Checker;
-import me.david.api.commands.Command;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

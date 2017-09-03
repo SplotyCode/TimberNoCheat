@@ -10,8 +10,10 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 
 public class FastSwitch extends Check {
 
+    final long delay;
     public FastSwitch(){
         super("FastSwitch", Category.PLAYER);
+        delay = getLong("delay");
     }
 
     @EventHandler
@@ -25,10 +27,11 @@ public class FastSwitch extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         long delay = System.currentTimeMillis()-pd.getLastitemwsitch();
-        if(delay < TimberNoCheat.instance.settings.player_fastswitch_delaymili){
-            TimberNoCheat.checkmanager.notify(this, p, " §6DELAY: §b" + delay);
-            pd.setLastitemwsitch(System.currentTimeMillis()-15000L);
-            return;
+        if(delay < this.delay){
+            updatevio(this, p, 1, " §6DELAY: §b" + delay);
+            //TimberNoCheat.checkmanager.notify(this, p, " §6DELAY: §b" + delay);
+            //pd.setLastitemwsitch(System.currentTimeMillis()-15000L);
+            e.setCancelled(true);
         }
         pd.setLastitemwsitch(System.currentTimeMillis());
     }

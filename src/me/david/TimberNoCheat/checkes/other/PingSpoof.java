@@ -3,7 +3,6 @@ package me.david.TimberNoCheat.checkes.other;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
-import me.david.api.utils.NumberUtil;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,15 +11,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 public class PingSpoof extends Check {
 
-    int maxrealping;
-    int movespeed;
-    int interactspeed;
+    private final int maxrealping;
+    private final int movespeed;
+    private final int interactspeed;
     public PingSpoof(){
         super("PingSpoof", Category.OTHER);
         maxrealping = getInt("maxrealping");

@@ -11,8 +11,20 @@ import org.bukkit.entity.Player;
 
 public class SkinBlinker extends Check {
 
+    final boolean sprint;
+    final boolean sneak;
+    final boolean block;
+    final boolean sleep;
+    final boolean cursor;
+    final long move_delay;
     public SkinBlinker(){
         super("SkinBlinker", Category.PLAYER);
+        sprint = getBoolean("sprint");
+        sneak = getBoolean("sneak");
+        block = getBoolean("block");
+        sleep = getBoolean("sleep");
+        cursor = getBoolean("cursor");
+        move_delay = getLong("move_delay");
         TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, new PacketType[]{PacketType.Play.Client.SETTINGS}) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
@@ -28,24 +40,29 @@ public class SkinBlinker extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         long delay = System.currentTimeMillis() - pd.getLastmove();
-        if(delay < TimberNoCheat.instance.settings.player_skinblinker_movemindelay){
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bMOVE", " §6DELAY: §b" + delay);
+        if(delay < move_delay){
+            updatevio(this, p, 1, " §6CHECK: §bMOVE", " §6DELAY: §b" + delay);
+            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bMOVE", " §6DELAY: §b" + delay);
             return true;
         }
-        if(p.isSneaking() && TimberNoCheat.instance.settings.player_skinblinker_sneak){
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSNEAKING");
+        if(p.isSneaking() && sneak){
+            updatevio(this, p, 1, " §6CHECK: §bSNEAKING");
+            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSNEAKING");
             return true;
         }
-        if(p.isSprinting() && TimberNoCheat.instance.settings.player_skinblinker_sprint){
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSPRINT");
+        if(p.isSprinting() && sprint){
+            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSPRINT");
+            updatevio(this, p, 1, " §6CHECK: §bSPRINT");
             return true;
         }
-        if(p.isBlocking() && TimberNoCheat.instance.settings.player_skinblinker_block){
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bBLOCK");
+        if(p.isBlocking() && block){
+            updatevio(this, p, 1, " §6CHECK: §bBLOCK");
+            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bBLOCK");
             return true;
         }
-        if(p.isSleeping() && TimberNoCheat.instance.settings.player_skinblinker_sleep){
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSLEEP");
+        if(p.isSleeping() && sleep){
+            updatevio(this, p, 1, " §6CHECK: §bSLEEP");
+            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSLEEP");
             return true;
         }
         return false;

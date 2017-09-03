@@ -450,6 +450,80 @@ noswing:
    vioactions:
       "1:NOTIFY"
       "2:KICK:NoSwing?"
+breakreach:
+   enable: true
+   distancenormal: 5.2
+   distancecreative: 5.6
+   vlmodi: 4.5
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 12000
+   vioactions:
+      "1:NOTIFY"
+placereach:
+   enable: true
+   distancenormal: 5.2
+   distancecreative: 5.6
+   vlmodi: 4.5
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 12000
+   vioactions:
+      "1:NOTIFY"
+interactreach:
+   enable: true
+   distancenormal: 5.2
+   distancecreative: 5.6
+   vlmodi: 4.5
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 12000
+   vioactions:
+      "1:NOTIFY"
+scaffold:
+   enable: true
+   max_ping: 400
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 6800
+   vioactions:
+      "1:NOTIFY"
+#TODO: Vanilla is?
+rightclicktimer:
+   enable: true
+   delay: 22
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 6800
+   vioactions:
+      "1:NOTIFY"
+break:
+   enable: true
+   //in creative you cannot break blocks with a sword in the hand
+   creativesword:
+         enable: true
+         vio: 15
+   notstart:
+      enable: true
+      vio: 10
+   notequls:
+      enable: true
+      vio: 10
+   time:
+      enable: true
+      vio: 10
+      timenormal: 22000
+      timeobsidian: 260000
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 16000
+   vioactions:
+      "1:NOTIFY"
 #[DE-EN]---------------[DE-EN]
 #[DE-EN]---------------[DE-EN]
 #[DE-EN]Movement Checks[DE-EN]
@@ -587,6 +661,12 @@ speed:
      enable: true
      viomodi: 40
      maxpersecond: 12
+   jump:
+     enable: true
+     first: 0.4199998697815
+     second:  0.33319999363422426
+     jump: 5
+     viomodi:
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -594,6 +674,16 @@ speed:
    vioactions:
       "1:NOTIFY"
 step:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:STEP!"
+
+nofall:
    enable: true
    max_ping: -1
    min_tps: -1
@@ -677,3 +767,100 @@ badpackets:
    vioactions:
       "1:NOTIFY"
       "6:KICK:BadPackets"
+cheststealer:
+   enable: true
+   delay: 190
+   consisdent:
+      enable: true
+      cacheinmilis: 8000
+      maxdelaymilis: 2
+      maxcachesize: 12
+      mincachesize: 5
+   max_ping: 400
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 12000
+   vioactions:
+      "1:NOTIFY"
+fasteat:
+   enable: true
+   delay: 1200
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 20000
+   vioactions:
+      "1:NOTIFY"
+fastswitch:
+   enable: true
+   delay: 50
+   max_ping: 400
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 20000
+   vioactions:
+      "1:NOTIFY"
+inventory:
+   enable: true
+   sneaking: true
+   move_delay: 90
+   sprint: true
+   block: true
+   sleep: true
+   portalclick: true
+   portalopen: true
+   openinvchat: true
+   openinvhit: true
+   hitdelay: 190
+   chatdelay: 900
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"
+      "1:KICK:INVENTORY"
+morepackets:
+   enable: true
+   elapsed: 1000
+   maxpackets: 49
+   blacklistadd: 100
+   blacklistremove: 1
+   worlddownloadingdelayinticks: 45
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 2000
+   vioactions:
+      "1:NOTIFY"
+respawn:
+   enable: true
+   delay: 850
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 25000
+   vioactions:
+      "1:NOTIFY"
+skinblinker:
+   enable: true
+   sprint: true
+   sneak: true
+   block: true
+   sleep: true
+   cursor: true
+   move_delay: 1200
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 8500
+   vioactions:
+      "1:NOTIFY"
+freecam:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      "1:NOTIFY"

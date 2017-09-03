@@ -12,10 +12,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class Delay extends Check{
 
-    public int chats10;
-    private long delaysmall;
-    private long delaybig;
-    private int delayschwelle;
+    public final int chats10;
+    private final long delaysmall;
+    private final long delaybig;
+    private final int delayschwelle;
     public Delay(){
         super("Delay", Category.CHAT);
         delayschwelle = getInt("schwelle");

@@ -13,8 +13,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class FightSpeed extends Check{
 
-    int hitspersecond;
-    int interactspersecond;
+    private final int hitspersecond;
+    private final int interactspersecond;
     public FightSpeed(){
         super("FightSpeed", Category.COBMAT);
         hitspersecond = getInt("hitspersecond");

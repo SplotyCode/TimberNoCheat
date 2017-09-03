@@ -12,8 +12,8 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class CommandDelay extends Check{
 
-    public int commands10;
-    private long delay;
+    private final int commands10;
+    private final long delay;
     public CommandDelay(){
         super("CommandDelay", Category.CHAT);
         commands10 = getInt("in10seconds");
@@ -22,7 +22,7 @@ public class CommandDelay extends Check{
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onCommand(PlayerCommandPreprocessEvent e){
-        final Player p = (Player) e.getPlayer();
+        final Player p = e.getPlayer();
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }

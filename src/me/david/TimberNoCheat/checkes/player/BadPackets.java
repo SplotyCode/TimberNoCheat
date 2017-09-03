@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class BadPackets extends Check {
 
-    int max_moves;
+    private final int max_moves;
     public BadPackets(){
         super("BadPackets", Category.PLAYER);
         max_moves = getInt("max_moves");

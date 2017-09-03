@@ -10,8 +10,10 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class Respawn extends Check {
 
+    private final long mdelay;
     public Respawn(){
         super("Respawn", Category.PLAYER);
+        mdelay = getLong("delay");
     }
 
     @EventHandler
@@ -22,9 +24,10 @@ public class Respawn extends Check {
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer());
         long delay = System.currentTimeMillis()-pd.getLastdead();
         //message nicht vergessen :D wenn neie config
-        if(850 > delay){
+        if(mdelay > delay){
             pd.setLastdead(System.currentTimeMillis()-15000L);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6DELAY: §b" + delay, " §6MAXDELAY: §b850");
+            updatevio(this, e.getPlayer(), delay-mdelay, " §6DELAY: §b" + delay, " §6MAXDELAY: §b" + mdelay);
+            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6DELAY: §b" + delay, " §6MAXDELAY: §b" + mdelay);
         }
     }
     @EventHandler

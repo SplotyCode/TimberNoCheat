@@ -11,7 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 public class Nuker extends Check {
 
-    int maxblockpersec;
+    private final int maxblockpersec;
     public Nuker(){
         super("Nuker", Category.OTHER);
         maxblockpersec = getInt("maxblockpersec");

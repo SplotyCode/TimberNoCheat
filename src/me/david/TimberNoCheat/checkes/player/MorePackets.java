@@ -7,7 +7,6 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
-import me.david.api.utils.DateTimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -20,8 +19,18 @@ import java.util.AbstractMap;
 
 public class MorePackets extends Check {
 
+    final long elapsed;
+    final int maxpackets;
+    final long blacklistadd;
+    final long blacklistremove;
+    final long worlddownloadingdelayinticks;
     public MorePackets(){
         super("MorePackets", Category.PLAYER);
+        elapsed = getLong("elapsed");
+        maxpackets = getInt("maxpackets");
+        blacklistadd = getLong("blacklistadd");
+        blacklistremove = getLong("blacklistremove");
+        worlddownloadingdelayinticks = getLong("worlddownloadingdelayinticks");
         TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, new PacketType[]{PacketType.Play.Client.POSITION_LOOK}) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
@@ -82,7 +91,7 @@ public class MorePackets extends Check {
             public void run() {
                 pd.setMorepacketsblacklist2(false);
             }
-        }, TimberNoCheat.instance.settings.player_morepackets_worlddownloadingdelayinticks);
+        }, worlddownloadingdelayinticks);
     }
     public boolean check(Player p){
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
@@ -97,19 +106,20 @@ public class MorePackets extends Check {
 
         if(pd.getLastpacket() != 0){
             long delay = System.currentTimeMillis() - pd.getLastpacket();
-            if(delay >= TimberNoCheat.instance.settings.player_morepackets_blacklistadd) {
+            if(delay >= blacklistadd) {
                 pd.setMorepacketblacklist(true);
-            } else if(delay > TimberNoCheat.instance.settings.player_morepackets_blacklistremove) {
+            } else if(delay > blacklistremove) {
                 pd.setMorepacketblacklist(false);
             }
         }
 
         if(!pd.isMorepacketblacklist() && !pd.isMorepacketsblacklist2()) {
             ++count;
-            if(pd.getLastpacket() != 0 && DateTimeUtil.elapsed(time, TimberNoCheat.instance.settings.player_morepackets_elapsed)) {
-                if(count > TimberNoCheat.instance.settings.player_morepackets_maxpackets) {
+            if(pd.getLastpacket() != 0 && DateTimeUtil.elapsed(time, elapsed)) {
+                if(count > maxpackets) {
                     //flag
-                    TimberNoCheat.checkmanager.notify(this, p, " §6PACKETS: §b" + count);
+                    updatevio(this, p, maxpackets-count, " §6PACKETS: §b" + count);
+                    //TimberNoCheat.checkmanager.notify(this, p, " §6PACKETS: §b" + count);
                     pd.setMorepackets(new AbstractMap.SimpleEntry<Integer, Long>(0, System.currentTimeMillis()));
                     pd.setLastpacket(System.currentTimeMillis());
                     return true;

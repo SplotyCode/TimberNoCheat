@@ -8,13 +8,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import comphenix.packetwrapper.WrapperLoginClientEncryptionBegin;
-import comphenix.packetwrapper.WrapperLoginClientStart;
-import comphenix.tinyprotocol.Reflection;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
-import me.david.api.utils.CryptoUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,16 +28,16 @@ import java.util.logging.Level;
 
 public class MCLeaks extends Check{
 
-    public LoadingCache<String, Boolean> caches = null;
-    public LoadingCache<InetSocketAddress, String> names = null;
+    private LoadingCache<String, Boolean> caches = null;
+    private LoadingCache<InetSocketAddress, String> names = null;
 
-    public KeyPair serverKey;
-    public Object service;
+    private KeyPair serverKey;
+    private Object service;
 
-    public Class<?> classMinecraftSessionService = null;
-    public Class<?> classHasJoinedMinecraftServerResponse = null;
-    public Class<?> classYggdrasilMinecraftSessionService = null;
-    public Class<?> classYggdrasilAuthenticationService = null;
+    private Class<?> classMinecraftSessionService = null;
+    private Class<?> classHasJoinedMinecraftServerResponse = null;
+    private Class<?> classYggdrasilMinecraftSessionService = null;
+    private Class<?> classYggdrasilAuthenticationService = null;
 
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent e) {

@@ -8,8 +8,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class Derb extends Check{
 
-    double minpitch;
-    double maxpitch;
+    private final double minpitch;
+    private final double maxpitch;
     public Derb(){
         super("Derb", Category.MOVEMENT);
         minpitch = getDouble("minpitch");

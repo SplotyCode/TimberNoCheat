@@ -2,7 +2,6 @@ package me.david.TimberNoCheat;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.google.common.io.ByteStreams;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.CheckManager;
 import me.david.TimberNoCheat.checktools.TNCCommand;
@@ -11,7 +10,6 @@ import me.david.TimberNoCheat.config.Config;
 import me.david.TimberNoCheat.config.old_Settings;
 import me.david.TimberNoCheat.checktools.Tps;
 import me.david.TimberNoCheat.listener.JoinLeave;
-import me.david.api.commands.CommandManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;

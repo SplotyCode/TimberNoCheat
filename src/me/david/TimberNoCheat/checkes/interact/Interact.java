@@ -3,8 +3,6 @@ package me.david.TimberNoCheat.checkes.interact;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
-import me.david.api.utils.BlockUtil;
-import me.david.api.utils.PlayerUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,15 +14,15 @@ import java.util.Set;
 
 public class Interact extends Check {
 
-    boolean visible;
-    boolean visibleblocks;
-    boolean liquids;
-    boolean dead;
-    boolean itemcursor;
-    boolean sleep;
-    boolean block;
-    boolean openinv;
-    boolean gost;
+    private final boolean visible;
+    private final boolean visibleblocks;
+    private final boolean liquids;
+    private final boolean dead;
+    private final boolean itemcursor;
+    private final boolean sleep;
+    private final boolean block;
+    private final boolean openinv;
+    private final boolean gost;
 
     public Interact(){
         super("Interact", Category.INTERACT);

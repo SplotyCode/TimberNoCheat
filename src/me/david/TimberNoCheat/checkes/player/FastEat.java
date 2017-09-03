@@ -13,9 +13,11 @@ import java.util.ArrayList;
 
 public class FastEat extends Check{
 
-    public ArrayList<Material>food = new ArrayList<Material>();
+    private final long delay;
+    public static final ArrayList<Material>food = new ArrayList<Material>();
     public FastEat(){
         super("FastEat", Category.PLAYER);
+        delay = getLong("delay");
         food.add(Material.APPLE);
         food.add(Material.MUSHROOM_SOUP);
         food.add(Material.BREAD);
@@ -48,9 +50,10 @@ public class FastEat extends Check{
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer());
         long delay = System.currentTimeMillis()-pd.getLasteat();
-        if(delay < TimberNoCheat.instance.settings.player_fasteat_delay){
+        if(delay < this.delay){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6DELAY: §b" + delay);
+            updatevio(this, e.getPlayer(), 1, " §6DELAY: §b" + delay);
+            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6DELAY: §b" + delay);
             return;
         }
         pd.setLasteat(System.currentTimeMillis());
