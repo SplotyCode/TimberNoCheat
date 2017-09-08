@@ -22,9 +22,6 @@ public class FastSwitch extends Check {
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }
-        if(TimberNoCheat.checkmanager.getping(p) >= TimberNoCheat.instance.settings.player_fastswitch_maxping){
-            return;
-        }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         long delay = System.currentTimeMillis()-pd.getLastitemwsitch();
         if(delay < this.delay){

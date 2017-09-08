@@ -24,6 +24,7 @@ public class Rotate extends Check {
                  PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
                  float pitch = event.getPacket().getFloat().read(1);
                  float yaw = event.getPacket().getFloat().read(0);
+                 //System.out.println(yaw + " " + pitch + " " + pd.getLastpitch() + " " + pd.getLastyaw());
                  //System.out.println("1 " + event.getPacket().getFloat().read(1) + " " + event.getPacket().getFloat().read(0) + " " + pd.getLastyaw() + " " + pd.getLastpitch());
                  if (pd.getLastpitch() == pitch && pd.getLastyaw() == yaw){
                      updatevio(Rotate.this, p, 1, " §6MODE: §bEQUALS");

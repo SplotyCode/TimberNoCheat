@@ -3,6 +3,7 @@ package me.david.TimberNoCheat.checkes.movement;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
+import me.david.api.utils.BlockUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,8 +12,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class Clip extends Check{
 
+    private boolean onlyfull;
     public Clip(){
         super("Clip", Category.MOVEMENT);
+        onlyfull = getBoolean("onlyfullblocks");
     }
 
     @EventHandler
@@ -60,7 +63,7 @@ public class Clip extends Check{
     }
     public boolean checkblock(Location l){
         if(l.getBlock() != null && l.getBlock().getType().isSolid() && l.getBlock().getType().isBlock() && l.getBlock().getType() != Material.AIR) {
-            if(TimberNoCheat.instance.settings.movement_clip_onlyfullblocks){
+            if(!onlyfull){
                 if(!BlockUtil.HOLLOW_MATERIALS.contains(l.getBlock().getType())){
                     return true;
                 }

@@ -3,6 +3,7 @@ package me.david.TimberNoCheat.checkes.interact;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
+import me.david.api.utils.PlayerUtil;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,10 +25,10 @@ public class InteractReach extends Check {
     @EventHandler
     public void oninteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
+        if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.getClickedBlock() == null){
             return;
         }
-        final double reach = e.getBlock().getLocation().distance(PlayerUtils.geteyebla);
+        final double reach = e.getClickedBlock().getLocation().distance(PlayerUtil.getEyeLocation(p));
         final double maxreach = p.getGameMode() == GameMode.CREATIVE?distancecreative:distancenormal;
         if(reach > maxreach){
             e.setCancelled(true);

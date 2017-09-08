@@ -9,6 +9,11 @@ import java.util.logging.Level;
 
 public class Config {
 
+    /*
+    Create Config if not exists
+    Check config Version
+    Load Prefix
+     */
     public static boolean check(File f, final int version, InputStream in){
         if(!f.exists()){
             TimberNoCheat.instance.getLogger().log(Level.INFO, "Creating Config File!");

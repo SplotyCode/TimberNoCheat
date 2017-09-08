@@ -32,7 +32,8 @@ public class VanillaBug extends Check {
     }
     @EventHandler
     public void onInteract(PlayerInteractEvent e){
-        if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getItem() == null || !fences.contains(e.getClickedBlock().getType()) && e.getItem().getType().isBlock()) {
+        System.out.println(!fences.contains(e.getClickedBlock().getType()));
+        if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getItem() == null || !fences.contains(e.getClickedBlock().getType()) && !e.getItem().getType().isBlock()) {
             return;
         }
         e.setCancelled(true);

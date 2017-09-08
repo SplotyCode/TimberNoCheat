@@ -10,6 +10,7 @@ import me.david.TimberNoCheat.config.Config;
 import me.david.TimberNoCheat.config.old_Settings;
 import me.david.TimberNoCheat.checktools.Tps;
 import me.david.TimberNoCheat.listener.JoinLeave;
+import me.david.api.commands.CommandManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -21,10 +22,17 @@ public class TimberNoCheat extends JavaPlugin{
     public static CheckManager checkmanager;
     public String prefix = "§7[§9T§cN§eC§7] §6";
     public final File config = new File(getDataFolder() + "/config.yml");
-    public old_Settings settings;
+    //public old_Settings settings;
     public ProtocolManager protocolmanager;
     public boolean crash = false;
 
+    /*
+    Init ProtocollLib
+    Starting TPS and Velocity Scheduler
+    Check and load Config
+    Register Commands and Listener
+    Enable Checks
+     */
     @Override
     public void onEnable() {
         protocolmanager = ProtocolLibrary.getProtocolManager();
@@ -41,14 +49,19 @@ public class TimberNoCheat extends JavaPlugin{
             setEnabled(false);
             return;
         }
-        settings = new old_Settings();
+        //settings = new old_Settings();
         checkmanager = new CheckManager();
         getServer().getPluginManager().registerEvents(new JoinLeave(), this);
-        getServer().getPluginManager().registerEvents(new Velocity(), this);
+        getServer().getPluginManager().registerEvents(new Velocity(this), this);
         CommandManager.commands.add(new TNCCommand());
-        getLogger().log(Level.INFO, "Es wurden " + checkmanager.checks.size() + " module geladen mit vielen unterchecks!");
+        new Velocity(this);
+        System.out.println("[TimberNoCheat] Es wurden " + checkmanager.checks.size() + " module geladen mit vielen unterchecks!");
     }
 
+    /*
+    Disable Checks
+    Remove Protocolllib Listener
+     */
     @Override
     public void onDisable() {
         if(crash){

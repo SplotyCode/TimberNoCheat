@@ -4,6 +4,7 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.TimberNoCheat;
+import me.david.api.utils.ArrayCollectUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;

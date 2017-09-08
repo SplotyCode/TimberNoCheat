@@ -2,6 +2,9 @@ package me.david.TimberNoCheat.checktools;
 
 public class Tps implements Runnable{
 
+    /*
+    Class for Checking current server tps
+     */
     public static int tickcount = 0;
     public static long[] ticks = new long[600];
 

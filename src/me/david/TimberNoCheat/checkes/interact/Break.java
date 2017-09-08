@@ -56,7 +56,7 @@ public class Break extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        InteractTool.Tool hand = InteractTool.getToolbyMaterial(p.getItemInHand().getType());
+        InteractTool.Tool hand = p.getItemInHand() == null?null:InteractTool.getToolbyMaterial(p.getItemInHand().getType());
         if(csenable && p.getGameMode() == GameMode.CREATIVE && hand != null && hand.getToolType() == InteractTool.ToolType.SWORD){
             e.setCancelled(true);
             updatevio(this, p, csvio, " §6CHECK: §bCREATIVESWORD");
@@ -66,7 +66,7 @@ public class Break extends Check {
             updatevio(this, p, nsvio, " §6CHECK: §bNOTSTART");
             return;
         }
-        if(neenable && pd.getStartbreak().getLocation() != e.getBlock().getLocation()){
+        if(neenable && !pd.getStartbreak().getLocation().equals(e.getBlock().getLocation())){
             e.setCancelled(true);
             updatevio(this, p, nevio, " §6CHECK: §bNOTEQULS");
             return;

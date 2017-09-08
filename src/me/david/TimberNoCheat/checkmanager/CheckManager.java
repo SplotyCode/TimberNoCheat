@@ -12,6 +12,7 @@ import me.david.TimberNoCheat.checkes.movement.*;
 import me.david.TimberNoCheat.checkes.other.*;
 import me.david.TimberNoCheat.checkes.player.*;
 import me.david.TimberNoCheat.checktools.Tps;
+import me.david.api.utils.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -27,6 +28,9 @@ public class CheckManager {
     public ArrayList<Player> notify = new ArrayList<Player>();
     public ArrayList<Player> tocheck = new ArrayList<Player>();
 
+    /*
+    register/starting checks
+     */
     public CheckManager(){
         register(new Address());
         register(new Delay());
@@ -116,6 +120,7 @@ public class CheckManager {
         TimberNoCheat.instance.getServer().getPluginManager().registerEvents(check, TimberNoCheat.instance);
     }
     public void unregister(Check check) {
+        check.disable();
         checks.remove(check);
         HandlerList.unregisterAll(check);
     }

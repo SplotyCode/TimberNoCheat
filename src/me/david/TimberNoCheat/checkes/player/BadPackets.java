@@ -24,6 +24,8 @@ public class BadPackets extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        if(!e.getTo().getWorld().getName().equals(e.getFrom().getWorld().getName()))return;
+        if(!(e.getTo().getX() != e.getFrom().getX() || e.getTo().getZ() != e.getFrom().getZ() || e.getTo().getY() != e.getFrom().getY()))return;
         pd.setMoveslastticks(pd.getMoveslastticks()+1);
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
             @Override
@@ -32,7 +34,7 @@ public class BadPackets extends Check {
             }
         }, 3);
         if(pd.getMoveslastticks() > max_moves){
-            updatevio(this, p, (pd.getMoveslastticks()-TimberNoCheat.instance.settings.player_badpackets_maxmoves)/2);
+            updatevio(this, p, (pd.getMoveslastticks()-max_moves)/2);
             //TimberNoCheat.checkmanager.notify(this, p, " §6LEVEL: §b" + (pd.getMoveslastticks()-TimberNoCheat.instance.settings.player_badpackets_maxmoves)/2);
             //pd.setMoveslastticks(0);
         }

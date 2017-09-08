@@ -3,6 +3,7 @@ package me.david.TimberNoCheat.checkes.interact;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
+import me.david.api.utils.PlayerUtil;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +27,7 @@ public class PlaceReach extends Check {
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }
-        final double reach = e.getBlock().getLocation().distance(PlayerUtils.geteyebla);
+        final double reach = e.getBlock().getLocation().distance(PlayerUtil.getEyeLocation(p));
         final double maxreach = p.getGameMode() == GameMode.CREATIVE?distancecreative:distancenormal;
         if(reach > maxreach){
             e.setCancelled(true);

@@ -89,9 +89,9 @@ address:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:MESSAGE:&cBitte mache keine Werbung!"
-      "1:NOTIFY"
-      "2:KICK:&cBitte mache keine Werbung!"
+      1: "MESSAGE:&cBitte mache keine Werbung!"
+      1: "NOTIFY:&cBitte mache keine Werbung!"
+      2: "KICK:&cBitte mache keine Werbung!"
 #[EN]Clears BlackListed words[EN]
 #[DE]Löscht falsche wörter[DE]
 blacklist:
@@ -102,9 +102,9 @@ blacklist:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:MESSAGE:§cDeine Nachicht enthält schimpfwörter!"
-      "1:NOTIFY"
-      "5:KICK:&cBitte benehme dich!"
+      1: "MESSAGE:§cDeine Nachicht enthält schimpfwörter!"
+      1: "NOTIFY"
+      5: "KICK:&cBitte benehme dich!"
 commanddelay:
    enable: true
    #[DE-EN]commanddelay in ms[DE-EN]
@@ -117,9 +117,9 @@ commanddelay:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:MESSAGE:§cBitte warte ein wenig bis zum nägsten command!"
-      "1:NOTIFY"
-      "3:KICK:&cBitte spamme nicht!"
+      1: "MESSAGE:§cBitte warte ein wenig bis zum nägsten command!"
+      1: "NOTIFY"
+      3: "KICK:&cBitte spamme nicht!"
 delay:
    enable: true
    #[DE-EN]commanddelay in ms[DE-EN]
@@ -136,9 +136,9 @@ delay:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:MESSAGE:§cBitte warte ein wenig bis zur nägsten Nachicht!"
-      "1:NOTIFY"
-      "3:KICK:&cBitte spamme nicht!"
+      1: "MESSAGE:§cBitte warte ein wenig bis zur nägsten Nachicht!"
+      1: "NOTIFY"
+      3: "KICK:&cBitte spamme nicht!"
 spamming:
    enable: true
    #[DE]Gross und Kleinschreibung ignorieren?[DE]
@@ -158,9 +158,9 @@ spamming:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:MESSAGE:§cBitte wiederhole dich nicht!"
-      "1:NOTIFY"
-      "6:KICK:&cBitte wiederhole dich nicht!"
+      1: "MESSAGE:§cBitte wiederhole dich nicht!"
+      1: "NOTIFY"
+      6: "KICK:&cBitte wiederhole dich nicht!"
 #[DE-EN]--------------------[DE-EN]
 #[DE-EN]--------------------[DE-EN]
 #[DE-EN]Clientchannel Checks[DE-EN]
@@ -186,7 +186,7 @@ labymod:
    #[DE]Dieses Modul schweisst keine violations[DE]
    #[EN]This module dont throws violations[EN]
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 shematica:
    enable: true
    load: true
@@ -198,8 +198,8 @@ shematica:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:&cBitte deninstaliere Shematica"
+      1: "NOTIFY"
+      1: "KICK:&cBitte deninstaliere Shematica"
 other:
    enable: true
    betterpvp_block: false
@@ -220,7 +220,7 @@ other:
    #[DE]Nur Mods die man kicken kann werfen Violations[DE]
    #[EN]Only Mods that can be kicked thorows Violations[EN]
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 #[DE-EN]--------[DE-EN]
 #[DE-EN]--------[DE-EN]
 #[EN-DE]Exploits[EN-DE]
@@ -228,15 +228,15 @@ other:
 #[DE-EN]--------[DE-EN]
 
 #[EN-DE]Book op Exploit[EN-DE]
-book:
+book_json:
    enable: true
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:CMD:ban %player% hackclient oder so"
+      1: "NOTIFY"
+      1: "CMD:ban %player% hackclient oder so"
 channels:
    enable: true
    maxchannels: 124
@@ -246,8 +246,8 @@ channels:
    viocachedelay: 4800
    #[EN-DE]maxchannels-channels=violations[EN-DE]
    vioactions:
-      "1:NOTIFY"
-      "12:CMD:ban %player% hackclient oder so"
+      1: "NOTIFY"
+      12: "CMD:ban %player% hackclient oder so"
 charaters:
    enable: true
    rename: true
@@ -258,8 +258,8 @@ charaters:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:MESSAGE:Dieses Zeichen ist nicht erlaubt!"
+      1: "NOTIFY"
+      1: "MESSAGE:Dieses Zeichen ist nicht erlaubt!"
 crasher:
    enable: true
    swingitem: true
@@ -272,9 +272,9 @@ crasher:
    viocachedelay: 6200
    #[EN-DE]max-curennt=violations[EN-DE]
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:ServerCrasher?"
-      "25:CMD:ban %player% ServerCrasher(TNC)"
+      1: "NOTIFY"
+      1: "KICK:ServerCrasher?"
+      25: "CMD:ban %player% ServerCrasher(TNC)"
 #[DE]gerade nur für bücher[DE]
 #[EN]curently only for books[EN]
 nbt:
@@ -292,8 +292,8 @@ nbt:
    viocachedelay: -1
    #[EN-DE]max-curennt=violations[EN-DE]
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:Bitte Deinstaliere deinen Client!"
+      1: "NOTIFY"
+      1: "KICK:Bitte Deinstaliere deinen Client!"
 #[DE]Nur für einen NBT Clints! Bitte nicht mit MorePackets verwegseln![DE]
 #[EN]Only for NBT Clints! It is not the same as MorePackets![EN]
 packet_flood:
@@ -304,8 +304,8 @@ packet_flood:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:Bitte Deinstaliere deinen Client!"
+      1: "NOTIFY"
+      1: "KICK:Bitte Deinstaliere deinen Client!"
 #[DE]Es gibt ein Clinet der Crash Clients macht! Diese Crashen den Server und lassen die Welt nicht mehr laden![DE]
 #[EN]For the Clinet with a SignCrasher it crashs the Server and you can not load the world anymore![EN]
 sign:
@@ -315,8 +315,8 @@ sign:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:Bitte Deinstaliere deinen Client!"
+      1: "NOTIFY"
+      1: "KICK:Bitte Deinstaliere deinen Client!"
 #[DE-EN]-------------[DE-EN]
 #[DE-EN]-------------[DE-EN]
 #[DE-EN]Combat Checks[DE-EN]
@@ -333,8 +333,8 @@ fastbow:
    viocachedelay: 4000
    #[EN-DE]maximum-current=violations[EN-DE]
    vioactions:
-      "1:NOTIFY"
-      "25:KICK:FastBow?"
+      1: "NOTIFY"
+      25: "KICK:FastBow?"
 fightspeed:
    enable: true
    hitspersecond: 16
@@ -342,12 +342,11 @@ fightspeed:
    max_ping: 320
    min_tps: 18
    vioresetafteraction: true
-   viocachedelay: -1
-    viocachedelay: 1300
+   viocachedelay: 1900
    #[EN-DE]maximum-current=violations[EN-DE]
    vioactions:
-      "1:NOTIFY"
-      "23:KICK:Autoclicker?Killaura?"
+      1: "NOTIFY"
+      23: "KICK:Autoclicker?Killaura?"
 killaura:
    enable: true
    #[EN]How fast can you swab the entity? In ms[EN]
@@ -374,8 +373,8 @@ killaura:
    viocachedelay: -1
    viocachedelay: 25000
    vioactions:
-      "1:NOTIFY"
-      "18:KICK:Killaura?"
+      1: "NOTIFY"
+      18: "KICK:Killaura?"
 regen:
    enable: true
    delay: 3000
@@ -384,8 +383,8 @@ regen:
    vioresetafteraction:
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "9:KICK:Regen?"
+      1: "NOTIFY"
+      9: "KICK:Regen?"
 selfhit:
    enable: true
    max_ping: -1
@@ -393,8 +392,8 @@ selfhit:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:KP"
+      1: "NOTIFY"
+      1: "KICK:KP"
 #[DE-EN]---------------[DE-EN]
 #[DE-EN]---------------[DE-EN]
 #[DE-EN]Interact Checks[DE-EN]
@@ -407,8 +406,8 @@ breakcovered:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "4:KICK:KP"
+      1: "NOTIFY"
+      4: "KICK:KP"
 fastplace:
    enable: true
    #aac = 10
@@ -418,8 +417,8 @@ fastplace:
    vioresetafteraction: true
    viocachedelay: 3200
    vioactions:
-      "1:NOTIFY"
-      "4:KICK:FastPlace"
+      1: "NOTIFY"
+      4: "KICK:FastPlace"
 interact:
    enable: true
    visible: true
@@ -438,18 +437,18 @@ interact:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:Interact"
+      1: "NOTIFY"
+#1: "KICK:Interact"
 #curently throws false positives
 noswing:
-   enable: true
+   enable: false
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: 12000
    vioactions:
-      "1:NOTIFY"
-      "2:KICK:NoSwing?"
+      1: "NOTIFY"
+      2: "KICK:NoSwing?"
 breakreach:
    enable: true
    distancenormal: 5.2
@@ -460,7 +459,7 @@ breakreach:
    vioresetafteraction: true
    viocachedelay: 12000
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 placereach:
    enable: true
    distancenormal: 5.2
@@ -471,18 +470,18 @@ placereach:
    vioresetafteraction: true
    viocachedelay: 12000
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 interactreach:
    enable: true
-   distancenormal: 5.2
-   distancecreative: 5.6
+   distancenormal: 5.3
+   distancecreative: 5.7
    vlmodi: 4.5
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: 12000
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 scaffold:
    enable: true
    max_ping: 400
@@ -490,7 +489,7 @@ scaffold:
    vioresetafteraction: true
    viocachedelay: 6800
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 #TODO: Vanilla is?
 rightclicktimer:
    enable: true
@@ -500,10 +499,10 @@ rightclicktimer:
    vioresetafteraction: true
    viocachedelay: 6800
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 break:
    enable: true
-   //in creative you cannot break blocks with a sword in the hand
+   #in creative you cannot break blocks with a sword in the hand
    creativesword:
          enable: true
          vio: 15
@@ -523,7 +522,7 @@ break:
    vioresetafteraction: true
    viocachedelay: 16000
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 #[DE-EN]---------------[DE-EN]
 #[DE-EN]---------------[DE-EN]
 #[DE-EN]Movement Checks[DE-EN]
@@ -537,8 +536,8 @@ bedleave:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:KP!(TNC)"
+      1: "NOTIFY"
+      1: "KICK:KP!(TNC)"
 #[EN]Old check its acually not a blink check :D but it detects some longjumps[EN]
 #[DE]Alter Check es ist eingentlich kein blink check :D Aber es erkennt ein paar longjumps[DE]
 blink:
@@ -550,28 +549,29 @@ blink:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:KP!(TNC)"
+      1: "NOTIFY"
+      1: "KICK:KP!(TNC)"
 clip:
    enable: true
+   onlyfullblocks: false
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "3:NOTIFY"
-      "6:KICK:Clip/NoClip(TNC)"
+      3: "NOTIFY"
+      6: "KICK:Clip/NoClip(TNC)"
 derb:
    enable: true
-   minpitch: 91
-   maxpitch: -91
+   minpitch: -91
+   maxpitch: 91
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "3:NOTIFY"
-      "6:KICK:Clip/NoClip(TNC)"
+      3: "NOTIFY"
+      6: "KICK:Derb(TNC)"
 fastladder:
    enable: true
    #(100/42)*1000(https://minecraft-de.gamepedia.com/Leiter)
@@ -585,8 +585,8 @@ fastladder:
    #[DE]Wichtig für cancel_vl![DE]
    viocachedelay: 3000
    vioactions:
-      "1:NOTIFY"
-      "12:KICK:FastLadder(TNC)"
+      1: "NOTIFY"
+#12: "KICK:FastLadder(TNC)"
 fly:
    enable: true
    #modes
@@ -601,8 +601,8 @@ fly:
    vioresetafteraction: true
    viocachedelay: 7800
    vioactions:
-      "2:NOTIFY"
-      "14:KICK:FLY!"
+      2: "NOTIFY"
+      14: "KICK:FLY!"
 jesus:
    enable: true
    #lower = more sesetiv
@@ -613,8 +613,8 @@ jesus:
    viocachedelay: 7800
    #depends on sensitivity
    vioactions:
-      "63:NOTIFY"
-      "180:KICK:Jesus!"
+      63: "NOTIFY"
+      180: "KICK:Jesus!"
 rotate:
    enable: true
    max_ping: -1
@@ -622,8 +622,8 @@ rotate:
    vioresetafteraction: true
    viocachedelay: 8000
    vioactions:
-      "1:NOTIFY"
-      "7:KICK:Illegal Rotations!"
+      1: "NOTIFY"
+      7: "KICK:Illegal Rotations!"
 speed:
    enable: true
    normal:
@@ -652,7 +652,7 @@ speed:
       enable: true
       viomodi: 10
    timer:
-     enbale: true
+     enable: true
      viomodi: 2
      checksize: 20
      #normal average
@@ -672,7 +672,7 @@ speed:
    vioresetafteraction: true
    viocachedelay: 8000
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 step:
    enable: true
    max_ping: -1
@@ -680,18 +680,18 @@ step:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:STEP!"
+      1: "NOTIFY"
+      1: "KICK:STEP!"
 
 nofall:
-   enable: true
+   enable: false
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:STEP!"
+      1: "NOTIFY"
+      1: "KICK:NOFALL!"
 #[DE-EN]------------[DE-EN]
 #[DE-EN]------------[DE-EN]
 #[DE-EN]Other Checks[DE-EN]
@@ -712,7 +712,7 @@ grifing:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 mcleaks:
    enable: true
    max_ping: -1
@@ -720,8 +720,8 @@ mcleaks:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:Not Autorized!"
+      1: "NOTIFY"
+      1: "KICK:Not Autorized!"
 nuker:
    enable: true
    maxblockpersec: 40
@@ -731,7 +731,7 @@ nuker:
    viocachedelay: -1
    #(cur-max)*2
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 pingspoof:
    enable: true
    maxrealping: 120
@@ -742,7 +742,7 @@ pingspoof:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 vanillabug:
    enable: true
    max_ping: -1
@@ -750,8 +750,8 @@ vanillabug:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:MESSAGE:Durch einen Bug in Minecraft darfst du nur mit blöcken auf diesen Block Rechts klicken!"
+      1: "NOTIFY"
+      1: "MESSAGE:Durch einen Bug in Minecraft darfst du nur mit blöcken auf diesen Block Rechts klicken!"
 #[DE-EN]-------------[DE-EN]
 #[DE-EN]-------------[DE-EN]
 #[DE-EN]Player Checks[DE-EN]
@@ -765,8 +765,8 @@ badpackets:
    vioresetafteraction: true
    viocachedelay: 2000
    vioactions:
-      "1:NOTIFY"
-      "6:KICK:BadPackets"
+      1: "NOTIFY"
+      6: "KICK:BadPackets"
 cheststealer:
    enable: true
    delay: 190
@@ -781,7 +781,7 @@ cheststealer:
    vioresetafteraction: true
    viocachedelay: 12000
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 fasteat:
    enable: true
    delay: 1200
@@ -790,7 +790,7 @@ fasteat:
    vioresetafteraction: true
    viocachedelay: 20000
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 fastswitch:
    enable: true
    delay: 50
@@ -799,7 +799,7 @@ fastswitch:
    vioresetafteraction: true
    viocachedelay: 20000
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 inventory:
    enable: true
    sneaking: true
@@ -818,8 +818,8 @@ inventory:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
-      "1:KICK:INVENTORY"
+      1: "NOTIFY"
+      1: "KICK:INVENTORY"
 morepackets:
    enable: true
    elapsed: 1000
@@ -832,7 +832,7 @@ morepackets:
    vioresetafteraction: true
    viocachedelay: 2000
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 respawn:
    enable: true
    delay: 850
@@ -841,7 +841,7 @@ respawn:
    vioresetafteraction: true
    viocachedelay: 25000
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 skinblinker:
    enable: true
    sprint: true
@@ -855,7 +855,7 @@ skinblinker:
    vioresetafteraction: true
    viocachedelay: 8500
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"
 freecam:
    enable: true
    max_ping: -1
@@ -863,4 +863,4 @@ freecam:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-      "1:NOTIFY"
+      1: "NOTIFY"

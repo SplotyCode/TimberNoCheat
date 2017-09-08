@@ -23,11 +23,11 @@ public class NoFall extends Check {
         int blocks = 0;
         boolean found = false;
         while(!found){
-           if(p.getLocation().clone().subtract(0, blocks+1, 0).getBlock().getType() != Material.AIR)
+           if(p.getLocation().clone().subtract(0, blocks, 0).getBlock().getType() != Material.AIR)
                found = true;
            else blocks++;
         }
-        if(p.getFallDistance() < blocks){
+        if(p.getFallDistance() < blocks && blocks<2){
             updatevio(this, p, blocks-p.getFallDistance());
             e.setCancelled(true);
         }

@@ -21,7 +21,7 @@ public class RightClickTimer extends Check {
     @EventHandler
     public void onInteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p) || (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK){
+        if(!TimberNoCheat.checkmanager.isvalid_create(p) || (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)){
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);

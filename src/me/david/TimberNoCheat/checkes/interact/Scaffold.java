@@ -3,6 +3,7 @@ package me.david.TimberNoCheat.checkes.interact;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
+import me.david.api.utils.BlockUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -40,7 +41,7 @@ public class Scaffold extends Check {
         for(Location locc : (ArrayList<Location>)locs.clone()) {
             ArrayList<Block> blocks = BlockUtil.getSurrounding(locc.getBlock(), false);
             blocks.remove(0);
-            for(Block b : BlockUtil.getSurrounding(loc, false))
+            for(Block b : BlockUtil.getSurrounding(loc.getBlock(), false))
                 if(blocks.contains(b))blocks.remove(b);
             for (Block b : blocks)
                 if (b != null && b.getType() != Material.AIR)

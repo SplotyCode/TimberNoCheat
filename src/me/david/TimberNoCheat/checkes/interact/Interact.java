@@ -3,6 +3,8 @@ package me.david.TimberNoCheat.checkes.interact;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
+import me.david.api.utils.BlockUtil;
+import me.david.api.utils.PlayerUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -72,7 +74,8 @@ public class Interact extends Check {
         if(e.getAction() == Action.PHYSICAL){
             return;
         }
-        if(p.getItemOnCursor() != null && itemcursor){
+        if(p.getItemOnCursor().getType() != Material.AIR && itemcursor){
+            System.out.println(p.getItemOnCursor().getType().name());
             e.setCancelled(true);
             updatevio(this, p, 1, " §6CHECK: §bITEMCURSOR");
         }
@@ -89,11 +92,11 @@ public class Interact extends Check {
             //System.out.println(p.getOpenInventory().getType());
             updatevio(this, p, 1, " §6CHECK: §bOPENINV");
         }
-        if(e.getClickedBlock() == null || p.getTargetBlock((Set<Material>) null, 6) == null || !TimberNoCheat.instance.settings.interact_ghosthand){
+        if(e.getClickedBlock() == null || p.getTargetBlock((Set<Material>) null, 6) == null || !gost){
             return;
         }
 
-        if(gost && p.getTargetBlock((Set<Material>) null, 6) != e.getClickedBlock() && !BlockUtil.getSurrounding(p.getTargetBlock((Set<Material>) null, 6), false).contains(e.getClickedBlock())){
+        if(p.getTargetBlock((Set<Material>) null, 6) != e.getClickedBlock() && !BlockUtil.getSurrounding(p.getTargetBlock((Set<Material>) null, 6), false).contains(e.getClickedBlock())){
             e.setCancelled(true);
             updatevio(this, p, 1, " §6CHECK: §bGHOST");
         }

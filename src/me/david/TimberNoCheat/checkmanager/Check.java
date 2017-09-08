@@ -4,6 +4,8 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.api.ViolationUpdateEvent;
 import me.david.TimberNoCheat.checktools.Tps;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -11,6 +13,7 @@ import org.bukkit.event.Listener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 public class Check implements Listener{
@@ -25,6 +28,9 @@ public class Check implements Listener{
     private int maxping;
     private int mintps;
 
+    /*
+    init
+     */
     public Check(String name, Category category) {
         yml = YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config);
         this.name = name;
@@ -35,12 +41,22 @@ public class Check implements Listener{
         this.violations = new HashMap<Player, Double>();
         this.maxping = getInt("ng");
         this.mintps = getInt("min_tps");
-        for(String cvio : yml.getConfigurationSection("vioactions").getKeys(false)) {
-            String[] split = cvio.split(":");
-            vios.add(new Violation(Integer.valueOf(split[0]), Violation.ViolationTypes.valueOf(split[1]), split.length==3?split[2]:""));
+        vios = new ArrayList<Violation>();
+        ConfigurationSection confsec = yml.getConfigurationSection(name.toLowerCase() + ".vioactions");
+        if(confsec == null){
+            System.out.println("TNCDebug " + name);
+            return;
+        }
+        for(String cvio : confsec.getKeys(false)) {
+            String[] split = getString("vioactions." + cvio).split(":");
+            System.out.println(name + " " + Integer.valueOf(cvio) + " " + Violation.ViolationTypes.valueOf(split[0]) + (split.length>=2?split[1]:""));
+            System.out.println(name + " " + new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:"").getType().name());
+            vios.add(new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:""));
         }
     }
-
+    /*
+    get config values
+     */
     public String getString(String s){
         return yml.getString(name.toLowerCase() + "." + s);
     }
@@ -90,42 +106,46 @@ public class Check implements Listener{
         double violation = violations.get(p);
         ArrayList<Violation> triggert = new ArrayList<Violation>();
         for(Violation cvio : vios)
-            if(cvio.getLevel() >= violation)
+            if(cvio.getLevel() <= violation)
                 triggert.add(cvio);
-        boolean canreset = false;
-        for(Violation ctrig : triggert) {
-            switch (ctrig.getType()) {
-                case MESSAGE:
-                    p.sendMessage(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), p));
-                    break;
-                case KICK:
-                    p.kickPlayer(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), p));
-                    canreset = true;
-                    break;
-                case NOTIFY:
-                    TimberNoCheat.checkmanager.notify(c, " §6LEVEL: §b" + violations.get(p), p, other);
-                    break;
-                case CMD:
-                    for (String cmd : ctrig.getRest().split(":"))
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replacemarker(ctrig.getRest(), p).replaceFirst("/", ""));
-                    canreset = true;
-                    break;
-                default:
-                    TimberNoCheat.instance.getLogger().log(Level.WARNING, "Unknomn ViolationCheckType: " + ctrig.getType().name());
-                    break;
+        Bukkit.getScheduler().runTask(TimberNoCheat.instance, new Runnable() {
+            public void run() {
+                boolean canreset = false;
+                for(Violation ctrig : triggert) {
+                    switch (ctrig.getType()) {
+                        case MESSAGE:
+                            p.sendMessage(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), p));
+                            break;
+                        case KICK:
+                            p.kickPlayer(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), p));
+                            canreset = true;
+                            break;
+                        case NOTIFY:
+                            TimberNoCheat.checkmanager.notify(c, " §6LEVEL: §b" + violations.get(p), p, other);
+                            break;
+                        case CMD:
+                            for (String cmd : ctrig.getRest().split(":"))
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replacemarker(ctrig.getRest(), p).replaceFirst("/", ""));
+                            canreset = true;
+                            break;
+                        default:
+                            TimberNoCheat.instance.getLogger().log(Level.WARNING, "Unknomn ViolationCheckType: " + ctrig.getType().name());
+                            break;
+                    }
+                }
+                if(resetafter && canreset) {
+                    ViolationUpdateEvent e1 = new ViolationUpdateEvent(p, 0, violations.get(p), c);
+                    Bukkit.getServer().getPluginManager().callEvent(e1);
+                    if(e1.isCancelled()){
+                        return;
+                    }
+                    violations.put(p, e.getNewviolation());
+                }
             }
-        }
-        if(resetafter && canreset) {
-            ViolationUpdateEvent e1 = new ViolationUpdateEvent(p, 0, violations.get(p), c);
-            Bukkit.getServer().getPluginManager().callEvent(e1);
-            if(e1.isCancelled()){
-                return;
-            }
-            violations.put(p, e.getNewviolation());
-        }
+        });
     }
     public String replacemarker(String s, Player p){
-        s = s.replaceAll("&", "§");
+        s = ChatColor.translateAlternateColorCodes('&', s);
         s = s.replaceAll("%player%", p.getName());
         s = s.replaceAll("%uuid%", p.getUniqueId().toString());
         s = s.replaceAll("%ip%", p.getAddress().getAddress().getHostAddress());

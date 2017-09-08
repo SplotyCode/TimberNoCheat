@@ -5,6 +5,10 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.Velocity;
+import me.david.api.utils.BlockUtil;
+import me.david.api.utils.LocationUtil;
+import me.david.api.utils.MathUtil;
+import me.david.api.utils.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -85,33 +89,35 @@ public class Speed extends Check {
         jsecond = getDouble("jump.second");
         jviomulti = getDouble("jump.viomodi");
         jjump = getInt("jump.jump");
+        /*Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
+            @Override
+            public void run() {
+                for(Player p : TimberNoCheat.checkmanager.tocheck){
+                    PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+                    if(PlayerUtil.isOnGround(p))
+                        pd.setTicksonground(pd.getTicksonground()+1);
+                    else
+                        pd.setTicksonground(0);
+                    if(p.isInsideVehicle() || pd.getLastspeedloc() == null || p.getAllowFlight() || !pd.getLastspeedloc().getWorld().getName().equals(p.getLocation().getWorld().getName())) {
+                        pd.setLastspeedloc(p.getLocation());
+                        continue;
+                    }
+                    if(p.getLocation().getZ() > pd.getLastspeedloc().getZ()+Speed.this.getmodi(p, 0.27) || !PlayerUtil.isOnClimbable(p)){
+                        p.teleport(pd.getLastspeedloc(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                        TimberNoCheat.checkmanager.notify(Speed.this, p, " §6MODE: §bSIMPLEHIGHT", " §6HIGHT: §b" + p.getLocation().getZ(), " §6MAXALLOWED: §b" + pd.getLastspeedloc().getZ()+getmodi(p, 0.27));
+                    }
+                    final double diff = pd.getLastspeedloc().clone().subtract(0, 0, pd.getLastspeedloc().getZ()).distance(p.getLocation().clone().subtract(0, 0, p.getLocation().getZ()));
+                    if(diff > getmodi(p, 0.6)){
+                        p.teleport(pd.getLastspeedloc(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                        TimberNoCheat.checkmanager.notify(Speed.this, p, " §6MODE: §bSIMPLEXY", " §6XYDIFF: §b" + diff, " §6MAXXYDIFF: §b" + getmodi(p, 0.6));
+                    }
+                    pd.setLastspeedloc(p.getLocation());
+                }
+            }
+        }, 0, 1);*/
     }
 
-    @EventHandler
-    public void Update(UpdateEvent event) {
-        if (event.getType().equals(UpdateType.TICK)) {
-            for(Player p : TimberNoCheat.checkmanager.tocheck){
-                PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-                if(PlayerUtil.onground(p))
-                    pd.setTicksonground(pd.getTicksonground()+1);
-                else
-                    pd.setTicksonground(0);
-                if(p.isInsideVehicle() || pd.getLastspeedloc() == null || p.getAllowFlight() || !pd.getLastspeedloc().getWorld().getName().equals(p.getLocation().getWorld().getName()))
-                    pd.setLastspeedloc(p.getLocation());
-                    continue;
-                if(p.getLocation().getZ() > pd.getLastspeedloc().getZ()+getmodi(p, 0.27) || !PLayerUtil.isonclimpabel){
-                    p.teleport(pd.getLastspeedloc(), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                    TimberNoCheat.checkmanager.notify(this, p, " §6MODE: §bSIMPLEHIGHT", " §6HIGHT: §b" + p.getLocation().getZ(), " §6MAXALLOWED: §b" + pd.getLastspeedloc().getZ()+getmodi(p, 0.27));
-                }
-                final double diff = pd.getLastspeedloc().clone().subtract(0, 0, pd.getLastspeedloc().getZ()).distance(p.getLocation().clone().subtract(0, 0, p.getLocation().getZ()));
-                if(diff > getmodi(p, 0.6)){
-                    p.teleport(pd.getLastspeedloc(), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                    TimberNoCheat.checkmanager.notify(this, p, " §6MODE: §bSIMPLEXY", " §6XYDIFF: §b" + diff, " §6MAXXYDIFF: §b" + getmodi(p, 0.6));
-                }
-                pd.setLastspeedloc(p.getLocation());
-            }
-        }
-    }
+
     private double getmodi(Player p, double modi){
         for(PotionEffect ef : p.getActivePotionEffects()){
             if(ef.getType() == PotionEffectType.SPEED){
@@ -162,6 +168,7 @@ public class Speed extends Check {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onMove(PlayerMoveEvent e){
+        //System.out.println("a");
         final Player p = e.getPlayer();
         final Location to = e.getTo();
         final Location from = e.getFrom();
@@ -202,23 +209,23 @@ public class Speed extends Check {
         long time = pd.getSpeedticks().getValue();
         int TooFastCount = 0;
         if(!pd.isFirstspeedflag()) {*/
-            double offsetXZ = LocationUtil.offset(LocationUtil.getHorizontalVector(e.getFrom().toVector()), LocationUtil.getHorizontalVector(e.getTo().toVector()));
-            double limitXZ = PlayerUtil.isOnGround(p)?nbaseground:nbase;
-            if(PlayerUtil.stairsNear(p.getLocation()))limitXZ += nstairs;
-            if(PlayerUtil.slabsNear(p.getLocation()))limitXZ += nslabs;
-            final boolean top = PlayerUtil.getEyeLocation(p).clone().add(0, 1, 0).getBlock().getType != Material.AIR && !BlockUtil.canStandWithin(PlayerUtil.getEyeLocation(p).clone().add(0, 1, 0));
-            if(top)limitXZ += nsolid;
-            if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.ICE)
-                if(top)limitXZ = nbaseicesolid;
-                else limitXZ = nbaseice;
-            limitXZ += (p.getWalkSpeed() > 0.2F?p.getWalkSpeed() * 10.0F * 0.33F:0.0F);
-            for(PotionEffect effect : p.getActivePotionEffects())
-                if(effect.getType().equals(PotionEffectType.SPEED))
-                    if(PlayerUtil.isOnGround(p)) limitXZ += nspeedground * (effect.getAmplifier() + 1);
-                    else limitXZ += nspeed * (effect.getAmplifier() + 1);
-            if(offsetXZ > limitXZ)
-                updatevio(this, p, offsetXZ-limitXZ*nviomodi, " §6MODE: §bNORMAL");
-        //}
+        double offsetXZ = LocationUtil.offset(LocationUtil.getHorizontalVector(e.getFrom().toVector()), LocationUtil.getHorizontalVector(e.getTo().toVector()));
+        double limitXZ = PlayerUtil.isOnGround(p)?nbaseground:nbase;
+        if(PlayerUtil.stairsNear(p.getLocation()))limitXZ += nstairs;
+        if(PlayerUtil.slabsNear(p.getLocation()))limitXZ += nslabs;
+        final boolean top = PlayerUtil.getEyeLocation(p).clone().add(0, 1, 0).getBlock().getType() != Material.AIR && !BlockUtil.canStandWithin(PlayerUtil.getEyeLocation(p).clone().add(0, 1, 0).getBlock());
+        if(top)limitXZ += nsolid;
+        if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.ICE)
+            if(top)limitXZ = nbaseicesolid;
+            else limitXZ = nbaseice;
+        limitXZ += (p.getWalkSpeed() > 0.2F?p.getWalkSpeed() * 10.0F * 0.33F:0.0F);
+        for(PotionEffect effect : p.getActivePotionEffects())
+            if(effect.getType().equals(PotionEffectType.SPEED))
+                if(PlayerUtil.isOnGround(p)) limitXZ += nspeedground * (effect.getAmplifier() + 1);
+                else limitXZ += nspeed * (effect.getAmplifier() + 1);
+        if(offsetXZ > limitXZ)
+            updatevio(this, p, offsetXZ-limitXZ*nviomodi, " §6MODE: §bNORMAL");
+    //}
 
         /*if(TooFastCount > TimberNoCheat.instance.settings.movement_speed_normal_tofastnewcount) {
             TooFastCount = 0;

@@ -1,8 +1,11 @@
 package me.david.TimberNoCheat.checktools;
 
+import me.david.api.utils.BlockUtil;
+import me.david.api.utils.PlayerUtil;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
@@ -10,7 +13,6 @@ import java.util.ArrayList;
 public class InteractTool {
     private static final double LIQUID_HEIGHT_LOWERED = 80000002;
     private static final int maxBlocks = 4096;
-    public static final ArrayList<Material> instantbreak = new ArrayList<Material>();
     public static final ArrayList<Tool> tools = new ArrayList<Tool>();
     public static final Block[] blocks = new Block[maxBlocks];
     public static final Tool noTool = new Tool(null, ToolType.NONE, ToolMaterial.NONE);
@@ -44,34 +46,6 @@ public class InteractTool {
     public static final Block indestructibleType = new Block(noTool, -1f, indestructibleTimes);
 
     static {
-        instantbreak.add(Material.COMMAND);
-        instantbreak.add(Material.CROPS);
-        instantbreak.add(Material.DEAD_BUSH);
-        instantbreak.add(Material.TRIPWIRE);
-        instantbreak.add(Material.TRIPWIRE_HOOK);
-        instantbreak.add(Material.TORCH);
-        instantbreak.add(Material.TNT);
-        instantbreak.add(Material.SUGAR_CANE_BLOCK);
-        instantbreak.add(Material.SAPLING);
-        instantbreak.add(Material.RED_ROSE);
-        instantbreak.add(Material.REDSTONE_WIRE);
-        instantbreak.add(Material.YELLOW_FLOWER);
-        instantbreak.add(Material.REDSTONE_TORCH_ON);
-        instantbreak.add(Material.REDSTONE_TORCH_OFF);
-        instantbreak.add(Material.DIODE_BLOCK_ON);
-        instantbreak.add(Material.DIODE_BLOCK_OFF);
-        instantbreak.add(Material.PUMPKIN_STEM);
-        instantbreak.add(Material.NETHER_WARTS);
-        instantbreak.add(Material.BROWN_MUSHROOM);
-        instantbreak.add(Material.RED_MUSHROOM);
-        instantbreak.add(Material.MELON_STEM);
-        instantbreak.add(Material.WATER_LILY);
-        instantbreak.add(Material.LONG_GRASS);
-        instantbreak.add(Material.FIRE);
-        instantbreak.add(Material.FLOWER_POT);
-        instantbreak.add(Material.CARROT);
-        instantbreak.add(Material.POTATO);
-
         tools.add(new Tool(Material.WOOD_AXE, ToolType.AXE, ToolMaterial.WOOD));
         tools.add(new Tool(Material.WOOD_PICKAXE, ToolType.PICKAXE, ToolMaterial.WOOD));
         tools.add(new Tool(Material.WOOD_SWORD, ToolType.SWORD, ToolMaterial.WOOD));
@@ -98,7 +72,7 @@ public class InteractTool {
 
         tools.add(new Tool(Material.SHEARS, ToolType.SHEARS, ToolMaterial.NONE));
 
-        for (final Material mat : instantbreak) {
+        for (final Material mat : BlockUtil.INSTANT_BREAK) {
             blocks[mat.getId()] = instantType;
         }
         for (Material mat : new Material[]{
@@ -197,7 +171,6 @@ public class InteractTool {
         }
         blocks[Material.DRAGON_EGG.getId()] = new Block(noTool, 3f, secToMs(4.5));
     }
-
     public enum ToolType {
         NONE,
         SWORD,
@@ -207,7 +180,13 @@ public class InteractTool {
         PICKAXE,
         HOE;
     }
-
+    public static Block getBlock(final Material m){
+        if (m.getId() < 0 || m.getId() >= blocks.length || blocks[m.getId()] == null) {
+            return instantType;
+        } else {
+            return blocks[m.getId()];
+        }
+    }
     public enum ToolMaterial {
         NONE(0, 1f),
         WOOD(1, 2f),
@@ -247,7 +226,7 @@ public class InteractTool {
         for (Tool cm : tools)
             if (cm.getMaterial() == m)
                 return cm;
-        return null;
+        return new Tool(m, ToolType.NONE, ToolMaterial.NONE);
     }
 
     public static class Tool {
@@ -327,15 +306,15 @@ public class InteractTool {
     }
 
     public static long getBreakingDuration(final Material m, final Player p) {
-        boolean ground = PlayerUtil.onground(p);
-        boolean water = PlayerUtil.geteye(p).getBlock().getType().isLiquid();
+        boolean ground = PlayerUtil.isOnGround(p);
+        boolean water = PlayerUtil.getEyeLocation(p).getBlock().isLiquid();
         boolean aquaAffinity = p.getEquipment().getHelmet() != null && p.getEquipment().getHelmet().containsEnchantment(Enchantment.WATER_WORKER);
         int haste = PotionUtil.getPotionEffectAmplifier(p, PotionEffectType.FAST_DIGGING) + 1;
         if (p.getItemInHand() == null || p.getItemInHand().getType() == Material.AIR) {
-            return getBreakingDuration(m, getBlock(blockId), noTool, ground, water, aquaAffinity, 0);
+            return getBreakingDuration(m, getBlock(m), noTool, ground, water, aquaAffinity, 0);
         }
         int efficiency = p.getItemInHand().containsEnchantment(Enchantment.DIG_SPEED) ? p.getItemInHand().getEnchantmentLevel(Enchantment.DIG_SPEED) : 0;
-        return getBreakingDuration(m, getBlock(blockId), getToolbyMaterial(p.getItemInHand().getType()), ground, water, aquaAffinity, efficiency, haste);
+        return getBreakingDuration(m, getBlock(m), getToolbyMaterial(p.getItemInHand().getType()), ground, water, aquaAffinity, efficiency, haste);
     }
 
     public static long getBreakingDuration(final Material mat, final Block Block, final Tool toolProps, final boolean onGround, final boolean inWater, boolean aquaAffinity, int efficiency, int haste) {
@@ -346,7 +325,7 @@ public class InteractTool {
     public static long getBreakingDuration(final Material mat, final Block block, final Tool tool, final boolean onGround, final boolean inWater, boolean aquaAffinity, int efficiency) {
         boolean isValidTool = isValidTool(mat, block, tool, efficiency);
         if (efficiency > 0) {
-            if (isLeaves(mat) || block == glassType) {
+            if (BlockUtil.LEAVES.contains(mat) || block == glassType) {
                 return efficiency == 1?100:0;
             } else if (block == chestType) {
                 return (long) ((double) block.breakingTimes[0] / 5f / efficiency);
@@ -364,18 +343,14 @@ public class InteractTool {
                 duration = (long) ((float) duration / 1.5f);
             }
         }
-
-        // Specialties:
         if (tool.toolType == ToolType.SHEARS) {
-            // (Note: shears are not in the block props, anywhere)
-            // Treat these extra (partly experimental):
             if (mat == Material.WEB) {
                 duration = 400;
                 isValidTool = true;
             } else if (mat == Material.WOOL) {
                 duration = 240;
                 isValidTool = true;
-            } else if (isLeaves(mat)) {
+            } else if (BlockUtil.LEAVES.contains(mat)) {
                 duration = 20;
                 isValidTool = true;
             } else if (mat == Material.VINE) {
@@ -390,10 +365,10 @@ public class InteractTool {
         if (isValidTool || block.tool.toolType == ToolType.NONE) {
             float mult = 1f;
             if (inWater && !aquaAffinity) {
-                mult *= breakPenaltyInWater;
+                mult *= 4f;
             }
             if (!onGround) {
-                mult *= breakPenaltyOffGround;
+                mult *= 4f;
             }
             duration = (long) (mult * duration);
             if (efficiency > 0) {
@@ -421,7 +396,7 @@ public class InteractTool {
                         } else {
                             duration = (long) (duration / 1.5 - (efficiency - 1) * 100);
                         }
-                    } else if (blockId == Material.LOG.getId()) {
+                    } else if (mat == Material.LOG) {
                         duration -= efficiency >= 4 ? 250 : 400;
                     } else if (block.tool.toolType == tool.getToolType()) {
                         duration -= 250;
@@ -430,13 +405,13 @@ public class InteractTool {
                     }
 
                 } else if (tool.getToolMaterial() == ToolMaterial.STONE) {
-                    if (blockId == Material.LOG.getId()) {
+                    if (mat == Material.LOG) {
                         duration -= 100;
                     }
                 }
             }
         }
-        if (efficiency > 0 && !isValidTool && blockId == Material.MELON_BLOCK.getId()) {
+        if (efficiency > 0 && !isValidTool && mat == Material.MELON_BLOCK) {
             duration = Math.min(duration, 450 / (long) Math.pow(2, efficiency - 1));
         }
         return Math.max(0, duration);
@@ -451,5 +426,29 @@ public class InteractTool {
         final long v = (long) (s1 * 1000d);
         return new long[]{v, v, v, v, v, v};
     }
+    public static boolean isValidTool(final Material mat, final Block blockProps,
+                                      final Tool toolProps, final int efficiency) {
+        boolean isValidTool = blockProps.tool.toolType == toolProps.toolType;
+
+        if (!isValidTool && efficiency > 0) {
+            if (mat == Material.SNOW) {
+                return toolProps.toolType == ToolType.SHOVEL;
+            }
+            if (mat == Material.WOOL) {
+                return true;
+            }
+            if (mat == Material.WOODEN_DOOR) {
+                return true;
+            }
+            if (blockProps.hardness <= 2
+                    && (blockProps.tool.toolType == ToolType.AXE
+                    || blockProps.tool.toolType == ToolType.SHOVEL
+                    || (blockProps.hardness < 0.8 && (mat != Material.NETHERRACK && mat != Material.SNOW && mat != Material.SNOW_BLOCK && mat != Material.STONE_PLATE)))) {
+                return true;
+            }
+        }
+        return isValidTool;
+    }
+
 
 }

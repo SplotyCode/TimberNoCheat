@@ -13,7 +13,7 @@ public class FastLadder extends Check {
     private final long msperblock;
     private final double cancel_vl;
     public FastLadder(){
-        super("", Category.MOVEMENT);
+        super("FastLadder", Category.MOVEMENT);
         msperblock = getLong("msperblock");
         cancel_vl = getDouble("cancel_vl");
     }
@@ -25,20 +25,26 @@ public class FastLadder extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer());
         double zdis = e.getTo().getZ()-e.getFrom().getZ();
+        if(zdis <= 0)return;
         if((e.getTo().getBlock().getType() == Material.LADDER && e.getFrom().getBlock().getType() == Material.LADDER) || e.getTo().getBlock().getType() == Material.LADDER){
-            if(pd.getLastfastladderlongZ() != -1){
+            if(pd.getLastfastladderlongZ() == -1){
                 pd.setLastfastladderlongZ(zdis);
                 pd.setFastladderlongstart(System.currentTimeMillis());
                 pd.setFastladderstart(e.getFrom());
                 return;
             }
             pd.setLastfastladderlongZ(pd.getLastfastladderlongZ()+zdis);
+            System.out.println("add " + zdis);
             return;
         }
         double shoud = pd.getLastfastladderlongZ()*msperblock;
         double does = System.currentTimeMillis()-pd.getFastladderlongstart();
-        if(pd.getLastfastladderlongZ() != -1 && shoud<does){
+        if(shoud<0)return;
+        if(pd.getLastfastladderlongZ() != -1 && shoud>does){
+            System.out.println("SHOUD:" + shoud);
+            System.out.println("NEEDED: " + does);
             updatevio(this, e.getPlayer(), (int)(does-shoud), " §6MODE: §bLONGTIME", " §6BLOCKS: §b" + pd.getLastfastladderlongZ(), " §6NEDEDSECONDS: §b" + (does/1000), " §6SHOUDNEDEDSECONDS: §b" + (shoud/1000));
+            e.getPlayer().teleport(pd.getFastladderstart());
             pd.setLastfastladderlongZ(-1);
             pd.setFastladderstart(null);
         }
