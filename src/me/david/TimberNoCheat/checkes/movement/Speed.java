@@ -249,7 +249,7 @@ public class Speed extends Check {
         pd.setSpeedticksflagt(new AbstractMap.SimpleEntry<Integer, Long>(TooFastCount, System.currentTimeMillis()));*/
     }
     public void check_timer(PlayerMoveEvent e, PlayerData pd){
-        pd.getTimerms().add(System.currentTimeMillis() - pd.getTimerms().get(pd.getTimerms().size()-1));
+        pd.getTimerms().add(System.currentTimeMillis()-(pd.getTimerms().size() == 0?0:pd.getTimerms().get(pd.getTimerms().size()-1)));
         if(pd.getTimerms().size() == tchecksize) {
             if(MathUtil.averageLong(pd.getTimerms()) < tmax_average) {
                 updatevio(this, e.getPlayer(), tvio, " §6MODE: TIMER");
