@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class PlayerData {
+
     private String uuid;
     private long lastchat;
     private ArrayList<String> messages;

@@ -16,18 +16,23 @@ public class TimberNoCheat extends ApiPlugin {
 
     public static TimberNoCheat instance;
     public static CheckManager checkmanager;
-    public String prefix = "§7[§9T§cN§eC§7] §6";
+    //public String prefix = "§7[§9T§cN§eC§7] §6";
     public final File config = new File(getDataFolder() + "/config.yml");
     //public old_Settings settings;
     private boolean crash = false;
 
+    @Override
+    public void pluginLoad() {
+        prefix = "§7[§9T§cN§eC§7] §6";
+    }
+
     /*
-     * Init ProtocollLib
-     * Starting TPS and Velocity Scheduler
-     * Check and load Config
-     * Register Commands and Listener
-     * Enable Checks
-     */
+         * Init ProtocollLib
+         * Starting TPS and Velocity Scheduler
+         * Check and load Config
+         * Register Commands and Listener
+         * Enable Checks
+         */
     @Override
     public void pluginEnable() {
         instance = this;

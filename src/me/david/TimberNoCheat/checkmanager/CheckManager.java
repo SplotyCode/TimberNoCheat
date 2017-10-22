@@ -12,6 +12,7 @@ import me.david.TimberNoCheat.checkes.movement.*;
 import me.david.TimberNoCheat.checkes.other.*;
 import me.david.TimberNoCheat.checkes.player.*;
 import me.david.TimberNoCheat.checktools.Tps;
+import me.david.TimberNoCheat.config.Permissions;
 import me.david.api.utils.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -25,8 +26,6 @@ import java.util.logging.Level;
 public class CheckManager {
     public ArrayList<Check> checks = new ArrayList<Check>();
     public ArrayList<PlayerData> playerdata = new ArrayList<PlayerData>();
-    public ArrayList<Player> notify = new ArrayList<Player>();
-    public ArrayList<Player> tocheck = new ArrayList<Player>();
 
     /*
     register/starting checks
@@ -97,7 +96,7 @@ public class CheckManager {
         }
     }
     public boolean isvalid_create(Player p ){
-        if(!tocheck.contains(p)){
+        if(TimberNoCheat.instance.permissioncache.hasPermission(p, Permissions.NOTCHECKT)){
             return false;
         }
         if(getPlayerdata(p) == null){
@@ -135,8 +134,7 @@ public class CheckManager {
         notify(p, "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayerName: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + arg + StringUtil.toString(args, ""));
     }
     private void notify(Player p, String message){
-        for(Player p1 : notify)
-            p1.sendMessage(TimberNoCheat.instance.prefix + message);
+        TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, TimberNoCheat.instance.prefix + message);
         getPlayerdata(p).setLastflagmessage(System.currentTimeMillis());
         TimberNoCheat.instance.getLogger().log(Level.INFO, message.replace("§", "&"));
     }

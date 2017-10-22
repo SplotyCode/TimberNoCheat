@@ -15,10 +15,12 @@ import java.util.UUID;
 
 public class Velocity implements Listener{
     public static HashMap<UUID, Map.Entry<Long, Vector>> velocity = new HashMap<UUID, Map.Entry<Long, Vector>>();
+
     @EventHandler
     public void onVelocity(PlayerVelocityEvent event) {
         velocity.put(event.getPlayer().getUniqueId(), new AbstractMap.SimpleEntry<Long, Vector>(System.currentTimeMillis(), event.getVelocity()));
     }
+
     public Velocity(Plugin pl){
         Bukkit.getScheduler().runTaskTimer(pl, new Runnable() {
             @Override
@@ -28,11 +30,10 @@ public class Velocity implements Listener{
                     Player player = Bukkit.getPlayer(uid);
                     Vector vec = p.getValue().getValue();
                     if(p.getValue().getKey() + 500L <= System.currentTimeMillis()) {
-                        double velY = vec.getY() * vec.getY();
-                        double Y = player.getVelocity().getY() * player.getVelocity().getY();
-                        if(Y < 0.02D || Y > velY * 3.0D) {
+                        final double velY = vec.getY() * vec.getY();
+                        final double Y = player.getVelocity().getY() * player.getVelocity().getY();
+                        if(Y < 0.02D || Y > velY * 3.0D)
                             velocity.remove(uid);
-                        }
                     }
                 }
             }
