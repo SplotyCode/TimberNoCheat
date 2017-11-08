@@ -3,7 +3,7 @@ package me.david.TimberNoCheat.checkes.interact;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
-import me.david.api.utils.PlayerUtil;
+import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

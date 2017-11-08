@@ -53,9 +53,7 @@ public class Fly extends Check {
         if(simple && inair(p) && !Velocity.velocity.containsKey(p.getUniqueId()) && !p.getAllowFlight() && to.getY() >= from.getY() && p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP)){
             updatevio(this, p, simplevio, " §6CHECK: §bSIMPLE");
         }
-        //if(pd.getFly_nodown() >= TimberNoCheat.instance.settings.movement_fly_nodowntonotify){
-        //    TimberNoCheat.checkmanager.notify(this, p);
-        //}
+        
     }
 
     public boolean inair(Player p){

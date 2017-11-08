@@ -335,6 +335,15 @@ fastbow:
    vioactions:
       1: "NOTIFY"
       25: "KICK:FastBow?"
+criticals:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 4000
+   vioactions:
+      1: "NOTIFY"
+      12: "KICK:Criticals?"
 fightspeed:
    enable: true
    hitspersecond: 16
@@ -523,6 +532,17 @@ break:
    viocachedelay: 16000
    vioactions:
       1: "NOTIFY"
+airplace:
+   enable: true
+   cancel: true
+   diagonals: false
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 120000
+   vioactions:
+      1: "NOTIFY"
+      2: "KICK:Illegal BlockPlacing!(TNC)"
 #[DE-EN]---------------[DE-EN]
 #[DE-EN]---------------[DE-EN]
 #[DE-EN]Movement Checks[DE-EN]
@@ -576,6 +596,7 @@ fastladder:
    enable: true
    #(100/42)*1000(https://minecraft-de.gamepedia.com/Leiter)
    msperblock: 420
+   shortmulti: 3
    #teleport
    cancel_vl: 0.1
    max_ping: -1
@@ -661,12 +682,7 @@ speed:
      enable: true
      viomodi: 40
      maxpersecond: 12
-   jump:
-     enable: true
-     first: 0.4199998697815
-     second:  0.33319999363422426
-     jump: 5
-     viomodi:
+   jump: true
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true

@@ -87,6 +87,8 @@ public class CheckManager {
         register(new Scaffold());
         register(new Break());
         register(new RightClickTimer());
+        register(new AirPlace());
+        register(new Criticals());
     }
     public void execute(String cmd, String player){
         if(!cmd.equals("")){

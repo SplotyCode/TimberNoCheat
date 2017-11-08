@@ -4,11 +4,12 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import me.david.TimberNoCheat.checktools.SpeedUtil;
 import me.david.TimberNoCheat.checktools.Velocity;
 import me.david.api.utils.BlockUtil;
 import me.david.api.utils.cordinates.LocationUtil;
 import me.david.api.utils.MathUtil;
-import me.david.api.utils.PlayerUtil;
+import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -25,36 +26,32 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Speed extends Check {
 
-    final double nbase;
-    final double nbaseground;
-    final double nbaseice;
-    final double nbaseicesolid;
-    final double nstairs;
-    final double nslabs;
-    final double nsolid;
-    final double nspeed;
-    final double nspeedground;
-    final double nviomodi;
-    final boolean nenable;
-    final boolean ssenable;
-    final double ssviomodi;
-    final boolean sfenable;
-    final int sffood;
-    final double sfvio;
-    final boolean bsenable;
-    final double bsvio;
-    final boolean tenable;
-    final double tvio;
-    final int tchecksize;
-    final double tmax_average;
-    final boolean spenable;
-    final int spmaxsecond;
-    final double spvio;
-    final boolean jenable;
-    final double jfirst;
-    final double jsecond;
-    final double jviomulti;
-    final int jjump;
+    private final double nbase;
+    private final double nbaseground;
+    private final double nbaseice;
+    private final double nbaseicesolid;
+    private final double nstairs;
+    private final double nslabs;
+    private final double nsolid;
+    private final double nspeed;
+    private final double nspeedground;
+    private final double nviomodi;
+    private final boolean nenable;
+    private final boolean ssenable;
+    private final double ssviomodi;
+    private final boolean sfenable;
+    private final int sffood;
+    private final double sfvio;
+    private final boolean bsenable;
+    private final double bsvio;
+    private final boolean tenable;
+    private final double tvio;
+    private final int tchecksize;
+    private final double tmax_average;
+    private final boolean spenable;
+    private final int spmaxsecond;
+    private final double spvio;
+    private final boolean jenable;
 
     public Speed(){
         super("Speed", Category.MOVEMENT);
@@ -83,11 +80,7 @@ public class Speed extends Check {
         spenable = getBoolean("sprintspam.enable");
         spmaxsecond = getInt("sprintspam.maxpersecond");
         spvio = getDouble("sprintspam.viomodi");
-        jenable = getBoolean("jump.enable");
-        jfirst = getDouble("jump.first");
-        jsecond = getDouble("jump.second");
-        jviomulti = getDouble("jump.viomodi");
-        jjump = getInt("jump.jump");
+        jenable = getBoolean("jump");
         /*Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
             @Override
             public void run() {
@@ -199,7 +192,7 @@ public class Speed extends Check {
             if(jenable)check_jumping(e, pd);
         }
     }
-    public void check_normal(PlayerMoveEvent e, PlayerData pd){
+    private void check_normal(PlayerMoveEvent e, PlayerData pd){
         final Player p = e.getPlayer();
         if(p.getAllowFlight() || p.getVehicle() != null || Velocity.velocity.containsKey(p.getUniqueId())){
             return;
@@ -247,7 +240,7 @@ public class Speed extends Check {
         pd.setSpeedticks(new AbstractMap.SimpleEntry<Integer, Long>(count, time));
         pd.setSpeedticksflagt(new AbstractMap.SimpleEntry<Integer, Long>(TooFastCount, System.currentTimeMillis()));*/
     }
-    public void check_timer(PlayerMoveEvent e, PlayerData pd){
+    private void check_timer(PlayerMoveEvent e, PlayerData pd){
         pd.getTimerms().add(System.currentTimeMillis()-(pd.getTimerms().size() == 0?0:pd.getTimerms().get(pd.getTimerms().size()-1)));
         if(pd.getTimerms().size() == tchecksize) {
             if(MathUtil.averageLong(pd.getTimerms()) < tmax_average) {
@@ -261,25 +254,10 @@ public class Speed extends Check {
         }*/
         //pd.setLasttimer(System.currentTimeMillis());
     }
-    public void check_jumping(PlayerMoveEvent e, PlayerData pd){
-        if(e.getPlayer().getAllowFlight()){
-            return;
-        }
-        double ydiff = e.getTo().getY()-e.getFrom().getY();
-        if(e.getTo().getY() > e.getFrom().getY() && !e.getFrom().getBlock().isLiquid() && !e.getTo().getBlock().isLiquid()){
-            if(pd.getJumpspeed() == 0){
-                pd.setJumpspeed(pd.getJumpspeed()+1);
-                if(ydiff > jfirst){
-                    if(PlayerUtil.stairsNear(e.getFrom()) || PlayerUtil.stairsNear(e.getTo()) || PlayerUtil.slabsNear(e.getFrom()) || PlayerUtil.slabsNear(e.getTo()))
-                        pd.setJumpspeed(0);
-                    else updatevio(this, e.getPlayer(), (ydiff-jfirst)*jviomulti, " §6MODE: §bJUMP(1)", " §6DIFF: §b" + ydiff);
-                }
-            }else{
-                if(ydiff > jsecond)updatevio(this, e.getPlayer(), (ydiff-jfirst)*jviomulti, " §6MODE: §bJUMP(2)", " §6DIFF: §b" + ydiff);
-                if(pd.getJumpspeed() > jjump)updatevio(this, e.getPlayer(), (ydiff-jfirst)*jviomulti, " §6MODE: §bJUMP(3)", " §6DIFF: §b" + ydiff, " §6JUMP: §b" + pd.getJumpspeed());
-            }
-        }else{
-            pd.setJumpspeed(0);
+    private void check_jumping(PlayerMoveEvent e, PlayerData pd){
+        if(PlayerUtil.isOnClimbable(e.getPlayer()) || e.getPlayer().getAllowFlight())return;
+        if(e.getFrom().getZ() < e.getTo().getZ() && e.getTo().getZ()-e.getFrom().getZ() < SpeedUtil.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){
+            updatevio(this, e.getPlayer(), tvio, " §6MODE: JUMP");
         }
     }
     @EventHandler(priority = EventPriority.LOWEST)
@@ -325,4 +303,6 @@ public class Speed extends Check {
             //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAK");
         }
     }
+
+
 }

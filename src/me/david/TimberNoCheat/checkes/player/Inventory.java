@@ -5,7 +5,7 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.Velocity;
-import me.david.api.utils.PlayerUtil;
+import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

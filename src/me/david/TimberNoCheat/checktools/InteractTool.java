@@ -1,11 +1,10 @@
 package me.david.TimberNoCheat.checktools;
 
 import me.david.api.utils.BlockUtil;
-import me.david.api.utils.PlayerUtil;
+import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;

@@ -12,10 +12,12 @@ public class FastLadder extends Check {
 
     private final long msperblock;
     private final double cancel_vl;
+    private final int shortmulti;
     public FastLadder(){
         super("FastLadder", Category.MOVEMENT);
         msperblock = getLong("msperblock");
         cancel_vl = getDouble("cancel_vl");
+        shortmulti = getInt("shortmulti");
     }
 
     @EventHandler
@@ -35,6 +37,9 @@ public class FastLadder extends Check {
             }
             pd.setLastfastladderlongZ(pd.getLastfastladderlongZ()+zdis);
             System.out.println("add " + zdis);
+            if(pd.getLastfastladderlongZ() > 1.8 && zdis > 0.118){
+                updatevio(this, e.getPlayer(), (zdis-0.118)*shortmulti, " §6MODE: §bSHORT");
+            }
             return;
         }
         double shoud = pd.getLastfastladderlongZ()*msperblock;
