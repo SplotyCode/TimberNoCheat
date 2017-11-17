@@ -768,6 +768,17 @@ vanillabug:
    vioactions:
       1: "NOTIFY"
       1: "MESSAGE:Durch einen Bug in Minecraft darfst du nur mit blöcken auf diesen Block Rechts klicken!"
+clock:
+   enable: true
+   #maxtoggles in 10 seconds
+   maxtoggles: 1500
+   notify: true
+   cancel: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: false
+   viocachedelay: -1
+   vioactions:
 #[DE-EN]-------------[DE-EN]
 #[DE-EN]-------------[DE-EN]
 #[DE-EN]Player Checks[DE-EN]

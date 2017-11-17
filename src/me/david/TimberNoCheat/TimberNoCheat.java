@@ -2,6 +2,7 @@ package me.david.TimberNoCheat;
 
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.CheckManager;
+import me.david.TimberNoCheat.checktools.FalsePositive;
 import me.david.TimberNoCheat.checktools.TNCCommand;
 import me.david.TimberNoCheat.checktools.Tps;
 import me.david.TimberNoCheat.checktools.Velocity;
@@ -51,7 +52,7 @@ public class TimberNoCheat extends ApiPlugin {
         }
         //settings = new old_Settings();
         checkmanager = new CheckManager();
-        registerListener(new JoinLeave(), new Velocity(this));
+        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive());
         registerCommands(new TNCCommand());
         new Velocity(this);
         log(false, "[TimberNoCheat] Es wurden " + checkmanager.checks.size() + " module geladen mit vielen unterchecks!");

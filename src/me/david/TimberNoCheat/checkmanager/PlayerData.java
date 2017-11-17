@@ -1,5 +1,6 @@
 package me.david.TimberNoCheat.checkmanager;
 
+import me.david.TimberNoCheat.checktools.FalsePositive;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
@@ -66,6 +67,12 @@ public class PlayerData {
     private long startbreaktime;
     private int ticksonground;
     private long lastrightclick;
+    private double stepjump;
+    private int stepjump2;
+    private Location laststep;
+    private long laststeprep;
+
+    private FalsePositive.FalsePositiveChecks falsepositives;
 
     public PlayerData(String uuid) {
         this.uuid = uuid;
@@ -125,6 +132,83 @@ public class PlayerData {
         this.startbreaktime = 0;
         this.ticksonground = 0;
         this.lastrightclick = System.currentTimeMillis()-15000L;
+        this.falsepositives = new FalsePositive.FalsePositiveChecks();
+        this.stepjump = 0;
+        this.stepjump2 = -1;
+        this.laststep = null;
+        this.laststeprep = System.currentTimeMillis()-15000L;
+    }
+
+    /**
+     * Getter for falsepositives
+     *
+     * @return value of falsepositives
+     */
+    public FalsePositive.FalsePositiveChecks getFalsepositives() {
+        return falsepositives;
+    }
+
+    public long getLaststeprep() {
+        return laststeprep;
+    }
+
+    public void setLaststeprep(long laststeprep) {
+        this.laststeprep = laststeprep;
+    }
+
+    /**
+     * Getter for laststep
+     *
+     * @return value of laststep
+     */
+    public Location getLaststep() {
+        return laststep;
+    }
+
+    /**
+     * Setter for {@see laststep}
+     *
+     * @param {@link laststep}
+     */
+    public void setLaststep(Location laststep) {
+        this.laststep = laststep;
+    }
+
+    /**
+     * Getter for stepjump2
+     *
+     * @return value of stepjump2
+     */
+    public int getStepjump2() {
+        return stepjump2;
+    }
+
+    /**
+     * Setter for {@see stepjump2}
+     *
+     * @param {@link stepjump2}
+     */
+    public void setStepjump2(int stepjump2) {
+        this.stepjump2 = stepjump2;
+    }
+
+    /**
+     * Getter for stepjump
+     *
+     * @return value of stepjump
+     */
+    public double getStepjump() {
+        return stepjump;
+    }
+
+    /**
+     * Setter for {@see stepjump}
+     *
+     * @param {@link stepjump}
+     * @param stepjump
+     */
+    public void setStepjump(double stepjump) {
+        this.stepjump = stepjump;
     }
 
     public long getLastrightclick() {

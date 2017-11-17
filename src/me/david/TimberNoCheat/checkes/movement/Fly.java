@@ -4,6 +4,7 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import me.david.TimberNoCheat.checktools.SpeedUtil;
 import me.david.TimberNoCheat.checktools.Velocity;
 import me.david.api.utils.BlockUtil;
 import org.bukkit.Location;
@@ -50,18 +51,43 @@ public class Fly extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        if(simple && inair(p) && !Velocity.velocity.containsKey(p.getUniqueId()) && !p.getAllowFlight() && to.getY() >= from.getY() && p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP)){
+        if(simple && inair(p) && !Velocity.velocity.containsKey(p.getUniqueId()) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))){
             updatevio(this, p, simplevio, " §6CHECK: §bSIMPLE");
         }
-        
     }
 
     public boolean inair(Player p){
-        for(Block b : BlockUtil.getBlocksAround(p.getLocation(), 2)){
-            if(b.getType() != Material.AIR){
+        for(Block b : BlockUtil.getBlocksAround(p.getLocation(), 2))
+            if(b.getType() != Material.AIR)
                 return false;
-            }
-        }
         return true;
+    }
+
+    private double getJump(Player p) {
+        double d;
+        if (p.hasPotionEffect(PotionEffectType.JUMP)) {
+            int level = SpeedUtil.getPotionEffectLevel(p, PotionEffectType.JUMP);
+            switch (level){
+                case 1:
+                    d = 1.9;
+                    break;
+                case 2:
+                    d = 2.7;
+                    break;
+                case 3:
+                    d = 3.36;
+                    break;
+                case 4:
+                    d = 4.22;
+                    break;
+                case 5:
+                    d = 5.16;
+                    break;
+                default:
+                    d = (level) + 1;
+                    break;
+            }
+        }else return 0;
+        return d+1.35;
     }
 }

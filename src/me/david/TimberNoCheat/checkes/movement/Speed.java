@@ -256,7 +256,7 @@ public class Speed extends Check {
     }
     private void check_jumping(PlayerMoveEvent e, PlayerData pd){
         if(PlayerUtil.isOnClimbable(e.getPlayer()) || e.getPlayer().getAllowFlight())return;
-        if(e.getFrom().getZ() < e.getTo().getZ() && e.getTo().getZ()-e.getFrom().getZ() < SpeedUtil.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){
+        if(e.getFrom().getY() < e.getTo().getY() && e.getTo().getY()-e.getFrom().getY() < SpeedUtil.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){
             updatevio(this, e.getPlayer(), tvio, " §6MODE: JUMP");
         }
     }
