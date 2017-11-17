@@ -344,6 +344,19 @@ criticals:
    vioactions:
       1: "NOTIFY"
       12: "KICK:Criticals?"
+accuracy:
+   enable: true
+   mindata: 25
+   #ms
+   mindelay: 12000
+   minaccuracy: 95
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 4000
+   vioactions:
+      1: "NOTIFY"
+      12: "KICK:accuracy?"
 fightspeed:
    enable: true
    hitspersecond: 16

@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerData {
@@ -70,7 +71,7 @@ public class PlayerData {
     private double stepjump;
     private int stepjump2;
     private Location laststep;
-    private long laststeprep;
+    private HashMap<Long, Boolean> accuracy;
 
     private FalsePositive.FalsePositiveChecks falsepositives;
 
@@ -136,7 +137,7 @@ public class PlayerData {
         this.stepjump = 0;
         this.stepjump2 = -1;
         this.laststep = null;
-        this.laststeprep = System.currentTimeMillis()-15000L;
+        this.accuracy = new HashMap<Long, Boolean>();
     }
 
     /**
@@ -148,12 +149,9 @@ public class PlayerData {
         return falsepositives;
     }
 
-    public long getLaststeprep() {
-        return laststeprep;
-    }
 
-    public void setLaststeprep(long laststeprep) {
-        this.laststeprep = laststeprep;
+    public HashMap<Long, Boolean> getAccuracy() {
+        return accuracy;
     }
 
     /**

@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.logging.Level;
 
 public class Check implements Listener{
+
     private String name;
     private Category category;
     private long viodelay;
@@ -28,9 +29,6 @@ public class Check implements Listener{
     private int maxping;
     private int mintps;
 
-    /*
-    init
-     */
     public Check(String name, Category category) {
         yml = YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config);
         this.name = name;
@@ -72,6 +70,7 @@ public class Check implements Listener{
     public boolean getBoolean(String s){
         return yml.getBoolean(name.toLowerCase() + "." + s);
     }
+
     public ArrayList<String> getStringList(String s){
         return (ArrayList<String>) yml.getStringList(name.toLowerCase() + "." + s);
     }

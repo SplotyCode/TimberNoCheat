@@ -90,6 +90,7 @@ public class CheckManager {
         register(new AirPlace());
         register(new Criticals());
         register(new Clock());
+        register(new Accuracy());
     }
     public void execute(String cmd, String player){
         if(!cmd.equals("")){

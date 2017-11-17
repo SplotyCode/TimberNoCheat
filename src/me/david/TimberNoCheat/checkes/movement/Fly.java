@@ -18,10 +18,10 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Fly extends Check {
 
-    final boolean vanilla;
-    final double vanillavio;
-    final double simplevio;
-    final boolean simple;
+    private final boolean vanilla;
+    private final double vanillavio;
+    private final double simplevio;
+    private final boolean simple;
 
     public Fly(){
         super("Fly", Category.MOVEMENT);
@@ -37,7 +37,6 @@ public class Fly extends Check {
             return;
         }
         if(vanilla && e.getReason().equals("Flying is not enabled on this server")) {
-            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6CHECK: §bVANILLA_KICK");
             updatevio(this, e.getPlayer(), vanillavio, " §6CHECK: §bVANILLA");
         }
     }
