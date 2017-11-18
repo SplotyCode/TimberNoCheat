@@ -4,6 +4,7 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import org.bukkit.Difficulty;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,14 +30,16 @@ public class Accuracy extends Check {
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onHit(EntityDamageByEntityEvent event) {
         if(!(event.getDamager() instanceof Player) || event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getDamager().getNearbyEntities(5.8, 5.8, 5.8).stream().anyMatch(en -> en instanceof LivingEntity))return;
-        check((Player) event.getDamager(), false);
+        if(TimberNoCheat.checkmanager.isvalid_create((Player) event.getDamager()))
+            check((Player) event.getDamager(), false);
     }
 
     @EventHandler
     private void onFail(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         if (event.getAction() != Action.LEFT_CLICK_AIR || p.getNearbyEntities(5.8, 5.8, 5.8).stream().anyMatch(en -> en instanceof LivingEntity)) return;
-        check(p, true);
+        if(TimberNoCheat.checkmanager.isvalid_create(p))
+            check(p, true);
     }
 
     private void check(Player p, boolean miss) {

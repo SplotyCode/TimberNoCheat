@@ -452,8 +452,7 @@ interact:
    sleep: true
    block: true
    openinv: true
-   #curently not working aka throws false positives
-   gost: false
+   ghost: false
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -630,6 +629,7 @@ fly:
    simple:
       enable: true
       vio: 1.3
+   glide: true
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -728,6 +728,15 @@ nofall:
 #[DE-EN]------------[DE-EN]
 damageindicator:
    enable: true
+   max_ping: -1
+   min_tps: -1
+   #no violations
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+damageindicator:
+   enable: true
+   items: true
    max_ping: -1
    min_tps: -1
    #no violations

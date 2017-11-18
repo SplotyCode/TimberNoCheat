@@ -22,6 +22,7 @@ public class Fly extends Check {
     private final double vanillavio;
     private final double simplevio;
     private final boolean simple;
+    private final boolean glide;
 
     public Fly(){
         super("Fly", Category.MOVEMENT);
@@ -29,6 +30,7 @@ public class Fly extends Check {
         simple = getBoolean("simple");
         vanillavio = getDouble("vanilla.vio");
         simplevio = getDouble("simple.vio");
+        glide = getBoolean("glide");
     }
 
     @EventHandler
@@ -55,7 +57,7 @@ public class Fly extends Check {
         }
     }
 
-    public boolean inair(Player p){
+    private boolean inair(Player p){
         for(Block b : BlockUtil.getBlocksAround(p.getLocation(), 2))
             if(b.getType() != Material.AIR)
                 return false;

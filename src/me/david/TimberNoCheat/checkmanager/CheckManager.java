@@ -91,6 +91,7 @@ public class CheckManager {
         register(new Criticals());
         register(new Clock());
         register(new Accuracy());
+        register(new AntiESP());
     }
     public void execute(String cmd, String player){
         if(!cmd.equals("")){

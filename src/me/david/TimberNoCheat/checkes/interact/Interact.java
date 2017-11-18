@@ -3,9 +3,11 @@ package me.david.TimberNoCheat.checkes.interact;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
+import me.david.TimberNoCheat.checktools.MaterialHelper;
 import me.david.api.utils.BlockUtil;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -24,7 +26,7 @@ public class Interact extends Check {
     private final boolean sleep;
     private final boolean block;
     private final boolean openinv;
-    private final boolean gost;
+    private final boolean ghost;
 
     public Interact(){
         super("Interact", Category.INTERACT);
@@ -36,7 +38,7 @@ public class Interact extends Check {
         sleep = getBoolean("sleep");
         block = getBoolean("block");
         openinv = getBoolean("openinv");
-        gost = getBoolean("gost");
+        ghost = getBoolean("gost");
     }
 
     @EventHandler
@@ -57,6 +59,7 @@ public class Interact extends Check {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
     public void onInteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
@@ -92,14 +95,18 @@ public class Interact extends Check {
             //System.out.println(p.getOpenInventory().getType());
             updatevio(this, p, 1, " §6CHECK: §bOPENINV");
         }
-        if(e.getClickedBlock() == null || p.getTargetBlock((Set<Material>) null, 6) == null || !gost){
+        if(e.getClickedBlock() == null || !ghost)
             return;
+        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK) && ((MaterialHelper.checkmat(e.getClickedBlock().getLocation())) || (p.getItemInHand().getType() == Material.getMaterial(383)))) {
+            if (MaterialHelper.checkb(p, e.getClickedBlock().getLocation()) != null) {
+                updatevio(this, p, 1, " §6CHECK: §bGHOST");
+                e.setCancelled(true);
+            }
         }
-
-        if(p.getTargetBlock((Set<Material>) null, 6) != e.getClickedBlock() && !BlockUtil.getSurrounding(p.getTargetBlock((Set<Material>) null, 6), false).contains(e.getClickedBlock())){
-            e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bGHOST");
-        }
+        //if(p.getTargetBlock((Set<Material>) null, 6) != e.getClickedBlock() && !BlockUtil.getSurrounding(p.getTargetBlock((Set<Material>) null, 6), false).contains(e.getClickedBlock())){
+        //    e.setCancelled(true);
+        //    updatevio(this, p, 1, " §6CHECK: §bGHOST");
+        //}
         /*if(e.getClickedBlock() != null && !.contains(e.getClickedBlock())){
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bGHOST");
