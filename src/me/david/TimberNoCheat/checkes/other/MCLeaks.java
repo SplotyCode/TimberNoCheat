@@ -38,7 +38,6 @@ public class MCLeaks extends Check{
     private KeyPair serverKey;
     private Object service;
 
-    private Class<?> classMinecraftSessionService = null;
     private Class<?> classHasJoinedMinecraftServerResponse = null;
     private Class<?> classYggdrasilMinecraftSessionService = null;
     private Class<?> classYggdrasilAuthenticationService = null;
@@ -76,7 +75,7 @@ public class MCLeaks extends Check{
 
             Class<?> classCraftServer = Reflection.getCraftBukkitClass("CraftServer");
             Class<?> classMinecraftServer = Reflection.getMinecraftClass("MinecraftServer");
-            classMinecraftSessionService = Reflection.getClass("com.mojang.authlib.minecraft.MinecraftSessionService");
+            Class<?> classMinecraftSessionService = Reflection.getClass("com.mojang.authlib.minecraft.MinecraftSessionService");
             classHasJoinedMinecraftServerResponse = Reflection.getClass("com.mojang.authlib.yggdrasil.response.HasJoinedMinecraftServerResponse");
             classYggdrasilMinecraftSessionService = Reflection.getClass("com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService");
             classYggdrasilAuthenticationService = Reflection.getClass("com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService");
@@ -86,7 +85,7 @@ public class MCLeaks extends Check{
                 if (field.getType().getName().equals(KeyPair.class.getName())) {
                     field.setAccessible(true);
                     serverKey = (KeyPair) field.get(console);
-                } else if (field.getType().getName().equals(this.classMinecraftSessionService.getName())) {
+                } else if (field.getType().getName().equals(classMinecraftSessionService.getName())) {
                     field.setAccessible(true);
                     service = field.get(console);
                 }

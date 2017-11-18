@@ -76,6 +76,11 @@ public class Break extends Check {
             updatevio(this, p, tvio, " §6CHECK: §bTOSLOW(TIME)");
             return;
         }
+        if(tenable && InteractTool.getBreakingDuration(e.getBlock().getType(), p) > System.currentTimeMillis()-pd.getStartbreaktime()){
+            e.setCancelled(true);
+            updatevio(this, p, tvio, " §6CHECK: §bFAST");
+            return;
+        }
         pd.setStartbreaktime(0);
         pd.setStartbreak(null);
     }
