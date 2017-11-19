@@ -4,33 +4,36 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import me.david.TimberNoCheat.checktools.FalsePositive;
 import me.david.TimberNoCheat.checktools.SpeedUtil;
-import me.david.TimberNoCheat.checktools.Velocity;
 import me.david.api.utils.BlockUtil;
+import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffectType;
 
 public class Fly extends Check {
 
     private final boolean vanilla;
-    private final double vanillavio;
     private final double simplevio;
     private final boolean simple;
     private final boolean glide;
+    private final String setback;
 
     public Fly(){
         super("Fly", Category.MOVEMENT);
         vanilla = getBoolean("vanilla");
         simple = getBoolean("simple");
-        vanillavio = getDouble("vanilla.vio");
         simplevio = getDouble("simple.vio");
         glide = getBoolean("glide");
+        setback = getString("setbackmethode");
     }
 
     @EventHandler
@@ -39,11 +42,11 @@ public class Fly extends Check {
             return;
         }
         if(vanilla && e.getReason().equals("Flying is not enabled on this server")) {
-            updatevio(this, e.getPlayer(), vanillavio, " §6CHECK: §bVANILLA");
+            updatevio(this, e.getPlayer(), 1, " §6CHECK: §bVANILLA");
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void playermove(PlayerMoveEvent e){
         final Player p = e.getPlayer();
         final Location to = e.getTo();
@@ -52,8 +55,52 @@ public class Fly extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        if(simple && inair(p) && !Velocity.velocity.containsKey(p.getUniqueId()) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))){
+        if(PlayerUtil.isOnGround(p)) pd.setLastonground(p.getLocation());
+        FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
+        if(simple && inair(p) && !fp.enderpearl && !fp.hasClimp(80) && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.jumpboost(p) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))){
             updatevio(this, p, simplevio, " §6CHECK: §bSIMPLE");
+            setBack(p);
+        }
+        if(glide){
+            if(p.getAllowFlight() || fp.enderpearl || fp.hasClimp(140) || PlayerUtil.isOnGround(p)){
+                pd.setGlide(-1);
+                return;
+            }
+            if (e.getTo().getX() != e.getFrom().getX() || e.getTo().getZ() != e.getFrom().getZ()) {
+                double yDiff = e.getFrom().getY() - e.getTo().getY();
+                if (yDiff > 0.0D && yDiff <= 0.16D) {
+                    if (pd.getGlide() == -1) {
+                        pd.setGlide(System.currentTimeMillis());
+                        return;
+                    }
+                    long delay = System.currentTimeMillis() - pd.getGlide();
+                    if (delay > 800) {
+                        pd.setGlide(System.currentTimeMillis()-250);
+                        setBack(p);
+                        updatevio(this, p, (0.16D-yDiff+4)*delay/3, " §6CHECK: §bGLIDE/SLOWFALL");
+                    }
+                } else pd.setGlide(-1);
+            }
+        }
+    }
+
+    private void setBack(Player p){
+        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        switch (setback){
+            case "cancel":
+                p.teleport(pd.getLastonground(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                break;
+            case "down":
+                p.teleport(p.getLocation().subtract(0, (blocksDown(p) > 3?3:blocksDown(p)), 0));
+                break;
+        }
+    }
+
+    private int blocksDown(Player p){
+        int blocks = 0;
+        while(true){
+            if(p.getLocation().clone().subtract(0, blocks, 0).getBlock().getType() != Material.AIR) return blocks;
+            else blocks++;
         }
     }
 

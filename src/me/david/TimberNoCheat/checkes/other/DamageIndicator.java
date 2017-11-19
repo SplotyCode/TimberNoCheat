@@ -53,7 +53,7 @@ public class DamageIndicator extends Check{
                 @Override
                 public void run() {
                     if (event.getVehicle().isValid() && event.getEntered().isValid()) {
-                        ProtocolLibrary.getProtocolManager().updateEntity(event.getVehicle(), Arrays.asList(new Player[]{(Player)event.getEntered()}));
+                        ProtocolLibrary.getProtocolManager().updateEntity(event.getVehicle(), Arrays.asList((Player)event.getEntered()));
                     }
                 }
             });

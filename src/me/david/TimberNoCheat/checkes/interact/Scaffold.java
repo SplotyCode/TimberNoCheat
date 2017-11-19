@@ -31,6 +31,7 @@ public class Scaffold extends Check {
             e.setCancelled(true);
         }
     }
+
     private ArrayList<Location> illegalblocks(Location loc){
         ArrayList<Location> locs = new ArrayList<Location>();
         loc = loc.subtract(0, 1, 0);

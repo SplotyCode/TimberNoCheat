@@ -25,7 +25,7 @@ public class SkinBlinker extends Check {
         sleep = getBoolean("sleep");
         cursor = getBoolean("cursor");
         move_delay = getLong("move_delay");
-        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, new PacketType[]{PacketType.Play.Client.SETTINGS}) {
+        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.SETTINGS) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
                 if(p != null) {

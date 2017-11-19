@@ -12,7 +12,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class AirPlace extends Check {
 
-    private boolean diagonals;
+    private final boolean diagonals;
     private boolean cancel;
     public AirPlace() {
         super("AirPlace", Category.INTERACT);

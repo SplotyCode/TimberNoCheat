@@ -8,6 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.Objects;
+
 public class Address extends Check{
 
     public final boolean block;
@@ -24,7 +26,7 @@ public class Address extends Check{
         if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
             return;
         }
-        if(UrlUtil.blockURL(e.getMessage()) != e.getMessage()){
+        if(!Objects.equals(UrlUtil.blockURL(e.getMessage()), e.getMessage())){
             updatevio(this, e.getPlayer(), 1, " §6MESSAGE: §b" + e.getMessage());
             if(block) e.setCancelled(true);
         }

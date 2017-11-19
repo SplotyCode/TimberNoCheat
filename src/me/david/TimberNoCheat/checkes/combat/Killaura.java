@@ -27,8 +27,8 @@ public class Killaura extends Check {
     private final double ping_300_350;
     private final double ping_350_400;
     private final double ping_over400;
-    private double viomodifier;
-    private double max_velocity;
+    private final double viomodifier;
+    private final double max_velocity;
     private final double lowgroud_mofier;
 
     public Killaura() {

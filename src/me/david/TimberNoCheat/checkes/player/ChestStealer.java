@@ -51,7 +51,7 @@ public class ChestStealer extends Check {
             }
         }
         if(pd.getCheststealercon().size() >= maxcachesize){
-            int i = 0;
+            int i;
             for(i = 0;i < pd.getCheststealercon().size();i++)
                 if(i == maxcachesize)
                     pd.getCheststealercon().remove(i);

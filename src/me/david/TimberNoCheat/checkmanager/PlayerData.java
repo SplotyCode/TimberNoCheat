@@ -72,6 +72,8 @@ public class PlayerData {
     private int stepjump2;
     private Location laststep;
     private HashMap<Long, Boolean> accuracy;
+    private long glide;
+    private Location lastonground;
 
     private FalsePositive.FalsePositiveChecks falsepositives;
 
@@ -138,6 +140,8 @@ public class PlayerData {
         this.stepjump2 = -1;
         this.laststep = null;
         this.accuracy = new HashMap<Long, Boolean>();
+        this.glide = -1;
+        lastonground = null;
     }
 
     /**
@@ -149,6 +153,22 @@ public class PlayerData {
         return falsepositives;
     }
 
+
+    public Location getLastonground() {
+        return lastonground;
+    }
+
+    public void setLastonground(Location lastonground) {
+        this.lastonground = lastonground;
+    }
+
+    public long getGlide() {
+        return glide;
+    }
+
+    public void setGlide(long glide) {
+        this.glide = glide;
+    }
 
     public HashMap<Long, Boolean> getAccuracy() {
         return accuracy;

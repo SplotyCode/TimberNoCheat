@@ -1,6 +1,5 @@
 package me.david.TimberNoCheat.checkes.other;
 
-import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import org.bukkit.Location;
@@ -34,7 +33,7 @@ public class Clock extends Check {
             }
             event.setNewCurrent(0);
         }
-        if(!values.containsKey(loc)) values.put(loc, new Data(System.currentTimeMillis(), 0));
+        if(!values.containsKey(loc)) values.put(loc, new Data());
         if(System.currentTimeMillis()-values.get(loc).start > 10000){
             values.remove(loc);
             return;
@@ -51,9 +50,9 @@ public class Clock extends Check {
         private long start;
         private int toggles;
 
-        private Data(long start, int toggles){
-            this.start = start;
-            this.toggles = toggles;
+        private Data(){
+            this.start = System.currentTimeMillis();
+            this.toggles = 0;
         }
     }
 

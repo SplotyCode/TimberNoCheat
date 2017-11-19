@@ -32,7 +32,7 @@ public class MorePackets extends Check {
         blacklistadd = getLong("blacklistadd");
         blacklistremove = getLong("blacklistremove");
         worlddownloadingdelayinticks = getLong("worlddownloadingdelayinticks");
-        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, new PacketType[]{PacketType.Play.Client.POSITION_LOOK}) {
+        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.POSITION_LOOK) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
                 if(p != null) {
@@ -40,7 +40,7 @@ public class MorePackets extends Check {
                 }
             }
         });
-        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, new PacketType[]{PacketType.Play.Client.LOOK}) {
+        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.LOOK) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
                 if(p != null) {
@@ -48,7 +48,7 @@ public class MorePackets extends Check {
                 }
             }
         });
-        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, new PacketType[]{PacketType.Play.Client.POSITION}) {
+        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.POSITION) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
                 if(p != null) {
@@ -56,7 +56,7 @@ public class MorePackets extends Check {
                 }
             }
         });
-        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, new PacketType[]{PacketType.Play.Client.FLYING}) {
+        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.FLYING) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
                 if(p != null) {

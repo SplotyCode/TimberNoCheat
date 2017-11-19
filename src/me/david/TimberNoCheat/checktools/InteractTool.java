@@ -17,9 +17,9 @@ public class InteractTool {
     public static final Tool noTool = new Tool(null, ToolType.NONE, ToolMaterial.NONE);
     public static final long[] instantTimes = secToMs(0);
     public static final long[] leafTimes = secToMs(0.3);
-    public static long[] glassTimes = secToMs(0.45);
+    public static final long[] glassTimes = secToMs(0.45);
     public static final long[] gravelTimes = secToMs(0.9, 0.45, 0.25, 0.15, 0.15, 0.1);
-    public static long[] railsTimes = secToMs(1.05, 0.55, 0.3, 0.2, 0.15, 0.1);
+    public static final long[] railsTimes = secToMs(1.05, 0.55, 0.3, 0.2, 0.15, 0.1);
     public static final long[] woodTimes = secToMs(3, 1.5, 0.75, 0.5, 0.4, 0.25);
     public static final Block instantType = new Block(noTool, 0, instantTimes);
     public static final Block glassType = new Block(noTool, 0.3f, glassTimes, 2f);
@@ -265,10 +265,10 @@ public class InteractTool {
     }
 
     public static class Block {
-        private Tool tool;
-        private long[] breakingTimes;
-        private float hardness;
-        private float efficiencyMod;
+        private final Tool tool;
+        private final long[] breakingTimes;
+        private final float hardness;
+        private final float efficiencyMod;
 
         public Block(Tool tool, float hardness) {
             this(tool, hardness, 1);
@@ -439,10 +439,7 @@ public class InteractTool {
             if (mat == Material.WOODEN_DOOR) {
                 return true;
             }
-            if (blockProps.hardness <= 2
-                    && (blockProps.tool.toolType == ToolType.AXE
-                    || blockProps.tool.toolType == ToolType.SHOVEL
-                    || (blockProps.hardness < 0.8 && (mat != Material.NETHERRACK && mat != Material.SNOW && mat != Material.SNOW_BLOCK && mat != Material.STONE_PLATE)))) {
+            if (blockProps.hardness <= 2 && (blockProps.tool.toolType == ToolType.AXE || blockProps.tool.toolType == ToolType.SHOVEL || blockProps.hardness < 0.8 && mat != Material.NETHERRACK && mat != Material.SNOW_BLOCK && mat != Material.STONE_PLATE)) {
                 return true;
             }
         }

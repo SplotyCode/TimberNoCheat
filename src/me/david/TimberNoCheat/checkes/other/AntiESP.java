@@ -24,7 +24,7 @@ public class AntiESP extends Check {
 
     private HashMap<String, Set<Integer>> hidden = new HashMap<String, Set<Integer>>();
 
-    private boolean items;
+    private final boolean items;
 
     public AntiESP() {
         super("AntiESP", Category.OTHER);

@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class Clip extends Check{
 
-    private boolean onlyfull;
+    private final boolean onlyfull;
     public Clip(){
         super("Clip", Category.MOVEMENT);
         onlyfull = getBoolean("onlyfullblocks");

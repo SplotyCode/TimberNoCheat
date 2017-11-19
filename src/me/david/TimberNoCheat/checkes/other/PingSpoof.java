@@ -51,7 +51,7 @@ public class PingSpoof extends Check {
             Process cmd = Runtime.getRuntime().exec("ping -c 1 " +p.getAddress().getAddress().getHostAddress());
             cmd.waitFor();
             BufferedReader r = new BufferedReader(new InputStreamReader(cmd.getInputStream(), StandardCharsets.UTF_8));
-            String str = null;
+            String str;
             StringBuilder sb = new StringBuilder(8192);
             while ((str = r.readLine()) != null) {
                 sb.append(str);
