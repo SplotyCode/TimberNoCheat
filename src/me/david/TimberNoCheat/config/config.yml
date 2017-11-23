@@ -875,6 +875,9 @@ inventory:
    portalopen: true
    openinvchat: true
    openinvhit: true
+   achivement: true
+   achivement_portal: true
+   itemcursor: true
    hitdelay: 190
    chatdelay: 900
    max_ping: -1
