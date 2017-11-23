@@ -77,6 +77,7 @@ public class PlayerData {
     private double vehicley;
     private int vehicledif;
     private long lastachivementopeninv;
+    private Location loginlocation;
 
     private FalsePositive.FalsePositiveChecks falsepositives;
 
@@ -148,6 +149,7 @@ public class PlayerData {
         this.vehicledif = -1;
         this.vehicley = -1;
         this.lastachivementopeninv = System.currentTimeMillis()-15000L;
+        this.loginlocation = null;
     }
 
     /**
@@ -161,6 +163,14 @@ public class PlayerData {
 
 
 
+
+    public Location getLoginlocation() {
+        return loginlocation;
+    }
+
+    public void setLoginlocation(Location loginlocation) {
+        this.loginlocation = loginlocation;
+    }
 
     public long getLastachivementopeninv() {
         return lastachivementopeninv;

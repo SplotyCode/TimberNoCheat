@@ -78,7 +78,47 @@ generel:
 #[DE-EN]Chat Checks[DE-EN]
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]-----------[DE-EN]
-
+caps:
+   enable: true
+   minlen: 8
+   per: 45
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      1: "NOTIFY"
+charspamm:
+   enable: true
+   minlen: 6
+   per: 12
+   maxcharspam: 4
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      1: "NOTIFY"
+similarity:
+   enable: true
+   minlen: 8
+   similarity: 85
+   strip_chars: true
+   strip_duplicates: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      1: "NOTIFY"
+bot:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      1: "NOTIFY"
 address:
    enable: true
    #[EN]Shoud we block the message with the Address?[EN]
@@ -90,7 +130,7 @@ address:
    viocachedelay: -1
    vioactions:
       1: "MESSAGE:&cBitte mache keine Werbung!"
-      1: "NOTIFY:&cBitte mache keine Werbung!"
+      1: "NOTIFY"
       2: "KICK:&cBitte mache keine Werbung!"
 #[EN]Clears BlackListed words[EN]
 #[DE]Löscht falsche wörter[DE]

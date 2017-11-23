@@ -99,6 +99,10 @@ public class CheckManager {
         register(new Clock());
         register(new Accuracy());
         register(new AntiESP());
+        register(new VehicleMove());
+        register(new Bots());
+        register(new Similarity());
+        register(new Caps());
     }
 
     public void execute(String cmd, String player){
