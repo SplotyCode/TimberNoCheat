@@ -25,9 +25,7 @@ public class InteractReach extends Check {
     @EventHandler
     public void oninteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.getClickedBlock() == null){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.getClickedBlock() == null) return;
         final double reach = e.getClickedBlock().getLocation().distance(PlayerUtil.getEyeLocation(p));
         final double maxreach = p.getGameMode() == GameMode.CREATIVE?distancecreative:distancenormal;
         if(reach > maxreach){

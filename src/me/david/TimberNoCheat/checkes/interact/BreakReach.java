@@ -24,9 +24,7 @@ public class BreakReach extends Check {
     @EventHandler
     public void onBreak(BlockBreakEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         final double reach = e.getBlock().getLocation().distance(PlayerUtil.getEyeLocation(p));
         final double maxreach = p.getGameMode() == GameMode.CREATIVE?distancecreative:distancenormal;
         if(reach > maxreach){

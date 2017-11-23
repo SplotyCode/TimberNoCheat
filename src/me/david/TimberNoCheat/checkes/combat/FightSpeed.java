@@ -24,9 +24,7 @@ public class FightSpeed extends Check{
     @EventHandler
     public void oninteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setInteractslastsecond(pd.getInteractslastsecond()+1);
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
@@ -46,9 +44,7 @@ public class FightSpeed extends Check{
             return;
         }
         final Player p = (Player) e.getDamager();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setHitslastsecond(pd.getHitslastsecond()+1);
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {

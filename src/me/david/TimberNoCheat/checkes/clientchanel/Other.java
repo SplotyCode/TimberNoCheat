@@ -45,8 +45,7 @@ public class Other extends Check implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String chanel, Player player, byte[] bytes) {
-        if(!TimberNoCheat.checkmanager.isvalid_create(player))
-            return;
+        if(!TimberNoCheat.checkmanager.isvalid_create(player)) return;
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         if(chanel.equals(chanelZIG)){
             if(zig5_kick){

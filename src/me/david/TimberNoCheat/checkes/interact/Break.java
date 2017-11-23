@@ -42,9 +42,7 @@ public class Break extends Check {
     @EventHandler
     public void onbreakstart(BlockDamageEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setStartbreak(e.getBlock());
         pd.setStartbreaktime(System.currentTimeMillis());
@@ -52,9 +50,7 @@ public class Break extends Check {
     @EventHandler
     public void onbreak(BlockBreakEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         InteractTool.Tool hand = p.getItemInHand() == null?null:InteractTool.getToolbyMaterial(p.getItemInHand().getType());
         if(csenable && p.getGameMode() == GameMode.CREATIVE && hand != null && hand.getToolType() == InteractTool.ToolType.SWORD){

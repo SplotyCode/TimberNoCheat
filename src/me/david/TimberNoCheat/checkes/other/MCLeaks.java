@@ -137,8 +137,9 @@ public class MCLeaks extends Check{
             }
         });
     }
-    public void kickPlayer(Player p) {
-        if (p == null) {
+
+    private void kickPlayer(Player p) {
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }
         Bukkit.getServer().getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
@@ -155,7 +156,8 @@ public class MCLeaks extends Check{
             }
         }, 180L);
     }
-    public void task(final String name, final String serverId, final InetAddress address, boolean again) {
+
+    private void task(final String name, final String serverId, final InetAddress address, boolean again) {
         try {
             boolean result = this.isSafe(name, serverId, address);
             if (result) {

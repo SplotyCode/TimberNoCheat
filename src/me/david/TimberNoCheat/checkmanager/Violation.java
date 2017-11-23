@@ -1,12 +1,14 @@
 package me.david.TimberNoCheat.checkmanager;
 
 public class Violation {
+
     public enum ViolationTypes{
         NOTIFY,
         CMD,
         KICK,
         MESSAGE;
     }
+    
     private int level;
     private ViolationTypes type;
     private String rest;

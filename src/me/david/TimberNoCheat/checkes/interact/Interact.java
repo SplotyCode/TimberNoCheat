@@ -39,9 +39,7 @@ public class Interact extends Check {
 
     @EventHandler
     public void onhitinteract(EntityDamageByEntityEvent e){
-        if(!(e.getDamager() instanceof Player)){
-            return;
-        }
+        if(!(e.getDamager() instanceof Player)) return;
         final Player p = (Player)e.getDamager();
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
@@ -59,9 +57,7 @@ public class Interact extends Check {
     @EventHandler
     public void onInteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         if(e.getClickedBlock() != null && e.getClickedBlock().isLiquid() && liquids){
             e.setCancelled(true);
             updatevio(this, p, 1, " §6CHECK: §bLIQUIDS");

@@ -283,6 +283,8 @@ nbt:
    noitem: true
    nopages: true
    toomanypahes: 51
+   enchants: true
+   potions: true
    #[EN]the length has changed over versions so to enable the check you can test it out or search for your version[EN]
    #[DE]Die maximal länge einer Buchseite wurde im laufe der Versionen mehrmach geämdert! Um den Check zu aktivieren kannst du der die Zahl suchen oder selbertesten[DE]
    toolongtext: -1
@@ -560,6 +562,17 @@ airplace:
 #[DE-EN]Movement Checks[DE-EN]
 #[DE-EN]---------------[DE-EN]
 #[DE-EN]---------------[DE-EN]
+vehiclemove:
+   enable: true
+   boat: true
+   horse: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      1: "NOTIFY"
+      1: "KICK:A"
 bedleave:
    enable: true
    maxrange: 10

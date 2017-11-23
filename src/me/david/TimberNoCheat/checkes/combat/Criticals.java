@@ -18,9 +18,7 @@ public class Criticals extends Check {
     public void onDamage(EntityDamageByEntityEvent event){
         if(!(event.getDamager() instanceof Player))return;
         final Player p = (Player) event.getDamager();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         if (!PlayerUtil.isOnGround(p) && !p.getAllowFlight() && p.getLocation().getY() % 1 == 0 && p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().isSolid()) {
             updatevio(this, p, 1);
         }

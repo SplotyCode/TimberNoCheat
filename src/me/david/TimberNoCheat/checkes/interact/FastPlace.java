@@ -21,12 +21,7 @@ public class FastPlace extends Check{
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent e){
         final Player p = e.getPlayer();
-        if(e.isCancelled()){
-            return;
-        }
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
+        if(e.isCancelled() || !TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setBlockplacelastsecond(pd.getBlockplacelastsecond()+1);
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {

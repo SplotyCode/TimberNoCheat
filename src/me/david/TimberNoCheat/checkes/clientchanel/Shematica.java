@@ -51,9 +51,7 @@ public class Shematica extends Check implements PluginMessageListener {
     @EventHandler
     public void onlogin(PlayerLoginEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         sendPluginMessage(p, getPayload());
         p.sendPluginMessage(TimberNoCheat.instance, channel, getPayload());
     }

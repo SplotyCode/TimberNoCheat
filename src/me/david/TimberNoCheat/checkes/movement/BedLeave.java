@@ -19,9 +19,7 @@ public class BedLeave extends Check{
 
     @EventHandler
     public void onBedLeave(PlayerBedLeaveEvent e){
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())) return;
         Location loc = e.getBed().getLocation();
         for(int x = loc.getBlockX() - maxrange; x < loc.getBlockX() + maxrange; ++x) {
             for(int y = loc.getBlockY() - maxrange; y < loc.getBlockY() + maxrange; ++y) {

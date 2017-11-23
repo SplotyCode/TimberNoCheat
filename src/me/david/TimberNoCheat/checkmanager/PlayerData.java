@@ -74,6 +74,8 @@ public class PlayerData {
     private HashMap<Long, Boolean> accuracy;
     private long glide;
     private Location lastonground;
+    private double vehicley;
+    private int vehicledif;
 
     private FalsePositive.FalsePositiveChecks falsepositives;
 
@@ -141,7 +143,9 @@ public class PlayerData {
         this.laststep = null;
         this.accuracy = new HashMap<Long, Boolean>();
         this.glide = -1;
-        lastonground = null;
+        this.lastonground = null;
+        this.vehicledif = -1;
+        this.vehicley = -1;
     }
 
     /**
@@ -153,6 +157,23 @@ public class PlayerData {
         return falsepositives;
     }
 
+
+
+    public double getVehicley() {
+        return vehicley;
+    }
+
+    public void setVehicley(double vehicley) {
+        this.vehicley = vehicley;
+    }
+
+    public int getVehicledif() {
+        return vehicledif;
+    }
+
+    public void setVehicledif(int vehicledif) {
+        this.vehicledif = vehicledif;
+    }
 
     public Location getLastonground() {
         return lastonground;

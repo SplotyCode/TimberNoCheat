@@ -12,9 +12,9 @@ public class Clock extends Check {
 
     private HashMap<Location, Data> values = new HashMap<Location, Data>();
 
-    private int maxtoggles;
-    private boolean notify;
-    private boolean cancel;
+    private final int maxtoggles;
+    private final boolean notify;
+    private final boolean cancel;
     private HashMap<Location, Long> blacklist = new HashMap<Location, Long>();
 
     public Clock() {
@@ -41,7 +41,7 @@ public class Clock extends Check {
         values.get(loc).toggles++;
         if(values.get(loc).toggles == maxtoggles){
             if(cancel) blacklist.put(loc, System.currentTimeMillis());
-            /* TODO: ADD NOFIFY */if(notify);
+            if(notify);
         }
 
     }

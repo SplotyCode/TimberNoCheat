@@ -28,6 +28,7 @@ public class Inventory extends Check {
     private final boolean openinvhit;
     private final long hitdelay;
     private final long chatdelay;
+
     public Inventory(){
         super("Inventory", Category.PLAYER);
         sneaking = getBoolean("sneaking");

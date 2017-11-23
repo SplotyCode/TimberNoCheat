@@ -34,6 +34,7 @@ public class AntiESP extends Check {
             public void run() {
                 new Thread(() -> {
                     for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+                        if(!TimberNoCheat.checkmanager.isvalid_create(player)) return;
                         List<Entity> nearbyEntities = player.getNearbyEntities(12, 255, 12);
                         nearbyEntities.remove(player);
                         nearbyEntities.forEach(target -> {if (!(target instanceof Item) || items) check(player, target); });

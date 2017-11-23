@@ -26,16 +26,13 @@ public class NoSwing extends Check{
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEvent e){
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled() || checkdelay == -1 || e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled() || checkdelay == -1 || e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) return;
         TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer()).setShoudswing(true);
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
             @Override
             public void run() {
-                if(TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer()).isShoudswing()){
+                if(TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer()).isShoudswing())
                     updatevio(NoSwing.this, e.getPlayer(), 1);
-                }
             }
         }, checkdelay);
     }

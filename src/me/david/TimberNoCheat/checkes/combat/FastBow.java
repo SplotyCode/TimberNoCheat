@@ -20,19 +20,13 @@ public class FastBow extends Check{
 
     @EventHandler
     public void onshot(EntityShootBowEvent e){
-        if(!(e.getEntity() instanceof Player)){
-            return;
-        }
+        if(!(e.getEntity() instanceof Player)) return;
         final Player p = (Player) e.getEntity();
         //p.sendMessage(e.getForce()+"");
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         long delay = System.currentTimeMillis() - pd.getLastbowshot();
-        if(e.getForce() <= mimimumforce){
-            return;
-        }
+        if(e.getForce() <= mimimumforce) return;
         if(delay < this.delay){
             updatevio(this, p, (this.delay-delay),  " §6DELAY: §b" + delay, " §6FORCE: §b" + e.getForce());
             e.setCancelled(true);

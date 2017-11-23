@@ -63,7 +63,7 @@ public class Killaura extends Check {
         check_multi(e, pd);
     }
 
-    public void check_multi(EntityDamageByEntityEvent e, PlayerData pd){
+    private void check_multi(EntityDamageByEntityEvent e, PlayerData pd){
         if(pd.getLasthitentity() == 0){
             pd.setLasthitentity(e.getEntity().getEntityId());
         }

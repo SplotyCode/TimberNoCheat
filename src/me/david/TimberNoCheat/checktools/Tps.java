@@ -21,9 +21,7 @@ public class Tps implements Runnable{
     }
 
     public static double getTPS(int checklastticks) {
-        if (tickcount < checklastticks) {
-            return 20.0D;
-        }
+        if (tickcount < checklastticks) return 20.0D;
         int target = (tickcount - 1 - checklastticks) % ticks.length;
         long elapsed = System.currentTimeMillis() - ticks[target];
 
@@ -33,6 +31,7 @@ public class Tps implements Runnable{
     public void run() {
         ticks[(tickcount % ticks.length)] = System.currentTimeMillis();
         tickcount++;
+        //TODO: Stop ProtocolLib listeners and bukkit shedulers
         if(!lowcpumode && getTPS() < 16){
             TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wegen der geringen Tps deaktiviert!");
             for(Check check : TimberNoCheat.checkmanager.checks)
