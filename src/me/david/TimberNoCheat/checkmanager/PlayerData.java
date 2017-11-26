@@ -1,8 +1,10 @@
 package me.david.TimberNoCheat.checkmanager;
 
 import me.david.TimberNoCheat.checktools.FalsePositive;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -78,6 +80,14 @@ public class PlayerData {
     private int vehicledif;
     private long lastachivementopeninv;
     private Location loginlocation;
+    private float hitboxyaw;
+    private Player lastattaked;
+    private EntityPlayer bot;
+    private int packethit;
+    private int packetswing;
+    private ArrayList<Long> fishtspeed;
+    private Location aimborloc;
+    private double aimbotdiff;
 
     private FalsePositive.FalsePositiveChecks falsepositives;
 
@@ -150,6 +160,14 @@ public class PlayerData {
         this.vehicley = -1;
         this.lastachivementopeninv = System.currentTimeMillis()-15000L;
         this.loginlocation = null;
+        this.hitboxyaw = 0;
+        this.lastattaked = null;
+        this.bot = null;
+        this.packethit = 0;
+        this.packetswing = 0;
+        this.fishtspeed = new ArrayList<Long>();
+        this.aimborloc = null;
+        this.aimbotdiff = -1;
     }
 
     /**
@@ -163,6 +181,65 @@ public class PlayerData {
 
 
 
+    public Location getAimborloc() {
+        return aimborloc;
+    }
+
+    public void setAimborloc(Location aimborloc) {
+        this.aimborloc = aimborloc;
+    }
+
+    public double getAimbotdiff() {
+        return aimbotdiff;
+    }
+
+    public void setAimbotdiff(double aimbotdiff) {
+        this.aimbotdiff = aimbotdiff;
+    }
+
+    public ArrayList<Long> getFishtspeed() {
+        return fishtspeed;
+    }
+
+    public int getPackethit() {
+        return packethit;
+    }
+
+    public void setPackethit(int packethit) {
+        this.packethit = packethit;
+    }
+
+    public int getPacketswing() {
+        return packetswing;
+    }
+
+    public void setPacketswing(int packetswing) {
+        this.packetswing = packetswing;
+    }
+
+    public EntityPlayer getBot() {
+        return bot;
+    }
+
+    public void setBot(EntityPlayer bot) {
+        this.bot = bot;
+    }
+
+    public Player getLastattaked() {
+        return lastattaked;
+    }
+
+    public void setLastattaked(Player lastattaked) {
+        this.lastattaked = lastattaked;
+    }
+
+    public float getHitboxyaw() {
+        return hitboxyaw;
+    }
+
+    public void setHitboxyaw(float hitboxyaw) {
+        this.hitboxyaw = hitboxyaw;
+    }
 
     public Location getLoginlocation() {
         return loginlocation;

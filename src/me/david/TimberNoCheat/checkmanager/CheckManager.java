@@ -1,6 +1,8 @@
 package me.david.TimberNoCheat.checkmanager;
 
 import me.david.TimberNoCheat.TimberNoCheat;
+import me.david.TimberNoCheat.checkes.chat.Bots;
+import me.david.TimberNoCheat.checkes.clientchanel.Vape;
 import me.david.TimberNoCheat.checkes.combat.*;
 import me.david.TimberNoCheat.checkes.interact.*;
 import me.david.TimberNoCheat.checkes.chat.*;
@@ -37,7 +39,7 @@ public class CheckManager {
     /*
      * register/starting checks
      */
-    public CheckManager(){
+    public void loadchecks(){
         register(new Address());
         register(new Delay());
         register(new Sign());
@@ -103,6 +105,14 @@ public class CheckManager {
         register(new Bots());
         register(new Similarity());
         register(new Caps());
+        register(new CharSpamm());
+        register(new Vape());
+        register(new HitBoxes());
+        register(new AuraBots());
+    }
+
+    public CheckManager(){
+        loadchecks();
     }
 
     public void execute(String cmd, String player){

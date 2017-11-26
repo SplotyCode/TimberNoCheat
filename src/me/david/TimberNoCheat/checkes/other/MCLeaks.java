@@ -96,7 +96,7 @@ public class MCLeaks extends Check{
         }catch (IllegalAccessException e){
             e.printStackTrace();
         }
-        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(
+        register(new PacketAdapter(
                 TimberNoCheat.instance,
                 ListenerPriority.HIGH,
                 PacketType.Login.Client.START,

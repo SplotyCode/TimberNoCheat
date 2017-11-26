@@ -22,7 +22,7 @@ public class DamageIndicator extends Check{
 
     public DamageIndicator(){
         super("DamageIndicator", Category.OTHER);
-        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Server.ENTITY_METADATA) {
+        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Server.ENTITY_METADATA) {
             @Override
             public void onPacketSending(PacketEvent event) {
                 if(!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer())){

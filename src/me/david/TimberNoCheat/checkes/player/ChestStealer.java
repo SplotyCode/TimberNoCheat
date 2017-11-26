@@ -45,7 +45,7 @@ public class ChestStealer extends Check {
         }
         if(!enable)return;
         for(int i = 0;i<pd.getCheststealercon().size();i++){
-            if(pd.getCheststealercon().get(0) < cacheinmilis){
+            if(pd.getCheststealercon().get(0) < System.currentTimeMillis()-cacheinmilis){
                 pd.getCheststealercon().remove(0);
                 //System.out.println("a");
             }

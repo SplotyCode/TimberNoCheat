@@ -9,7 +9,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class Bots extends Check {
 
     public Bots() {
-        super("Bots", Category.CHAT);
+        super("AuraBots", Category.CHAT);
     }
 
     @EventHandler

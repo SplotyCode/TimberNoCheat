@@ -3,7 +3,7 @@
 #all lines that starts with # are comments
 
 
-#[RN]generl check structure[EN]
+#[RN]general check structure[EN]
 #[DE]generelle check struktur[DE]
 #checkname:
 #   enable: true
@@ -17,7 +17,7 @@
 #      "4:KICK:Du wurdest gekickt!"
 #      "12:CMD:ban %player% Dein Name: %player% Deine uuid: %uuid% Deine ip: %ip% Dein ping %ping% ServerPort: %port% Dein ping %ping% Server TPS: %tps% Deine Violation: %vio%"
 #[EN]Lines:[EN]
-#[EN]1: checkname[EN]
+#[EN]1: check name[EN]
 #[EN]2: shoud the plugin be enabled?(true or false)[EN]
 #[EN]3: max player ping for violation[EN]
 #[EN]4: min server tps for violation[EN]
@@ -63,7 +63,7 @@
 #[DE-EN]--------------[DE-EN]
 #[DE-EN]--------------[DE-EN]
 #[DE]Generlle Optionen[DE]
-#[EN]Generl Options[EN]
+#[EN]General Options[EN]
 #[DE-EN]--------------[DE-EN]
 #[DE-EN]--------------[DE-EN]
 generel:
@@ -206,6 +206,15 @@ spamming:
 #[DE-EN]Clientchannel Checks[DE-EN]
 #[DE-EN]--------------------[DE-EN]
 #[DE-EN]--------------------[DE-EN]
+vape:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+         1: "KICK:§cVAPE!"
+         1: "NOTIFY"
 labymod:
    enable: true
    animations: true
@@ -364,6 +373,19 @@ sign:
 #[DE-EN]Combat Checks[DE-EN]
 #[DE-EN]-------------[DE-EN]
 #[DE-EN]-------------[DE-EN]
+aurabots:
+   enable: true
+   armor: true
+   armor_enchant: true
+   visible: true
+   realplayer: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 4000
+   vioactions:
+      1: "NOTIFY"
+      12: "KICK:Criticals?"
 fastbow:
    enable: true
    delay: 560
@@ -377,6 +399,19 @@ fastbow:
    vioactions:
       1: "NOTIFY"
       25: "KICK:FastBow?"
+hitboxes:
+   enable: true
+   normal: true
+   advanced:
+      enable: true
+      increase: 0.4
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 4000
+   vioactions:
+      1: "NOTIFY"
+      12: "KICK:HITBOX?"
 criticals:
    enable: true
    max_ping: -1
@@ -401,6 +436,12 @@ accuracy:
       12: "KICK:accuracy?"
 fightspeed:
    enable: true
+   consisdent:
+         enable: true
+         cacheinmilis: 8000
+         maxdelaymilis: 2
+         maxcachesize: 12
+         mincachesize: 5
    hitspersecond: 16
    interactspersecond: 45
    max_ping: 320
@@ -416,6 +457,7 @@ killaura:
    #[EN]How fast can you swab the entity? In ms[EN]
    #[DE]Wie schnell kannst du das Entity wegseln? In ms[DE]
    multi_delay: 8
+   swinghitviomodi: 1.6
    range:
       default: 3.9
       #speedmodi
@@ -431,6 +473,7 @@ killaura:
       max_velocity: 0.08
       #lowgrouddis/lowgroud_mofier
       lowgroud_mofier: 3.95
+   aimbot: true
    max_ping: -1
    min_tps: 18
    vioresetafteraction: true
@@ -751,6 +794,23 @@ speed:
      viomodi: 40
      maxpersecond: 12
    jump: true
+   grounddiff:
+      enable: true
+      vio: 0.2
+      whitelist: [0.41999998688697815, 0.33319999363422426, 0.1568672884460831, 0.4044491418477924, 0.4044449141847757, 0.40444491418477746, 0.24813599859094637, 0.1647732812606676, 0.24006865856430082, 0.20000004768370516, 0.19123230896968835, 0.10900766491188207, 0.20000004768371227, 0.40444491418477924, 0.0030162615090425504, 0.05999999821186108, 0.05199999886751172, 0.06159999881982792, 0.06927999889612124, 0.07542399904870933, 0.07532994414328797, 0.08033919924402255, 0.5, 0.08427135945886555, 0.340000110268593, 0.30000001192092896, 0.3955758986732967, 0.019999999105930755, 0.21560001587867816, 0.13283301814746876, 0.05193025879327907, 0.1875, 0.375, 0.08307781780646728, 0.125, 0.25, 0.0625, 0.20000004768371582, 0.4044448882341385, 0.40444491418477835]
+   fakeground:
+      enable: true
+      vio: 2
+   unusualy:
+      enable: true
+      vio: 2
+   blocks:
+      enable: true
+      vio: 2
+   pattern:
+      enable: true
+      viomulti: 1.8
+      disabledpatterns: []
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true

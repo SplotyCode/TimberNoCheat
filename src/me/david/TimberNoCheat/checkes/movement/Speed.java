@@ -4,6 +4,7 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import me.david.TimberNoCheat.checktools.FalsePositive;
 import me.david.TimberNoCheat.checktools.SpeedUtil;
 import me.david.TimberNoCheat.checktools.Velocity;
 import me.david.api.utils.BlockUtil;
@@ -13,6 +14,7 @@ import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -52,6 +54,15 @@ public class Speed extends Check {
     private final int spmaxsecond;
     private final double spvio;
     private final boolean jenable;
+    private final boolean grounddiffen;
+    private final double[] grounddiff;
+    private final double groundvio;
+    private final boolean fgenable;
+    private final double fgvio;
+    private final boolean uyenable;
+    private final double uyvio;
+    private final boolean blenable;
+    private final double blvio;
 
     public Speed(){
         super("Speed", Category.MOVEMENT);
@@ -81,7 +92,20 @@ public class Speed extends Check {
         spmaxsecond = getInt("sprintspam.maxpersecond");
         spvio = getDouble("sprintspam.viomodi");
         jenable = getBoolean("jump");
-        /*Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
+        grounddiffen = getBoolean("grounddiff.enable");
+        grounddiff = getDoubleArray("grounddiff.whitelist");
+        groundvio = getDouble("grounddiff.vio");
+        fgenable = getBoolean("fakeground.enable");
+        fgvio = getDouble("fakeground.vio");
+        uyenable = getBoolean("unusualy.enable");
+        uyvio = getDouble("unusualy.vio");
+        blenable = getBoolean("blocks.enable");
+        blvio = getDouble("blocks.vio");
+    }
+
+    @Override
+    public void starttasks() {
+        /*register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
             @Override
             public void run() {
                 for(Player p : TimberNoCheat.checkmanager.tocheck){
@@ -106,9 +130,8 @@ public class Speed extends Check {
                     pd.setLastspeedloc(p.getLocation());
                 }
             }
-        }, 0, 1);*/
+        }, 0, 1););*/
     }
-
 
     private double getmodi(Player p, double modi){
         for(PotionEffect ef : p.getActivePotionEffects()){
@@ -160,16 +183,10 @@ public class Speed extends Check {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onMove(PlayerMoveEvent e){
-        //System.out.println("a");
         final Player p = e.getPlayer();
         final Location to = e.getTo();
         final Location from = e.getFrom();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()) {
-            return;
-        }
-        if(!to.getWorld().getName().equals(from.getWorld().getName())){
-            return;
-        }
+        if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled() || !to.getWorld().getName().equals(from.getWorld().getName())) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setLastmove(System.currentTimeMillis());
         if(ssenable && p.isSprinting() && p.isSneaking()){
@@ -188,11 +205,15 @@ public class Speed extends Check {
         if(to.getX() != from.getX() || to.getY() != from.getY() || to.getZ() != from.getZ()){
             pd.setLastrealmove(System.currentTimeMillis());
             if(tenable)check_timer(e, pd);
-            if(nenable)check_normal(e, pd);
-            if(jenable)check_jumping(e, pd);
+            if(nenable)check_normal(e);
+            if(jenable)check_jumping(e);
+            if(grounddiffen) check_grounddiff(e, pd);
+            yspeed(e);
         }
+        if(fgenable && p.isOnGround() != PlayerUtil.isOnGround(p)) updatevio(this, p, fgvio, " §6MODE: §bFAKEGROUND");
     }
-    private void check_normal(PlayerMoveEvent e, PlayerData pd){
+
+    private void check_normal(PlayerMoveEvent e){
         final Player p = e.getPlayer();
         if(p.getAllowFlight() || p.getVehicle() != null || Velocity.velocity.containsKey(p.getUniqueId())){
             return;
@@ -244,7 +265,7 @@ public class Speed extends Check {
         pd.getTimerms().add(System.currentTimeMillis()-(pd.getTimerms().size() == 0?0:pd.getTimerms().get(pd.getTimerms().size()-1)));
         if(pd.getTimerms().size() == tchecksize) {
             if(MathUtil.averageLong(pd.getTimerms()) < tmax_average) {
-                updatevio(this, e.getPlayer(), tvio, " §6MODE: TIMER");
+                updatevio(this, e.getPlayer(), tvio, " §6MODE: §bTIMER");
             }
             pd.getTimerms().clear();
         }
@@ -254,17 +275,43 @@ public class Speed extends Check {
         }*/
         //pd.setLasttimer(System.currentTimeMillis());
     }
-    private void check_jumping(PlayerMoveEvent e, PlayerData pd){
-        if(PlayerUtil.isOnClimbable(e.getPlayer()) || e.getPlayer().getAllowFlight())return;
-        if(e.getFrom().getY() < e.getTo().getY() && e.getTo().getY()-e.getFrom().getY() < SpeedUtil.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){
-            updatevio(this, e.getPlayer(), tvio, " §6MODE: JUMP");
+
+    private void yspeed(PlayerMoveEvent e){
+        double yspeed = LocationUtil.getVerticalVector(e.getFrom().toVector()).subtract(LocationUtil.getVerticalVector(e.getTo().toVector())).length();
+        if(uyenable)
+            if(((yspeed == 0.25D || (yspeed >= 0.58D && yspeed < 0.581D)) && yspeed > 0.0D || (yspeed > 0.2457D && yspeed < 0.24582D) || (yspeed > 0.329 && yspeed < 0.33)) && !e.getPlayer().getLocation().clone().subtract(0.0D, 0.1, 0.0D).getBlock().getType().equals(Material.SNOW))
+                updatevio(this, e.getPlayer(), uyvio, " §6MODE: §bUNUSUAL_Y", " §6SPEED: §b" + yspeed, " §6BLOCK: §b" + e.getPlayer().getLocation().clone().subtract(0, 0.1D, 0).getBlock().getType().name());
+        if(blenable)
+            for(Block block : BlockUtil.getBlocksAround(e.getPlayer().getLocation(), 1))
+                if(block.getType().isSolid() && yspeed >= 0.321 && yspeed < 0.322)
+                    updatevio(this, e.getPlayer(), uyvio, " §6MODE: §bBLOCKS", " §6SPEED: §b" + yspeed);
+    }
+
+    private void check_grounddiff(PlayerMoveEvent e, PlayerData pd){
+        final Player p = e.getPlayer();
+        final FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
+        if(e.getFrom().getYaw() == e.getTo().getYaw() || p.getAllowFlight() || fp.hasVehicle(60) || fp.enderpearl || fp.hasOtherKB(60) || fp.hasTeleport(60) || fp.hasOtherKB(80) || fp.hasExplosion(60) || fp.hasHitorbow(60) || fp.hasPiston(60) || fp.hasRod(55)) return;
+        double ongroundDiff = (e.getTo().getY() - e.getFrom().getY());
+
+        if (PlayerUtil.isOnGround(p) && !p.hasPotionEffect(PotionEffectType.JUMP)
+                && p.getLocation().add(0, 2, 0).getBlock().getType() == Material.AIR && p.getLocation().add(0, 1, 0).getBlock().getType() == Material.AIR
+                && ongroundDiff > 0 && ongroundDiff != 0){
+            boolean whitelist = false;
+            for(double white : grounddiff) if(white == ongroundDiff) whitelist = true;
+            if(whitelist) updatevio(this, p, groundvio, " §6MODE: §bGROUND", " §6DIFF: §b" + ongroundDiff);
         }
     }
+
+    private void check_jumping(PlayerMoveEvent e){
+        if(PlayerUtil.isOnClimbable(e.getPlayer()) || e.getPlayer().getAllowFlight())return;
+        if(e.getFrom().getY() < e.getTo().getY() && e.getTo().getY()-e.getFrom().getY() < SpeedUtil.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){
+            updatevio(this, e.getPlayer(), tvio, " §6MODE: §bJUMP");
+        }
+    }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onSprint(PlayerToggleSprintEvent e){
-        if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) {
-            return;
-        }
+        if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) return;
         if(ssenable && e.isSprinting() && e.getPlayer().isSneaking()){
             e.setCancelled(true);
             updatevio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSPRINTSNEAK(2)");
@@ -276,6 +323,7 @@ public class Speed extends Check {
             //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bFOODLEVELSPRINTSTART", " §6NEED: §b6", " §6HAS: §b" + p.getFoodLevel());
         }
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onSneak(PlayerToggleSneakEvent e){
         if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) {
@@ -286,12 +334,7 @@ public class Speed extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer());
         pd.setTogglesneaklastsec(pd.getTogglesneaklastsec()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                pd.setTogglesneaklastsec(pd.getTogglesneaklastsec()-1);
-            }
-        }, 20);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setTogglesneaklastsec(pd.getTogglesneaklastsec()-1), 20);
         if(spenable && pd.getTogglesneaklastsec() > spmaxsecond){
             e.setCancelled(true);
             updatevio(this, e.getPlayer(), spvio, " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());

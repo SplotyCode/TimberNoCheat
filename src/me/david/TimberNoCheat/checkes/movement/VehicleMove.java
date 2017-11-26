@@ -24,7 +24,7 @@ public class VehicleMove extends Check {
         super("VehicleMove", Category.MOVEMENT);
         boat = getBoolean("boat");
         horse = getBoolean("horse");
-        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, WrapperPlayClientSteerVehicle.TYPE, WrapperPlayClientVehicleMove.TYPE) {
+        register(new PacketAdapter(TimberNoCheat.instance, WrapperPlayClientSteerVehicle.TYPE, WrapperPlayClientVehicleMove.TYPE) {
             public void onPacketReceiving(PacketEvent event) {
                 if(!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer())) return;
                 PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer());

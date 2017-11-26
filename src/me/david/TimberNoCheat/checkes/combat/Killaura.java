@@ -1,12 +1,20 @@
 package me.david.TimberNoCheat.checkes.combat;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.Velocity;
 import me.david.api.utils.player.PlayerUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,6 +22,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class Killaura extends Check {
@@ -30,6 +42,8 @@ public class Killaura extends Check {
     private final double viomodifier;
     private final double max_velocity;
     private final double lowgroud_mofier;
+    private final float swingvio;
+    private final boolean aimbot;
 
     public Killaura() {
         super("Killaura", Category.COBMAT);
@@ -45,6 +59,55 @@ public class Killaura extends Check {
         viomodifier = getDouble("range.viomodifier");
         max_velocity = getDouble("range.max_velocity");
         lowgroud_mofier = getDouble("range.lowgroud_mofier");
+        swingvio = (float) getDouble("swinghitviomodi");
+        aimbot = getBoolean("aimbot");
+        register(new PacketAdapter(TimberNoCheat.instance,
+                PacketType.Play.Client.USE_ENTITY) {
+            public void onPacketReceiving(final PacketEvent event) {
+                final PacketContainer packet = event.getPacket();
+                final Player player = event.getPlayer();
+                if (player == null) {
+                    return;
+                }
+
+                final int entityId = packet.getIntegers().read(0);
+                for (final Entity entityentity : player.getWorld().getEntities())
+                    if (entityentity.getEntityId() == entityId)
+                        if (!TimberNoCheat.checkmanager.isvalid_create(player)) {
+                            PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+                            pd.setPackethit(pd.getPackethit()+1);
+                        }
+            }
+        });
+        register(new PacketAdapter(TimberNoCheat.instance,
+                PacketType.Play.Client.ARM_ANIMATION) {
+            public void onPacketReceiving(final PacketEvent event) {
+                final Player player = event.getPlayer();
+                if (player == null) {
+                    return;
+                }
+                if (!TimberNoCheat.checkmanager.isvalid_create(player)) {
+                    PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+                    pd.setPacketswing(pd.getPacketswing()+1);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void starttasks() {
+        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
+            @Override
+            public void run() {
+                for(Player player : Bukkit.getOnlinePlayers())
+                    if (!TimberNoCheat.checkmanager.isvalid_create(player)){
+                        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+                        if(pd.getPackethit() < pd.getPacketswing()) updatevio(Killaura.this, player, (pd.getPacketswing()-pd.getPackethit())*swingvio, " §6TYPE: §bHITSWING");
+                        pd.setPackethit(0);
+                        pd.setPacketswing(0);
+                    }
+            }
+        }, 1, 20).getTaskId());
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -61,6 +124,7 @@ public class Killaura extends Check {
             check_range(e, pd);
         }
         check_multi(e, pd);
+        check_aimbot(e, pd);
     }
 
     private void check_multi(EntityDamageByEntityEvent e, PlayerData pd){
@@ -75,7 +139,43 @@ public class Killaura extends Check {
         pd.setLasthitmutli(System.currentTimeMillis());
         pd.setLasthitentity(e.getEntity().getEntityId());
     }
-    public void check_range(EntityDamageByEntityEvent e, PlayerData pd){
+
+    private void check_aimbot(EntityDamageByEntityEvent e, PlayerData pd){
+        Player damager = (Player) e.getDamager();
+        if(damager.hasPermission("daedalus.bypass")) {
+            return;
+        }
+        if (damager.getAllowFlight()) {
+            return;
+        }
+        if (!((e.getEntity()) instanceof Player)) {
+            return;
+        }
+        Location from = pd.getAimborloc();
+        Location to = damager.getLocation();
+        pd.setAimborloc(damager.getLocation());
+        double LastDifference = pd.getAimbotdiff()==-1?-111111.0:pd.getAimbotdiff();
+        if (from == null || (to.getX() == from.getX() && to.getZ() == from.getZ())) return;
+        double diffnow = Math.abs(to.getYaw() - from.getYaw());
+        if (diffnow == 0.0) return;
+        if (diffnow > 2.4) {
+            double diff = Math.abs(LastDifference - diffnow);
+            if(e.getEntity().getVelocity().length() < 0.1) {
+                if(diff < 1.4) addCount(damager, "aimbot");
+                else resetCount(damager, "aimbot");
+            } else {
+                if(diff < 1.8) addCount(damager, "aimbot");
+                else resetCount(damager, "aimbot");
+            }
+        }
+        pd.setAimbotdiff(diffnow);
+        if (hasReached(damager, "aimbot", 3)) {
+            resetCount(damager, "aimbot");
+            updatevio(this, damager, 6);
+        }
+    }
+
+    private void check_range(EntityDamageByEntityEvent e, PlayerData pd){
         Player damager = (Player)e.getDamager();
         Player player = (Player)e.getEntity();
 

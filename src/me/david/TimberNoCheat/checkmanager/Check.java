@@ -1,8 +1,10 @@
 package me.david.TimberNoCheat.checkmanager;
 
+import com.comphenix.protocol.events.PacketListener;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.api.ViolationUpdateEvent;
 import me.david.TimberNoCheat.checktools.Tps;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,9 +12,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.logging.Level;
 
 public class Check implements Listener{
@@ -22,9 +23,12 @@ public class Check implements Listener{
     private long viodelay;
     private HashMap<Player, HashMap<Long, Double>> viochache;
     private HashMap<Player, Double> violations;
+    private HashMap<Player, HashMap<String, Integer>> counts;
     private boolean resetafter;
     private ArrayList<Violation> vios;
     private YamlConfiguration yml;
+    private ArrayList<Integer> bukkittasks;
+    private ArrayList<PacketListener> protocollistener;
     private int maxping;
     private int mintps;
 
@@ -36,6 +40,9 @@ public class Check implements Listener{
         this.viodelay = getLong("viocachedelay");
         this.viochache = new HashMap<Player, HashMap<Long, Double>>();
         this.violations = new HashMap<Player, Double>();
+        this.counts = new HashMap<Player, HashMap<String, Integer>>();
+        this.bukkittasks = new ArrayList<Integer>();
+        this.protocollistener = new ArrayList<PacketListener>();
         this.maxping = getInt("ng");
         this.mintps = getInt("min_tps");
         vios = new ArrayList<Violation>();
@@ -50,9 +57,10 @@ public class Check implements Listener{
             System.out.println(name + " " + new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:"").getType().name());
             vios.add(new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:""));
         }
+        starttasks();
     }
     /*
-    get config values
+     * get config values
      */
     public String getString(String s){
         return yml.getString(name.toLowerCase() + "." + s);
@@ -69,6 +77,13 @@ public class Check implements Listener{
     public boolean getBoolean(String s){
         return yml.getBoolean(name.toLowerCase() + "." + s);
     }
+    public double[] getDoubleArray(String s){
+        Object[] list = yml.getDoubleList(name.toLowerCase() + "." + s).toArray();
+        return ArrayUtils.toPrimitive(Arrays.copyOf(list, list.length, Double[].class));
+    }
+
+    public void starttasks(){}
+
 
     public ArrayList<String> getStringList(String s){
         return (ArrayList<String>) yml.getStringList(name.toLowerCase() + "." + s);
@@ -142,6 +157,52 @@ public class Check implements Listener{
             }
         });
     }
+
+    public int getCount(Player player, String count){
+        if(!counts.containsKey(player)) return -1;
+        if(!counts.get(player).containsKey(count)) return -1;
+        return counts.get(player).get(count);
+    }
+
+    public boolean hasReached(Player player, String count, int value){
+        return getCount(player, count) >= value;
+    }
+
+    public void setCount(Player player, String count, int value){
+        if(!counts.containsKey(player)) counts.put(player, new HashMap<>());
+        counts.get(player).put(count, value);
+    }
+
+    public void addCount(Player player, String count){
+        setCount(player, count, getCount(player, count)+1);
+    }
+
+    public void resetCount(Player player, String count){
+        setCount(player, count, 0);
+    }
+
+    public void register(int... tasks){
+        for(int task : tasks) bukkittasks.add(task);
+    }
+
+    public void registernew(){
+        for(PacketListener listener : protocollistener) TimberNoCheat.instance.protocolmanager.addPacketListener(listener);
+    }
+
+    public void register(PacketListener... listeners){
+        Collections.addAll(protocollistener, listeners);
+        for(PacketListener listener : listeners) TimberNoCheat.instance.protocolmanager.addPacketListener(listener);
+    }
+
+    public void disabletasks(){
+        for(int task : bukkittasks) Bukkit.getScheduler().cancelTask(task);
+    }
+
+    public void disablelisteners(){
+        for(PacketListener listener : protocollistener) TimberNoCheat.instance.protocolmanager.removePacketListener(listener);
+    }
+
+
     public String replacemarker(String s, Player p){
         s = ChatColor.translateAlternateColorCodes('&', s);
         s = s.replaceAll("%player%", p.getName());
