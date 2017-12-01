@@ -10,7 +10,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -23,7 +25,9 @@ public class Check implements Listener{
     private long viodelay;
     private HashMap<Player, HashMap<Long, Double>> viochache;
     private HashMap<Player, Double> violations;
-    private HashMap<Player, HashMap<String, Integer>> counts;
+    private HashMap<Player, HashMap<String, Double>> counts;
+    private HashMap<Player, HashMap<String, Double>> tickcounts;
+    private HashMap<Player, Map.Entry<Long, Long>> whitelist;
     private boolean resetafter;
     private ArrayList<Violation> vios;
     private YamlConfiguration yml;
@@ -40,7 +44,9 @@ public class Check implements Listener{
         this.viodelay = getLong("viocachedelay");
         this.viochache = new HashMap<Player, HashMap<Long, Double>>();
         this.violations = new HashMap<Player, Double>();
-        this.counts = new HashMap<Player, HashMap<String, Integer>>();
+        this.counts = new HashMap<Player, HashMap<String, Double>>();
+        this.tickcounts = new HashMap<Player, HashMap<String, Double>>();
+        this.whitelist = new HashMap<Player, Map.Entry<Long, Long>>();
         this.bukkittasks = new ArrayList<Integer>();
         this.protocollistener = new ArrayList<PacketListener>();
         this.maxping = getInt("ng");
@@ -57,8 +63,21 @@ public class Check implements Listener{
             System.out.println(name + " " + new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:"").getType().name());
             vios.add(new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:""));
         }
+        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {
+            for(Map.Entry<Player, HashMap<String, Double>> list : tickcounts.entrySet())
+                for(Map.Entry<String, Double> values : list.getValue().entrySet())
+                    tickcounts.get(list.getKey()).put(values.getKey(), values.getValue()-1 <= 0?0:values.getValue()-1);
+        }, 1, 1).getTaskId());
         starttasks();
     }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent event){
+        final Player p = event.getPlayer();
+        if(counts.containsKey(p)) counts.remove(p);
+        if(tickcounts.containsKey(p)) tickcounts.remove(p);
+    }
+
     /*
      * get config values
      */
@@ -88,14 +107,20 @@ public class Check implements Listener{
     public ArrayList<String> getStringList(String s){
         return (ArrayList<String>) yml.getStringList(name.toLowerCase() + "." + s);
     }
+
     public void resetvio(Player p){
         if(viochache.containsKey(p))viochache.get(p).clear();
         if(violations.containsKey(p))violations.put(p, 0D);
     }
+
+    public void whitelist(Player p, Long time){
+        whitelist.put(p, new AbstractMap.SimpleEntry<Long, Long>(System.currentTimeMillis(), time));
+    }
+
     public void updatevio(Check c, Player p, double vio, String... other){
+        if(System.currentTimeMillis()-whitelist.get(p).getKey()<whitelist.get(p).getValue()) return;
         boolean down = vio < 0;
-        if(((maxping > 0 && TimberNoCheat.checkmanager.getping(p) >= maxping) || (mintps > 0 && mintps <= Tps.getTPS())))
-            return;
+        if(((maxping > 0 && TimberNoCheat.checkmanager.getping(p) >= maxping) || (mintps > 0 && mintps <= Tps.getTPS()))) return;
         if(viodelay > 0 && viochache.containsKey(p) && violations.containsKey(p))
             for(Map.Entry<Long, Double> v : viochache.get(p).entrySet()){
                 long delay = System.currentTimeMillis()-v.getKey();
@@ -158,7 +183,7 @@ public class Check implements Listener{
         });
     }
 
-    public int getCount(Player player, String count){
+    public double getCount(Player player, String count){
         if(!counts.containsKey(player)) return -1;
         if(!counts.get(player).containsKey(count)) return -1;
         return counts.get(player).get(count);
@@ -168,7 +193,7 @@ public class Check implements Listener{
         return getCount(player, count) >= value;
     }
 
-    public void setCount(Player player, String count, int value){
+    public void setCount(Player player, String count, double value){
         if(!counts.containsKey(player)) counts.put(player, new HashMap<>());
         counts.get(player).put(count, value);
     }
@@ -180,6 +205,34 @@ public class Check implements Listener{
     public void resetCount(Player player, String count){
         setCount(player, count, 0);
     }
+
+    public Double getCountTick(Player player, String count){
+        if(!tickcounts.containsKey(player)) return -1d;
+        if(!tickcounts.get(player).containsKey(count)) return -1d;
+        return tickcounts.get(player).get(count);
+    }
+
+    public boolean hasReachedTick(Player player, String count, int value){
+        return getCountTick(player, count) >= value;
+    }
+
+    public void setCountTick(Player player, String count, double value){
+        if(!tickcounts.containsKey(player)) tickcounts.put(player, new HashMap<>());
+        tickcounts.get(player).put(count, value);
+    }
+
+    public void addCountTick(Player player, String count){
+        setCountTick(player, count, getCountTick(player, count)+1);
+    }
+
+    public boolean countTickexsits(Player player, String count){
+        return getCountTick(player, count) == 0;
+    }
+
+    public void resetCountTick(Player player, String count){
+        setCountTick(player, count, 0);
+    }
+
 
     public void register(int... tasks){
         for(int task : tasks) bukkittasks.add(task);

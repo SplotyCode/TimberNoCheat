@@ -109,6 +109,7 @@ public class CheckManager {
         register(new Vape());
         register(new HitBoxes());
         register(new AuraBots());
+        register(new Velocity());
     }
 
     public CheckManager(){

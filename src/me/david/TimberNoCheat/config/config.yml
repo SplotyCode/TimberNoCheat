@@ -373,6 +373,16 @@ sign:
 #[DE-EN]Combat Checks[DE-EN]
 #[DE-EN]-------------[DE-EN]
 #[DE-EN]-------------[DE-EN]
+velocity:
+   enable: true
+   teleport: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 4000
+   vioactions:
+      1: "NOTIFY"
+      18: "KICK:VELOCITY?"
 aurabots:
    enable: true
    armor: true
@@ -890,6 +900,8 @@ pingspoof:
    maxrealping: 120
    move_checkverscheinlichkeit: 45
    interact_checkverscheinlichkeit: 8
+   //diffret check
+   keepalive: true
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true

@@ -1,8 +1,13 @@
 package me.david.TimberNoCheat.checkes.other;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
+import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.api.utils.NumberUtil;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -20,11 +25,27 @@ public class PingSpoof extends Check {
     private final int maxrealping;
     private final int movespeed;
     private final int interactspeed;
+    private final boolean keepalive;
+
     public PingSpoof(){
         super("PingSpoof", Category.OTHER);
         maxrealping = getInt("maxrealping");
         movespeed = getInt("move_checkverscheinlichkeit");
         interactspeed = getInt("interact_checkverscheinlichkeit");
+        keepalive = getBoolean("keepalive");
+        if(keepalive) {
+            register(new PacketAdapter(TimberNoCheat.instance, ListenerPriority.NORMAL, PacketType.Play.Client.KEEP_ALIVE) {
+                public void onPacketReceiving(PacketEvent event) {
+                    Player p = event.getPlayer();
+                    if (!TimberNoCheat.checkmanager.isvalid_create(p)) return;
+                    if (TimberNoCheat.checkmanager.getping(p) == 0) {
+                        addCount(p, "keepalive");
+                        if (getCount(p, "keepalive") / 5 > 0)
+                            updatevio(PingSpoof.this, p, getCount(p, "keepalive") * 1.4, " §6MODE: §bKEEK_ALIVE");
+                    } else resetCount(p, "keepalive");
+                }
+            });
+        }
     }
 
     @EventHandler
@@ -62,7 +83,7 @@ public class PingSpoof extends Check {
                 return;
             }
             if(ping>realping){
-                updatevio(this, p, realping-ping, " §6PING: §b" + ping, " §6REALPING: §b" + realping);
+                updatevio(this, p, realping-ping, " §6MODE: §bNORMAL", " §6PING: §b" + ping, " §6REALPING: §b" + realping);
                 //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6PING: §b" + ping, " §6REALPING: §b" + realping);
             }
         }catch (IOException | InterruptedException ex){
