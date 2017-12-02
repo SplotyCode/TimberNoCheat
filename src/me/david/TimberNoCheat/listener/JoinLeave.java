@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class JoinLeave implements Listener{
 
-    //Remove PLayers Velocity
+    //Remove Players Velocity
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
         if(Velocity.velocity.containsKey(e.getPlayer().getUniqueId()))

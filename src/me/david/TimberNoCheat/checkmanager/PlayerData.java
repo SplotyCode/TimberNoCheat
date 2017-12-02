@@ -88,6 +88,8 @@ public class PlayerData {
     private ArrayList<Long> fishtspeed;
     private Location aimborloc;
     private double aimbotdiff;
+    private Location lastticklocation;
+    private long lastongroundtime;
 
     private FalsePositive.FalsePositiveChecks falsepositives;
 
@@ -168,6 +170,8 @@ public class PlayerData {
         this.fishtspeed = new ArrayList<Long>();
         this.aimborloc = null;
         this.aimbotdiff = -1;
+        this.lastticklocation = null;
+        this.lastongroundtime = System.currentTimeMillis()-15000L;
     }
 
     /**
@@ -180,6 +184,23 @@ public class PlayerData {
     }
 
 
+
+
+    public long getLastongroundtime() {
+        return lastongroundtime;
+    }
+
+    public void setLastongroundtime(long lastongroundtime) {
+        this.lastongroundtime = lastongroundtime;
+    }
+
+    public Location getLastticklocation() {
+        return lastticklocation;
+    }
+
+    public void setLastticklocation(Location lastticklocation) {
+        this.lastticklocation = lastticklocation;
+    }
 
     public Location getAimborloc() {
         return aimborloc;

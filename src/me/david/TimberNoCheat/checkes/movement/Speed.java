@@ -26,6 +26,8 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.List;
+
 public class Speed extends Check {
 
     private final double nbase;
@@ -63,6 +65,9 @@ public class Speed extends Check {
     private final double uyvio;
     private final boolean blenable;
     private final double blvio;
+    private final boolean pattern;
+    private final float patternmulti;
+    private final List<String> disabledpatterns;
 
     public Speed(){
         super("Speed", Category.MOVEMENT);
@@ -101,84 +106,37 @@ public class Speed extends Check {
         uyvio = getDouble("unusualy.vio");
         blenable = getBoolean("blocks.enable");
         blvio = getDouble("blocks.vio");
+        pattern = getBoolean("pattern.enable");
+        patternmulti = (float) getDouble("pattern.viomulti");
+        disabledpatterns = getStringList("pattern.disabledpatterns");
+        //TODO: load patterns
     }
 
     @Override
     public void starttasks() {
-        /*register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
+        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
             @Override
             public void run() {
-                for(Player p : TimberNoCheat.checkmanager.tocheck){
+                for(Player p : Bukkit.getOnlinePlayers()){
+                    //TODO: a mode to auto add patterns
+                    if(!TimberNoCheat.checkmanager.isvalid_create(p))continue;
                     PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-                    if(PlayerUtil.isOnGround(p))
-                        pd.setTicksonground(pd.getTicksonground()+1);
-                    else
-                        pd.setTicksonground(0);
-                    if(p.isInsideVehicle() || pd.getLastspeedloc() == null || p.getAllowFlight() || !pd.getLastspeedloc().getWorld().getName().equals(p.getLocation().getWorld().getName())) {
-                        pd.setLastspeedloc(p.getLocation());
-                        continue;
+                    if(pd.getLastticklocation() != null){
+                        FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
+                        if(p.isFlying() || p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20))continue;
+                        SpeedPattern optimalpattern = generateSpeedPattern(p, pd);
+                        //TODO: find pattern, print if not! how to flag???
                     }
-                    if(p.getLocation().getZ() > pd.getLastspeedloc().getZ()+Speed.this.getmodi(p, 0.27) || !PlayerUtil.isOnClimbable(p)){
-                        p.teleport(pd.getLastspeedloc(), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                        TimberNoCheat.checkmanager.notify(Speed.this, p, " §6MODE: §bSIMPLEHIGHT", " §6HIGHT: §b" + p.getLocation().getZ(), " §6MAXALLOWED: §b" + pd.getLastspeedloc().getZ()+getmodi(p, 0.27));
-                    }
-                    final double diff = pd.getLastspeedloc().clone().subtract(0, 0, pd.getLastspeedloc().getZ()).distance(p.getLocation().clone().subtract(0, 0, p.getLocation().getZ()));
-                    if(diff > getmodi(p, 0.6)){
-                        p.teleport(pd.getLastspeedloc(), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                        TimberNoCheat.checkmanager.notify(Speed.this, p, " §6MODE: §bSIMPLEXY", " §6XYDIFF: §b" + diff, " §6MAXXYDIFF: §b" + getmodi(p, 0.6));
-                    }
-                    pd.setLastspeedloc(p.getLocation());
+                    pd.setLastticklocation(p.getLocation());
                 }
             }
-        }, 0, 1););*/
+        }, 0, 1).getTaskId());
     }
 
-    private double getmodi(Player p, double modi){
-        for(PotionEffect ef : p.getActivePotionEffects()){
-            if(ef.getType() == PotionEffectType.SPEED){
-                modi += (ef.getAmplifier()+1)*0.2;
-            }else if(ef.getType() == PotionEffectType.SLOW){
-                modi += (ef.getAmplifier()+1)*0.15;
-            }
-        }
-        if(PlayerUtil.stairsNear(p.getLocation())) {
-            modi += 0.45;
-        }
-
-        if(PlayerUtil.slabsNear(p.getLocation())) {
-            modi += 0.05;
-        }
-        if(p.isSneaking()){
-            modi -= 3.02;
-        }
-        if(p.isSprinting()){
-            modi += 1.28;
-        }
-        if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.SOUL_SAND){
-            modi /= 2;
-        }else if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.ICE){
-            modi *= 2.8;
-        }
-        if(p.getLocation().getBlock().getType() == Material.WEB){
-            modi *= -85/100;
-        }else if(p.getLocation().getBlock().getType() == Material.STATIONARY_WATER || p.getLocation().getBlock().getType() == Material.STATIONARY_LAVA){
-            if(p.getEquipment().getBoots() != null && p.getEquipment().getBoots().containsEnchantment(Enchantment.WATER_WORKER)){
-                switch (p.getEquipment().getBoots().getEnchantmentLevel(Enchantment.WATER_WORKER)){
-                    //33
-                    case 1:
-                        modi -= 2.0703;
-                        break;
-                    //66
-                    case 2:
-                        modi -= 1.0506;
-                        break;
-                    //3 is 100%
-                }
-            }else{
-                modi -= 3.09;
-            }
-        }
-        return modi;
+    private SpeedPattern generateSpeedPattern(Player player, PlayerData pd){
+        FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
+        Material under = player.getLocation().subtract(0, 1, 0).getBlock().getType();
+        return new SpeedPattern(SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SPEED), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.JUMP), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SLOW), 0F, 0F, player.isInsideVehicle(), fp.hasLiquid(25), under == Material.ICE, player.isBlocking(), player.isSprinting(), player.isSneaking(), PlayerUtil.isOnWeb(player), PlayerUtil.isOnLadder(player), PlayerUtil.slabsNear(player.getLocation()), PlayerUtil.stairsNear(player.getLocation()), player.getLocation().add(0, 2, 0).getBlock().getType() != Material.AIR, System.currentTimeMillis()-pd.getLastongroundtime()<5, under == Material.SOUL_SAND);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -189,6 +147,7 @@ public class Speed extends Check {
         if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled() || !to.getWorld().getName().equals(from.getWorld().getName())) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setLastmove(System.currentTimeMillis());
+        if(PlayerUtil.isOnGround(p)) pd.setLastongroundtime(System.currentTimeMillis());
         if(ssenable && p.isSprinting() && p.isSneaking()){
             e.setCancelled(true);
             updatevio(this, p, ssviomodi, " §6MODE: §bSNEAK&SPRINT");
@@ -344,6 +303,108 @@ public class Speed extends Check {
             e.setCancelled(true);
             updatevio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSNEAKSPRINT(2)");
             //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAK");
+        }
+    }
+
+    class SpeedPattern {
+
+        private int speed, jumpboost, slowness;
+        private float vertical, horizontal;
+        private boolean vehicle, liquid, ice, block, sprint, sneak, web, ladder, slabs, stairs, blockover, wasonground, soulsand;
+
+        public SpeedPattern(int speed, int jumpboost, int slowness, float vertical, float horizontal, boolean vehicle, boolean liquid, boolean ice, boolean block, boolean sprint, boolean sneak, boolean web, boolean ladder, boolean slabs, boolean stairs, boolean blockover, boolean wasonground, boolean soulsand) {
+            this.speed = speed;
+            this.jumpboost = jumpboost;
+            this.slowness = slowness;
+            this.vertical = vertical;
+            this.horizontal = horizontal;
+            this.vehicle = vehicle;
+            this.liquid = liquid;
+            this.ice = ice;
+            this.block = block;
+            this.sprint = sprint;
+            this.sneak = sneak;
+            this.web = web;
+            this.ladder = ladder;
+            this.slabs = slabs;
+            this.stairs = stairs;
+            this.blockover = blockover;
+            this.wasonground = wasonground;
+            this.soulsand = soulsand;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            SpeedPattern that = (SpeedPattern) o;
+
+            if (speed != that.speed) return false;
+            if (jumpboost != that.jumpboost) return false;
+            if (slowness != that.slowness) return false;
+            if (Float.compare(that.vertical, vertical) != 0) return false;
+            if (Float.compare(that.horizontal, horizontal) != 0) return false;
+            if (vehicle != that.vehicle) return false;
+            if (liquid != that.liquid) return false;
+            if (ice != that.ice) return false;
+            if (block != that.block) return false;
+            if (sprint != that.sprint) return false;
+            if (sneak != that.sneak) return false;
+            if (web != that.web) return false;
+            if (ladder != that.ladder) return false;
+            if (slabs != that.slabs) return false;
+            if (stairs != that.stairs) return false;
+            if (blockover != that.blockover) return false;
+            if (wasonground != that.wasonground) return false;
+            return soulsand == that.soulsand;
+        }
+
+        public boolean equalsnospeed(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            SpeedPattern that = (SpeedPattern) o;
+
+            if (speed != that.speed) return false;
+            if (jumpboost != that.jumpboost) return false;
+            if (slowness != that.slowness) return false;
+            if (vehicle != that.vehicle) return false;
+            if (liquid != that.liquid) return false;
+            if (ice != that.ice) return false;
+            if (block != that.block) return false;
+            if (sprint != that.sprint) return false;
+            if (sneak != that.sneak) return false;
+            if (web != that.web) return false;
+            if (ladder != that.ladder) return false;
+            if (slabs != that.slabs) return false;
+            if (stairs != that.stairs) return false;
+            if (blockover != that.blockover) return false;
+            if (wasonground != that.wasonground) return false;
+            return soulsand == that.soulsand;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = speed;
+            result = 31 * result + jumpboost;
+            result = 31 * result + slowness;
+            result = 31 * result + (vertical != +0.0f ? Float.floatToIntBits(vertical) : 0);
+            result = 31 * result + (horizontal != +0.0f ? Float.floatToIntBits(horizontal) : 0);
+            result = 31 * result + (vehicle ? 1 : 0);
+            result = 31 * result + (liquid ? 1 : 0);
+            result = 31 * result + (ice ? 1 : 0);
+            result = 31 * result + (block ? 1 : 0);
+            result = 31 * result + (sprint ? 1 : 0);
+            result = 31 * result + (sneak ? 1 : 0);
+            result = 31 * result + (web ? 1 : 0);
+            result = 31 * result + (ladder ? 1 : 0);
+            result = 31 * result + (slabs ? 1 : 0);
+            result = 31 * result + (stairs ? 1 : 0);
+            result = 31 * result + (blockover ? 1 : 0);
+            result = 31 * result + (wasonground ? 1 : 0);
+            result = 31 * result + (soulsand ? 1 : 0);
+            return result;
         }
     }
 
