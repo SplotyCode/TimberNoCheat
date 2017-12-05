@@ -16,7 +16,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -136,7 +135,7 @@ public class Speed extends Check {
     private SpeedPattern generateSpeedPattern(Player player, PlayerData pd){
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         Material under = player.getLocation().subtract(0, 1, 0).getBlock().getType();
-        return new SpeedPattern(SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SPEED), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.JUMP), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SLOW), 0F, 0F, player.isInsideVehicle(), fp.hasLiquid(25), under == Material.ICE, player.isBlocking(), player.isSprinting(), player.isSneaking(), PlayerUtil.isOnWeb(player), PlayerUtil.isOnLadder(player), PlayerUtil.slabsNear(player.getLocation()), PlayerUtil.stairsNear(player.getLocation()), player.getLocation().add(0, 2, 0).getBlock().getType() != Material.AIR, System.currentTimeMillis()-pd.getLastongroundtime()<5, under == Material.SOUL_SAND);
+        return new SpeedPattern(SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SPEED), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.JUMP), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SLOW), 0F, 0F, player.isInsideVehicle(), fp.hasLiquid(25), under == Material.ICE, player.isBlocking(), player.isSprinting(), player.isSneaking(), PlayerUtil.isInWeb(player), PlayerUtil.isOnLadder(player), PlayerUtil.slabsNear(player.getLocation()), PlayerUtil.stairsNear(player.getLocation()), player.getLocation().add(0, 2, 0).getBlock().getType() != Material.AIR, System.currentTimeMillis()-pd.getLastongroundtime()<5, under == Material.SOUL_SAND);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
