@@ -821,6 +821,8 @@ speed:
       enable: true
       viomulti: 1.8
       disabledpatterns: []
+      latency: 6.5
+      cancel: true
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true

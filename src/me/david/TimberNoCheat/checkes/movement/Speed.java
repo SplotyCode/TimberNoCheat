@@ -1,5 +1,8 @@
 package me.david.TimberNoCheat.checkes.movement;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
@@ -8,6 +11,7 @@ import me.david.TimberNoCheat.checktools.FalsePositive;
 import me.david.TimberNoCheat.checktools.SpeedUtil;
 import me.david.TimberNoCheat.checktools.Velocity;
 import me.david.api.utils.BlockUtil;
+import me.david.api.utils.JsonFileUtil;
 import me.david.api.utils.cordinates.LocationUtil;
 import me.david.api.utils.MathUtil;
 import me.david.api.utils.player.PlayerUtil;
@@ -25,6 +29,11 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Speed extends Check {
@@ -66,6 +75,8 @@ public class Speed extends Check {
     private final double blvio;
     private final boolean pattern;
     private final float patternmulti;
+    private final double patternlatency;
+    private final boolean patterncancel;
     private final List<String> disabledpatterns;
 
     public Speed(){
@@ -108,23 +119,86 @@ public class Speed extends Check {
         pattern = getBoolean("pattern.enable");
         patternmulti = (float) getDouble("pattern.viomulti");
         disabledpatterns = getStringList("pattern.disabledpatterns");
-        //TODO: load patterns
+        patternlatency = getDouble("pattern.latency");
+        patterncancel = getBoolean("pattern.cancel");
+        loadpatterns();
     }
 
+    private ArrayList<SpeedPattern> patterns = new ArrayList<SpeedPattern>();
+
+    private void loadpatterns(){
+        try {
+            File file = TimberNoCheat.instance.speedpatterns;
+            if(!file.exists()){
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            }
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            if (br.readLine() == null) {
+                br.close();
+                return;
+            }
+            br.close();
+            JsonReader reader = new JsonReader(new FileReader(file));
+            patterns = new Gson().fromJson(reader, new TypeToken<ArrayList<SpeedPattern>>() {}.getType());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void savepatterns(){
+        JsonFileUtil.saveJSON(TimberNoCheat.instance.speedpatterns, new TypeToken<ArrayList<SpeedPattern>>() {}.getType(), patterns);
+    }
+
+    //TODO: Create Patterns!
     @Override
     public void starttasks() {
         register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
             @Override
             public void run() {
                 for(Player p : Bukkit.getOnlinePlayers()){
-                    //TODO: a mode to auto add patterns
                     if(!TimberNoCheat.checkmanager.isvalid_create(p))continue;
                     PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-                    if(pd.getLastticklocation() != null){
+                    if(pd.getLastticklocation() != null) {
                         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
-                        if(p.isFlying() || p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20))continue;
+                        if (p.isFlying() || p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20))
+                            continue;
                         SpeedPattern optimalpattern = generateSpeedPattern(p, pd);
-                        //TODO: find pattern, print if not! how to flag???
+                        boolean found = false;
+                        if(optimalpattern != null)
+                            for (SpeedPattern pattern : patterns)
+                                if (pattern.equalsnospeed(optimalpattern)) {
+                                    found = true;
+                                    break;
+                                }
+                        if (!found) {
+                            p.sendMessage(TimberNoCheat.instance.prefix + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
+                            continue;
+                        }
+                        //TODO: Not sure if that will work (the objekt optimalpattern.name is not in the list but it is the same. )
+                        if(disabledpatterns.contains(optimalpattern.name)) continue;
+                        double xzDiff = LocationUtil.getHorizontalDistance(pd.getLastticklocation(), p.getLocation());
+                        double yDiffUp = p.getLocation().getY() - pd.getLastticklocation().getY();
+                        double yDiffdown = pd.getLastticklocation().getY() - p.getLocation().getY();
+                        double toomuch = 0;
+                        int toomushper = 0;
+                        if (optimalpattern.verticaldown > yDiffdown) {
+                            toomuch += optimalpattern.verticaldown - yDiffdown;
+                            toomushper += yDiffdown / optimalpattern.verticaldown;
+                        }
+                        if (optimalpattern.verticalup > yDiffUp) {
+                            toomuch += optimalpattern.verticalup - yDiffUp;
+                            toomushper += yDiffUp / optimalpattern.verticalup;
+                        }
+                        if (optimalpattern.horizontal > xzDiff) {
+                            toomuch += optimalpattern.horizontal - xzDiff;
+                            toomushper += xzDiff / optimalpattern.horizontal;
+                        }
+                        if (toomushper >= patternlatency) {
+                            updatevio(Speed.this, p, toomushper / 2, "§6MODE: §bPATTERN", "§6PERCENTAGE: §b" + toomushper, "§6DISTANCE: §b" + toomuch);
+                            if(patterncancel) p.teleport(pd.getLastticklocation());
+                        }
                     }
                     pd.setLastticklocation(p.getLocation());
                 }
@@ -135,7 +209,7 @@ public class Speed extends Check {
     private SpeedPattern generateSpeedPattern(Player player, PlayerData pd){
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         Material under = player.getLocation().subtract(0, 1, 0).getBlock().getType();
-        return new SpeedPattern(SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SPEED), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.JUMP), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SLOW), 0F, 0F, player.isInsideVehicle(), fp.hasLiquid(25), under == Material.ICE, player.isBlocking(), player.isSprinting(), player.isSneaking(), PlayerUtil.isInWeb(player), PlayerUtil.isOnLadder(player), PlayerUtil.slabsNear(player.getLocation()), PlayerUtil.stairsNear(player.getLocation()), player.getLocation().add(0, 2, 0).getBlock().getType() != Material.AIR, System.currentTimeMillis()-pd.getLastongroundtime()<5, under == Material.SOUL_SAND);
+        return new SpeedPattern("P-" + patterns.size(), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SPEED), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.JUMP), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SLOW), 0F, 0F, 0F, player.isInsideVehicle(), fp.hasLiquid(25), under == Material.ICE, player.isBlocking(), player.isSprinting(), player.isSneaking(), PlayerUtil.isInWeb(player), PlayerUtil.isOnLadder(player), PlayerUtil.slabsNear(player.getLocation()), PlayerUtil.stairsNear(player.getLocation()), player.getLocation().add(0, 2, 0).getBlock().getType() != Material.AIR, System.currentTimeMillis()-pd.getLastongroundtime()<5, under == Material.SOUL_SAND);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -307,15 +381,18 @@ public class Speed extends Check {
 
     class SpeedPattern {
 
+        private String name;
         private int speed, jumpboost, slowness;
-        private float vertical, horizontal;
+        private float verticaldown, verticalup, horizontal;
         private boolean vehicle, liquid, ice, block, sprint, sneak, web, ladder, slabs, stairs, blockover, wasonground, soulsand;
 
-        public SpeedPattern(int speed, int jumpboost, int slowness, float vertical, float horizontal, boolean vehicle, boolean liquid, boolean ice, boolean block, boolean sprint, boolean sneak, boolean web, boolean ladder, boolean slabs, boolean stairs, boolean blockover, boolean wasonground, boolean soulsand) {
+        public SpeedPattern(String name, int speed, int jumpboost, int slowness, float verticaldown, float verticalup, float horizontal, boolean vehicle, boolean liquid, boolean ice, boolean block, boolean sprint, boolean sneak, boolean web, boolean ladder, boolean slabs, boolean stairs, boolean blockover, boolean wasonground, boolean soulsand) {
+            this.name = name;
             this.speed = speed;
             this.jumpboost = jumpboost;
             this.slowness = slowness;
-            this.vertical = vertical;
+            this.verticaldown = verticaldown;
+            this.verticalup = verticalup;
             this.horizontal = horizontal;
             this.vehicle = vehicle;
             this.liquid = liquid;
@@ -339,10 +416,12 @@ public class Speed extends Check {
 
             SpeedPattern that = (SpeedPattern) o;
 
+            if (!name.equals(that.name)) return false;
             if (speed != that.speed) return false;
             if (jumpboost != that.jumpboost) return false;
             if (slowness != that.slowness) return false;
-            if (Float.compare(that.vertical, vertical) != 0) return false;
+            if (Float.compare(that.verticaldown, verticaldown) != 0) return false;
+            if (Float.compare(that.verticalup, verticalup) != 0) return false;
             if (Float.compare(that.horizontal, horizontal) != 0) return false;
             if (vehicle != that.vehicle) return false;
             if (liquid != that.liquid) return false;
@@ -388,7 +467,8 @@ public class Speed extends Check {
             int result = speed;
             result = 31 * result + jumpboost;
             result = 31 * result + slowness;
-            result = 31 * result + (vertical != +0.0f ? Float.floatToIntBits(vertical) : 0);
+            result = 31 * result + (verticalup != +0.0f ? Float.floatToIntBits(verticalup) : 0);
+            result = 31 * result + (verticaldown != +0.0f ? Float.floatToIntBits(verticaldown) : 0);
             result = 31 * result + (horizontal != +0.0f ? Float.floatToIntBits(horizontal) : 0);
             result = 31 * result + (vehicle ? 1 : 0);
             result = 31 * result + (liquid ? 1 : 0);

@@ -19,6 +19,7 @@ public class TimberNoCheat extends ApiPlugin {
     public static CheckManager checkmanager;
     //public String prefix = "§7[§9T§cN§eC§7] §6";
     public final File config = new File(getDataFolder() + "/config.yml");
+    public final File speedpatterns = new File(getDataFolder() + "/speed_pattern.yml");
     //public old_Settings settings;
     private boolean crash = false;
 
