@@ -24,6 +24,18 @@ import org.bukkit.potion.PotionEffectType;
 
 public class FalsePositive implements Listener {
 
+
+    public FalsePositive(){
+        Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
+            @Override
+            public void run() {
+                for(Player p : Bukkit.getOnlinePlayers())
+                    if(TimberNoCheat.checkmanager.isvalid_create(p))
+                        TimberNoCheat.checkmanager.getPlayerdata(p).getFalsepositives().wasongroundtick = false;
+            }
+        }, 1, 1);
+    }
+
     public static class FalsePositiveChecks {
         long piston;
         long slime;
@@ -42,6 +54,9 @@ public class FalsePositive implements Listener {
         long deathorrespawn;
         long knockbag;
         long speed;
+
+        /* was the player onground in this tick? */
+        public boolean wasongroundtick;
 
         long jumpboost;
         public boolean jumpboost(Player player){
@@ -143,15 +158,15 @@ public class FalsePositive implements Listener {
         }
 
         public boolean hasClimp(long l){
-            return System.currentTimeMillis()-climp>l;
+            return System.currentTimeMillis()-climp<l;
         }
 
         public boolean hasOtherKB(long l){
-            return System.currentTimeMillis()-otherknockbag>l;
+            return System.currentTimeMillis()-otherknockbag<l;
         }
 
         public boolean hasChest(long l){
-            return System.currentTimeMillis()-chest>l;
+            return System.currentTimeMillis()-chest<l;
         }
     }
 
@@ -209,6 +224,7 @@ public class FalsePositive implements Listener {
             pd.getFalsepositives().speed = System.currentTimeMillis();
         if(pd.getFalsepositives().enderpearl && (event.getTo().getWorld() != event.getFrom().getWorld()) || (event.getTo().distance(event.getFrom()) >= 2.5D))
             pd.getFalsepositives().enderpearl = false;
+        if(PlayerUtil.isOnGround(p)) pd.getFalsepositives().wasongroundtick = true;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

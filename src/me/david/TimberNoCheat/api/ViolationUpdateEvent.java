@@ -2,12 +2,12 @@ package me.david.TimberNoCheat.api;
 
 import me.david.TimberNoCheat.checkmanager.Check;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class ViolationUpdateEvent extends Event {
-    private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled;
+public class ViolationUpdateEvent extends TNCCancelEvent{
+
     private Player p;
     private double newviolation;
     private double oldviolation;
@@ -26,22 +26,6 @@ public class ViolationUpdateEvent extends Event {
 
     public void setC(Check c) {
         this.c = c;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
     }
 
     public Player getP() {

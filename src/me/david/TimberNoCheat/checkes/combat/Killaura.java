@@ -100,7 +100,7 @@ public class Killaura extends Check {
             @Override
             public void run() {
                 for(Player player : Bukkit.getOnlinePlayers())
-                    if (!TimberNoCheat.checkmanager.isvalid_create(player)){
+                    if (TimberNoCheat.checkmanager.isvalid_create(player)){
                         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
                         if(pd.getPackethit() < pd.getPacketswing()) updatevio(Killaura.this, player, (pd.getPacketswing()-pd.getPackethit())*swingvio, " §6TYPE: §bHITSWING");
                         pd.setPackethit(0);

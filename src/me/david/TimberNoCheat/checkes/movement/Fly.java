@@ -30,14 +30,14 @@ public class Fly extends Check {
     public Fly(){
         super("Fly", Category.MOVEMENT);
         vanilla = getBoolean("vanilla");
-        simple = getBoolean("simple");
+        simple = getBoolean("simple.enable");
         simplevio = getDouble("simple.vio");
         glide = getBoolean("glide");
         setback = getString("setbackmethode");
     }
 
     @EventHandler
-    public void Kick(PlayerKickEvent e) {
+    public void kick(PlayerKickEvent e) {
         if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) {
             return;
         }
@@ -57,7 +57,8 @@ public class Fly extends Check {
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         if(PlayerUtil.isOnGround(p)) pd.setLastonground(p.getLocation());
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
-        if(simple && inair(p) && !fp.enderpearl && !fp.hasClimp(80) && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.jumpboost(p) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))){
+        System.out.println(simple + " " + inair(p) + " " + (!fp.enderpearl && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))));
+        if(simple && inair(p) && !fp.enderpearl && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))){
             updatevio(this, p, simplevio, " §6CHECK: §bSIMPLE");
             setBack(p);
         }
@@ -68,7 +69,7 @@ public class Fly extends Check {
             }
             if (e.getTo().getX() != e.getFrom().getX() || e.getTo().getZ() != e.getFrom().getZ()) {
                 double yDiff = e.getFrom().getY() - e.getTo().getY();
-                if (yDiff > 0.0D && yDiff <= 0.16D) {
+                if (yDiff > 0 && yDiff <= 0.16) {
                     if (pd.getGlide() == -1) {
                         pd.setGlide(System.currentTimeMillis());
                         return;

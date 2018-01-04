@@ -118,7 +118,8 @@ public class Check implements Listener{
     }
 
     public void updatevio(Check c, Player p, double vio, String... other){
-        if(System.currentTimeMillis()-whitelist.get(p).getKey()<whitelist.get(p).getValue()) return;
+        if(p == null) throw new IllegalArgumentException("Arg Player might be null...");
+        if(whitelist.containsKey(p) && System.currentTimeMillis()-whitelist.get(p).getKey()<whitelist.get(p).getValue()) return;
         boolean down = vio < 0;
         if(((maxping > 0 && TimberNoCheat.checkmanager.getping(p) >= maxping) || (mintps > 0 && mintps <= Tps.getTPS()))) return;
         if(viodelay > 0 && viochache.containsKey(p) && violations.containsKey(p))
@@ -163,7 +164,7 @@ public class Check implements Listener{
                             break;
                         case CMD:
                             for (String cmd : ctrig.getRest().split(":"))
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replacemarker(ctrig.getRest(), p).replaceFirst("/", ""));
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replacemarker(cmd, p).replaceFirst("/", ""));
                             canreset = true;
                             break;
                         default:
@@ -253,6 +254,10 @@ public class Check implements Listener{
 
     public void disablelisteners(){
         for(PacketListener listener : protocollistener) TimberNoCheat.instance.protocolmanager.removePacketListener(listener);
+    }
+
+    public double getViolation(Player player){
+        return violations.getOrDefault(player, 0d);
     }
 
 

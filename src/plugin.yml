@@ -3,5 +3,5 @@ version: 2.8
 description: Anticheat from TimberRealLife
 author: David
 main: me.david.TimberNoCheat.TimberNoCheat
-depend: [ProtocolLib, API_David]
+depend: [ProtocolLib, Api]
 load: STARTUP

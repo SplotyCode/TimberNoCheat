@@ -64,7 +64,12 @@ public class AntiESP extends Check {
                 return;
             }
             if (distance < 8.0) {
-                showEntity(player, entity);
+                Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
+                    @Override
+                    public void run() {
+                        showEntity(player, entity);
+                    }
+                }, 1);
                 return;
             }
             Vector vector = targetloc.subtract(loc).toVector();
@@ -94,7 +99,12 @@ public class AntiESP extends Check {
                     e.printStackTrace();
                 }
             }
-            showEntity(player, entity);
+            Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
+                @Override
+                public void run() {
+                    showEntity(player, entity);
+                }
+            }, 1);
         }).start();
     }
 

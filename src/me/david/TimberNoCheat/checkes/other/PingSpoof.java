@@ -7,7 +7,6 @@ import com.comphenix.protocol.events.PacketEvent;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
-import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.api.utils.NumberUtil;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -18,6 +17,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
 public class PingSpoof extends Check {
@@ -37,7 +39,7 @@ public class PingSpoof extends Check {
             register(new PacketAdapter(TimberNoCheat.instance, ListenerPriority.NORMAL, PacketType.Play.Client.KEEP_ALIVE) {
                 public void onPacketReceiving(PacketEvent event) {
                     Player p = event.getPlayer();
-                    if (!TimberNoCheat.checkmanager.isvalid_create(p)) return;
+                    if (!TimberNoCheat.checkmanager.isvalid_create(p) || local(p.getAddress().getAddress())) return;
                     if (TimberNoCheat.checkmanager.getping(p) == 0) {
                         addCount(p, "keepalive");
                         if (getCount(p, "keepalive") / 5 > 0)
@@ -88,6 +90,15 @@ public class PingSpoof extends Check {
             }
         }catch (IOException | InterruptedException ex){
             ex.printStackTrace();
+        }
+    }
+
+    private boolean local(InetAddress addr) {
+        if (addr.isAnyLocalAddress() || addr.isLoopbackAddress()) return true;
+        try {
+            return NetworkInterface.getByInetAddress(addr) != null;
+        } catch (SocketException e) {
+            return false;
         }
     }
 }

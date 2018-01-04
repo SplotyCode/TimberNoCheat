@@ -1,5 +1,8 @@
 package me.david.TimberNoCheat.checkes.movement;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -24,6 +27,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.potion.PotionEffect;
@@ -35,6 +39,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Speed extends Check {
 
@@ -77,6 +82,7 @@ public class Speed extends Check {
     private final float patternmulti;
     private final double patternlatency;
     private final boolean patterncancel;
+    private final boolean patternlearn;
     private final List<String> disabledpatterns;
 
     public Speed(){
@@ -121,10 +127,18 @@ public class Speed extends Check {
         disabledpatterns = getStringList("pattern.disabledpatterns");
         patternlatency = getDouble("pattern.latency");
         patterncancel = getBoolean("pattern.cancel");
+        patternlearn = getBoolean("pattern.learn");
         loadpatterns();
     }
 
     private ArrayList<SpeedPattern> patterns = new ArrayList<SpeedPattern>();
+    public static ArrayList<UUID> generators = new ArrayList<>();
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onLeave(PlayerQuitEvent event){
+        UUID uuid = event.getPlayer().getUniqueId();
+        if(generators.contains(uuid)) generators.remove(uuid);
+    }
 
     private void loadpatterns(){
         try {
@@ -151,7 +165,6 @@ public class Speed extends Check {
         JsonFileUtil.saveJSON(TimberNoCheat.instance.speedpatterns, new TypeToken<ArrayList<SpeedPattern>>() {}.getType(), patterns);
     }
 
-    //TODO: Create Patterns!
     @Override
     public void starttasks() {
         register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
@@ -160,41 +173,65 @@ public class Speed extends Check {
                 for(Player p : Bukkit.getOnlinePlayers()){
                     if(!TimberNoCheat.checkmanager.isvalid_create(p))continue;
                     PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-                    if(pd.getLastticklocation() != null) {
+                    if(pd.getLastticklocation() != null)     {
                         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
-                        if (p.isFlying() || p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20))
-                            continue;
+                        if (p.isFlying() || p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20)) continue;
                         SpeedPattern optimalpattern = generateSpeedPattern(p, pd);
                         boolean found = false;
-                        if(optimalpattern != null)
-                            for (SpeedPattern pattern : patterns)
-                                if (pattern.equalsnospeed(optimalpattern)) {
-                                    found = true;
-                                    break;
-                                }
-                        if (!found) {
-                            p.sendMessage(TimberNoCheat.instance.prefix + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
-                            continue;
-                        }
-                        //TODO: Not sure if that will work (the objekt optimalpattern.name is not in the list but it is the same. )
-                        if(disabledpatterns.contains(optimalpattern.name)) continue;
+                        for (SpeedPattern pattern : patterns)
+                            if (pattern.equalsnospeed(optimalpattern)) {
+                                optimalpattern = pattern;
+                                found = true;
+                                break;
+                            }
                         double xzDiff = LocationUtil.getHorizontalDistance(pd.getLastticklocation(), p.getLocation());
                         double yDiffUp = p.getLocation().getY() - pd.getLastticklocation().getY();
                         double yDiffdown = pd.getLastticklocation().getY() - p.getLocation().getY();
+                        if (!found) {
+                            if(generators.contains(p.getUniqueId()) || patternlearn){
+                                optimalpattern.verticaldown = (float) yDiffdown;
+                                optimalpattern.verticalup = (float) yDiffUp;
+                                optimalpattern.horizontal = (float) xzDiff;
+                                patterns.add(optimalpattern);
+                                savepatterns();
+                                p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] Neue Pattern '" + optimalpattern.name + "' erstellt!");
+                            }else p.sendMessage(TimberNoCheat.instance.prefix + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
+                            continue;
+                        }
+                        if(disabledpatterns.contains(optimalpattern.name)) continue;
                         double toomuch = 0;
                         int toomushper = 0;
-                        if (optimalpattern.verticaldown > yDiffdown) {
+                        if (optimalpattern.verticaldown < yDiffdown) {
+                            if(generators.contains(p.getUniqueId()) || patternlearn){
+                                p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffdown to '" + yDiffdown + "'!");
+                                optimalpattern.verticaldown = (float) yDiffdown;
+                                savepatterns();
+                                continue;
+                            }
                             toomuch += optimalpattern.verticaldown - yDiffdown;
-                            toomushper += yDiffdown / optimalpattern.verticaldown;
+                            toomushper += optimalpattern.verticaldown/yDiffdown;
                         }
-                        if (optimalpattern.verticalup > yDiffUp) {
+                        if (optimalpattern.verticalup < yDiffUp) {
+                            if(generators.contains(p.getUniqueId()) || patternlearn){
+                                p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffup to '" + yDiffdown + "'!");
+                                optimalpattern.verticalup = (float) yDiffUp;
+                                savepatterns();
+                                continue;
+                            }
                             toomuch += optimalpattern.verticalup - yDiffUp;
-                            toomushper += yDiffUp / optimalpattern.verticalup;
+                            toomushper +=  optimalpattern.verticalup/yDiffUp;
                         }
-                        if (optimalpattern.horizontal > xzDiff) {
+                        if (optimalpattern.horizontal < xzDiff) {
+                            if(generators.contains(p.getUniqueId()) || patternlearn){
+                                p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet xzDiff to '" + yDiffdown + "'!");
+                                optimalpattern.horizontal = (float) xzDiff;
+                                savepatterns();
+                                continue;
+                            }
                             toomuch += optimalpattern.horizontal - xzDiff;
-                            toomushper += xzDiff / optimalpattern.horizontal;
+                            toomushper += optimalpattern.horizontal/xzDiff;
                         }
+                        toomushper *= 100;
                         if (toomushper >= patternlatency) {
                             updatevio(Speed.this, p, toomushper / 2, "§6MODE: §bPATTERN", "§6PERCENTAGE: §b" + toomushper, "§6DISTANCE: §b" + toomuch);
                             if(patterncancel) p.teleport(pd.getLastticklocation());
@@ -242,7 +279,6 @@ public class Speed extends Check {
             if(grounddiffen) check_grounddiff(e, pd);
             yspeed(e);
         }
-        if(fgenable && p.isOnGround() != PlayerUtil.isOnGround(p)) updatevio(this, p, fgvio, " §6MODE: §bFAKEGROUND");
     }
 
     private void check_normal(PlayerMoveEvent e){
@@ -486,6 +522,4 @@ public class Speed extends Check {
             return result;
         }
     }
-
-
 }

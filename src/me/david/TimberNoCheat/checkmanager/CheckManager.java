@@ -110,6 +110,7 @@ public class CheckManager {
         register(new HitBoxes());
         register(new AuraBots());
         register(new Velocity());
+        register(new GodMode());
     }
 
     public CheckManager(){

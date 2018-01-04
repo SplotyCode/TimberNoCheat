@@ -8,6 +8,8 @@ import me.david.TimberNoCheat.checktools.Tps;
 import me.david.TimberNoCheat.checktools.Velocity;
 import me.david.TimberNoCheat.config.Config;
 import me.david.TimberNoCheat.listener.JoinLeave;
+import me.david.TimberNoCheat.listener.TNCHandler;
+import me.david.TimberNoCheat.record.RecordManager;
 import me.david.api.ApiPlugin;
 
 import java.io.File;
@@ -22,6 +24,8 @@ public class TimberNoCheat extends ApiPlugin {
     public final File speedpatterns = new File(getDataFolder() + "/speed_pattern.yml");
     //public old_Settings settings;
     private boolean crash = false;
+    private RecordManager recordManager;
+
 
     @Override
     public void pluginLoad() {
@@ -29,12 +33,12 @@ public class TimberNoCheat extends ApiPlugin {
     }
 
     /*
-         * Init ProtocollLib
-         * Starting TPS and Velocity Scheduler
-         * Check and load Config
-         * Register Commands and Listener
-         * Enable Checks
-         */
+     * Init ProtocollLib
+     * Starting TPS and Velocity Scheduler
+     * Check and load Config
+     * Register Commands and Listener
+     * Enable Checks
+     */
     @Override
     public void pluginEnable() {
         instance = this;
@@ -53,7 +57,8 @@ public class TimberNoCheat extends ApiPlugin {
         }
         //settings = new old_Settings();
         checkmanager = new CheckManager();
-        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive());
+        recordManager = new RecordManager(config);
+        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler());
         registerCommands(new TNCCommand());
         new Velocity(this);
         log(false, "[TimberNoCheat] Es wurden " + checkmanager.checks.size() + " module geladen mit vielen unterchecks!");
@@ -68,5 +73,10 @@ public class TimberNoCheat extends ApiPlugin {
         if (crash) return;
         protocolmanager.removePacketListeners(this);
         for (Check c : checkmanager.checks) c.disable();
+        recordManager.stopAll();
+    }
+
+    public RecordManager getRecordManager() {
+        return recordManager;
     }
 }

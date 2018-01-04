@@ -22,8 +22,6 @@ public class Break extends Check {
     private final double tvio;
     private final long tobsidian;
     private final long tnormal;
-    private final boolean csenable;
-    private final long csvio;
 
     public Break(){
         super("Break", Category.INTERACT);
@@ -35,8 +33,6 @@ public class Break extends Check {
         tvio = getDouble("time.vio");
         tobsidian = getLong("time.timeobsidian");
         tnormal = getLong("time.timenormal");
-        csenable = getBoolean("creativesword.enable");
-        csvio = getLong("creativesword.vio");
     }
 
     @EventHandler
@@ -52,11 +48,6 @@ public class Break extends Check {
         final Player p = e.getPlayer();
         if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        InteractTool.Tool hand = p.getItemInHand() == null?null:InteractTool.getToolbyMaterial(p.getItemInHand().getType());
-        if(csenable && p.getGameMode() == GameMode.CREATIVE && hand != null && hand.getToolType() == InteractTool.ToolType.SWORD){
-            e.setCancelled(true);
-            updatevio(this, p, csvio, " §6CHECK: §bCREATIVESWORD");
-        }
         if(nsenable && pd.getStartbreak() == null){
             e.setCancelled(true);
             updatevio(this, p, nsvio, " §6CHECK: §bNOTSTART");

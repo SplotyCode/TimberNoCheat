@@ -72,7 +72,12 @@ generel:
    #[DE]globaler plugin prefix[DE]
    #[EN]global plugin prefix[EN]
    prefix: "&7[&9T&cN&eC&7] &6"
-
+   debug: true
+   record:
+      enable: true
+      minvio: 150
+      #In Ticks
+      maxleanght: 20000
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]Chat Checks[DE-EN]
@@ -373,6 +378,15 @@ sign:
 #[DE-EN]Combat Checks[DE-EN]
 #[DE-EN]-------------[DE-EN]
 #[DE-EN]-------------[DE-EN]
+godmode:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 8000
+   vioactions:
+      1: "NOTIFY"
+      6: "KICK:GODMODE?"
 velocity:
    enable: true
    teleport: true
@@ -618,10 +632,6 @@ rightclicktimer:
       1: "NOTIFY"
 break:
    enable: true
-   #in creative you cannot break blocks with a sword in the hand
-   creativesword:
-         enable: true
-         vio: 15
    notstart:
       enable: true
       vio: 10
@@ -737,7 +747,7 @@ fly:
    #none = do nothink
    #cancel = set the player to the start position
    #down = teleoprts the player down
-   setbackmethode: "cancel"
+   setbackmethode: "down"
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -823,6 +833,7 @@ speed:
       disabledpatterns: []
       latency: 6.5
       cancel: true
+      learn: true
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -902,7 +913,7 @@ pingspoof:
    maxrealping: 120
    move_checkverscheinlichkeit: 45
    interact_checkverscheinlichkeit: 8
-   //diffret check
+   #diffret check
    keepalive: true
    max_ping: -1
    min_tps: -1

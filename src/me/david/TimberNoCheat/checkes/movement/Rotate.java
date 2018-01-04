@@ -15,7 +15,7 @@ public class Rotate extends Check {
         super("Rotate", Category.MOVEMENT);
         //setViofornotify(7);
         //setViodelay(8000);
-        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.POSITION_LOOK) {
+        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.LOOK) {
              public void onPacketReceiving(PacketEvent event) {
                  Player p = event.getPlayer();
                  if (p == null || !TimberNoCheat.checkmanager.isvalid_create(p)) {

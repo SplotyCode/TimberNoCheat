@@ -91,6 +91,12 @@ public class PlayerData {
     private Location lastticklocation;
     private long lastongroundtime;
 
+    private int godlastDamageTick;
+    private int godlastNoDamageTicks;
+    private int godAcc;
+    private double godhealth;
+    private int godhealthtick;
+
     private FalsePositive.FalsePositiveChecks falsepositives;
 
     public PlayerData(String uuid) {
@@ -172,6 +178,11 @@ public class PlayerData {
         this.aimbotdiff = -1;
         this.lastticklocation = null;
         this.lastongroundtime = System.currentTimeMillis()-15000L;
+        this.godAcc = 0;
+        this.godlastDamageTick = 0;
+        this.godlastNoDamageTicks = 0;
+        this.godhealth = 0;
+        this.godhealthtick = 0;
     }
 
     /**
@@ -185,6 +196,47 @@ public class PlayerData {
 
 
 
+
+
+    public double getGodhealth() {
+        return godhealth;
+    }
+
+    public void setGodhealth(double godhealth) {
+        this.godhealth = godhealth;
+    }
+
+    public int getGodhealthtick() {
+        return godhealthtick;
+    }
+
+    public void setGodhealthtick(int godhealthtick) {
+        this.godhealthtick = godhealthtick;
+    }
+
+    public int getGodlastDamageTick() {
+        return godlastDamageTick;
+    }
+
+    public void setGodlastDamageTick(int godlastDamageTick) {
+        this.godlastDamageTick = godlastDamageTick;
+    }
+
+    public int getGodlastNoDamageTicks() {
+        return godlastNoDamageTicks;
+    }
+
+    public void setGodlastNoDamageTicks(int godlastNoDamageTicks) {
+        this.godlastNoDamageTicks = godlastNoDamageTicks;
+    }
+
+    public int getGodAcc() {
+        return godAcc;
+    }
+
+    public void setGodAcc(int godAcc) {
+        this.godAcc = godAcc;
+    }
 
     public long getLastongroundtime() {
         return lastongroundtime;
