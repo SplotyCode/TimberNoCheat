@@ -139,14 +139,16 @@ public class RecordSaveHandler implements Listener {
         }
     }
 
-    public void removePlayer(Player player) {
+    public void removePlayer(Player player, RemoveReason reason) {
         if(isInCurrentlyInRecord(player)) {
             players.get(player.getUniqueId()).setDel(true);
             if(main == player.getUniqueId()){
                 Recording rec = TimberNoCheat.instance.getRecordManager().getRecoardingbyMain(player);
                 rec.stop();
                 TimberNoCheat.instance.getRecordManager().getRecordings().remove(rec);
-            }
+                TimberNoCheat.instance.notify("Die Aufname von " + player.getDisplayName() + " wurde gestopt der hauptcharakter nicht mehr da ist!");
+            }else
+                TimberNoCheat.instance.notify("Der Spieler" + player.getDisplayName() + " wurde aus der Aufnahme von " + Bukkit.getPlayer(main).getDisplayName() + " removed! Grund: " + (reason == RemoveReason.LEAVE?"Server Leave":reason == RemoveReason.WORLDCHANGE?"World Change":"Unbekannt"));
         }
     }
 
@@ -211,7 +213,20 @@ public class RecordSaveHandler implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
-        removePlayer(event.getPlayer());
+        removePlayer(event.getPlayer(), RemoveReason.LEAVE);
+    }
+
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent event){
+        removePlayer(event.getPlayer(), RemoveReason.WORLDCHANGE);
+    }
+
+    public enum RemoveReason {
+
+        LEAVE,
+        WORLDCHANGE,
+        UNKNOWN
+
     }
 
     @EventHandler

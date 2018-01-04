@@ -7,6 +7,7 @@ import me.david.TimberNoCheat.checktools.TNCCommand;
 import me.david.TimberNoCheat.checktools.Tps;
 import me.david.TimberNoCheat.checktools.Velocity;
 import me.david.TimberNoCheat.config.Config;
+import me.david.TimberNoCheat.config.Permissions;
 import me.david.TimberNoCheat.listener.JoinLeave;
 import me.david.TimberNoCheat.listener.TNCHandler;
 import me.david.TimberNoCheat.record.RecordManager;
@@ -14,6 +15,7 @@ import me.david.api.ApiPlugin;
 
 import java.io.File;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TimberNoCheat extends ApiPlugin {
 
@@ -74,6 +76,11 @@ public class TimberNoCheat extends ApiPlugin {
         protocolmanager.removePacketListeners(this);
         for (Check c : checkmanager.checks) c.disable();
         recordManager.stopAll();
+    }
+
+    public void notify(String message){
+        permissioncache.sendAll(Permissions.NOTITY, prefix + message);
+        getLogger().info(message);
     }
 
     public RecordManager getRecordManager() {

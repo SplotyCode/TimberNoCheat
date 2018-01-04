@@ -4,10 +4,12 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.api.RefreshEvent;
 import me.david.TimberNoCheat.api.ViolationUpdateEvent;
 import me.david.TimberNoCheat.checkmanager.Check;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,13 +21,20 @@ import java.util.Set;
 public class RecordManager implements Listener {
 
     private ConfigRecord record;
+    private BukkitTask task;
     private final Set<Recording> recordings = (Set<Recording>)new HashSet<Recording>();
 
     public RecordManager(File config){
         record = new ConfigRecord(config);
+        if(record.isEnable())
+            startTaskTimer();
     }
 
-    public void tick(){
+    private void startTaskTimer(){
+        task = Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, this::tick, 1, 1);
+    }
+
+    private void tick(){
         for(Recording recording : recordings)
             if(recording.getState() == RecordState.RECORD)
                 recording.tick();
@@ -39,7 +48,15 @@ public class RecordManager implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onReload(RefreshEvent event){
+        boolean oldToggle = record.isEnable();
         record.refresh();
+        boolean newToggle = record.isEnable();
+        if(newToggle != oldToggle){
+            if(oldToggle)
+                Bukkit.getScheduler().cancelTask(task.getTaskId());
+            if(newToggle)
+                startTaskTimer();
+        }
     }
 
     @EventHandler
@@ -50,6 +67,7 @@ public class RecordManager implements Listener {
         if(vio >= getRecord().getMinvio() && getRecoardingbyMain(event.getP()) == null){
             try {
                 start(new File(TimberNoCheat.instance.getDataFolder(), System.currentTimeMillis() + ".tncrec"), event. getP(), new ArrayList<>());
+                TimberNoCheat.instance.notify("Start Auto-Record for " + event.getP().getDisplayName() + " because he has an total Violation-Level from over " + getRecord().getMinvio() + "! Vio=" + vio);
             } catch (IOException e) {
                 e.printStackTrace();
             }

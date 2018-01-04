@@ -1,5 +1,7 @@
 package me.david.TimberNoCheat.record;
 
+import me.david.TimberNoCheat.TimberNoCheat;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -16,8 +18,10 @@ public class Recording {
 
     public void tick() {
         if (state == RecordState.RECORD)
-            if(saveHandler.tick())
+            if(saveHandler.tick()) {
                 stop();
+                TimberNoCheat.instance.notify("Record of " + Bukkit.getPlayer(saveHandler.getMain()).getDisplayName() + " has stopped becouse the maximum time of " + TimberNoCheat.instance.getRecordManager().getRecord().getMaxleanght() + " was reached!");
+            }
     }
 
     public boolean isStopped() {
@@ -46,7 +50,7 @@ public class Recording {
     }
 
     public void leave(Player player) {
-        saveHandler.removePlayer(player);
+        saveHandler.removePlayer(player, RecordSaveHandler.RemoveReason.UNKNOWN);
     }
 
     public RecordState getState() {
