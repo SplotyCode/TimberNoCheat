@@ -2,6 +2,10 @@ package me.david.TimberNoCheat.api;
 
 import org.bukkit.event.Cancellable;
 
+/*
+ * An Base-Event
+ * Normal TNC Events can extend from This when they can be canceled
+ */
 public class TNCCancelEvent extends TNCEvent implements Cancellable {
 
     private boolean cancelled;

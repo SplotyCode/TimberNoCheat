@@ -4,6 +4,6 @@ public enum  RecordState {
 
     INIT,
     RECORD,
-    FINISHED
+    FINISHED/* or stopped */
 
 }

@@ -4,12 +4,16 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checktools.Tps;
+import me.david.api.anotations.Incompleat;
+import me.david.api.anotations.NotNull;
 import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
 
+/* The Main Api Class for other plugins that want to communicate with TNC */
 public class TNCAPI {
 
+    /* Get Server Tps in a specific time or with colour*/
     public static double getTPS() {
         return Tps.getTPS();
     }
@@ -19,52 +23,89 @@ public class TNCAPI {
     public static String getTPSColor(){
         return TimberNoCheat.checkmanager.gettpscolor();
     }
+
+    /*
+     * Get the Player Ping (Method 2 with colour)
+     * The player may manipulate this function with a PingSpoof
+     */
     public static int getPing(Player p){
         return TimberNoCheat.checkmanager.getping(p);
     }
     public static String getPingColor(Player p){
         return TimberNoCheat.checkmanager.getpingcolor(p);
     }
-    public static void enablecheck(Check c){
+
+    /*
+     * Enables a Specific check!
+     * TODO: Add Bukkit Tasks and ProtocolLib Listeners
+     */
+    @Incompleat
+    public static void enablecheck(@NotNull Check c){
         if(c == null){
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Falsche API benutzung: Check darf nicht null sein");
+            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may noy be null!");
+            return;
+        }
+        if(isEnabled(c)){
+            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may be disabled inorder to call this function!");
             return;
         }
         TimberNoCheat.checkmanager.register(c);
     }
-    public static void disablecheck(Check c){
+
+    /*
+     * Disable a Specific check!
+     * TODO: Remove Bukkit Tasks and ProtocolLib Listeners
+     */
+    @Incompleat
+    public static void disablecheck(@NotNull Check c){
         if(c == null){
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Falsche API benutzung: Check darf nicht null sein");
+            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may noy be null!");
             return;
         }
-        if(!TimberNoCheat.checkmanager.checks.contains(c)){
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Falsche API benutzung: Check muss enabled sein!");
+        if(!isEnabled(c)){
+            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may be enabled inorder to call this function!");
             return;
         }
         TimberNoCheat.checkmanager.unregister(c);
     }
-    public static void disablecheck(String s){
+
+    /* Same Think here*/
+    @Incompleat
+    public static void disablecheck(@NotNull String s){
         disablecheck(TimberNoCheat.checkmanager.getCheckbyName(s));
     }
-    public boolean isEnabled(Check c){
+
+    /* Check If an Specific Check is */
+    public static boolean isEnabled(@NotNull Check c){
         if(c == null){
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Falsche API benutzung: Check darf nicht null sein");
+            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check darf nicht null sein");
             return false;
         }
         return isEnabled(c.getName());
     }
-    public boolean isEnabled(String c){
+
+    /* TODO: Do != null check */
+    public static boolean isEnabled(@NotNull String c){
         return TimberNoCheat.checkmanager.getCheckbyName(c) != null;
     }
+
+    /* Returns an Array with all Category's */
     public static Category[] getCategorys(){
         return Category.values();
     }
+
+    /* Get an Check by its Name */
     public static Check getCheckbyName(String s){
         return TimberNoCheat.checkmanager.getCheckbyName(s);
     }
-    public static double getAllViolations(Player p){
+
+    /*
+     * Returns the total violation Level
+     * TODO: Do != null check
+     */
+    public static double getAllViolations(@NotNull Player p){
         double vio = 0;
-        for(Check c : TimberNoCheat.checkmanager.checks)
+        for(Check c : TimberNoCheat.checkmanager.getChecks())
             if(c.getViolations().containsKey(p))
                 vio += c.getViolations().get(p);
         return vio;

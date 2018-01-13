@@ -62,12 +62,12 @@ public class RecordManager implements Listener {
     @EventHandler
     public void onVio(ViolationUpdateEvent event){
         double vio = 0;
-        for(Check check : TimberNoCheat.checkmanager.checks)
-            vio += check.getViolation(event.getP());
-        if(vio >= getRecord().getMinvio() && getRecoardingbyMain(event.getP()) == null){
+        for(Check check : TimberNoCheat.checkmanager.getChecks())
+            vio += check.getViolation(event.getPlayer());
+        if(vio >= getRecord().getMinvio() && getRecoardingbyMain(event.getPlayer()) == null){
             try {
-                start(new File(TimberNoCheat.instance.getDataFolder(), System.currentTimeMillis() + ".tncrec"), event. getP(), new ArrayList<>());
-                TimberNoCheat.instance.notify("Start Auto-Record for " + event.getP().getDisplayName() + " because he has an total Violation-Level from over " + getRecord().getMinvio() + "! Vio=" + vio);
+                start(new File(TimberNoCheat.instance.getDataFolder(), "/records/" + System.currentTimeMillis() + ".tncrec"), event.getPlayer(), new ArrayList<>());
+                TimberNoCheat.instance.notify("Start Auto-Record for " + event.getPlayer().getDisplayName() + " because he has an total Violation-Level from over " + getRecord().getMinvio() + "! Vio=" + vio);
             } catch (IOException e) {
                 e.printStackTrace();
             }

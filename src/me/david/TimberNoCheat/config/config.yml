@@ -1,6 +1,12 @@
-#TimberNoCheat config
+#TimberNoCheat(TNC) Config File
 
 #all lines that starts with # are comments
+
+#Files:
+#plugins/TimberNoCheat/
+#   -config.yml (this)
+#   -records/ (recording directory
+#   -speed_pattern.yml
 
 
 #[RN]general check structure[EN]
@@ -72,29 +78,55 @@ generel:
    #[DE]globaler plugin prefix[DE]
    #[EN]global plugin prefix[EN]
    prefix: "&7[&9T&cN&eC&7] &6"
+   #[DE]Soll TNC im DebugModus ausgefürt werden?[DE]
+   #[EN]Shoud we run TNC in DebugMode?[EN]
    debug: true
+   #[DE]Sollen wir alle Spieler Daten beim verlassen des Spieles löschen? Das nicht leeren von PlayerDaten kann mit der Zeit zu memory Leaks führen![DE]
+   #[DE]Deshalb empfaelen wir bei ein den Server regelmäsig neuzustarten [DE]
+   #[EN]Should we clear PlayerData after a Player leavs the Game? If will not clear the PlayerData it can cousing memory Leaks ![EN]
+   #[EN]When this is turnet on we sucess restarting you server sometimes [EN]
+   clearPlayerData: true
+   #[EN]Settings about records [EN]
+   #[DE]Einstellungen über Aufnamhem[DE]
    record:
+      #[EN]Generel enable Records?[EN]
+      #[DE]Sollen Aufnamen generl an sein?[DE]
       enable: true
+      #[EN]Automaticly start Records when Violation Level is reached [EN]
+      #[DE]Aotomaisch Aufnahme starten wenn bestimtes Violation Level ereicht ist[DE]
       minvio: 150
-      #In Ticks
+      #[EN]Maximum Leanght of a single Record. in Ticks[EN]
+      #[DE]DIe Maximale Lägne einer Aufname. In Ticks[DE]
       maxleanght: 20000
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]Chat Checks[DE-EN]
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]-----------[DE-EN]
+#[EN]Check for detecting Caps in the Chat [EN]
+#[DE]Dieser Check checkt für caps nachichten im chat[DE]
 caps:
    enable: true
+   #[EN]When Messages are smaller then this they will be ignored[EN]
+   #[DE]Wenn Nachichten kleiner sind als dieser Wert werden sie vom Caps Check ignorierd [DE]
    minlen: 8
+   #[EN] Minimum amount of Percantage must be upper case to trigger the check?[EN]
+   #[DE] Die Minimale alzahl an prozent die in gross buchtstaben geschriben sein muss um den check auszulósen[DE]
    per: 45
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: -1
+   #[DE]Violation Berechnung: CapsAnteil-Erlaubter Caps Anteil*1.6[DE]
+   #[EN]Violation Calculation: CapsPercentage-AllowedCaps*1.6[EN]
    vioactions:
       1: "NOTIFY"
+#[EN]Check for charspammingin the Chat [EN]
+#[DE]Dieser Check charspammingin[DE]
 charspamm:
    enable: true
+   #[EN]When Messages are smaller then this they will be ignored[EN]
+   #[DE]Wenn Nachichten kleiner sind als dieser Wert werden sie vom Caps Check ignorierd [DE]
    minlen: 6
    per: 12
    maxcharspam: 4

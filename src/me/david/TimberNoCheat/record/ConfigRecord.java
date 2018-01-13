@@ -4,6 +4,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
+/*
+ * Configuration about Recording
+ */
 public class ConfigRecord {
 
     private File file;
@@ -12,7 +15,7 @@ public class ConfigRecord {
     private int minvio;
     private int maxleanght;
 
-    public ConfigRecord(File file){
+    ConfigRecord(File file){
         this.file = file;
         refresh();
     }

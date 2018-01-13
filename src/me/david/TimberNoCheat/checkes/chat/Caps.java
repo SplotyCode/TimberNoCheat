@@ -25,7 +25,8 @@ public class Caps extends Check {
         if (event.getMessage().length() >= minlen) {
             String msgBefore = event.getMessage();
             newMessage = checkCaps(event.getMessage());
-            if (percentageCaps(newMessage) >= per) {
+            int percentageCaps = percentageCaps(newMessage);
+            if (percentageCaps >= per) {
                 String[] parts = event.getMessage().split(" ");
                 boolean caps = false;
                 for (int i = 0; i < parts.length; i++) {
@@ -36,7 +37,7 @@ public class Caps extends Check {
                     else parts[i] = parts[i].toLowerCase();
                     caps = (!parts[i].endsWith(".")) && (!parts[i].endsWith("!"));
                 }
-                if (!msgBefore.equals(StringUtils.join(parts, " "))) updatevio(this, event.getPlayer(), 1);
+                if (!msgBefore.equals(StringUtils.join(parts, " "))) updatevio(this, event.getPlayer(), percentageCaps-per*1.6);
             }
         }
     }

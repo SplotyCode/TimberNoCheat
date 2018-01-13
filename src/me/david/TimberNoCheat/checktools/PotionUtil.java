@@ -4,8 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class PotionUtil {
+public final class PotionUtil {
 
+    /* Get the PotionEffectAmplifier from a Player ant the PotionEffectType */
     public static int getPotionEffectAmplifier(final Player p, final PotionEffectType type) {
         if (!p.hasPotionEffect(type)) {
             return -1;

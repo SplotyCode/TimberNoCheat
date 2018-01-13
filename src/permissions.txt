@@ -1,2 +1,4 @@
+#Permissions may be outdated! Hwo ever the most recent version is always this file: me.david.TimberNoCheat.config.Permissions
+#Last Update: 4 Januar 2018
 tnc.notify
 tnc.notcheck

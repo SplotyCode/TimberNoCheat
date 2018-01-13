@@ -14,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -140,7 +139,7 @@ public class Check implements Listener{
         Bukkit.getServer().getPluginManager().callEvent(e);
         if(e.isCancelled())
             return;
-        violations.put(p, e.getNewviolation());
+        violations.put(p, e.getNewViolation());
         if(down)return;
         double violation = violations.get(p);
         ArrayList<Violation> triggert = new ArrayList<Violation>();
@@ -178,7 +177,7 @@ public class Check implements Listener{
                     if(e1.isCancelled()){
                         return;
                     }
-                    violations.put(p, e.getNewviolation());
+                    violations.put(p, e.getNewViolation());
                 }
             }
         });

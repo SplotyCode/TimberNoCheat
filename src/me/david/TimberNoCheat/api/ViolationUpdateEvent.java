@@ -2,53 +2,47 @@ package me.david.TimberNoCheat.api;
 
 import me.david.TimberNoCheat.checkmanager.Check;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
+/*
+ * Called avery Time the Violation-Level of a Player changes
+ * This event is cancelable
+ */
 public class ViolationUpdateEvent extends TNCCancelEvent{
 
-    private Player p;
-    private double newviolation;
-    private double oldviolation;
-    private Check c;
+    /* The Player where the Violation-Level changes */
+    private final Player player;
+    /* The Violation-Level that the player will have after this Event */
+    private double newViolation;
+    /* The Violation-Level that the player hat before this Event*/
+    private final double oldViolation;
+    /* The Check that triggers the Violation-Level update*/
+    private final Check check;
 
-    public ViolationUpdateEvent(Player p, double newviolation, double oldviolation, Check c){
-        this.p = p;
-        this.newviolation = newviolation;
-        this.oldviolation = oldviolation;
-        this.c = c;
+    public ViolationUpdateEvent(Player player, double newViolation, double oldViolation, Check check){
+        this.player = player;
+        this.newViolation = newViolation;
+        this.oldViolation = oldViolation;
+        this.check = check;
     }
 
-    public Check getC() {
-        return c;
+    public Check getCheck() {
+        return check;
     }
 
-    public void setC(Check c) {
-        this.c = c;
+    public Player getPlayer() {
+        return player;
     }
 
-    public Player getP() {
-        return p;
+    public double getNewViolation() {
+        return newViolation;
     }
 
-    public void setP(Player p) {
-        this.p = p;
+    public void setNewViolation(double newViolation) {
+        this.newViolation = newViolation;
     }
 
-    public double getNewviolation() {
-        return newviolation;
+    public double getOldViolation() {
+        return oldViolation;
     }
 
-    public void setNewviolation(double newviolation) {
-        this.newviolation = newviolation;
-    }
-
-    public double getOldviolation() {
-        return oldviolation;
-    }
-
-    public void setOldviolation(double oldviolation) {
-        this.oldviolation = oldviolation;
-    }
 }

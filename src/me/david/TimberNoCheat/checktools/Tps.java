@@ -36,7 +36,7 @@ public class Tps implements Runnable{
         //TODO: Stop ProtocolLib listeners and bukkit shedulers
         if(!lowcpumode && getTPS() < 16){
             TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wegen der geringen Tps deaktiviert!");
-            for(Check check : (ArrayList<Check>)TimberNoCheat.checkmanager.checks.clone())
+            for(Check check : (ArrayList<Check>)TimberNoCheat.checkmanager.getChecks().clone())
                 if(check.getCategory() == Category.MOVEMENT) {
                     HandlerList.unregisterAll(check);
                     check.disablelisteners();
@@ -45,7 +45,7 @@ public class Tps implements Runnable{
             lowcpumode = true;
         }else if(lowcpumode && getTPS() > 17){
             TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wieder aktiviert!");
-            for(Check check : TimberNoCheat.checkmanager.checks)
+            for(Check check : TimberNoCheat.checkmanager.getChecks())
                 if(check.getCategory() == Category.MOVEMENT) {
                     Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.instance);
                     check.registernew();

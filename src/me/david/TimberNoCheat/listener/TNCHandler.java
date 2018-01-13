@@ -12,12 +12,13 @@ public class TNCHandler implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onReload(RefreshEvent event){
-        for(Check check : TimberNoCheat.checkmanager.checks){
+        for(Check check : TimberNoCheat.checkmanager.getChecks()){
             HandlerList.unregisterAll(check);
             check.disablelisteners();
             check.disabletasks();
         }
-        TimberNoCheat.checkmanager.checks.clear();
+        TimberNoCheat.checkmanager.getChecks().clear();
         TimberNoCheat.checkmanager.loadchecks();
     }
+
 }

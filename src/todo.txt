@@ -1,0 +1,20 @@
+Created: 13.1.18
+Last Update: 13.1.18
+
+--- List ---
+
+Inventory -> Delay walk check in both direktions
+Remove Check Dependencies
+Redo Equals rotation
+Fix Step Check
+Improve NoFall
+Improve Jesus
+Fix Pattern Speed
+Improve Wall fly
+Gui for Violations
+Improve Code Documentation
+Improve Config Documentation
+Finishing Record & Play System
+
+--- Done ---
+Fix CharSpamm

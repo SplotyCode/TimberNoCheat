@@ -1,0 +1,14 @@
+Created: 04:01:2018
+Last-Refresh: 04:01:2018
+
+commenting all checks
+fix step
+add nofall
+improve godmode
+add tower
+improve scaffold
+commenting config
+fix pattern speed
+test if spider
+improve aura bots (maby with bow aimbot)
+fix equls roatations

@@ -22,13 +22,13 @@ public class CharSpamm extends Check {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         if (!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer()) || event.getMessage().startsWith("/")) return;
-        String message = event.getMessage();
-        message = message.replaceAll("(.)(?=\\1\\1+)", "");
-        message = message.replaceAll("(..)(?=\\1\\1+)", "");
-        message = message.replaceAll("(...)(?=\\1\\1+)", "");
-        if(event.getMessage().length() > minlen && message.length() < event.getMessage().length()){
-            if(event.getMessage().length()-message.length() >= maxcharspam) updatevio(this, event.getPlayer(), event.getMessage().length()-message.length()-maxcharspam < 1?1:event.getMessage().length()-message.length()-maxcharspam, " §6MODE: §bPERCENTAGE");
-            if((message.length()/event.getMessage().length())*100 >= per) updatevio(this, event.getPlayer(), ((message.length()/event.getMessage().length())*100)/4, " §6MODE: §bMAXSPAMCHARS");
+        int i = 0;
+        char lastchar = Character.MIN_VALUE;
+        for(char c  : event.getMessage().toCharArray())
+            if(c == lastchar) i++;
+        if(event.getMessage().length() > minlen && i != 0){
+            if(i >= maxcharspam) updatevio(this, event.getPlayer(), i-maxcharspam < 1?1:i-maxcharspam, " §6MODE: §bMAXSPAMCHARS");
+            if((i/event.getMessage().length())*100 >= per) updatevio(this, event.getPlayer(), ((i/event.getMessage().length())*100)/4, " §6MODE: §bPERCENTAGE");
         }
     }
 }

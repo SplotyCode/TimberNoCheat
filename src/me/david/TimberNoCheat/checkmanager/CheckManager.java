@@ -15,6 +15,8 @@ import me.david.TimberNoCheat.checkes.other.*;
 import me.david.TimberNoCheat.checkes.player.*;
 import me.david.TimberNoCheat.checktools.Tps;
 import me.david.TimberNoCheat.config.Permissions;
+import me.david.api.anotations.NotNull;
+import me.david.api.anotations.Nullable;
 import me.david.api.utils.StringUtil;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -33,11 +35,17 @@ import java.util.logging.Level;
 
 public class CheckManager {
 
-    public ArrayList<Check> checks = new ArrayList<Check>();
-    public ArrayList<PlayerData> playerdata = new ArrayList<PlayerData>();
+    /* List of all Checks */
+    private ArrayList<Check> checks = new ArrayList<Check>();
+    /*
+     * List of all PlayerDate
+     * TNC Never write PlayerData to Disk
+     * When a Player Disconnects TNC Will delete his PlayerData
+     */
+    private ArrayList<PlayerData> playerdata = new ArrayList<PlayerData>();
 
     /*
-     * register/starting checks
+     * Registering/Starting checks
      */
     public void loadchecks(){
         register(new Address());
@@ -113,10 +121,12 @@ public class CheckManager {
         register(new GodMode());
     }
 
+    /* Loading all Checks when this Objects gets createt (usually on the start of TNC */
     public CheckManager(){
         loadchecks();
     }
 
+    @Deprecated
     public void execute(String cmd, String player){
         if(!cmd.equals("")){
             cmd = cmd.replaceAll("/", "");
@@ -125,31 +135,46 @@ public class CheckManager {
         }
     }
 
+    /*
+     * Checks if an Player if Valid for Checking.
+     * If there is no PlayerData for the Player TNC will create one
+     * To prevent NullPointerExeptions call this methode before checking players (on events, schedulers etc)
+     */
     public boolean isvalid_create(Player p ){
         if(TimberNoCheat.instance.permissioncache.hasPermission(p, Permissions.NOTCHECKT)) return false;
         if(getPlayerdata(p) == null) playerdata.add(new PlayerData(p.getUniqueId().toString()));
         return true;
     }
 
-    public PlayerData getPlayerdata(Player p){
+    /*
+     * Returns the PlayerData of an Player
+     * If there is no PlayerData bind to that Player return null
+     */
+    public @Nullable PlayerData getPlayerdata(@NotNull Player p){
         for(PlayerData playerdata : playerdata)
             if(playerdata.getUuid().equals(p.getUniqueId().toString()))
                 return playerdata;
         return null;
     }
 
+    /* Registers an Check to TNC and Bukkit */
+    //TODO: Performance Load the YamlConfiguration only once
     public void register(Check check){
         if(!YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config).getBoolean(check.getName().toLowerCase() + ".enable")) return;
         checks.add(check);
         TimberNoCheat.instance.getServer().getPluginManager().registerEvents(check, TimberNoCheat.instance);
     }
 
+
     public void unregister(Check check) {
         check.disable();
         checks.remove(check);
         HandlerList.unregisterAll(check);
+        check.disablelisteners();
+        check.disabletasks();
     }
 
+    /* Methods for Notifying Players, Console about Violation Updates */
     public void notify(Check check, Player p, String... args){
         notify(p, "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayer: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + StringUtil.toString(args, ""));
     }
@@ -174,6 +199,7 @@ public class CheckManager {
         TimberNoCheat.instance.getLogger().log(Level.INFO, message.replace("§", "&"));
     }
 
+    /* Get Server Tps with Colour*/
     public String gettpscolor(){
         double tps = Tps.getTPS();
         if(tps >= 20L) return "§a20";
@@ -182,6 +208,7 @@ public class CheckManager {
         return "§c" + Math.round(tps);
     }
 
+    /* Get Player Ping with Colour*/
     public String getpingcolor(Player p){
         int ping = getping(p);
         if(ping < 80) return "§a"+ping;
@@ -189,14 +216,27 @@ public class CheckManager {
         return "§c"+ ping;
     }
 
+    /* Gets the Player Ping */
     public int getping(Player p){
         return ((CraftPlayer)p).getHandle().ping<0?0:((CraftPlayer)p).getHandle().ping;
     }
 
-    public Check getCheckbyName(String name){
+    /*
+     * Returns the Check from the Check Name
+     * If there is no Check with that Name return null
+     */
+    public @Nullable Check getCheckbyName(String name){
         for(Check c : checks)
             if(c.getName().equals(name))
                 return c;
         return null;
+    }
+
+    public ArrayList<Check> getChecks() {
+        return checks;
+    }
+
+    public ArrayList<PlayerData> getPlayerdata() {
+        return playerdata;
     }
 }

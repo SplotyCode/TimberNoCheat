@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class old_Settings {
     public int chat_delay_schwelle = 6;
     public double chat_delay_small = 0.0;
@@ -198,10 +199,12 @@ public class old_Settings {
     public int player_cheststeler_consistent_mincachesize = 0;
     public int player_cheststeler_maxping = 0;
 
+    @Deprecated
     public old_Settings(){
         load();
     }
 
+    @Deprecated
     public void load(){
         YamlConfiguration yml = YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config);
         TimberNoCheat.instance.prefix = yml.getString("generel_prefix");

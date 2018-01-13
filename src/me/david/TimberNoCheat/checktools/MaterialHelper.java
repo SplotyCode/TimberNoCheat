@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Set;
 
+/* Helping to World with Materials */
 public class MaterialHelper {
 
     public static final ArrayList<Material> a = new ArrayList<Material>();
@@ -305,20 +306,6 @@ public class MaterialHelper {
                 (!LIQUID.contains(localLocation.clone().add(x, y, -z).getBlock().getType())) &&
                 (!LIQUID.contains(localLocation.clone().add(-x, y, z).getBlock().getType()));
     }
-
-    //408
-   /* public static boolean checksouroundground(Player paramPlayer, boolean paramBoolean, double paramDouble1, double paramDouble2, double paramDouble3) {
-        paramPlayer = paramBoolean ? paramPlayer : null;
-        return (!��.��(paramPlayer, 0.0D, paramDouble2, 0.0D))&&
-        (!��.��(paramPlayer, paramDouble1, paramDouble2, 0.0D))&&
-        (!��.��(paramPlayer, -paramDouble1, paramDouble2, 0.0D))&&
-        (!��.��(paramPlayer, 0.0D, paramDouble2, paramDouble3))&&
-        (!��.��(paramPlayer, 0.0D, paramDouble2, -paramDouble3))&&
-        (!��.��(paramPlayer, paramDouble1, paramDouble2, paramDouble3))&&
-        (!��.��(paramPlayer, -paramDouble1, paramDouble2, -paramDouble3))&&
-        (!��.��(paramPlayer, paramDouble1, paramDouble2, -paramDouble3))&&
-        (!��.��(paramPlayer, -paramDouble1, paramDouble2, paramDouble3));
-    }*/
 
     //420
     public static boolean checksouroundpos2(Player paramPlayer, double x, double y, double z) {

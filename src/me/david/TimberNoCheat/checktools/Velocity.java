@@ -13,7 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/* Use FalsePositives in PlayerData instead of this*/
+@Deprecated
 public class Velocity implements Listener{
+
+    @Deprecated
     public static HashMap<UUID, Map.Entry<Long, Vector>> velocity = new HashMap<UUID, Map.Entry<Long, Vector>>();
 
     @EventHandler
@@ -21,6 +25,7 @@ public class Velocity implements Listener{
         velocity.put(event.getPlayer().getUniqueId(), new AbstractMap.SimpleEntry<Long, Vector>(System.currentTimeMillis(), event.getVelocity()));
     }
 
+    @Deprecated
     public Velocity(Plugin pl){
         Bukkit.getScheduler().runTaskTimer(pl, new Runnable() {
             @Override

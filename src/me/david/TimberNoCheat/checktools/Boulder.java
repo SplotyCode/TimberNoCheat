@@ -3,6 +3,7 @@ package me.david.TimberNoCheat.checktools;
 import me.david.TimberNoCheat.checktools.location.Box3D;
 import me.david.TimberNoCheat.checktools.location.Location;
 
+/* Boulder is used for HitBox calculation and Collidation Checks */
 public interface Boulder extends Location {
 
     Boulder setRay(double startX, double startY, double startZ,

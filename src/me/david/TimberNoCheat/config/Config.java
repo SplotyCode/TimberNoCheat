@@ -40,9 +40,8 @@ public class Config {
             TimberNoCheat.instance.getLogger().log(Level.WARNING, "Plugin wird disabled...");
             return true;
         }
-        if(yml.getString("generel.prefix") != null && !yml.getString("generel.prefix").equals("") && !yml.getString("generel.prefix").equals(" ")){
+        if(yml.getString("generel.prefix") != null && !yml.getString("generel.prefix").equals("") && !yml.getString("generel.prefix").equals(" "))
             TimberNoCheat.instance.prefix = yml.getString("generel.prefix");
-        }
         return false;
     }
 }

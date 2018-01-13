@@ -20,20 +20,15 @@ public class BlackList extends Check{
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent e) {
-        if (e.getMessage().startsWith("/")) {
-            return;
-        }
+        if (e.getMessage().startsWith("/")) return;
         final Player p = e.getPlayer();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p)) {
-            return;
-        }
+        if (!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         String key = "";
-        for(String black : blacklist){
+        for(String black : blacklist)
             if(e.getMessage().contains(black)){
                 key = black;
                 break;
             }
-        }
         if(!key.equals("")){
             e.setCancelled(true);
             updatevio(this, p, 1, " §6WORD: §b" + key, " §6MESSAGE: §b" + e.getMessage());

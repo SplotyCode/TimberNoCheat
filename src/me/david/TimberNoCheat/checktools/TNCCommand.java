@@ -20,10 +20,12 @@ public class TNCCommand extends Command {
             case "":
                 p.sendMessage(TimberNoCheat.instance + "TimberNoCheat (Version: " + TimberNoCheat.instance.getDescription().getVersion() + ")");
                 break;
+            /* Config Reload */
             case "reload":
                 Bukkit.getPluginManager().callEvent(new RefreshEvent(p));
                 p.sendMessage(TimberNoCheat.instance.prefix + "Done!");
                 break;
+            /* Speed check */
             case "generate":
                 if(Speed.generators.contains(p.getUniqueId())){
                     Speed.generators.remove(p.getUniqueId());

@@ -11,12 +11,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * All Variables for PlayerData mostly for checks
+ * Also Link to FalsePositive Tool
+ */
 public class PlayerData {
 
     private String uuid;
+
+    /* Chat */
     private long lastchat;
     private ArrayList<String> messages;
     private long lastcommand;
+
     private long lastnbtpacket;
     private int interactslastsecond;
     private int hitslastsecond;
@@ -91,6 +98,7 @@ public class PlayerData {
     private Location lastticklocation;
     private long lastongroundtime;
 
+    /* GodMode Variables */
     private int godlastDamageTick;
     private int godlastNoDamageTicks;
     private int godAcc;

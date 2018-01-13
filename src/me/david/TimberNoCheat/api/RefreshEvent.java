@@ -2,9 +2,11 @@ package me.david.TimberNoCheat.api;
 
 import org.bukkit.command.CommandSender;
 
+/* This events called when Tnc refreshes. You can not cancel this event*/
 public class RefreshEvent extends TNCEvent {
 
-    private CommandSender sender;
+    /* The executor of the Command that causes Tnc to refresh */
+    private final CommandSender sender;
 
     public RefreshEvent(CommandSender sender) {
         this.sender = sender;
@@ -14,7 +16,4 @@ public class RefreshEvent extends TNCEvent {
         return sender;
     }
 
-    public void setSender(CommandSender sender) {
-        this.sender = sender;
-    }
 }

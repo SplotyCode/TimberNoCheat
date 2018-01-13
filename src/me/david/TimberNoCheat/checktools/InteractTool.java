@@ -9,7 +9,9 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 
+/* Mostly for Calculating block breaking times */
 public class InteractTool {
+
     private static final double LIQUID_HEIGHT_LOWERED = 80000002;
     private static final int maxBlocks = 4096;
     public static final ArrayList<Tool> tools = new ArrayList<Tool>();

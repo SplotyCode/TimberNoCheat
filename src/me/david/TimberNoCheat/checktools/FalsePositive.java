@@ -2,6 +2,7 @@ package me.david.TimberNoCheat.checktools;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import me.david.api.anotations.Nullable;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,38 +27,103 @@ public class FalsePositive implements Listener {
 
 
     public FalsePositive(){
-        Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                for(Player p : Bukkit.getOnlinePlayers())
-                    if(TimberNoCheat.checkmanager.isvalid_create(p))
-                        TimberNoCheat.checkmanager.getPlayerdata(p).getFalsepositives().wasongroundtick = false;
-            }
+        /* Was the Player that Tick on Ground? */
+        Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {
+            for(Player p : Bukkit.getOnlinePlayers())
+                if(TimberNoCheat.checkmanager.isvalid_create(p))
+                    TimberNoCheat.checkmanager.getPlayerdata(p).getFalsepositives().wasongroundtick = false;
         }, 1, 1);
     }
 
     public static class FalsePositiveChecks {
+
+        /* Last Time the player was near a Piston that gets extendet */
         long piston;
+
+        /* Last Time the player was bouncing on a Slime */
         long slime;
+
+        /* Last Time the player was collidating with a Bed(1.12 capability) */
         long bed;
+
+        /*
+         * Is the user currently throwing an enderpearl
+         * Causing weird collidations and teleports
+         */
         public boolean enderpearl;
+
+        /*
+         * Last Time that Player was teleportet
+         */
         long teleport;
+
+        /*
+         * Last Time the Player switches a world
+         * Can cause blockglitching also sends more packets
+         */
         long world;
+
+        /*
+         * Last Time the Player was ona a vehicle
+         * Weird movements when leaving or entering a vehicle
+         */
         long vehicle;
+
+        /*
+         * Last Time the Player was hitten with a Rod
+         * Causing higher jumps and strange velocity's
+         */
         long rod;
+
+        /*
+         * Last Time the Player was hitten or should by a Bow
+         * Causing higher jumps and strange velocity's
+         */
         long hitorbow;
+
+        /*
+         * Last Time the Player was near an Explosion
+         * strange velocity's and a big boost
+         */
         long explosion;
+
+        /*
+         * Last Time the Player was in something Liquid
+         * weird movements on the y axis
+         */
         long liquid;
+
+        /*
+         * Last Time the Player clips up a web, wine or ladder
+         * weird movements on the y axis
+         */
         long climp;
+
+        /*
+         * Last Time the Player was getting knockback thought something more special
+         */
         long otherknockbag;
+
+        /* Last Time the Player was standing on a Chest
+         * Chest have an smaller hithox
+         */
         long chest;
+
+        /* Last Time the Player died or Respawned
+         * Causing more Packets (world download)
+         */
         long deathorrespawn;
+
+        /* Last Time the Player gets Velocity */
         long knockbag;
+
+        /* Last Time the Player had an Speed potion */
         long speed;
 
-        /* was the player onground in this tick? */
+        /* Was the player onground in this tick? */
         public boolean wasongroundtick;
 
+        /* Has the Player JumpBoost or clout the currently be in such a Jump? */
         long jumpboost;
         public boolean jumpboost(Player player){
             if (System.currentTimeMillis()-jumpboost < 100) return true;
@@ -66,6 +132,7 @@ public class FalsePositive implements Listener {
             return bool;
         }
 
+        /* Is the near a boat */
         public boolean nearboat(Player p){
             for (Entity localEntity : p.getNearbyEntities(0.7D, 0.61D, 0.7D))
                 if ((localEntity instanceof Boat))
@@ -73,6 +140,7 @@ public class FalsePositive implements Listener {
             return false;
         }
 
+        /* Is the Player near the WorldBoarder */
         public boolean worldboarder(Player p){
             WorldBorder border = p.getWorld().getWorldBorder();
             Location loc = p.getLocation();
@@ -277,7 +345,8 @@ public class FalsePositive implements Listener {
         }
     }
 
-    private double getDistance(Location loc1, Location loc2) {
+    /* Returns the Distance between two Position */
+    private double getDistance(@Nullable Location loc1, @Nullable Location loc2) {
         return loc1 == null || (loc2 == null) || (loc1.getWorld() != loc2.getWorld()) ? 0.0D : loc1.distance(loc2);
     }
 
