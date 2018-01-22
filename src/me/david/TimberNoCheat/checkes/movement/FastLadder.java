@@ -25,6 +25,7 @@ public class FastLadder extends Check {
         if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled() || !e.getTo().getWorld().getName().equals(e.getFrom().getWorld().getName())) {
             return;
         }
+        TimberNoCheat.instance.getMoveprofiler().start("FastLadder");
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer());
         double zdis = e.getTo().getZ()-e.getFrom().getZ();
         if(zdis <= 0)return;
@@ -55,5 +56,6 @@ public class FastLadder extends Check {
         }
         if(getViolations().containsKey(e.getPlayer()) && getViolations().get(e.getPlayer()) >= cancel_vl && pd.getFastladderstart() != null)e.getPlayer().teleport(pd.getLastspeedloc());
         pd.setLastfastladderlongZ(-1);
+        TimberNoCheat.instance.getMoveprofiler().end();
     }
 }

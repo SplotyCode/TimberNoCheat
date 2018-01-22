@@ -26,6 +26,7 @@ public class Step extends Check {
         if (!TimberNoCheat.checkmanager.isvalid_create(p)) {
             return;
         }
+        TimberNoCheat.instance.getMoveprofiler().start("Step");
         Location to = e.getTo();
         Location from = e.getFrom();
         double yDis = to.getY() - from.getY();
@@ -114,6 +115,7 @@ public class Step extends Check {
                 }
             }
         }
+        TimberNoCheat.instance.getMoveprofiler().end();
     }
 
 
@@ -123,15 +125,15 @@ public class Step extends Check {
     }
 
     private double g(double paramDouble, int paramInt) {
-        int i = 0;
+        boolean negative = false;
         if (paramDouble < 0.0D) {
             paramDouble = Math.abs(paramDouble);
-            i = 1;
+            negative = true;
         }
         paramInt = (int) Math.pow(10.0D, paramInt);
         paramDouble *= paramInt;
         paramDouble = Math.floor(paramDouble) / paramInt;
-        return i != 0 ? -paramDouble : paramDouble;
+        return negative ? -paramDouble : paramDouble;
     }
 
     private boolean check(Location loc) {

@@ -24,6 +24,7 @@ public class Clip extends Check{
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }
+        TimberNoCheat.instance.getMoveprofiler().start("Clip");
         if(p.getAllowFlight() || p.getVehicle() != null || !(p.getLocation().getY() >= 0.0D && p.getLocation().getY() <= p.getWorld().getMaxHeight())){
             return;
         }
@@ -60,6 +61,7 @@ public class Clip extends Check{
                     return;
                 }
             }
+        TimberNoCheat.instance.getMoveprofiler().end();
     }
     public boolean checkblock(Location l){
         if(l.getBlock() != null && l.getBlock().getType().isSolid() && l.getBlock().getType().isBlock() && l.getBlock().getType() != Material.AIR) {

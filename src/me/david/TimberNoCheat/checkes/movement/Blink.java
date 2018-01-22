@@ -22,11 +22,13 @@ public class Blink extends Check{
         if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
             return;
         }
+        TimberNoCheat.instance.getMoveprofiler().start("Blink");
         double dis = e.getTo().distance(e.getFrom());
         if(dis > maxrangemove && maxrangemove != -1){
             e.setCancelled(true);
             updatevio(this, e.getPlayer(), dis-maxrangemove, " §6DISTANCE: §b" + dis, " §6TYPE: §bMOVE");
         }
+        TimberNoCheat.instance.getMoveprofiler().end();
     }
     @EventHandler
     public void onTeleport(PlayerTeleportEvent e){

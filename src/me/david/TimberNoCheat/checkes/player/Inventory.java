@@ -62,7 +62,7 @@ public class Inventory extends Check {
         final Player p = event.getPlayer();
         if(!TimberNoCheat.checkmanager.isvalid_create(p))return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        if(p.getItemOnCursor().getType() != Material.AIR) updatevio(this, p, 1, " §6CHECK: §bCURSOR");
+        if(itemcursor && p.getItemOnCursor().getType() != Material.AIR) updatevio(this, p, 1, " §6CHECK: §bCURSOR");
         long delay = System.currentTimeMillis() - pd.getLastachivementopeninv();
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         if(delay < 550 && !fp.jumpboost(p) && !fp.enderpearl && !fp.hasVehicle(60) && !fp.hasSlime(80) && !fp.hasPiston(60) && !fp.hasLiquid(60) && !fp.hasHitorbow(80) && !fp.hasRod(60) && !fp.hasExplosion(80) && !fp.hasExplosion(120) && !fp.hasOtherKB(60) && !fp.hasTeleport(60) && !fp.hasWorld(35) && p.getFallDistance() == 0F) updatevio(this, p, (delay-550)/2, " §6CHECK: §bACHIVEMENT");
@@ -85,13 +85,13 @@ public class Inventory extends Check {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void oninventory(InventoryClickEvent e){
+    public void onInventory(InventoryClickEvent e){
         final Player p = (Player) e.getWhoClicked();
         if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()){
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        long delay = System.currentTimeMillis() - pd.getLastmove();
+        long delay = System.currentTimeMillis() - pd.getGenerals().getLastRealMove();
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         if(delay < move_delay && !fp.jumpboost(p) && !fp.enderpearl && !fp.hasVehicle(60) && !fp.hasSlime(80) && !fp.hasPiston(60) && !fp.hasLiquid(60) && !fp.hasHitorbow(80) && !fp.hasRod(60) && !fp.hasExplosion(80) && !fp.hasExplosion(120) && !fp.hasOtherKB(60) && !fp.hasTeleport(60) && !fp.hasWorld(35) && p.getFallDistance() == 0F){
             e.setCancelled(true);
@@ -99,31 +99,25 @@ public class Inventory extends Check {
         }
         if(p.isSneaking() && sneaking){
             e.setCancelled(true);
-            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSNEAKING");
             updatevio(this, p, 1, " §6CHECK: §bSNEAKING");
         }
         if(p.isSprinting() && sprint){
             e.setCancelled(true);
-            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSPRINT");
             updatevio(this, p, 1, " §6CHECK: §bSPRINT");
         }
         if(p.isBlocking() && block){
             e.setCancelled(true);
-           // TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bBLOCK");
             updatevio(this, p, 1, " §6CHECK: §bBLOCK");
         }
         if(p.isSleeping() && sleep){
             e.setCancelled(true);
-          //  TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bSLEEP");
             updatevio(this, p, 1, " §6CHECK: §bSLEEP");
         }
         if(portalclick && e.getCursor() != null && p.getLocation().getBlock().getType() == Material.PORTAL || p.getLocation().add(0, p.getEyeHeight(), 0).getBlock().getType() == Material.PORTAL){
             e.setCancelled(true);
             updatevio(this, p, 1, " §6CHECK: §bPORTALCLICK", " §6CLOSE: §bTRUE");
-            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bPORTALCLICK", " §6CLOSE: §bTRUE");
             p.closeInventory();
         }
-        pd.setLastinv(System.currentTimeMillis());
     }
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent e){
@@ -149,16 +143,14 @@ public class Inventory extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        long delay = System.currentTimeMillis()-pd.getLastinv();
+        long delay = System.currentTimeMillis()-pd.getGenerals().getLastItemClick();
         if(delay < hitdelay){
             e.setCancelled(true);
             updatevio(this, p, 1, " §6CHECK: §bHITDELAY", " §6DELAY: §b" + delay);
-            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bHITDELAY", " §6DELAY: §b" + delay);
         }
         if(PlayerUtil.hasInventoryOpen(p) && openinvhit){
             e.setCancelled(true);
             updatevio(this, p, 1, " §6CHECK: §bHITINVOPEN");
-            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bHITNORMAL");
         }
     }
 
@@ -169,16 +161,14 @@ public class Inventory extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        long delay = System.currentTimeMillis()-pd.getLastinv();
+        long delay = System.currentTimeMillis()-pd.getGenerals().getLastItemClick();
         if(delay < chatdelay){
             e.setCancelled(true);
             updatevio(this, p, 1, " §6CHECK: §bCHATDELAY", " §6DELAY: §b" + delay);
-            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bCHATDELAY", " §6DELAY: §b" + delay);
         }
         if(PlayerUtil.hasInventoryOpen(p) && openinvchat){
             e.setCancelled(true);
             updatevio(this, p, 1, " §6CHECK: §bCHATNORMAL");
-            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bCHATNORMAL");
         }
     }
 }

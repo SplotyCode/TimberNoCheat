@@ -9,6 +9,12 @@ public class TNCEvent extends Event {
 
     @Override
     public HandlerList getHandlers() {
-        return null;
+        return handlers;
     }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+
 }

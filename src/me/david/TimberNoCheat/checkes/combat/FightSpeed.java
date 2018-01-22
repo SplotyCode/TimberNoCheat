@@ -68,21 +68,21 @@ public class FightSpeed extends Check{
         }
         //Consistency
         if(!enable)return;
-        for(int i = 0;i<pd.getFishtspeed().size();i++){
-            if(pd.getFishtspeed().get(0) < System.currentTimeMillis()-cacheinmilis){
-                pd.getFishtspeed().remove(0);
+        for(int i = 0; i<pd.getFightSpeed().size(); i++){
+            if(pd.getFightSpeed().get(0) < System.currentTimeMillis()-cacheinmilis){
+                pd.getFightSpeed().remove(0);
             }
         }
-        if(pd.getFishtspeed().size() >= maxcachesize){
+        if(pd.getFightSpeed().size() >= maxcachesize){
             int i;
-            for(i = 0;i < pd.getFishtspeed().size();i++)
-                if(i == maxcachesize) pd.getFishtspeed().remove(i);
+            for(i = 0; i < pd.getFightSpeed().size(); i++)
+                if(i == maxcachesize) pd.getFightSpeed().remove(i);
         }
-        if(pd.getFishtspeed().size() >= mincachesize){
+        if(pd.getFightSpeed().size() >= mincachesize){
             boolean consisdent = true;
             long last = -1;
-            for(int i = 0;i < pd.getFishtspeed().size()-1;i++){
-                long bet = pd.getFishtspeed().get(i+1)-pd.getFishtspeed().get(i);
+            for(int i = 0; i < pd.getFightSpeed().size()-1; i++){
+                long bet = pd.getFightSpeed().get(i+1)-pd.getFightSpeed().get(i);
                 if(last == -1){
                     last = bet;
                     continue;
@@ -96,9 +96,9 @@ public class FightSpeed extends Check{
             }
             if(consisdent){
                 updatevio(this, p, 8, " §6MODE: §bCONSISDEND");
-                pd.getFishtspeed().clear();
+                pd.getFightSpeed().clear();
             }
         }
-        pd.getFishtspeed().add(System.currentTimeMillis());
+        pd.getFightSpeed().add(System.currentTimeMillis());
     }
 }

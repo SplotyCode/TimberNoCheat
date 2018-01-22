@@ -28,6 +28,7 @@ public class Jesus extends Check {
         if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()) {
             return;
         }
+        TimberNoCheat.instance.getMoveprofiler().start("Jesus");
         if(p.getAllowFlight() || p.getVehicle() != null || !p.getNearbyEntities(1,1,1).isEmpty() || Velocity.velocity.containsKey(p.getUniqueId())){
             return;
         }
@@ -39,6 +40,7 @@ public class Jesus extends Check {
             e.setCancelled(true);
             pd.setJesus(System.currentTimeMillis());
         }
+        TimberNoCheat.instance.getMoveprofiler().end();
     }
     public static boolean cantStandAtWater(Block block) {
         Block otherBlock = block.getRelative(BlockFace.DOWN);

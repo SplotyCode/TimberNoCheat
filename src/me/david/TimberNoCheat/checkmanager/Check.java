@@ -53,13 +53,13 @@ public class Check implements Listener{
         vios = new ArrayList<Violation>();
         ConfigurationSection confsec = yml.getConfigurationSection(name.toLowerCase() + ".vioactions");
         if(confsec == null){
-            System.out.println("TNCDebug " + name);
+            //System.out.println("TNCDebug " + name);
             return;
         }
         for(String cvio : confsec.getKeys(false)) {
             String[] split = getString("vioactions." + cvio).split(":");
-            System.out.println(name + " " + Integer.valueOf(cvio) + " " + Violation.ViolationTypes.valueOf(split[0]) + (split.length>=2?split[1]:""));
-            System.out.println(name + " " + new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:"").getType().name());
+            //System.out.println(name + " " + Integer.valueOf(cvio) + " " + Violation.ViolationTypes.valueOf(split[0]) + (split.length>=2?split[1]:""));
+            //System.out.println(name + " " + new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:"").getType().name());
             vios.add(new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:""));
         }
         register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {

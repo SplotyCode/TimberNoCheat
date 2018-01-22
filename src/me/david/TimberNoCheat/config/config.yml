@@ -84,7 +84,7 @@ generel:
    #[DE]Sollen wir alle Spieler Daten beim verlassen des Spieles löschen? Das nicht leeren von PlayerDaten kann mit der Zeit zu memory Leaks führen![DE]
    #[DE]Deshalb empfaelen wir bei ein den Server regelmäsig neuzustarten [DE]
    #[EN]Should we clear PlayerData after a Player leavs the Game? If will not clear the PlayerData it can cousing memory Leaks ![EN]
-   #[EN]When this is turnet on we sucess restarting you server sometimes [EN]
+   #[EN]When this is turnet on we fail restarting you server sometimes [EN]
    clearPlayerData: true
    #[EN]Settings about records [EN]
    #[DE]Einstellungen über Aufnamhem[DE]

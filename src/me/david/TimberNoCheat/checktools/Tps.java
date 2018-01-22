@@ -23,11 +23,12 @@ public class Tps implements Runnable{
     }
 
     public static double getTPS(int checklastticks) {
-        if (tickcount < checklastticks) return 20.0D;
+        if (tickcount < checklastticks) return 20;
         int target = (tickcount - 1 - checklastticks) % ticks.length;
+        if(target == -1) return 20;
         long elapsed = System.currentTimeMillis() - ticks[target];
 
-        return checklastticks / (elapsed / 1000.0D);
+        return checklastticks / (elapsed / 1000);
     }
 
     public void run() {

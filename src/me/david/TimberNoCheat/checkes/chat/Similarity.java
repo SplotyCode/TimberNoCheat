@@ -36,8 +36,8 @@ public class Similarity extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer());
         message = ChatColor.stripColor(message);
-        int similarityper = StringUtil.similarity(message, pd.getMessages().get(pd.getMessages().size()-1));
-        if(similarityper >= similarity) updatevio(this, event.getPlayer(), similarityper/2, " §6SIMILARITY: §b" + similarityper);
+        int similarityper = StringUtil.similarity(message, pd.getGenerals().getMessages().get(pd.getGenerals().getMessages().size()-1));
+        if(similarityper >= similarity && event.getMessage().length() > minlen) updatevio(this, event.getPlayer(), similarityper/2, " §6SIMILARITY: §b" + similarityper);
 
     }
 }

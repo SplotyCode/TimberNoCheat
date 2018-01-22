@@ -14,10 +14,9 @@ public class Bots extends Check {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
-        if(!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer()) || event.getMessage().startsWith("/")){
-            return;
-        }
-        if(TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer()).getLoginlocation().equals(event.getPlayer().getLocation()))
+        if(!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer()) || event.getMessage().startsWith("/")) return;
+        if(TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer()).getGenerals().getLoginLocation().equals(event.getPlayer().getLocation()))
             updatevio(this, event.getPlayer(), 1);
     }
+
 }

@@ -54,6 +54,7 @@ public class Fly extends Check {
         if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()) {
             return;
         }
+        TimberNoCheat.instance.getMoveprofiler().start("Fly ");
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         if(PlayerUtil.isOnGround(p)) pd.setLastonground(p.getLocation());
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
@@ -83,6 +84,7 @@ public class Fly extends Check {
                 } else pd.setGlide(-1);
             }
         }
+        TimberNoCheat.instance.getMoveprofiler().end();
     }
 
     private void setBack(Player p){
@@ -95,6 +97,7 @@ public class Fly extends Check {
                 p.teleport(p.getLocation().subtract(0, (blocksDown(p) > 3?3:blocksDown(p)), 0));
                 break;
         }
+
     }
 
     private int blocksDown(Player p){

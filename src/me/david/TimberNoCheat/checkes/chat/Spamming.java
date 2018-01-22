@@ -12,10 +12,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.ArrayList;
 
 public class Spamming extends Check{
-    final boolean ignorecase;
-    final boolean ignorecasewhitelist;
-    final ArrayList<String> whitelist;
-    final int toshort;
+    private final boolean ignorecase;
+    private final boolean ignorecasewhitelist;
+    private final ArrayList<String> whitelist;
+    private final int toshort;
+
     public Spamming(){
         super("Spamming", Category.CHAT);
         ignorecase = getBoolean("ignorecase");
@@ -44,16 +45,14 @@ public class Spamming extends Check{
         if(!ignorecasewhitelist && whitelist.contains(message)) {
             return;
         }
-        if(!ignorecase && pd.getMessages().contains(message)){
+        if(!ignorecase && pd.getGenerals().getMessages().contains(message)){
             e.setCancelled(true);
             TimberNoCheat.checkmanager.notify(this, e.getPlayer());
             return;
         }
-        if(ignorecase && ArrayCollectUtil.containsignorecase(pd.getMessages(), message)){
+        if(ignorecase && ArrayCollectUtil.containsignorecase(pd.getGenerals().getMessages(), message)){
             e.setCancelled(true);
             updatevio(this, e.getPlayer(), 1);
-            return;
         }
-        pd.getMessages().add(message);
     }
 }

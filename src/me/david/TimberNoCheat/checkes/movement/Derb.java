@@ -20,11 +20,13 @@ public class Derb extends Check{
         if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
             return;
         }
+        TimberNoCheat.instance.getMoveprofiler().start("Derb");
         //System.out.println(e.getTo().getPitch());
         if((e.getTo().getPitch() > maxpitch && maxpitch != -1) || (e.getTo().getPitch() < minpitch && minpitch != -1)){
             //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6PITCH: §b" + e.getTo().getPitch());
             e.setCancelled(true);
             updatevio(this, e.getPlayer(), 1);
         }
+        TimberNoCheat.instance.getMoveprofiler().end();
     }
 }

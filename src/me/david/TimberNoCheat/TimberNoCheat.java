@@ -2,14 +2,13 @@ package me.david.TimberNoCheat;
 
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.CheckManager;
-import me.david.TimberNoCheat.checktools.FalsePositive;
-import me.david.TimberNoCheat.checktools.TNCCommand;
-import me.david.TimberNoCheat.checktools.Tps;
-import me.david.TimberNoCheat.checktools.Velocity;
+import me.david.TimberNoCheat.checktools.*;
 import me.david.TimberNoCheat.config.Config;
 import me.david.TimberNoCheat.config.Permissions;
+import me.david.TimberNoCheat.gui.GuiLoader;
 import me.david.TimberNoCheat.listener.JoinLeave;
 import me.david.TimberNoCheat.listener.TNCHandler;
+import me.david.TimberNoCheat.profiler.MoveProfiler;
 import me.david.TimberNoCheat.record.RecordManager;
 import me.david.api.ApiPlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -32,6 +31,8 @@ public class TimberNoCheat extends ApiPlugin {
     private RecordManager recordManager;
     /* Should we clear the PlayerData when the Player Logs out */
     private boolean clearPlayerData = true;
+
+    private MoveProfiler moveprofiler;
 
 
     /* Default Prefix normaly this prefix gets overridden from the config */
@@ -63,13 +64,15 @@ public class TimberNoCheat extends ApiPlugin {
             setEnabled(false);
             return;
         }
+        moveprofiler = new MoveProfiler();
         //settings = new old_Settings();
         checkmanager = new CheckManager();
         recordManager = new RecordManager(config);
-        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler());
+        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General());
         registerCommands(new TNCCommand());
         clearPlayerData = YamlConfiguration.loadConfiguration(config).getBoolean("clearPlayerData");
-        log(false, "[TimberNoCheat] Es wurden " + checkmanager.getChecks().size() + " module geladen mit vielen unterchecks!");
+        log(false, "Es wurden " + checkmanager.getChecks().size() + " module geladen mit vielen unterchecks!");
+        new GuiLoader(this);
     }
 
     /*
@@ -93,6 +96,10 @@ public class TimberNoCheat extends ApiPlugin {
     public void notify(String message){
         permissioncache.sendAll(Permissions.NOTITY, prefix + message);
         getLogger().info(message);
+    }
+
+    public MoveProfiler getMoveprofiler() {
+        return moveprofiler;
     }
 
     public RecordManager getRecordManager() {

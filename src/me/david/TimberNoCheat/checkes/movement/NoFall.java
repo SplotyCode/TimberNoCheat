@@ -20,6 +20,7 @@ public class NoFall extends Check {
         if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()) {
             return;
         }
+        TimberNoCheat.instance.getMoveprofiler().start("NoFall");
         int blocks = 0;
         boolean found = false;
         while(!found){
@@ -31,5 +32,6 @@ public class NoFall extends Check {
             updatevio(this, p, blocks-p.getFallDistance());
             e.setCancelled(true);
         }
+        TimberNoCheat.instance.getMoveprofiler().end();
     }
 }

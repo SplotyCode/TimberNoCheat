@@ -20,6 +20,7 @@ public class BedLeave extends Check{
     @EventHandler
     public void onBedLeave(PlayerBedLeaveEvent e){
         if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())) return;
+        TimberNoCheat.instance.getMoveprofiler().start("BedLeave");
         Location loc = e.getBed().getLocation();
         for(int x = loc.getBlockX() - maxrange; x < loc.getBlockX() + maxrange; ++x) {
             for(int y = loc.getBlockY() - maxrange; y < loc.getBlockY() + maxrange; ++y) {
@@ -32,5 +33,6 @@ public class BedLeave extends Check{
             }
         }
         updatevio(this, e.getPlayer(), 1);
+        TimberNoCheat.instance.getMoveprofiler().end();
     }
 }

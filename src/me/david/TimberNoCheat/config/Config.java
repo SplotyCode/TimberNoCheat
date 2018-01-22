@@ -2,6 +2,8 @@ package me.david.TimberNoCheat.config;
 
 import com.google.common.io.ByteStreams;
 import me.david.TimberNoCheat.TimberNoCheat;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
@@ -41,7 +43,7 @@ public class Config {
             return true;
         }
         if(yml.getString("generel.prefix") != null && !yml.getString("generel.prefix").equals("") && !yml.getString("generel.prefix").equals(" "))
-            TimberNoCheat.instance.prefix = yml.getString("generel.prefix");
+            TimberNoCheat.instance.prefix = ChatColor.translateAlternateColorCodes('&', yml.getString("generel.prefix"));
         return false;
     }
 }

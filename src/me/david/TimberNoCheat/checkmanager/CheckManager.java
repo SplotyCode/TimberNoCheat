@@ -142,7 +142,7 @@ public class CheckManager {
      */
     public boolean isvalid_create(Player p ){
         if(TimberNoCheat.instance.permissioncache.hasPermission(p, Permissions.NOTCHECKT)) return false;
-        if(getPlayerdata(p) == null) playerdata.add(new PlayerData(p.getUniqueId().toString()));
+        if(getPlayerdata(p) == null) playerdata.add(new PlayerData(p.getUniqueId()));
         return true;
     }
 
@@ -194,9 +194,8 @@ public class CheckManager {
     }
 
     private void notify(Player p, String message){
-        TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, TimberNoCheat.instance.prefix + message);
-        getPlayerdata(p).setLastflagmessage(System.currentTimeMillis());
-        TimberNoCheat.instance.getLogger().log(Level.INFO, message.replace("§", "&"));
+        TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, message);
+        TimberNoCheat.instance.getLogger().log(Level.INFO, message);
     }
 
     /* Get Server Tps with Colour*/

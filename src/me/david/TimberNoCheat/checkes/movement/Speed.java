@@ -255,8 +255,8 @@ public class Speed extends Check {
         final Location to = e.getTo();
         final Location from = e.getFrom();
         if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled() || !to.getWorld().getName().equals(from.getWorld().getName())) return;
+        TimberNoCheat.instance.getMoveprofiler().start("Speed");
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        pd.setLastmove(System.currentTimeMillis());
         if(PlayerUtil.isOnGround(p)) pd.setLastongroundtime(System.currentTimeMillis());
         if(ssenable && p.isSprinting() && p.isSneaking()){
             e.setCancelled(true);
@@ -272,13 +272,13 @@ public class Speed extends Check {
             updatevio(this, p, bsvio, " §6MODE: §bBLOCKSPRINT");
         }
         if(to.getX() != from.getX() || to.getY() != from.getY() || to.getZ() != from.getZ()){
-            pd.setLastrealmove(System.currentTimeMillis());
             if(tenable)check_timer(e, pd);
             if(nenable)check_normal(e);
             if(jenable)check_jumping(e);
             if(grounddiffen) check_grounddiff(e, pd);
             yspeed(e);
         }
+        TimberNoCheat.instance.getMoveprofiler().end();
     }
 
     private void check_normal(PlayerMoveEvent e){
