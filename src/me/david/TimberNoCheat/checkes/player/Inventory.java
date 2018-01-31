@@ -5,7 +5,6 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.FalsePositive;
-import me.david.TimberNoCheat.checktools.Velocity;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Achievement;
 import org.bukkit.Material;
@@ -19,8 +18,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import java.sql.Time;
 
 public class Inventory extends Check {
 

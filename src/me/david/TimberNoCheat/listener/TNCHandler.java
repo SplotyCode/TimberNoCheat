@@ -17,7 +17,6 @@ public class TNCHandler implements Listener {
             check.disablelisteners();
             check.disabletasks();
         }
-        TimberNoCheat.checkmanager.getChecks().clear();
         TimberNoCheat.checkmanager.loadchecks();
     }
 

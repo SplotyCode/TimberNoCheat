@@ -13,8 +13,15 @@ import me.david.TimberNoCheat.checkes.exploits.*;
 import me.david.TimberNoCheat.checkes.movement.*;
 import me.david.TimberNoCheat.checkes.other.*;
 import me.david.TimberNoCheat.checkes.player.*;
+import me.david.TimberNoCheat.checkes.combat.*;
+import me.david.TimberNoCheat.checkes.exploits.*;
+import me.david.TimberNoCheat.checkes.player.*;
 import me.david.TimberNoCheat.checktools.Tps;
 import me.david.TimberNoCheat.config.Permissions;
+import me.david.TimberNoCheat.checkes.chat.*;
+import me.david.TimberNoCheat.checkes.interact.*;
+import me.david.TimberNoCheat.checkes.movement.*;
+import me.david.TimberNoCheat.checkes.other.*;
 import me.david.api.anotations.NotNull;
 import me.david.api.anotations.Nullable;
 import me.david.api.utils.StringUtil;
@@ -48,6 +55,7 @@ public class CheckManager {
      * Registering/Starting checks
      */
     public void loadchecks(){
+        checks.clear();
         register(new Address());
         register(new Delay());
         register(new Sign());
@@ -124,6 +132,7 @@ public class CheckManager {
     /* Loading all Checks when this Objects gets createt (usually on the start of TNC */
     public CheckManager(){
         loadchecks();
+        new TickCountTimer();
     }
 
     @Deprecated
@@ -151,8 +160,8 @@ public class CheckManager {
      * If there is no PlayerData bind to that Player return null
      */
     public @Nullable PlayerData getPlayerdata(@NotNull Player p){
-        for(PlayerData playerdata : playerdata)
-            if(playerdata.getUuid().equals(p.getUniqueId().toString()))
+        for(PlayerData playerdata : (ArrayList<PlayerData>)playerdata.clone())
+            if(playerdata.getUuid().equals(p.getUniqueId()))
                 return playerdata;
         return null;
     }
@@ -193,7 +202,7 @@ public class CheckManager {
         TimberNoCheat.instance.getLogger().log(Level.INFO, message.replace("§", "&"));
     }
 
-    private void notify(Player p, String message){
+    public void notify(Player p, String message){
         TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, message);
         TimberNoCheat.instance.getLogger().log(Level.INFO, message);
     }

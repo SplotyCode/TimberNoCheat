@@ -1,5 +1,6 @@
 package me.david.TimberNoCheat.checkmanager;
 
+import me.david.TimberNoCheat.checktools.AsyncGeneral;
 import me.david.TimberNoCheat.checktools.FalsePositive;
 import me.david.TimberNoCheat.checktools.General;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -8,8 +9,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-
-import static me.david.TimberNoCheat.checktools.General.*;
 
 /*
  * All Variables for PlayerData mostly for checks
@@ -75,18 +74,23 @@ public class PlayerData {
     private Location fastladderstart;
 
     /* FastRespawn */private long lastdead;
+
     private int commands10sec;
     private int chats10sec;
+
     private Block startbreak;
     private long startbreaktime;
+
     private int ticksonground;
+
     private long lastrightclick;
     private double stepjump;
     private int stepjump2;
     private Location laststep;
+
     private HashMap<Long, Boolean> accuracy;
     /* Glide */private long glide;
-    private Location lastonground;
+    /* Step */private double newstep;
 
     /* VehicleMove*/
     private double vehicley;
@@ -113,8 +117,16 @@ public class PlayerData {
     private double godhealth;
     private int godhealthtick;
 
+    /* Fly */
+    boolean hurttime;
+    int flymode;
+    double ziff;
+    int flycount;
+    boolean flygound;
+
     private FalsePositive.FalsePositiveChecks falsepositives;
     private General.GeneralValues generals;
+    private AsyncGeneral.AsyncGeneralValues asyncGenerals;
 
     public PlayerData(UUID uuid) {
         this.uuid = uuid;
@@ -163,7 +175,6 @@ public class PlayerData {
         this.laststep = null;
         this.accuracy = new HashMap<>();
         this.glide = -1;
-        this.lastonground = null;
         this.vehicledif = -1;
         this.vehicley = -1;
         this.lastachivementopeninv = System.currentTimeMillis()-15000L;
@@ -183,6 +194,8 @@ public class PlayerData {
         this.godhealth = 0;
         this.godhealthtick = 0;
         generals = new General.GeneralValues();
+        asyncGenerals = new AsyncGeneral.AsyncGeneralValues();
+        newstep = 0;
     }
 
     /**
@@ -193,12 +206,61 @@ public class PlayerData {
     public FalsePositive.FalsePositiveChecks getFalsepositives() {
         return falsepositives;
     }
-    public GeneralValues getGenerals() {
+    public General.GeneralValues getGenerals() {
         return generals;
+    }
+    public AsyncGeneral.AsyncGeneralValues getAsyncGenerals() {
+        return asyncGenerals;
     }
 
 
+    public boolean isHurttime() {
+        return hurttime;
+    }
 
+    public void setHurttime(boolean hurttime) {
+        this.hurttime = hurttime;
+    }
+
+    public int getFlymode() {
+        return flymode;
+    }
+
+    public void setFlymode(int flymode) {
+        this.flymode = flymode;
+    }
+
+    public double getZiff() {
+        return ziff;
+    }
+
+    public void setZiff(double ziff) {
+        this.ziff = ziff;
+    }
+
+    public int getFlycount() {
+        return flycount;
+    }
+
+    public void setFlycount(int flycount) {
+        this.flycount = flycount;
+    }
+
+    public boolean isFlygound() {
+        return flygound;
+    }
+
+    public void setFlygound(boolean flygound) {
+        this.flygound = flygound;
+    }
+
+    public double getNewstep() {
+        return newstep;
+    }
+
+    public void setNewstep(double newstep) {
+        this.newstep = newstep;
+    }
 
     public double getGodhealth() {
         return godhealth;
@@ -338,14 +400,6 @@ public class PlayerData {
 
     public void setVehicledif(int vehicledif) {
         this.vehicledif = vehicledif;
-    }
-
-    public Location getLastonground() {
-        return lastonground;
-    }
-
-    public void setLastonground(Location lastonground) {
-        this.lastonground = lastonground;
     }
 
     public long getGlide() {

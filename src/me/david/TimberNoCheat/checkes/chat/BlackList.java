@@ -10,7 +10,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.ArrayList;
 
-public class BlackList extends Check{
+public class BlackList extends Check {
 
     final ArrayList<String> blacklist;
     public BlackList(){

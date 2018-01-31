@@ -55,62 +55,14 @@ public class AntiESP extends Check {
 
     private void check(Player player, Entity entity){
         new Thread(() -> {
-            Location loc = player.getLocation().add(0, 1.625, 0);
-            Location targetloc = entity.getLocation().add(0, 1, 0);
-            double distance = loc.distance(targetloc);
-            double checked_distance = 0.0;
-            if (distance > 6) {
-                hideEntity(player, entity);
-                return;
-            }
-            if (distance < 8.0) {
-                Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
-                    @Override
-                    public void run() {
-                        showEntity(player, entity);
-                    }
-                }, 1);
-                return;
-            }
-            Vector vector = targetloc.subtract(loc).toVector();
-            double x = Math.abs(vector.getX());
-            double y = Math.abs(vector.getY());
-            double z = Math.abs(vector.getZ());
-            if (x > y && x > z) vector.multiply(1 / x);
-            else if (y > x && y > z) vector.multiply(1 / y);
-            else vector.multiply(1 / z);
-            Vector B = loc.getDirection();
-            double degrees = Math.toDegrees(Math.acos(B.dot(vector) / vector.length()));
-            if (degrees > 60) {
-                hideEntity(player, entity);
-                return;
-            }
-            checked_distance += vector.length();
-            loc.add(vector);
-            while (checked_distance < distance) {
-                try {
-                    if (loc.getBlock().getType().isOccluding()) {
-                        hideEntity(player, entity);
-                        return;
-                    }
-                    checked_distance += vector.length();
-                    loc.add(vector);
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                }
-            }
-            Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
-                @Override
-                public void run() {
-                    showEntity(player, entity);
-                }
-            }, 1);
+            if (!player.hasLineOfSight(entity)) hideEntity(player, entity);
+            else Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> showEntity(player, entity), 1);
         }).start();
     }
 
     private void showEntity(Player observer, Entity entity) {
         boolean hiddenBefore = !setVisibility(observer, entity.getEntityId(), true);
-        if( entity.isDead() ) {
+        if(entity.isDead() ) {
             removeEntity(entity);
             return;
         }

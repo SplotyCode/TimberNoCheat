@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class CommandDelay extends Check{
+public class CommandDelay extends Check {
 
     private final int commands10;
     private final long delay;

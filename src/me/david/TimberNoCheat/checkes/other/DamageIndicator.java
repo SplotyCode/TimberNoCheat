@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class DamageIndicator extends Check{
+public class DamageIndicator extends Check {
 
     public DamageIndicator(){
         super("DamageIndicator", Category.OTHER);

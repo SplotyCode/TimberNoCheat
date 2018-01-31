@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
 
 public class Step extends Check {
 
@@ -23,7 +24,7 @@ public class Step extends Check {
     @EventHandler(priority = EventPriority.LOW)
     public void onMove(PlayerMoveEvent e) {
         final Player p = e.getPlayer();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p)) {
+        if (!TimberNoCheat.checkmanager.isvalid_create(p) || p.getAllowFlight()) {
             return;
         }
         TimberNoCheat.instance.getMoveprofiler().start("Step");
@@ -67,43 +68,6 @@ public class Step extends Check {
             updatevio(this, p, 1, " §6MODE: §bLOW");
         else if (!fp.hasPiston(30 * 5)) {
             double d5 = e.getFrom().getY() - e.getFrom().getBlockY();
-            double d9;
-            int i1;
-            if (yDis > 0.0D && (yDisblock == 0.0D || yDisblock >= 0.01D) && !fp.jumpboost(p) && (!fp.hasLiquid(20 * 5)) && (!fp.hasHitorbow(60 * 5)) /*TODO: vieleicht onground*/) {
-                Location localLocation1 = p.getLocation();
-                int k = 0;
-                double d7 = 0.0D;
-                d9 = (!MaterialHelper.checksouroundpos2(p, 0.3, 1, 0.3)) || (!MaterialHelper.checksouroundpos2(p, 0.3, 2, 0.3)) ? 0.02 : 0.01;
-                i1 = (d5 == 0.5D) || (yDisblock == 0.5D) ? 1 : 0;
-                boolean i2 = i1 == 0 || (checkall(to, 0.3D, 0.0D, 0.3D) && checkall(from, 0.3D, 0.0D, 0.3D));
-                boolean i3 = a(yDisblock) && !a(yDis);
-                //Location localLocation2 = ��(paramLocation1, paramLocation2, 0.7D);
-                if (a(yDis)){
-                    d7 = pd.getStepjump();
-                    if ((a(d7)) &&(yDis < d7)) {
-                        if(pd.getStepjump2() != -1){
-                            if(pd.getStepjump() > 0)pd.setStepjump(0);
-                            pd.setStepjump2(4);
-                        }
-                        pd.setStepjump(pd.getStepjump()+1);
-                        int i6 = (int) Math.abs(pd.getStepjump2() - pd.getStepjump());
-                        if (pd.getStepjump2() != 4 && pd.getStepjump() != 4 || i6 != 3 || pd.getStepjump2() != 4 && pd.getStepjump() != 4) k = 2;
-                    }
-                }
-                if (a(d7)) {
-                    pd.setStepjump(yDis);
-                } else {
-                    pd.setStepjump(0);
-                    pd.setLaststep(from);
-                    k = 1;
-                }
-                if (yDis >= d9 && !i3 && i2 && k != 0 && (yDis == 0.5D || (yDis != yDisblock)) && ((yDis >= 0.24D) || (MaterialHelper.checksouroundpos2(p, 0.3D, 2.0D, 0.3D))) &&
-                (!MaterialHelper.checkloc(localLocation1)) && check(from) &&
-                (check(localLocation1.clone().add(0.0D, -1.0D, 0.0D))) &&
-                (check(from.clone().add(0.0D, -1.0D, 0.0D)))) {
-                    updatevio(this, p, 5, " §6MODE: §bJUMPING", " §6HIGHT: §bJUMPING" + yDis);
-                }
-            }
             if (!fp.hasHitorbow(80) && (yDis >= 0.34D) && !(fp.hasBed(60) || fp.hasSlime(60)) && (yDisblock != 0.5D) && !a(yDis) &&  !fp.jumpboost(p) && !fp.hasLiquid(140)){
                 for (int j = -1; j <= 1; j++)
                     if (!checkall2(p, 1.0D, j, 1.0D))
@@ -114,6 +78,10 @@ public class Step extends Check {
                     updatevio(this, p, 5, " §6MODE: §bDIFF", " §6HIGHT: §bJUMPING" + yDis);
                 }
             }
+        }
+        if (from.getY() + 1.0 == to.getY()) {
+            updatevio(this, p, 15, " §6MODE: §b EXTREMLY BASIC");
+            p.teleport(pd.getGenerals().getLastOnGround());
         }
         TimberNoCheat.instance.getMoveprofiler().end();
     }

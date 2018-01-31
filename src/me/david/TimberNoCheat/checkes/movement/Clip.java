@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class Clip extends Check{
+public class Clip extends Check {
 
     private final boolean onlyfull;
     public Clip(){

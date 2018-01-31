@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class FastPlace extends Check{
+public class FastPlace extends Check {
 
     private final int persecond;
     public FastPlace(){

@@ -2,6 +2,7 @@ package me.david.TimberNoCheat.gui;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.config.Permissions;
+import me.david.api.guis.CloseReason;
 import me.david.api.guis.Gui;
 import me.david.api.utils.ItemStackUtil;
 import me.david.api.utils.OLD_Sounds;
@@ -34,11 +35,11 @@ public class GuiItems extends Gui {
     public void itemclick(Player p, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
         switch (itemstack.getType()){
             case STONE_SPADE:
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false);
+                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REOPEN);
                 TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "ItemsToolMulti");
                 break;
             case POTION:
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false);
+                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REOPEN);
                 TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "ItemsTestMulti");
                 break;
         }

@@ -4,6 +4,7 @@ import com.comphenix.protocol.events.PacketListener;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.api.ViolationUpdateEvent;
 import me.david.TimberNoCheat.checktools.Tps;
+import me.david.api.utils.StringUtil;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,7 +26,7 @@ public class Check implements Listener{
     private HashMap<Player, HashMap<Long, Double>> viochache;
     private HashMap<Player, Double> violations;
     private HashMap<Player, HashMap<String, Double>> counts;
-    private HashMap<Player, HashMap<String, Double>> tickcounts;
+    public HashMap<Player, HashMap<String, Double>> tickcounts;
     private HashMap<Player, Map.Entry<Long, Long>> whitelist;
     private boolean resetafter;
     private ArrayList<Violation> vios;
@@ -62,11 +63,6 @@ public class Check implements Listener{
             //System.out.println(name + " " + new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:"").getType().name());
             vios.add(new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:""));
         }
-        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {
-            for(Map.Entry<Player, HashMap<String, Double>> list : tickcounts.entrySet())
-                for(Map.Entry<String, Double> values : list.getValue().entrySet())
-                    tickcounts.get(list.getKey()).put(values.getKey(), values.getValue()-1 <= 0?0:values.getValue()-1);
-        }, 1, 1).getTaskId());
         starttasks();
     }
 
@@ -155,6 +151,7 @@ public class Check implements Listener{
                             p.sendMessage(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), p));
                             break;
                         case KICK:
+                            TimberNoCheat.checkmanager.notify(p, "[KICK] §bName: §6" + getCategory().name() + "_" + getName() + " §bPlayer: §6" + p.getName() + " §bTPS: " + TimberNoCheat.checkmanager.gettpscolor() + " §bPING: " + TimberNoCheat.checkmanager.getpingcolor(p) + violation + StringUtil.toString(other, ""));
                             p.kickPlayer(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), p));
                             canreset = true;
                             break;

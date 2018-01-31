@@ -11,7 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.ArrayList;
 
-public class Spamming extends Check{
+public class Spamming extends Check {
     private final boolean ignorecase;
     private final boolean ignorecasewhitelist;
     private final ArrayList<String> whitelist;

@@ -5,12 +5,14 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.InteractTool;
-import org.bukkit.GameMode;
+import me.david.api.utils.BlockUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
+
+import java.util.Set;
 
 public class Break extends Check {
 
@@ -22,6 +24,9 @@ public class Break extends Check {
     private final double tvio;
     private final long tobsidian;
     private final long tnormal;
+    private final boolean rayenable;
+    private final boolean raycancel;
+    private final double rayvio;
 
     public Break(){
         super("Break", Category.INTERACT);
@@ -33,6 +38,9 @@ public class Break extends Check {
         tvio = getDouble("time.vio");
         tobsidian = getLong("time.timeobsidian");
         tnormal = getLong("time.timenormal");
+        rayenable = getBoolean("raypick.enable");
+        raycancel = getBoolean("raypick.cancel");
+        rayvio = getDouble("raypick.vio");
     }
 
     @EventHandler
@@ -57,6 +65,10 @@ public class Break extends Check {
             e.setCancelled(true);
             updatevio(this, p, nevio, " §6CHECK: §bNOTEQULS");
             return;
+        }
+        if(rayenable && !BlockUtil.HOLLOW_MATERIALS.contains(p.getTargetBlock((Set)null, 5).getType()) && !e.getBlock().getLocation().equals(p.getTargetBlock((Set)null, 5))){
+            if(raycancel) e.setCancelled(true);
+            updatevio(this, p, rayvio, " §6CHECK: §bWRONG BLOCK");
         }
         if(tenable && (e.getBlock().getType() == Material.OBSIDIAN && System.currentTimeMillis()-pd.getStartbreaktime() > 260000) || (e.getBlock().getType() != Material.OBSIDIAN && System.currentTimeMillis()-pd.getStartbreaktime() > 22000)){
             e.setCancelled(true);

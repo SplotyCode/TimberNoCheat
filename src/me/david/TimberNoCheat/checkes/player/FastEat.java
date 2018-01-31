@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 
 import java.util.ArrayList;
 
-public class FastEat extends Check{
+public class FastEat extends Check {
 
     private final long delay;
     public static final ArrayList<Material>food = new ArrayList<Material>();

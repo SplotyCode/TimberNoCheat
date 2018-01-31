@@ -56,9 +56,8 @@ public class Fly extends Check {
         }
         TimberNoCheat.instance.getMoveprofiler().start("Fly ");
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        if(PlayerUtil.isOnGround(p)) pd.setLastonground(p.getLocation());
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
-        System.out.println(simple + " " + inair(p) + " " + (!fp.enderpearl && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))));
+        //System.out.println(simple + " " + inair(p) + " " + (!fp.enderpearl && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))));
         if(simple && inair(p) && !fp.enderpearl && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))){
             updatevio(this, p, simplevio, " §6CHECK: §bSIMPLE");
             setBack(p);
@@ -84,6 +83,14 @@ public class Fly extends Check {
                 } else pd.setGlide(-1);
             }
         }
+        if(pd.isHurttime() && PlayerUtil.isOnGround(p) && p.getNoDamageTicks() == 0)
+            pd.setHurttime(false);
+        if(!pd.isHurttime() && p.getNoDamageTicks() != 0)
+            pd.setHurttime(true);
+        if(!pd.isHurttime()) pd.setFlycount(0);
+        if(PlayerUtil.isOnGround(p)) pd.setFlycount(0);
+        else pd.setFlycount(pd.getFlycount()+1);
+
         TimberNoCheat.instance.getMoveprofiler().end();
     }
 
@@ -91,7 +98,7 @@ public class Fly extends Check {
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         switch (setback){
             case "cancel":
-                p.teleport(pd.getLastonground(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                p.teleport(pd.getGenerals().getLastOnGround(), PlayerTeleportEvent.TeleportCause.PLUGIN);
                 break;
             case "down":
                 p.teleport(p.getLocation().subtract(0, (blocksDown(p) > 3?3:blocksDown(p)), 0));
@@ -109,7 +116,7 @@ public class Fly extends Check {
     }
 
     private boolean inair(Player p){
-        for(Block b : BlockUtil.getBlocksAround(p.getLocation(), 2))
+        for(Block b : BlockUtil.getBlocksAround(p.getLocation(), 3))
             if(b.getType() != Material.AIR)
                 return false;
         return true;

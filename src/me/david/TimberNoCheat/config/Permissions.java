@@ -11,6 +11,9 @@ public class Permissions {
     public static final String ITEMS_TOOLS = "tnc.items.tools";
     public static final String ITEMS_TEST = "tnc.items.test";
 
+    public static final String RELOAD = "tnc.reload";
+    public static final String GENERATE = "tnc.generate";
+
     public static final String PROFILER = "tnc.profiler";
     public static final String PROFILER_ALLSCHEDULER = "tnc.profiler.allscheduler";
     public static final String PROFILER_SCHEDULER = "tnc.profiler.scheduler";

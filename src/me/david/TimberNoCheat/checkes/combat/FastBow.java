@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
-public class FastBow extends Check{
+public class FastBow extends Check {
 
     final double mimimumforce;
     final long delay;

@@ -30,7 +30,7 @@ import java.security.KeyPair;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-public class MCLeaks extends Check{
+public class MCLeaks extends Check {
 
     private LoadingCache<String, Boolean> caches = null;
     private LoadingCache<InetSocketAddress, String> names = null;

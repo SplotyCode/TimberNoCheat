@@ -32,7 +32,7 @@ public class GuiMoveProfiler extends Gui implements Listener {
             TimberNoCheat.instance.getMoveprofiler().setRunning(!profilePlayer.isEmpty());
             String[] profile = new String[TimberNoCheat.instance.getMoveprofiler().getTimes().size()];
             int i = 0;
-            System.out.println("---");
+            //System.out.println("---");
             for(Map.Entry<String, Long> pr : TimberNoCheat.instance.getMoveprofiler().getTimes().entrySet()){
                 profile[i] = "§6" + pr.getKey() + ": §b" + pr.getValue();
                 System.out.println(profile[i]);

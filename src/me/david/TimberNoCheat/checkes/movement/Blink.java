@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-public class Blink extends Check{
+public class Blink extends Check {
 
     private final double maxrangetp;
     private final double maxrangemove;
@@ -30,13 +30,14 @@ public class Blink extends Check{
         }
         TimberNoCheat.instance.getMoveprofiler().end();
     }
+
     @EventHandler
     public void onTeleport(PlayerTeleportEvent e){
         if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
             return;
         }
         double dis = e.getTo().distance(e.getFrom());
-        if(dis > maxrangemove && maxrangetp != -1){
+        if(dis > maxrangemove && maxrangetp != -1 && e.getCause() == PlayerTeleportEvent.TeleportCause.UNKNOWN){
             e.setCancelled(true);
             updatevio(this, e.getPlayer(), dis-maxrangemove, " §6DISTANCE: §b" + dis, " §6TYPE: §bTELEPORT");
         }

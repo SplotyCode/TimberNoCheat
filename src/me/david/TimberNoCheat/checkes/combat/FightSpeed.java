@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class FightSpeed extends Check{
+public class FightSpeed extends Check {
 
     private final int hitspersecond;
     private final int interactspersecond;

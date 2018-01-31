@@ -1,12 +1,17 @@
 package me.david.TimberNoCheat.checkes.movement;
 
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import comphenix.packetwrapper.WrapperPlayClientLook;
+import comphenix.packetwrapper.WrapperPlayClientPosition;
+import comphenix.packetwrapper.WrapperPlayClientPositionLook;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class Rotate extends Check {
@@ -15,42 +20,30 @@ public class Rotate extends Check {
         super("Rotate", Category.MOVEMENT);
         //setViofornotify(7);
         //setViodelay(8000);
-        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.LOOK) {
+        register(new PacketAdapter(TimberNoCheat.instance, ListenerPriority.HIGH, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.LOOK) {
              public void onPacketReceiving(PacketEvent event) {
                  Player p = event.getPlayer();
-                 if (p == null || !TimberNoCheat.checkmanager.isvalid_create(p)) {
-                     return;
-                 }
+                 if (p == null || !TimberNoCheat.checkmanager.isvalid_create(p)) return;
                  PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-                 float pitch = event.getPacket().getFloat().read(1);
-                 float yaw = event.getPacket().getFloat().read(0);
-                 //System.out.println(yaw + " " + pitch + " " + pd.getLastpitch() + " " + pd.getLastyaw());
-                 //System.out.println("1 " + event.getPacket().getFloat().read(1) + " " + event.getPacket().getFloat().read(0) + " " + pd.getLastyaw() + " " + pd.getLastpitch());
-                 if (pd.getLastpitch() == pitch && pd.getLastyaw() == yaw){
-                     updatevio(Rotate.this, p, 1, " §6MODE: §bEQUALS");
+                 PacketType type = event.getPacket().getType();
+                 Location lastLoc = pd.getAsyncGenerals().getLastLoc();
+                 if(lastLoc == null)return;
+                 float yaw = 0;
+                 float pitch = 0;
+                 if (type == WrapperPlayClientLook.TYPE){
+                    WrapperPlayClientLook wrapper = new WrapperPlayClientLook(event.getPacket());
+                    yaw = wrapper.getYaw();
+                    pitch = wrapper.getPitch();
+                 }else if(type == WrapperPlayClientPositionLook.TYPE){
+                     WrapperPlayClientPositionLook wrapper = new WrapperPlayClientPositionLook(event.getPacket());
+                     yaw = wrapper.getYaw();
+                     pitch = wrapper.getPitch();
                  }
-                 pd.setLastpitch(pitch);
-                 pd.setLastyaw(yaw);
+                 if(!(yaw-lastLoc.getYaw() != 0 || pitch-lastLoc.getPitch() != 0)){
+                     updatevio(Rotate.this, p, 1);
+                 }
              }
         });
-        /*register(new PacketAdapter(TimberNoCheat.instance, new PacketType[]{PacketType.Play.Client.LOOK}) {
-            public void onPacketReceiving(PacketEvent event) {
-                //System.out.println("0 " + event.getPacket().getFloat().read(1) + " " + event.getPacket().getFloat().read(0));
-                 /*Player p = event.getPlayer();
-                 if (p == null) {
-                     return;
-                 }
-                 if (!TimberNoCheat.checkmanager.isvalid_create(p)) {
-                     return;
-                 }
-                 PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-                 if (pd.getLastpitch() == event.getPacket().getFloat().read(1) || pd.getLastyaw() == event.getPacket().getFloat().read(0)){
-                    updatevio(Rotate.this, p, 1, " §6MODE: §bEQUALS");
-                 }
-                 pd.setLastpitch(event.getPacket().getFloat().read(1));
-                 pd.setLastyaw(event.getPacket().getFloat().read(0));
-            }
-        });*/
     }
 
 

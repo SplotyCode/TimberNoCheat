@@ -3,6 +3,7 @@ package me.david.TimberNoCheat.checktools;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.api.RefreshEvent;
 import me.david.TimberNoCheat.checkes.movement.Speed;
+import me.david.TimberNoCheat.config.Permissions;
 import me.david.api.commands.CheckBuilder;
 import me.david.api.commands.Command;
 import org.bukkit.Bukkit;
@@ -12,7 +13,7 @@ import org.bukkit.entity.Player;
 public class TNCCommand extends Command {
 
     public TNCCommand(){
-        super("timbernocheat", new CheckBuilder().addMulti("", "reload", "generate", "items", "profiler").build(), TimberNoCheat.instance.prefix, false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
+        super("timbernocheat", new CheckBuilder().addMultiPlayerPermission(new Object[]{"", false, ""}, new Object[]{"reload", false, Permissions.RELOAD}, new Object[]{"generate", true, Permissions.GENERATE}, new Object[]{"items", true, Permissions.ITEMS}, new Object[]{"profiler", true, Permissions.PROFILER}).build(), TimberNoCheat.instance.prefix, false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
         setOnlyplayers(true);
     }
 

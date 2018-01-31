@@ -2,7 +2,6 @@ package me.david.TimberNoCheat.config;
 
 import com.google.common.io.ByteStreams;
 import me.david.TimberNoCheat.TimberNoCheat;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 

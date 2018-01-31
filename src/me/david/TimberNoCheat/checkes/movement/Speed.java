@@ -1,8 +1,5 @@
 package me.david.TimberNoCheat.checkes.movement;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -265,7 +262,6 @@ public class Speed extends Check {
         if(sfenable && p.isSprinting() && p.getFoodLevel() <= sffood){
             e.setCancelled(true);
             updatevio(this, p, sfvio, "§6MODE: §bSPRINTFOOD");
-            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bFOODLEVELSPRINT", " §6NEED: §b6", " §6HAS: §b" + p.getFoodLevel());
         }
         if(bsenable && p.isSprinting() && p.isBlocking()){
             e.setCancelled(true);
@@ -286,10 +282,6 @@ public class Speed extends Check {
         if(p.getAllowFlight() || p.getVehicle() != null || Velocity.velocity.containsKey(p.getUniqueId())){
             return;
         }
-        /*int count = pd.getSpeedticks().getKey();
-        long time = pd.getSpeedticks().getValue();
-        int TooFastCount = 0;
-        if(!pd.isFirstspeedflag()) {*/
         double offsetXZ = LocationUtil.offset(LocationUtil.getHorizontalVector(e.getFrom().toVector()), LocationUtil.getHorizontalVector(e.getTo().toVector()));
         double limitXZ = PlayerUtil.isOnGround(p)?nbaseground:nbase;
         if(PlayerUtil.stairsNear(p.getLocation()))limitXZ += nstairs;
@@ -306,29 +298,8 @@ public class Speed extends Check {
                 else limitXZ += nspeed * (effect.getAmplifier() + 1);
         if(offsetXZ > limitXZ)
             updatevio(this, p, offsetXZ-limitXZ*nviomodi, " §6MODE: §bNORMAL");
-    //}
-
-        /*if(TooFastCount > TimberNoCheat.instance.settings.movement_speed_normal_tofastnewcount) {
-            TooFastCount = 0;
-            count++;
-        }
-
-        if(!pd.isFirstspeed() && DateTimeUtil.elapsed(time, TimberNoCheat.instance.settings.movement_speed_normal_elapsedtoret)) {
-            count = 0;
-            time = System.currentTimeMillis();
-        }
-
-        if(count >= TimberNoCheat.instance.settings.movement_speed_normal_flagcountertoflag) {
-            count = 0;
-            e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, p, " §6MODE: §bNORMAL");
-        }
-
-        pd.setFirstspeedflag(false);
-        pd.setFirstspeed(false);
-        pd.setSpeedticks(new AbstractMap.SimpleEntry<Integer, Long>(count, time));
-        pd.setSpeedticksflagt(new AbstractMap.SimpleEntry<Integer, Long>(TooFastCount, System.currentTimeMillis()));*/
     }
+
     private void check_timer(PlayerMoveEvent e, PlayerData pd){
         pd.getTimerms().add(System.currentTimeMillis()-(pd.getTimerms().size() == 0?0:pd.getTimerms().get(pd.getTimerms().size()-1)));
         if(pd.getTimerms().size() == tchecksize) {
@@ -337,11 +308,6 @@ public class Speed extends Check {
             }
             pd.getTimerms().clear();
         }
-        /*if(pd.getTimerflag() > TimberNoCheat.instance.settings.movement_speed_timerflagtomessage){
-            pd.setTimerflag(0);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: TIMER");
-        }*/
-        //pd.setLasttimer(System.currentTimeMillis());
     }
 
     private void yspeed(PlayerMoveEvent e){
@@ -366,13 +332,13 @@ public class Speed extends Check {
                 && ongroundDiff > 0 && ongroundDiff != 0){
             boolean whitelist = false;
             for(double white : grounddiff) if(white == ongroundDiff) whitelist = true;
-            if(whitelist) updatevio(this, p, groundvio, " §6MODE: §bGROUND", " §6DIFF: §b" + ongroundDiff);
+            //if(whitelist) updatevio(this, p, groundvio, " §6MODE: §bGROUND", " §6DIFF: §b" + ongroundDiff);
         }
     }
 
     private void check_jumping(PlayerMoveEvent e){
         if(PlayerUtil.isOnClimbable(e.getPlayer()) || e.getPlayer().getAllowFlight())return;
-        if(e.getFrom().getY() < e.getTo().getY() && e.getTo().getY()-e.getFrom().getY() < SpeedUtil.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){
+        if(e.getFrom().getY() < e.getTo().getY() && e.getTo().getY()-e.getFrom().getY() > SpeedUtil.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){
             updatevio(this, e.getPlayer(), tvio, " §6MODE: §bJUMP");
         }
     }
@@ -383,12 +349,10 @@ public class Speed extends Check {
         if(ssenable && e.isSprinting() && e.getPlayer().isSneaking()){
             e.setCancelled(true);
             updatevio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSPRINTSNEAK(2)");
-            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSPRINTSNEAK(2)");
         }
         if(sfenable && e.isSprinting() && e.getPlayer().getFoodLevel() <= sffood){
             e.setCancelled(true);
             updatevio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSPRINTFOOD(2)");
-            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bFOODLEVELSPRINTSTART", " §6NEED: §b6", " §6HAS: §b" + p.getFoodLevel());
         }
     }
 

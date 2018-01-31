@@ -670,6 +670,10 @@ break:
    notequls:
       enable: true
       vio: 10
+   raypick:
+      enable: true
+      vio: 30
+      cancel: true
    time:
       enable: true
       vio: 10

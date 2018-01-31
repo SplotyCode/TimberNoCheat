@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerAnimationType;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class NoSwing extends Check{
+public class NoSwing extends Check {
 
     private final long checkdelay;
     public NoSwing(){

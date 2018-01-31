@@ -2,6 +2,7 @@ package me.david.TimberNoCheat.gui;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.config.Permissions;
+import me.david.api.guis.CloseReason;
 import me.david.api.guis.Gui;
 import me.david.api.utils.ItemStackUtil;
 import me.david.api.utils.OLD_Sounds;
@@ -33,11 +34,11 @@ public class GuiProfiler extends Gui {
     public void itemclick(Player p, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
         switch (itemstack.getItemMeta().getDisplayName()){
             case "§6All Sheduler":
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false);
+                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REOPEN);
                 TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "ProfilerAllSchedulerMulti");
                 break;
             case "§6Move":
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false);
+                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REOPEN);
                 TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "MoveProfilerMulti");
                 break;
         }
