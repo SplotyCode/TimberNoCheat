@@ -5,10 +5,11 @@ import me.david.TimberNoCheat.checkmanager.CheckManager;
 import me.david.TimberNoCheat.checktools.*;
 import me.david.TimberNoCheat.config.Config;
 import me.david.TimberNoCheat.config.Permissions;
+import me.david.TimberNoCheat.debug.Debuger;
 import me.david.TimberNoCheat.gui.GuiLoader;
 import me.david.TimberNoCheat.listener.JoinLeave;
 import me.david.TimberNoCheat.listener.TNCHandler;
-import me.david.TimberNoCheat.profiler.MoveProfiler;
+import me.david.TimberNoCheat.debug.MoveProfiler;
 import me.david.TimberNoCheat.record.RecordManager;
 import me.david.api.ApiPlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -31,7 +32,9 @@ public class TimberNoCheat extends ApiPlugin {
     /* Should we clear the PlayerData when the Player Logs out */
     private boolean clearPlayerData = true;
 
+    /* Debug stuff */
     private MoveProfiler moveprofiler;
+    private Debuger debuger;
 
 
     /* Default Prefix normaly this prefix gets overridden from the config */
@@ -64,6 +67,8 @@ public class TimberNoCheat extends ApiPlugin {
             return;
         }
         moveprofiler = new MoveProfiler();
+        debuger = new Debuger();
+
         //settings = new old_Settings();
         checkmanager = new CheckManager();
         recordManager = new RecordManager(config);
@@ -107,5 +112,9 @@ public class TimberNoCheat extends ApiPlugin {
 
     public boolean isClearPlayerData() {
         return clearPlayerData;
+    }
+
+    public Debuger getDebuger() {
+        return debuger;
     }
 }

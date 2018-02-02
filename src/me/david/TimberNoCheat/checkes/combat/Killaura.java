@@ -9,6 +9,7 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.Velocity;
+import me.david.TimberNoCheat.debug.Debuggers;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -205,6 +206,7 @@ public class Killaura extends Check {
             } else if(player.getLocation().getY() > damager.getLocation().getY()) {
                 maxreach += player.getLocation().getY() - damager.getLocation().getY() / lowgroud_mofier;
             }
+            TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.ATTACK_RANGE, "MaxReach=" + maxreach + " Reach=" + reach);
 
             if(reach > maxreach) {
                 updatevio(this, damager, reach-maxreach*12, " §6TYPE: §bREACH", " §6MAXREACH: §b" + maxreach, " §6REACH: §b" + reach);

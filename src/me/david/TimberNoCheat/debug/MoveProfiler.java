@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.profiler;
+package me.david.TimberNoCheat.debug;
 
 import java.util.HashMap;
 

@@ -10,6 +10,7 @@ import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.FalsePositive;
 import me.david.TimberNoCheat.checktools.SpeedUtil;
 import me.david.TimberNoCheat.checktools.Velocity;
+import me.david.TimberNoCheat.debug.Debuggers;
 import me.david.api.utils.BlockUtil;
 import me.david.api.utils.JsonFileUtil;
 import me.david.api.utils.cordinates.LocationUtil;
@@ -198,6 +199,8 @@ public class Speed extends Check {
                         if(disabledpatterns.contains(optimalpattern.name)) continue;
                         double toomuch = 0;
                         int toomushper = 0;
+                        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, "CAPTURED: xz=" + xzDiff + " yUp=" + yDiffUp + " yDown=" + yDiffdown);
+                        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, "PATTERN: xz=" + optimalpattern.horizontal + " yUP=" + optimalpattern.verticalup + " yDown=" + optimalpattern.verticaldown);
                         if (optimalpattern.verticaldown < yDiffdown) {
                             if(generators.contains(p.getUniqueId()) || patternlearn){
                                 p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffdown to '" + yDiffdown + "'!");
@@ -277,25 +280,25 @@ public class Speed extends Check {
         TimberNoCheat.instance.getMoveprofiler().end();
     }
 
-    private void check_normal(PlayerMoveEvent e){
+    private void check_normal(PlayerMoveEvent e) {
         final Player p = e.getPlayer();
-        if(p.getAllowFlight() || p.getVehicle() != null || Velocity.velocity.containsKey(p.getUniqueId())){
+        if (p.getAllowFlight() || p.getVehicle() != null || Velocity.velocity.containsKey(p.getUniqueId())) {
             return;
         }
         double offsetXZ = LocationUtil.offset(LocationUtil.getHorizontalVector(e.getFrom().toVector()), LocationUtil.getHorizontalVector(e.getTo().toVector()));
-        double limitXZ = PlayerUtil.isOnGround(p)?nbaseground:nbase;
-        if(PlayerUtil.stairsNear(p.getLocation()))limitXZ += nstairs;
-        if(PlayerUtil.slabsNear(p.getLocation()))limitXZ += nslabs;
+        double limitXZ = PlayerUtil.isOnGround(p) ? nbaseground : nbase;
+        if (PlayerUtil.stairsNear(p.getLocation())) limitXZ += nstairs;
+        if (PlayerUtil.slabsNear(p.getLocation())) limitXZ += nslabs;
         final boolean top = PlayerUtil.getEyeLocation(p).clone().add(0, 1, 0).getBlock().getType() != Material.AIR && !BlockUtil.canStandWithin(PlayerUtil.getEyeLocation(p).clone().add(0, 1, 0).getBlock());
-        if(top)limitXZ += nsolid;
-        if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.ICE)
-            if(top)limitXZ = nbaseicesolid;
+        if (top) limitXZ += nsolid;
+        if (p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.ICE)
+            if (top) limitXZ = nbaseicesolid;
             else limitXZ = nbaseice;
-        limitXZ += (p.getWalkSpeed() > 0.2F?p.getWalkSpeed() * 10.0F * 0.33F:0.0F);
-        for(PotionEffect effect : p.getActivePotionEffects())
-            if(effect.getType().equals(PotionEffectType.SPEED))
-                if(PlayerUtil.isOnGround(p)) limitXZ += nspeedground * (effect.getAmplifier() + 1);
-                else limitXZ += nspeed * (effect.getAmplifier() + 1);
+        limitXZ += (p.getWalkSpeed() > 0.2F ? p.getWalkSpeed() * 10.0F * 0.33F : 0.0F);
+        for (PotionEffect effect : p.getActivePotionEffects())
+            if (effect.getType().equals(PotionEffectType.SPEED))
+                limitXZ += (PlayerUtil.isOnGround(p)?nspeedground:nspeed) * (effect.getAmplifier() + 1);
+        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.HITBOX, " max=" + limitXZ + " player=" + offsetXZ);
         if(offsetXZ > limitXZ)
             updatevio(this, p, offsetXZ-limitXZ*nviomodi, " §6MODE: §bNORMAL");
     }
