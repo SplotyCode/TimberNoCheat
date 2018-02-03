@@ -169,7 +169,7 @@ public class Speed extends Check {
             @Override
             public void run() {
                 for(Player p : Bukkit.getOnlinePlayers()){
-                    if(!TimberNoCheat.checkmanager.isvalid_create(p))continue;
+                    if(!TimberNoCheat.checkmanager.isvalid_create(p) || p.getAllowFlight())continue;
                     PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
                     if(pd.getLastticklocation() != null)     {
                         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
@@ -298,7 +298,7 @@ public class Speed extends Check {
         for (PotionEffect effect : p.getActivePotionEffects())
             if (effect.getType().equals(PotionEffectType.SPEED))
                 limitXZ += (PlayerUtil.isOnGround(p)?nspeedground:nspeed) * (effect.getAmplifier() + 1);
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.HITBOX, " max=" + limitXZ + " player=" + offsetXZ);
+        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, " max=" + limitXZ + " player=" + offsetXZ);
         if(offsetXZ > limitXZ)
             updatevio(this, p, offsetXZ-limitXZ*nviomodi, " §6MODE: §bNORMAL");
     }

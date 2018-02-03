@@ -25,9 +25,8 @@ public class Jesus extends Check {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onMove(PlayerMoveEvent e) {
         final Player p = e.getPlayer();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()) {
+        if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled())
             return;
-        }
         TimberNoCheat.instance.getMoveprofiler().start("Jesus");
         if(p.getAllowFlight() || p.getVehicle() != null || !p.getNearbyEntities(1,1,1).isEmpty() || Velocity.velocity.containsKey(p.getUniqueId())){
             return;

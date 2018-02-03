@@ -4,8 +4,10 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.debug.Debuggers;
+import me.david.api.utils.cordinates.LocationUtil;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -27,7 +29,8 @@ public class InteractReach extends Check {
     public void oninteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
         if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.getClickedBlock() == null) return;
-        final double reach = e.getClickedBlock().getLocation().distance(PlayerUtil.getEyeLocation(p));
+        Location loc = p.getLocation();
+        final double reach = LocationUtil.distance(loc.getX(), loc.getY() + p.getEyeHeight(), loc.getZ(), 0.5 + e.getClickedBlock().getX(), 0.5 + e.getClickedBlock().getY(), 0.5 + e.getClickedBlock().getZ());
         final double maxreach = p.getGameMode() == GameMode.CREATIVE?distancecreative:distancenormal;
         TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.RANGE, "INTERACT: MaxReach=" + maxreach + " Reach=" + reach);
 

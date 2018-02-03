@@ -73,7 +73,7 @@ public class TimberNoCheat extends ApiPlugin {
         checkmanager = new CheckManager();
         recordManager = new RecordManager(config);
         registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General());
-        registerCommands(new TNCCommand(), new TestCommand());
+        registerCommands(new TNCCommand()/*, new TestCommand()*/);
         clearPlayerData = YamlConfiguration.loadConfiguration(config).getBoolean("clearPlayerData");
         log(false, "Es wurden " + checkmanager.getChecks().size() + " module geladen mit vielen unterchecks!");
         new GuiLoader(this);

@@ -57,22 +57,18 @@ public class Killaura extends Check {
         lowgroud_mofier = getDouble("range.lowgroud_mofier");
         swingvio = (float) getDouble("swinghitviomodi");
         aimbot = getBoolean("aimbot");
+
         register(new PacketAdapter(TimberNoCheat.instance,
                 PacketType.Play.Client.USE_ENTITY) {
             public void onPacketReceiving(final PacketEvent event) {
-                final PacketContainer packet = event.getPacket();
                 final Player player = event.getPlayer();
                 if (player == null) {
                     return;
                 }
-
-                final int entityId = packet.getIntegers().read(0);
-                for (final Entity entityentity : player.getWorld().getEntities())
-                    if (entityentity.getEntityId() == entityId)
-                        if (!TimberNoCheat.checkmanager.isvalid_create(player)) {
-                            PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
-                            pd.setPackethit(pd.getPackethit()+1);
-                        }
+                if (TimberNoCheat.checkmanager.isvalid_create(player)) {
+                    PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+                    pd.setPackethit(pd.getPackethit()+1);
+                }
             }
         });
         register(new PacketAdapter(TimberNoCheat.instance,
@@ -82,7 +78,7 @@ public class Killaura extends Check {
                 if (player == null) {
                     return;
                 }
-                if (!TimberNoCheat.checkmanager.isvalid_create(player)) {
+                if (TimberNoCheat.checkmanager.isvalid_create(player)) {
                     PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
                     pd.setPacketswing(pd.getPacketswing()+1);
                 }

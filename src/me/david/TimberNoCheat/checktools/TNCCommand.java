@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class TNCCommand extends Command {
 
     public TNCCommand(){
-        super("timbernocheat", new CheckBuilder().addMultiPlayerPermission(new Object[]{"", false, ""}, new Object[]{"reload", false, Permissions.RELOAD}, new Object[]{"generate", true, Permissions.GENERATE}, new Object[]{"items", true, Permissions.ITEMS}, new Object[]{"profiler", true, Permissions.PROFILER}).build(), TimberNoCheat.instance.prefix, false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
+        super("timbernocheat", new CheckBuilder().addMultiPlayerPermission(new Object[]{"", false, ""}, new Object[]{"reload", false, Permissions.RELOAD}, new Object[]{"generate", true, Permissions.GENERATE}, new Object[]{"items", true, Permissions.ITEMS}, new Object[]{"profiler", true, Permissions.PROFILER}, new Object[]{"debugger", true, Permissions.DEBUGGER}).build(), TimberNoCheat.instance.prefix, false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
         setOnlyplayers(true);
     }
 
@@ -46,6 +46,9 @@ public class TNCCommand extends Command {
                 break;
             case "profiler":
                 TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "ProfilerMulti");
+                break;
+            case "debugger":
+                TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "DebuggerMulti");
                 break;
         }
     }

@@ -27,7 +27,8 @@ public class Debuger {
         if(list != null){
             if(!list.contains(debugger)) list.add(debugger);
         }else {
-            debuggingPlayers.put(uuid, new ArrayList<>(){{
+            //java should detect the string automatically! But intellij is complaining so when building ..
+            debuggingPlayers.put(uuid, new ArrayList<String>(){{
                 add(debugger);
             }});
         }

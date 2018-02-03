@@ -70,7 +70,7 @@ public class Interact extends Check {
             return;
         }
         if(p.getItemOnCursor().getType() != Material.AIR && itemcursor){
-            System.out.println(p.getItemOnCursor().getType().name());
+            //System.out.println(p.getItemOnCursor().getType().name());
             e.setCancelled(true);
             updatevio(this, p, 1, " §6CHECK: §bITEMCURSOR");
         }

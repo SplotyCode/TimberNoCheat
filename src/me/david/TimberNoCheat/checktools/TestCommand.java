@@ -11,7 +11,7 @@ import me.david.api.commands.checkers.time.Timecheck;
 import me.david.api.webserver.Response;
 import org.bukkit.command.CommandSender;
 
-public class TestCommand extends Command {
+/*public class TestCommand extends Command {
 //new CheckBuilder().addMultiPlayerPermissionChecker({"example"})new ArrayList<>(Arrays.asList(new MultiChoices(new ArrayList<>(Arrays.asList(new Choice("example", new String[]{"ex", "examlple"}, "a.b.c", new ArrayList<>(Arrays.asList(new Timecheck(TimeSettings.PAST, Response.DATE_FORMAT.toString()), new Integercheck(3, 2, true)))), new Choice("error", new String[]{"er", "fehler"}, "a.b.c", new ArrayList<>(Arrays.asList(new Timecheck(TimeSettings.PAST, Response.DATE_FORMAT.toString()), new Stringcheck(20, 10, true), new Playercheck(true, true)))))))))
     public TestCommand() {
         super("Test", new CheckBuilder()
@@ -25,4 +25,4 @@ public class TestCommand extends Command {
     public void execute(CommandSender sender, org.bukkit.command.Command cmd, String[] args) throws Exception {
         if(args.length != 0 && args[0].equals("error")) throw new IllegalAccessException("Fehler oder so");
     }
-}
+}*/

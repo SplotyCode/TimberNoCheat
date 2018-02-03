@@ -35,7 +35,7 @@ public class GuiMoveProfiler extends Gui implements Listener {
             //System.out.println("---");
             for(Map.Entry<String, Long> pr : TimberNoCheat.instance.getMoveprofiler().getTimes().entrySet()){
                 profile[i] = "§6" + pr.getKey() + ": §b" + pr.getValue();
-                System.out.println(profile[i]);
+                //System.out.println(profile[i]);
                 i++;
             }
             ScoreboardUtil.sendScoreboard(ScoreboardUtil.createScoreboard("§bMove§6Profiler", profile), profilePlayer);
@@ -50,7 +50,7 @@ public class GuiMoveProfiler extends Gui implements Listener {
 
     @Override
     public Inventory build(Player p) {
-        System.out.println("b");
+        //System.out.println("b");
         Inventory inv = Bukkit.getServer().createInventory(null, 9, "§6Move Profiler");
         inv.addItem(ItemStackUtil.createColoredWool("§aStart", 1, FarbCodes.LIME.getId()), ItemStackUtil.createColoredWool("§cStop", 1, FarbCodes.RED.getId()), ItemStackUtil.createbasic("§eInfo", 1, Material.SIGN), ItemStackUtil.createbasic("§cClear", 1, Material.REDSTONE));
         return inv;

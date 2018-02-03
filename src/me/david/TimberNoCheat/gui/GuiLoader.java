@@ -14,6 +14,6 @@ public class GuiLoader {
         pl.addGui("ProfilerAllSchedulerMulti", Permissions.PROFILER_ALLSCHEDULER, new ProfilerAllScheduler());
         pl.addGui("MoveProfilerMulti", Permissions.PROFILER_MOVEMENT, new GuiMoveProfiler(pl));
 
-        pl.addGui("DebuggerMulti", Permissions.DEBUGGER, new DebugGui());
+        pl.addGui("DebuggerMulti", Permissions.DEBUGGER, new GuiDebug());
     }
 }

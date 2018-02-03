@@ -14,19 +14,21 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class DebugGui extends ArrayGui<Debuggers> {
+public class GuiDebug extends ArrayGui<Debuggers> {
 
-    public DebugGui() {
+    public GuiDebug() {
         super(Debuggers.values(), "§6Debug Stuff", new Sound("DebugGuiOpen", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance), Permissions.DEBUGGER);
     }
 
     @Override
     protected ItemStack getItemStack(Debuggers obj, Player player) {
-        return ItemStackUtil.createbasic("§6Toggle §b" + obj.name(), 1, TimberNoCheat.instance.getDebuger().isDebugging(player, obj.name())?Material.REDSTONE:Material.GLOWSTONE_DUST);
+        return ItemStackUtil.createbasic("§6Toggle §b" + obj.name(), 1, TimberNoCheat.instance.getDebuger().isDebugging(player, obj.name())?Material.GLOWSTONE_DUST:Material.REDSTONE);
     }
 
     @Override
     protected void itemclick(Debuggers obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         TimberNoCheat.instance.getDebuger().toggleDebugger(p.getUniqueId(), obj.name());
+        p.sendMessage(TimberNoCheat.instance.prefix + "Der Debugger §b" + obj.name() + "§6 ist nun " + (TimberNoCheat.instance.getDebuger().isDebugging(p, obj.name())?"§aAktiviert":"§cDeaktiviert") + "§6!");
+        TimberNoCheat.instance.guimanager.reopen(p);
     }
 }
