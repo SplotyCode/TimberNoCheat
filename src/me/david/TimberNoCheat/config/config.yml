@@ -513,6 +513,9 @@ killaura:
    #[EN]How fast can you swab the entity? In ms[EN]
    #[DE]Wie schnell kannst du das Entity wegseln? In ms[DE]
    multi_delay: 8
+   #[EN]How many entity's can a Player hit in 800ms?[EN]
+   #[DE]Wie viele entity's kann ein Spieler in 800ms schlagen?[DE]
+   multi_maxtargets: 2
    swinghitviomodi: 1.6
    range:
       default: 3.9

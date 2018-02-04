@@ -23,6 +23,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Killaura extends Check {
 
@@ -40,6 +43,7 @@ public class Killaura extends Check {
     private final double lowgroud_mofier;
     private final float swingvio;
     private final boolean aimbot;
+    private final int max_targets;
 
     public Killaura() {
         super("Killaura", Category.COBMAT);
@@ -57,6 +61,7 @@ public class Killaura extends Check {
         lowgroud_mofier = getDouble("range.lowgroud_mofier");
         swingvio = (float) getDouble("swinghitviomodi");
         aimbot = getBoolean("aimbot");
+        max_targets = getInt("multi_maxtargets");
 
         register(new PacketAdapter(TimberNoCheat.instance,
                 PacketType.Play.Client.USE_ENTITY) {
@@ -116,17 +121,24 @@ public class Killaura extends Check {
             check_range(e, pd);
         }
         check_multi(e, pd);
-        check_aimbot(e, pd);
+        if(aimbot) check_aimbot(e, pd);
     }
 
     private void check_multi(EntityDamageByEntityEvent e, PlayerData pd){
         if(pd.getLasthitentity() == 0){
             pd.setLasthitentity(e.getEntity().getEntityId());
         }
+        pd.getHittetEntitys().put(e.getEntity().getEntityId(), System.currentTimeMillis());
+        for(Map.Entry<Integer, Long> pair : ((HashMap<Integer, Long>)pd.getHittetEntitys().clone()).entrySet())
+            if(System.currentTimeMillis()-pair.getValue() > 800)
+                pd.getHittetEntitys().remove(pair.getKey());
+        if(pd.getHittetEntitys().size() > max_targets){
+            updatevio(this, (Player) e.getDamager(), pd.getHittetEntitys().size()-max_targets*6, " §6TYPE: §bMULTI_AURA_TARGETS", " §6TARGETS: §b" + pd.getHittetEntitys().size());
+        }
         long delay = System.currentTimeMillis()-pd.getLasthitmutli();
         if(pd.getLasthitentity() != e.getEntity().getEntityId() && delay < multi_delay){
             e.setCancelled(true);
-            updatevio(this, (Player) e.getDamager(), 1, " §6TYPE: §bMULTI_AURA", " §6DELAY: §b" + delay);
+            updatevio(this, (Player) e.getDamager(), multi_delay-delay*1.6, " §6TYPE: §bMULTI_AURA_DELAY", " §6DELAY: §b" + delay);
         }
         pd.setLasthitmutli(System.currentTimeMillis());
         pd.setLasthitentity(e.getEntity().getEntityId());
@@ -134,15 +146,7 @@ public class Killaura extends Check {
 
     private void check_aimbot(EntityDamageByEntityEvent e, PlayerData pd){
         Player damager = (Player) e.getDamager();
-        if(damager.hasPermission("daedalus.bypass")) {
-            return;
-        }
-        if (damager.getAllowFlight()) {
-            return;
-        }
-        if (!((e.getEntity()) instanceof Player)) {
-            return;
-        }
+        if (damager.getAllowFlight() || !((e.getEntity()) instanceof Player)) return;
         Location from = pd.getAimborloc();
         Location to = damager.getLocation();
         pd.setAimborloc(damager.getLocation());

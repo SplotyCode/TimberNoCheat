@@ -44,6 +44,7 @@ public class PlayerData {
     /* Killaura (multi) */
     private int lasthitentity;
     private long lasthitmutli;
+    private HashMap<Integer, Long> hittetEntitys;
 
     /* MorePackets */
     private long lastpacket;
@@ -196,6 +197,7 @@ public class PlayerData {
         generals = new General.GeneralValues();
         asyncGenerals = new AsyncGeneral.AsyncGeneralValues();
         newstep = 0;
+        hittetEntitys = new HashMap<>();
     }
 
     /**
@@ -752,5 +754,9 @@ public class PlayerData {
 
     public void setLastnbtpacket(long lastnbtpacket) {
         this.lastnbtpacket = lastnbtpacket;
+    }
+
+    public HashMap<Integer, Long> getHittetEntitys() {
+        return hittetEntitys;
     }
 }
