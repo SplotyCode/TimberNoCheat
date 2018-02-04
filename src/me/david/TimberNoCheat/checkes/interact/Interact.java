@@ -4,13 +4,18 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checktools.MaterialHelper;
+import me.david.TimberNoCheat.debug.Debuggers;
+import me.david.api.Api;
+import me.david.api.nms.RayTraceResult;
 import me.david.api.utils.player.PlayerUtil;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.util.Vector;
 
 public class Interact extends Check {
 
@@ -23,6 +28,7 @@ public class Interact extends Check {
     private final boolean block;
     private final boolean openinv;
     private final boolean ghost;
+    private final boolean raycast;
 
     public Interact(){
         super("Interact", Category.INTERACT);
@@ -35,6 +41,7 @@ public class Interact extends Check {
         block = getBoolean("block");
         openinv = getBoolean("openinv");
         ghost = getBoolean("gost");
+        raycast = getBoolean("raycast");
     }
 
     @EventHandler
@@ -86,6 +93,19 @@ public class Interact extends Check {
             e.setCancelled(true);
             //System.out.println(p.getOpenInventory().getType());
             updatevio(this, p, 1, " §6CHECK: §bOPENINV");
+        }
+        if(raycast){
+            if(e.getClickedBlock() != null) {
+                Location pLoc = p.getLocation();
+                Location bLoc = e.getClickedBlock().getLocation();
+                RayTraceResult rayTrace = Api.instance.nms.rayTrace(new Vector(pLoc.getX(), pLoc.getY() + p.getEyeHeight(), pLoc.getZ()), new Vector(bLoc.getX(), bLoc.getY(), bLoc.getZ()), false, true, false, p.getWorld());
+                if(rayTrace.getType() != RayTraceResult.Type.BLOCK){
+                    updatevio(this, p, 1, " §6CHECK: §bRAYTRACE");
+                }
+                //TODO: Validate e.getBlockFace() or the player facing(by yaw and pitch) with the facing from raytrace?!
+                TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.RAY_TRACE, " calc=" + rayTrace.getFaing().name() + " packet=" + e.getBlockFace().name());
+
+            }
         }
         if(e.getClickedBlock() == null || !ghost)
             return;

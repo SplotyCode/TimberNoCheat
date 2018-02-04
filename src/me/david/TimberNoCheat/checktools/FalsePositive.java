@@ -323,7 +323,7 @@ public class FalsePositive implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void respawn(PlayerRespawnEvent event){
-        TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer()).getFalsepositives().deathorrespawn = System.currentTimeMillis();
+        if(TimberNoCheat.checkmanager.isvalid_create(event.getPlayer())) TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer()).getFalsepositives().deathorrespawn = System.currentTimeMillis();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

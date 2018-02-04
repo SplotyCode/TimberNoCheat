@@ -6,6 +6,7 @@ public enum  Debuggers {
     ATTACK_RANGE,
     HITBOX,
     SPEED,
-    PATTERN_SPEED
+    PATTERN_SPEED,
+    RAY_TRACE
 
 }

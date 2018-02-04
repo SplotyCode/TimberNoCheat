@@ -44,19 +44,17 @@ public class MCLeaks extends Check {
 
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent e) {
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
-            return;
-        }
+        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())) return;
         final Boolean value = caches.getIfPresent(e.getPlayer().getName());
         if (value != null && !value) {
-            kickPlayer(e.getPlayer());
+            updatevio(MCLeaks.this, e.getPlayer(), 1);
         }
     }
     public MCLeaks(){
         super("MCLeaks", Category.OTHER);
         try {
            caches = CacheBuilder.newBuilder()
-                    .expireAfterAccess(1, TimeUnit.HOURS)
+                    .expireAfterAccess(5, TimeUnit.MINUTES)
                     .build(new CacheLoader<String, Boolean>() {
                         @Override
                         public Boolean load(String uuid) {
@@ -138,25 +136,6 @@ public class MCLeaks extends Check {
         });
     }
 
-    private void kickPlayer(Player p) {
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-            return;
-        }
-        Bukkit.getServer().getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                /*if (TimberNoCheat.instance.settings.other_mcleaks_sendcommand) {
-                    String message = TimberNoCheat.instance.settings.other_mcleaks_command;
-                    message.replace("/", "");
-                    message.replaceAll("%player%", p.getName());
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), TimberNoCheat.instance.settings.other_mcleaks_command);
-                }
-                TimberNoCheat.checkmanager.notify(MCLeaks.this, p);*/
-                updatevio(MCLeaks.this, p, 1);
-            }
-        }, 180L);
-    }
-
     private void task(final String name, final String serverId, final InetAddress address, boolean again) {
         try {
             boolean result = this.isSafe(name, serverId, address);
@@ -165,22 +144,10 @@ public class MCLeaks extends Check {
 
             } else {
                 caches.put(name, false);
-                kickPlayer(Bukkit.getPlayer(name));
+                updatevio(MCLeaks.this, Bukkit.getPlayer(name), 1);
             }
-        } catch (Exception e) {
-            if (e.getClass().getName().equals("com.mojang.authlib.exceptions.AuthenticationException")) {
-                if (again) {
-                    TimberNoCheat.instance.getLogger().log(Level.WARNING, "Mojang Ban vom Session API Server: name=" + name + " IP=" + address.getHostName() + ")");
-                    Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(TimberNoCheat.instance, new Runnable() {
-                        @Override
-                        public void run() {
-                            task(name, serverId, address, false);
-                        }
-                    }, 60 * 20L);
-                } else {
-                    TimberNoCheat.instance.getLogger().log(Level.WARNING, "Verbindung zu Mojang fehlgeschlagen Name=" + name + " IP=" + address.getHostName() + ")");
-                }
-            }
+        } catch (Exception ignored) {
+
         }
     }
 
