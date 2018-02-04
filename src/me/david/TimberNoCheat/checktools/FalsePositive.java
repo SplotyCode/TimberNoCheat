@@ -2,6 +2,7 @@ package me.david.TimberNoCheat.checktools;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import me.david.TimberNoCheat.util.SpeedUtil;
 import me.david.api.anotations.Nullable;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Bukkit;

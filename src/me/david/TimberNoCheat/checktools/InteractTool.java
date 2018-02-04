@@ -1,5 +1,6 @@
 package me.david.TimberNoCheat.checktools;
 
+import me.david.TimberNoCheat.util.PotionUtil;
 import me.david.api.utils.BlockUtil;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Material;

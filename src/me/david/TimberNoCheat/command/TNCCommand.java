@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.checktools;
+package me.david.TimberNoCheat.command;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.api.RefreshEvent;

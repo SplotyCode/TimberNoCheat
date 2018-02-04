@@ -5,7 +5,7 @@ import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.FalsePositive;
-import me.david.TimberNoCheat.checktools.SpeedUtil;
+import me.david.TimberNoCheat.util.SpeedUtil;
 import me.david.api.utils.BlockUtil;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Location;

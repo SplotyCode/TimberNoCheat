@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.checktools;
+package me.david.TimberNoCheat.util;
 
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;

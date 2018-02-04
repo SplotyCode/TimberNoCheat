@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.checktools.location;
+package me.david.TimberNoCheat.util.location;
 
 /* Represents a 3D Position */
 public interface Position {

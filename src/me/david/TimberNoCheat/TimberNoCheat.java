@@ -3,6 +3,7 @@ package me.david.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.CheckManager;
 import me.david.TimberNoCheat.checktools.*;
+import me.david.TimberNoCheat.command.TNCCommand;
 import me.david.TimberNoCheat.config.Config;
 import me.david.TimberNoCheat.config.Permissions;
 import me.david.TimberNoCheat.debug.Debuger;

@@ -189,7 +189,7 @@ public class CheckManager {
     }
 
     public void notify(Check check, String arg, Player p, String...args){
-        notify(p, "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayer: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + arg + StringUtil.toString(args, ""));
+        notify(p, "§bName: §6" + check.getCategory().name() + "_" + (check.isChild()?check.getParent().getName():check.getName()) + " §bPlayer: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + arg + (check.isChild()?"§bModule: §6" + check.getName():"") + StringUtil.toString(args, ""));
     }
 
     public void notity(Check check, double vio, Location location){

@@ -593,7 +593,8 @@ interact:
    sleep: true
    block: true
    openinv: true
-   ghost: false
+   ghost: true
+   raycast: true
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -984,14 +985,14 @@ clock:
 #[DE-EN]-------------[DE-EN]
 badpackets:
    enable: true
-   max_moves: 10
+   max_moves: 50
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: 2000
    vioactions:
-      1: "NOTIFY"
-      6: "KICK:BadPackets"
+      14: "NOTIFY"
+      30: "KICK:BadPackets"
 cheststealer:
    enable: true
    delay: 190

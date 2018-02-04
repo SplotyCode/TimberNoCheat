@@ -1,7 +1,7 @@
-package me.david.TimberNoCheat.checktools;
+package me.david.TimberNoCheat.util;
 
-import me.david.TimberNoCheat.checktools.location.Box3D;
-import me.david.TimberNoCheat.checktools.location.Location;
+import me.david.TimberNoCheat.util.location.Box3D;
+import me.david.TimberNoCheat.util.location.Location;
 
 /* Boulder is used for HitBox calculation and Collidation Checks */
 public interface Boulder extends Location {
