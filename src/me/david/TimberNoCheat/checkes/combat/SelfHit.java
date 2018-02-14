@@ -27,7 +27,7 @@ public class SelfHit extends Check {
         if (!TimberNoCheat.checkmanager.isvalid_create(p)) {
             return;
         }
-        if(e.getEntity().getName().equals(e.getDamager().getName())){
+        if(e.getEntity().getEntityId() == e.getDamager().getEntityId()){
             e.setCancelled(true);
             updatevio(this, p, 1);
         }

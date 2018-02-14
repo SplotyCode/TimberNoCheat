@@ -4,34 +4,61 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import me.david.TimberNoCheat.util.PotionUtil;
 import org.bukkit.Difficulty;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.potion.PotionEffectType;
 
 public class Regen extends Check {
 
-    final long delay;
+    private final long delaySatiated;
+    private final long delayPeaceful;
+    private final Long[] delayRegens;
+
     public Regen(){
         super("Regen", Category.COBMAT);
-        delay = getLong("delay");
+        delaySatiated = getLong("delaySatiated");
+        delayPeaceful = getLong("delayPeaceful");
+        delayRegens = getLongList("delayRegens");
     }
 
     @EventHandler
     public void onregen(EntityRegainHealthEvent e){
-        if(!(e.getEntity() instanceof Player) || e.getRegainReason() != EntityRegainHealthEvent.RegainReason.SATIATED){
+        if(!(e.getEntity() instanceof Player)){
             return;
         }
         final Player p = (Player) e.getEntity();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p) || p.getWorld().getDifficulty() == Difficulty.PEACEFUL){
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        long delay = System.currentTimeMillis() - pd.getLastregen();
-        if(delay < this.delay){
-            e.setCancelled(true);
-            updatevio(this, p, 1, " §6DELAY: §b" + delay);
+        if(!p.hasPotionEffect(PotionEffectType.REGENERATION) && p.getFoodLevel() <= 17 && e.getRegainReason() != EntityRegainHealthEvent.RegainReason.CUSTOM && e.getRegainReason() != EntityRegainHealthEvent.RegainReason.MAGIC){
+            updatevio(this, p, 4+(17-p.getFoodLevel())*2, " §6TYPE: §bIMPOSIBLE STATE");
         }
-        pd.setLastregen(System.currentTimeMillis());
+        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        long speed = 0;
+        long delay = -1;
+        switch (e.getRegainReason()){
+            case EATING:
+                speed = delaySatiated;
+                if(pd.getLastRegen() != -1) delay = System.currentTimeMillis()-pd.getLastRegen();
+                pd.setLastRegen(System.currentTimeMillis());
+                break;
+            case CUSTOM:
+                speed = delayPeaceful;
+                if(pd.getLastRegenPeaceful() != -1) delay = System.currentTimeMillis()-pd.getLastRegenPeaceful();
+                pd.setLastRegenPeaceful(System.currentTimeMillis());
+                break;
+            case REGEN:
+                speed = delayRegens[PotionUtil.getPotionEffectAmplifier(p, PotionEffectType.REGENERATION)];
+                if(pd.getLastRegenMagic() != -1) delay = System.currentTimeMillis()-pd.getLastRegenMagic();
+                pd.setLastRegenMagic(System.currentTimeMillis());
+                break;
+        }
+        if(delay == -1)return;
+        if(speed > delay){
+            updatevio(this, p, speed-delay/2, " §6TYPE: §bDelay");
+        }
     }
 }

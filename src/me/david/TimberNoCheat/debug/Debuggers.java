@@ -7,6 +7,7 @@ public enum  Debuggers {
     HITBOX,
     SPEED,
     PATTERN_SPEED,
-    RAY_TRACE
+    RAY_TRACE,
+    MOVE_VELOCITY
 
 }

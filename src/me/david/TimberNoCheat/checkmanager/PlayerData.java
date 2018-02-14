@@ -1,5 +1,6 @@
 package me.david.TimberNoCheat.checkmanager;
 
+import me.david.TimberNoCheat.checkes.movement.FlyData;
 import me.david.TimberNoCheat.checktools.AsyncGeneral;
 import me.david.TimberNoCheat.checktools.FalsePositive;
 import me.david.TimberNoCheat.checktools.General;
@@ -39,7 +40,11 @@ public class PlayerData {
 
     /* FastBow */private long lastbowshot;
     /* FastEat */private long lasteat;
-    /* Regen */private long lastregen;
+
+    /* Regen */
+    private long lastRegen;
+    private long lastRegenPeaceful;
+    private long lastRegenMagic;
 
     /* Killaura (multi) */
     private int lasthitentity;
@@ -119,11 +124,15 @@ public class PlayerData {
     private int godhealthtick;
 
     /* Fly */
-    boolean hurttime;
-    int flymode;
-    double ziff;
-    int flycount;
-    boolean flygound;
+    private boolean hurttime;
+    private int flymode;
+    private double ziff;
+    private int flycount;
+    private boolean flygound;
+    private FlyData flyData;
+
+    /* Rotate */ private int snappyRotate;
+
 
     private FalsePositive.FalsePositiveChecks falsepositives;
     private General.GeneralValues generals;
@@ -143,7 +152,6 @@ public class PlayerData {
         this.itemshwitchinonesecond = 0;
         this.lastbowshot = System.currentTimeMillis()-15000L;
         this.lasteat = System.currentTimeMillis()-15000L;
-        this.lastregen = System.currentTimeMillis()-15000L;
         this.lasthitentity = 0;
         this.lasthitmutli = System.currentTimeMillis()-15000L;
         this.morepacketblacklist = false;
@@ -198,6 +206,11 @@ public class PlayerData {
         asyncGenerals = new AsyncGeneral.AsyncGeneralValues();
         newstep = 0;
         hittetEntitys = new HashMap<>();
+        flyData = new FlyData();
+        lastRegen = -1;
+        lastRegenMagic = -1;
+        lastRegenPeaceful = -1;
+        snappyRotate = -1;
     }
 
     /**
@@ -648,14 +661,6 @@ public class PlayerData {
         this.lasthitmutli = lasthitmutli;
     }
 
-    public long getLastregen() {
-        return lastregen;
-    }
-
-    public void setLastregen(long lastregen) {
-        this.lastregen = lastregen;
-    }
-
     public long getLasteat() {
         return lasteat;
     }
@@ -758,5 +763,41 @@ public class PlayerData {
 
     public HashMap<Integer, Long> getHittetEntitys() {
         return hittetEntitys;
+    }
+
+    public FlyData getFlyData() {
+        return flyData;
+    }
+
+    public long getLastRegen() {
+        return lastRegen;
+    }
+
+    public void setLastRegen(long lastRegen) {
+        this.lastRegen = lastRegen;
+    }
+
+    public long getLastRegenPeaceful() {
+        return lastRegenPeaceful;
+    }
+
+    public void setLastRegenPeaceful(long lastRegenPeaceful) {
+        this.lastRegenPeaceful = lastRegenPeaceful;
+    }
+
+    public long getLastRegenMagic() {
+        return lastRegenMagic;
+    }
+
+    public void setLastRegenMagic(long lastRegenMagic) {
+        this.lastRegenMagic = lastRegenMagic;
+    }
+
+    public int getSnappyRotate() {
+        return snappyRotate;
+    }
+
+    public void setSnappyRotate(int snappyRotate) {
+        this.snappyRotate = snappyRotate;
     }
 }

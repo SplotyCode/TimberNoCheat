@@ -41,6 +41,7 @@ public class Clock extends Check {
         values.get(loc).toggles++;
         if(values.get(loc).toggles == maxtoggles){
             if(cancel) blacklist.put(loc, System.currentTimeMillis());
+            //TODO: Print Notify
             if(notify);
         }
 

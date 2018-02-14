@@ -32,7 +32,7 @@ public class Clip extends Check {
         Location from = e.getFrom().clone();
 
         double xDist = Math.abs(to.getX() - from.getX());
-        if(xDist < -0.9D || xDist > 0.9D)
+        if(xDist > 0.9D)
             for(int i = 0; i < Math.round(Math.abs(xDist)); ++i) {
                 Location l = xDist < -0.9D?to.clone().add(i, 0, 0):from.clone().add(i, 0, 0.);
                 if(checkblock(l)){
@@ -42,7 +42,7 @@ public class Clip extends Check {
                 }
             }
         double zDist = Math.abs(to.getZ() - from.getZ());
-        if(zDist < -0.9D || zDist > 0.9D)
+        if(zDist > 0.9D)
             for(int i = 0; i < Math.round(Math.abs(zDist)); ++i) {
                 Location l = zDist < -0.9D?to.clone().add(0, 0, i):from.clone().add(0, 0, i);
                 if(checkblock(l)){
@@ -52,7 +52,7 @@ public class Clip extends Check {
                 }
             }
         double yDist = Math.abs(to.getY() - from.getY());
-        if(yDist < -0.9D || yDist > 0.9D)
+        if(yDist > 0.9D)
             for(int i = 0; i < Math.round(Math.abs(yDist)); ++i) {
                 Location l = yDist < -0.9D?to.clone().add(0, i, 0):from.clone().add(0, i, 0);
                 if(checkblock(l)){
@@ -63,6 +63,7 @@ public class Clip extends Check {
             }
         TimberNoCheat.instance.getMoveprofiler().end();
     }
+
     public boolean checkblock(Location l){
         if(l.getBlock() != null && l.getBlock().getType().isSolid() && l.getBlock().getType().isBlock() && l.getBlock().getType() != Material.AIR) {
             if(!onlyfull){

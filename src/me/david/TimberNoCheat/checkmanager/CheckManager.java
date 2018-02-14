@@ -127,6 +127,8 @@ public class CheckManager {
         register(new AuraBots());
         register(new Velocity());
         register(new GodMode());
+        register(new WrongVelocity());
+        register(new Elytra());
     }
 
     /* Loading all Checks when this Objects gets createt (usually on the start of TNC */

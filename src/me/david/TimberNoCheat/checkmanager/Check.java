@@ -104,6 +104,10 @@ public class Check implements Listener{
     public long getLong(String s){
         return yml.getLong((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }
+    public Long[] getLongList(String s){
+        return yml.getLongList((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s).toArray(new Long[0]);
+    }
+
     public boolean getBoolean(String s){
         return yml.getBoolean((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }

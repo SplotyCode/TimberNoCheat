@@ -10,6 +10,7 @@ import me.david.api.nms.RayTraceResult;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -102,6 +103,7 @@ public class Interact extends Check {
                 if(rayTrace.getType() != RayTraceResult.Type.BLOCK){
                     updatevio(this, p, 1, " §6CHECK: §bRAYTRACE");
                 }
+
                 //TODO: Validate e.getBlockFace() or the player facing(by yaw and pitch) with the facing from raytrace?!
                 TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.RAY_TRACE, " calc=" + rayTrace.getFaing().name() + " packet=" + e.getBlockFace().name());
 
@@ -125,5 +127,10 @@ public class Interact extends Check {
             return;
         }*/
 
+    }
+
+    //TODO:
+    private BlockFace toBlockFace(float pitch, float yaw){
+        return BlockFace.DOWN;
     }
 }

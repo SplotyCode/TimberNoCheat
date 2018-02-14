@@ -1,16 +1,24 @@
 package me.david.TimberNoCheat.checkes.movement;
 
+import com.google.common.collect.Lists;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.checktools.FalsePositive;
+import me.david.TimberNoCheat.checktools.General;
 import me.david.TimberNoCheat.util.SpeedUtil;
+import me.david.api.Api;
+import me.david.api.nms.AABBBox;
 import me.david.api.utils.BlockUtil;
 import me.david.api.utils.player.PlayerUtil;
+import net.minecraft.server.v1_8_R3.AxisAlignedBB;
+import net.minecraft.server.v1_8_R3.Entity;
+import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,6 +26,12 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffectType;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fly extends Check {
 
@@ -46,6 +60,7 @@ public class Fly extends Check {
         }
     }
 
+
     @EventHandler(priority = EventPriority.MONITOR)
     public void playermove(PlayerMoveEvent e){
         final Player p = e.getPlayer();
@@ -55,10 +70,23 @@ public class Fly extends Check {
             return;
         }
         TimberNoCheat.instance.getMoveprofiler().start("Fly ");
+        boolean onGround = false;
+        AABBBox playerBox = Api.instance.nms.getBoundingBox(p).expand(0, 0.15, 0);
+        for(int x = p.getLocation().getBlockX()-1; x<p.getLocation().getBlockX()+3; x++)
+            for(int z = p.getLocation().getBlockZ()-1; z<p.getLocation().getBlockZ()+3; z++)
+                for(double y = 0.1;y<1.1;y+=0.1) {
+                    Location loc = new Location(p.getWorld(), x, p  .getLocation().getY() - y, z);
+                    Block block = loc.getBlock();
+                    if(block.getType() != Material.AIR && playerBox.intersectsWith(Api.instance.nms.getBoundingBox(block)))
+                        onGround = true;
+                }
+        System.out.println(onGround);
+
+
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         //System.out.println(simple + " " + inair(p) + " " + (!fp.enderpearl && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))));
-        if(simple && inair(p) && !fp.enderpearl && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))){
+        if(simple && inair(p) && !fp.enderpearl && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (fp.jumpboost(p) || to.getY() - from.getY() > getJump(p))){
             updatevio(this, p, simplevio, " §6CHECK: §bSIMPLE");
             setBack(p);
         }
@@ -149,4 +177,6 @@ public class Fly extends Check {
         }else return 0;
         return d+1.35;
     }
+
+
 }

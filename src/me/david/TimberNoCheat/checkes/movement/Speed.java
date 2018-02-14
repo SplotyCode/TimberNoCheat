@@ -80,7 +80,6 @@ public class Speed extends Check {
     private final float patternmulti;
     private final double patternlatency;
     private final boolean patterncancel;
-    private final boolean patternlearn;
     private final List<String> disabledpatterns;
 
     public Speed(){
@@ -125,18 +124,11 @@ public class Speed extends Check {
         disabledpatterns = getStringList("pattern.disabledpatterns");
         patternlatency = getDouble("pattern.latency");
         patterncancel = getBoolean("pattern.cancel");
-        patternlearn = getBoolean("pattern.learn");
         loadpatterns();
     }
 
     private ArrayList<SpeedPattern> patterns = new ArrayList<SpeedPattern>();
     public static ArrayList<UUID> generators = new ArrayList<>();
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onLeave(PlayerQuitEvent event){
-        UUID uuid = event.getPlayer().getUniqueId();
-        if(generators.contains(uuid)) generators.remove(uuid);
-    }
 
     private void loadpatterns(){
         try {
@@ -173,7 +165,7 @@ public class Speed extends Check {
                     PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
                     if(pd.getLastticklocation() != null)     {
                         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
-                        if (p.isFlying() || p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20)) continue;
+                        if (p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20)) continue;
                         SpeedPattern optimalpattern = generateSpeedPattern(p, pd);
                         boolean found = false;
                         for (SpeedPattern pattern : patterns)
@@ -186,7 +178,7 @@ public class Speed extends Check {
                         double yDiffUp = p.getLocation().getY() - pd.getLastticklocation().getY();
                         double yDiffdown = pd.getLastticklocation().getY() - p.getLocation().getY();
                         if (!found) {
-                            if(generators.contains(p.getUniqueId()) || patternlearn){
+                            if(generators.contains(p.getUniqueId())){
                                 optimalpattern.verticaldown = (float) yDiffdown;
                                 optimalpattern.verticalup = (float) yDiffUp;
                                 optimalpattern.horizontal = (float) xzDiff;
@@ -202,7 +194,7 @@ public class Speed extends Check {
                         TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, "CAPTURED: xz=" + xzDiff + " yUp=" + yDiffUp + " yDown=" + yDiffdown);
                         TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, "PATTERN: xz=" + optimalpattern.horizontal + " yUP=" + optimalpattern.verticalup + " yDown=" + optimalpattern.verticaldown);
                         if (optimalpattern.verticaldown < yDiffdown) {
-                            if(generators.contains(p.getUniqueId()) || patternlearn){
+                            if(generators.contains(p.getUniqueId())){
                                 p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffdown to '" + yDiffdown + "'!");
                                 optimalpattern.verticaldown = (float) yDiffdown;
                                 savepatterns();
@@ -212,7 +204,7 @@ public class Speed extends Check {
                             toomushper += optimalpattern.verticaldown/yDiffdown;
                         }
                         if (optimalpattern.verticalup < yDiffUp) {
-                            if(generators.contains(p.getUniqueId()) || patternlearn){
+                            if(generators.contains(p.getUniqueId())){
                                 p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffup to '" + yDiffdown + "'!");
                                 optimalpattern.verticalup = (float) yDiffUp;
                                 savepatterns();
@@ -222,7 +214,7 @@ public class Speed extends Check {
                             toomushper +=  optimalpattern.verticalup/yDiffUp;
                         }
                         if (optimalpattern.horizontal < xzDiff) {
-                            if(generators.contains(p.getUniqueId()) || patternlearn){
+                            if(generators.contains(p.getUniqueId())){
                                 p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet xzDiff to '" + yDiffdown + "'!");
                                 optimalpattern.horizontal = (float) xzDiff;
                                 savepatterns();

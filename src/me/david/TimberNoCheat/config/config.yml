@@ -250,8 +250,8 @@ vape:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-         1: "KICK:§cVAPE!"
-         1: "NOTIFY"
+      1: "KICK:§cVAPE!"
+      1: "NOTIFY"
 labymod:
    enable: true
    animations: true
@@ -334,6 +334,14 @@ channels:
    vioactions:
       1: "NOTIFY"
       12: "CMD:ban %player% hackclient oder so"
+elytra:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      1: "NOTIFY"
 charaters:
    enable: true
    rename: true
@@ -543,7 +551,9 @@ killaura:
       18: "KICK:Killaura?"
 regen:
    enable: true
-   delay: 3000
+   delaySatiated: 2000
+   delayPeaceful: 420
+   delayRegens: [1500, 750, 250]
    max_ping: -1
    min_tps: 16
    vioresetafteraction:
@@ -716,6 +726,16 @@ vehiclemove:
    vioactions:
       1: "NOTIFY"
       1: "KICK:A"
+wrongvelocity:
+   enable: true
+   boat: true
+   horse: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      1: "NOTIFY"
 bedleave:
    enable: true
    maxrange: 10
@@ -873,7 +893,6 @@ speed:
       disabledpatterns: []
       latency: 6.5
       cancel: true
-      learn: true
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
