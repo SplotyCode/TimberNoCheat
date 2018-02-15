@@ -13,6 +13,7 @@ import me.david.TimberNoCheat.checkes.exploits.*;
 import me.david.TimberNoCheat.checkes.movement.*;
 import me.david.TimberNoCheat.checkes.other.*;
 import me.david.TimberNoCheat.checkes.player.*;
+import me.david.TimberNoCheat.debug.debuggers.MoveVelocity;
 import me.david.TimberNoCheat.runnable.TickCountTimer;
 import me.david.TimberNoCheat.runnable.Tps;
 import me.david.TimberNoCheat.config.Permissions;
@@ -124,7 +125,7 @@ public class CheckManager {
         register(new AuraBots());
         register(new Velocity());
         register(new GodMode());
-        register(new WrongVelocity());
+        register(new MoveVelocity());
         register(new Elytra());
     }
 

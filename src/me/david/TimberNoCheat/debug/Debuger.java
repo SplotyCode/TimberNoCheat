@@ -1,6 +1,7 @@
 package me.david.TimberNoCheat.debug;
 
 import me.david.TimberNoCheat.TimberNoCheat;
+import me.david.TimberNoCheat.api.DebugMessageEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -45,12 +46,15 @@ public class Debuger {
         else addDebugg(uuid, debugger);
     }
 
-    public void sendDebug(Debuggers debug, String message){
+    public void sendDebug(Debuggers debug, String message, Object... data){
+        DebugMessageEvent event = new DebugMessageEvent(debug, message, data);
+        Bukkit.getPluginManager().callEvent(event);
+        if(event.isCancelled())return;
         for(Map.Entry<UUID, ArrayList<String>> entry : debuggingPlayers.entrySet())
-            if(isDebugging(entry.getKey(), debug.name())){
+            if(isDebugging(entry.getKey(), event.getDebugger().name())){
                 Player player = Bukkit.getPlayer(entry.getKey());
                 if(player == null) continue;
-                player.sendMessage(TimberNoCheat.instance + "§7[§eDEBUG§7][§b" + debug.name().toUpperCase() + "§7] §6" + message);
+                player.sendMessage(TimberNoCheat.instance + "§7[§eDEBUG§7][§b" + event.getDebugger().name().toUpperCase() + "§7] §6" + event.getMessage());
             }
     }
 }
