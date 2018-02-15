@@ -24,4 +24,9 @@ public class Permissions {
     public static final String CHECKMAP = "tnc.checkmap";
 
     public static final String SETTINGS = "tnc.settings";
+
+    public static final String PLAYER_DATA = "tnc.playerdata";
+
+    public static final String PERMISSION_CACHE = "tnc.permissioncache";
+    public static final String PERMISSION_CACHE_CLEAR = "tnc.clearcache";
 }

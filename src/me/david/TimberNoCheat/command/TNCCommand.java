@@ -4,6 +4,7 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.api.RefreshEvent;
 import me.david.TimberNoCheat.checkes.movement.Speed;
 import me.david.TimberNoCheat.checkmanager.Check;
+import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.TimberNoCheat.config.Permissions;
 import me.david.api.commands.CheckBuilder;
 import me.david.api.commands.Command;
@@ -12,13 +13,25 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class TNCCommand extends Command {
 
     public TNCCommand(){
-        super("timbernocheat", new CheckBuilder().addMultiPlayerPermission(new Object[]{"", false, ""}, new Object[]{"reload", false, Permissions.RELOAD}, new Object[]{"generate", true, Permissions.GENERATE}, new Object[]{"items", true, Permissions.ITEMS}, new Object[]{"profiler", true, Permissions.PROFILER}, new Object[]{"debugger", true, Permissions.DEBUGGER}, new Object[]{"checkmap", false, Permissions.CHECKMAP}, new Object[]{"settings", true, Permissions.SETTINGS}).build(), TimberNoCheat.instance.prefix, false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
+        super("timbernocheat", new CheckBuilder().addMultiPlayerPermission(
+                new Object[]{"", false, ""},
+                new Object[]{"reload", false, Permissions.RELOAD},
+                new Object[]{"generate", true, Permissions.GENERATE},
+                new Object[]{"items", true, Permissions.ITEMS},
+                new Object[]{"profiler", true, Permissions.PROFILER},
+                new Object[]{"debugger", true, Permissions.DEBUGGER},
+                new Object[]{"checkmap", false, Permissions.CHECKMAP},
+                new Object[]{"settings", true, Permissions.SETTINGS},
+                new Object[]{"playerdata", false, Permissions.PLAYER_DATA},
+                new Object[]{"permissioncache", false, Permissions.PERMISSION_CACHE},
+                new Object[]{"resetcache", false, Permissions.PERMISSION_CACHE_CLEAR}).
+                build(), TimberNoCheat.instance.prefix, false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
         setOnlyplayers(true);
     }
 
@@ -77,6 +90,33 @@ public class TNCCommand extends Command {
                 break;
             case "settings":
                 TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "SettingsMulti");
+                break;
+            case "playerdata":
+                if (!TimberNoCheat.checkmanager.isvalid_create(p)) {
+                    p.sendMessage(TimberNoCheat.instance.prefix + "Es gibt keine SpielerDaten für dich :(");
+                    return;
+                }
+                PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+                for(Field field : pd.getClass().getDeclaredFields()){
+                    try {
+                        p.sendMessage(field.getName() + "[" + field.getType().getSimpleName() + "]" + field.get(pd));
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case "permissioncache":
+                p.sendMessage(TimberNoCheat.instance.prefix + "---[Cache]---");
+                for(Map.Entry<UUID, HashMap<String, Boolean>> cache :  TimberNoCheat.instance.permissioncache.getCache().entrySet()){
+                    p.sendMessage(TimberNoCheat.instance.prefix + Bukkit.getOfflinePlayer(cache.getKey()).getName());
+                    for(Map.Entry<String, Boolean> permission : cache.getValue().entrySet())
+                        p.sendMessage(TimberNoCheat.instance.prefix + "    -> " + permission.getKey() + " <-> " + permission.getValue());
+                }
+                p.sendMessage(TimberNoCheat.instance.prefix + "---[Cache]---");
+                break;
+            case "resetcache":
+                TimberNoCheat.instance.permissioncache.clearAll();
+                p.sendMessage(TimberNoCheat.instance.prefix + "Fertig!");
                 break;
         }
     }

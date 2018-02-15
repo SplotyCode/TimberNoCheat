@@ -4,6 +4,7 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
+import me.david.TimberNoCheat.debug.Debuggers;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -13,6 +14,7 @@ public class FastLadder extends Check {
     private final long msperblock;
     private final double cancel_vl;
     private final int shortmulti;
+
     public FastLadder(){
         super("FastLadder", Category.MOVEMENT);
         msperblock = getLong("msperblock");
@@ -37,18 +39,16 @@ public class FastLadder extends Check {
                 return;
             }
             pd.setLastfastladderlongZ(pd.getLastfastladderlongZ()+zdis);
-            System.out.println("add " + zdis);
-            if(pd.getLastfastladderlongZ() > 1.8 && zdis > 0.118){
+            TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.FASTLADDER, "[ADD] " + zdis);
+            if(pd.getLastfastladderlongZ() > 1.8 && zdis > 0.118)
                 updatevio(this, e.getPlayer(), (zdis-0.118)*shortmulti, " §6MODE: §bSHORT");
-            }
             return;
         }
         double shoud = pd.getLastfastladderlongZ()*msperblock;
         double does = System.currentTimeMillis()-pd.getFastladderlongstart();
         if(shoud<0)return;
         if(pd.getLastfastladderlongZ() != -1 && shoud>does){
-            System.out.println("SHOUD:" + shoud);
-            System.out.println("NEEDED: " + does);
+            TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.FASTLADDER, " shoud=" + shoud + " actual=" + does);
             updatevio(this, e.getPlayer(), (int)(does-shoud), " §6MODE: §bLONGTIME", " §6BLOCKS: §b" + pd.getLastfastladderlongZ(), " §6NEDEDSECONDS: §b" + (does/1000), " §6SHOUDNEDEDSECONDS: §b" + (shoud/1000));
             e.getPlayer().teleport(pd.getFastladderstart());
             pd.setLastfastladderlongZ(-1);

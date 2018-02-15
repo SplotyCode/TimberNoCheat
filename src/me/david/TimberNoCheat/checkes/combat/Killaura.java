@@ -182,7 +182,7 @@ public class Killaura extends Check {
                 }
         }
 
-        if(player.getVelocity().length() <= maxreach && !Velocity.velocity.containsKey(player.getUniqueId())) {
+        if(player.getVelocity().length() <= max_velocity && !Velocity.velocity.containsKey(player.getUniqueId())) {
             double reach = PlayerUtil.getEyeLocation(damager).distance(player.getLocation());
             int ping = ((CraftPlayer)damager).getHandle().ping;
             if(ping >= 100 && ping < 200) {
@@ -207,7 +207,7 @@ public class Killaura extends Check {
             TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.ATTACK_RANGE, "MaxReach=" + maxreach + " Reach=" + reach);
 
             if(reach > maxreach) {
-                updatevio(this, damager, reach-maxreach*12, " §6TYPE: §bREACH", " §6MAXREACH: §b" + maxreach, " §6REACH: §b" + reach);
+                updatevio(this, damager, reach-maxreach*viomodifier, " §6TYPE: §bREACH", " §6MAXREACH: §b" + maxreach, " §6REACH: §b" + reach);
                 //pd.getReaches().add(reach);
                 //pd.setLastreach(System.currentTimeMillis());
             }

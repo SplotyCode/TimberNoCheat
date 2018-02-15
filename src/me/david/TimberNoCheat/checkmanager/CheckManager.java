@@ -13,7 +13,8 @@ import me.david.TimberNoCheat.checkes.exploits.*;
 import me.david.TimberNoCheat.checkes.movement.*;
 import me.david.TimberNoCheat.checkes.other.*;
 import me.david.TimberNoCheat.checkes.player.*;
-import me.david.TimberNoCheat.debug.debuggers.MoveVelocity;
+import me.david.TimberNoCheat.debug.obj.DebugPlayerDataList;
+import me.david.TimberNoCheat.debug.Debuggers;
 import me.david.TimberNoCheat.runnable.TickCountTimer;
 import me.david.TimberNoCheat.runnable.Tps;
 import me.david.TimberNoCheat.config.Permissions;
@@ -46,7 +47,7 @@ public class CheckManager {
      * TNC Never write PlayerData to Disk
      * When a Player Disconnects TNC Will delete his PlayerData
      */
-    private ArrayList<PlayerData> playerdata = new ArrayList<PlayerData>();
+    private ArrayList<PlayerData> playerdata = new DebugPlayerDataList();
 
     /*
      * Registering/Starting checks
@@ -125,7 +126,6 @@ public class CheckManager {
         register(new AuraBots());
         register(new Velocity());
         register(new GodMode());
-        register(new MoveVelocity());
         register(new Elytra());
     }
 
@@ -147,11 +147,16 @@ public class CheckManager {
     /*
      * Checks if an Player if Valid for Checking.
      * If there is no PlayerData for the Player TNC will create one
-     * To prevent NullPointerExeptions call this methode before checking players (on events, schedulers etc)
+     * To prevent NullPointerExeptions call this method before checking players (on events, schedulers etc)
      */
-    public boolean isvalid_create(Player p ){
-        if(TimberNoCheat.instance.permissioncache.hasPermission(p, Permissions.NOTCHECKT)) return false;
+    public boolean isvalid_create(Player p){
+        if(TimberNoCheat.instance.permissioncache.hasPermission(p, Permissions.NOTCHECKT)) {
+            TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PLAYERDATA_USE, "Access granted: " + p.getName());
+            return false;
+        }
         if(getPlayerdata(p) == null) playerdata.add(new PlayerData(p.getUniqueId()));
+        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PLAYERDATA_USE, "Data Okay: " + p.getName());
+
         return true;
     }
 

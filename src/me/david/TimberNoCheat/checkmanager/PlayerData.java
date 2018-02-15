@@ -1,6 +1,5 @@
 package me.david.TimberNoCheat.checkmanager;
 
-import me.david.TimberNoCheat.checkes.movement.FlyData;
 import me.david.TimberNoCheat.checktools.AsyncGeneral;
 import me.david.TimberNoCheat.checktools.FalsePositive;
 import me.david.TimberNoCheat.checktools.General;
@@ -124,12 +123,7 @@ public class PlayerData {
     private int godhealthtick;
 
     /* Fly */
-    private boolean hurttime;
-    private int flymode;
-    private double ziff;
-    private int flycount;
-    private boolean flygound;
-    private FlyData flyData;
+    private int ticksInAir;
 
     /* Rotate */ private int snappyRotate;
 
@@ -206,7 +200,7 @@ public class PlayerData {
         asyncGenerals = new AsyncGeneral.AsyncGeneralValues();
         newstep = 0;
         hittetEntitys = new HashMap<>();
-        flyData = new FlyData();
+        ticksInAir = 0;
         lastRegen = -1;
         lastRegenMagic = -1;
         lastRegenPeaceful = -1;
@@ -226,47 +220,6 @@ public class PlayerData {
     }
     public AsyncGeneral.AsyncGeneralValues getAsyncGenerals() {
         return asyncGenerals;
-    }
-
-
-    public boolean isHurttime() {
-        return hurttime;
-    }
-
-    public void setHurttime(boolean hurttime) {
-        this.hurttime = hurttime;
-    }
-
-    public int getFlymode() {
-        return flymode;
-    }
-
-    public void setFlymode(int flymode) {
-        this.flymode = flymode;
-    }
-
-    public double getZiff() {
-        return ziff;
-    }
-
-    public void setZiff(double ziff) {
-        this.ziff = ziff;
-    }
-
-    public int getFlycount() {
-        return flycount;
-    }
-
-    public void setFlycount(int flycount) {
-        this.flycount = flycount;
-    }
-
-    public boolean isFlygound() {
-        return flygound;
-    }
-
-    public void setFlygound(boolean flygound) {
-        this.flygound = flygound;
     }
 
     public double getNewstep() {
@@ -763,10 +716,6 @@ public class PlayerData {
 
     public HashMap<Integer, Long> getHittetEntitys() {
         return hittetEntitys;
-    }
-
-    public FlyData getFlyData() {
-        return flyData;
     }
 
     public long getLastRegen() {

@@ -7,6 +7,7 @@ import me.david.TimberNoCheat.command.TNCCommand;
 import me.david.TimberNoCheat.config.Config;
 import me.david.TimberNoCheat.config.Permissions;
 import me.david.TimberNoCheat.debug.Debuger;
+import me.david.TimberNoCheat.debug.obj.DebugPermissionCache;
 import me.david.TimberNoCheat.gui.GuiLoader;
 import me.david.TimberNoCheat.listener.ChatHandler;
 import me.david.TimberNoCheat.listener.JoinLeave;
@@ -63,7 +64,8 @@ public class TimberNoCheat extends ApiPlugin {
             setEnabled(false);
             return;
         }
-        startpermissionchache(true, -1, true);
+        /* would work but we want our special debug permission cache*/ //startpermissionchache(true, -1, true);
+        permissioncache = new DebugPermissionCache(true, -1, true);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100, 1);
         if (Config.check(config, 201, this.getResource("me/david/TimberNoCheat/config/config.yml"))) {
             crash = true;
