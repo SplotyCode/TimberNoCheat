@@ -8,10 +8,13 @@ import me.david.TimberNoCheat.config.Config;
 import me.david.TimberNoCheat.config.Permissions;
 import me.david.TimberNoCheat.debug.Debuger;
 import me.david.TimberNoCheat.gui.GuiLoader;
+import me.david.TimberNoCheat.listener.ChatHandler;
 import me.david.TimberNoCheat.listener.JoinLeave;
 import me.david.TimberNoCheat.listener.TNCHandler;
 import me.david.TimberNoCheat.debug.MoveProfiler;
 import me.david.TimberNoCheat.record.RecordManager;
+import me.david.TimberNoCheat.runnable.Tps;
+import me.david.TimberNoCheat.runnable.Velocity;
 import me.david.api.ApiPlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -73,7 +76,7 @@ public class TimberNoCheat extends ApiPlugin {
         //settings = new old_Settings();
         checkmanager = new CheckManager();
         recordManager = new RecordManager(config);
-        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General());
+        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General(), new ChatHandler());
         registerCommands(new TNCCommand()/*, new TestCommand()*/);
         clearPlayerData = YamlConfiguration.loadConfiguration(config).getBoolean("clearPlayerData");
         log(false, "Es wurden " + checkmanager.getChecks().size() + " module geladen mit vielen unterchecks!");

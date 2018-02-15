@@ -2,7 +2,7 @@ package me.david.TimberNoCheat.listener;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
-import me.david.TimberNoCheat.checktools.Velocity;
+import me.david.TimberNoCheat.runnable.Velocity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;

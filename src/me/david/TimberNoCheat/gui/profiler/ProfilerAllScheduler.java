@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.gui;
+package me.david.TimberNoCheat.gui.profiler;
 
 import me.david.TimberNoCheat.config.Permissions;
 import me.david.api.guis.Gui;

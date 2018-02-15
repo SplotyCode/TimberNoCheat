@@ -1,9 +1,11 @@
-package me.david.TimberNoCheat.gui;
+package me.david.TimberNoCheat.gui.profiler;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.config.Permissions;
 import me.david.api.FarbCodes;
 import me.david.api.guis.Gui;
+import me.david.api.sound.Sound;
+import me.david.api.sound.SoundCategory;
 import me.david.api.utils.ItemStackUtil;
 import me.david.api.utils.OLD_Sounds;
 import me.david.api.utils.ScoreboardUtil;
@@ -27,7 +29,7 @@ public class GuiMoveProfiler extends Gui implements Listener {
     private ArrayList<Player> profilePlayer = new ArrayList<>();
 
     public GuiMoveProfiler(Plugin pl) {
-        super("GuiMoveProfiler", OLD_Sounds.LEVELUP, Permissions.PROFILER_MOVEMENT);
+        super("GuiMoveProfiler", Permissions.PROFILER_MOVEMENT, new Sound("MoveProfiler", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance));
         Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {
             TimberNoCheat.instance.getMoveprofiler().setRunning(!profilePlayer.isEmpty());
             String[] profile = new String[TimberNoCheat.instance.getMoveprofiler().getTimes().size()];

@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.checktools;
+package me.david.TimberNoCheat.runnable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

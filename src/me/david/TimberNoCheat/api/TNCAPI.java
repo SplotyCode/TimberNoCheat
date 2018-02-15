@@ -3,7 +3,7 @@ package me.david.TimberNoCheat.api;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
-import me.david.TimberNoCheat.checktools.Tps;
+import me.david.TimberNoCheat.runnable.Tps;
 import me.david.api.anotations.Incompleat;
 import me.david.api.anotations.NotNull;
 import org.bukkit.entity.Player;

@@ -13,15 +13,9 @@ import me.david.TimberNoCheat.checkes.exploits.*;
 import me.david.TimberNoCheat.checkes.movement.*;
 import me.david.TimberNoCheat.checkes.other.*;
 import me.david.TimberNoCheat.checkes.player.*;
-import me.david.TimberNoCheat.checkes.combat.*;
-import me.david.TimberNoCheat.checkes.exploits.*;
-import me.david.TimberNoCheat.checkes.player.*;
-import me.david.TimberNoCheat.checktools.Tps;
+import me.david.TimberNoCheat.runnable.TickCountTimer;
+import me.david.TimberNoCheat.runnable.Tps;
 import me.david.TimberNoCheat.config.Permissions;
-import me.david.TimberNoCheat.checkes.chat.*;
-import me.david.TimberNoCheat.checkes.interact.*;
-import me.david.TimberNoCheat.checkes.movement.*;
-import me.david.TimberNoCheat.checkes.other.*;
 import me.david.api.anotations.NotNull;
 import me.david.api.anotations.Nullable;
 import me.david.api.utils.StringUtil;
@@ -42,8 +36,10 @@ import java.util.logging.Level;
 
 public class CheckManager {
 
-    /* List of all Checks */
+    /* List of active all Checks */
     private ArrayList<Check> checks = new ArrayList<Check>();
+    /* List of disabled Checks (only via config) */
+    private ArrayList<Check> disabledChecks = new ArrayList<>();
     /*
      * List of all PlayerDate
      * TNC Never write PlayerData to Disk
@@ -56,6 +52,7 @@ public class CheckManager {
      */
     public void loadchecks(){
         checks.clear();
+        disabledChecks.clear();
         register(new Address());
         register(new Delay());
         register(new Sign());
@@ -171,7 +168,12 @@ public class CheckManager {
     /* Registers an Check to TNC and Bukkit */
     //TODO: Performance Load the YamlConfiguration only once
     public void register(Check check){
-        if(!YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config).getBoolean(check.getName().toLowerCase() + ".enable")) return;
+        if(disabledChecks.contains(check) || checks.contains(check))
+            throw new IllegalStateException("Try to register a Plugin that is already Registered/Config Blacklisted!");
+        if(!YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config).getBoolean(check.getName().toLowerCase() + ".enable")) {
+            disabledChecks.add(check);
+            return;
+        }
         checks.add(check);
         TimberNoCheat.instance.getServer().getPluginManager().registerEvents(check, TimberNoCheat.instance);
     }
@@ -246,7 +248,17 @@ public class CheckManager {
         return checks;
     }
 
+    public ArrayList<Check> getDisabledChecks() {
+        return disabledChecks;
+    }
+
     public ArrayList<PlayerData> getPlayerdata() {
         return playerdata;
+    }
+
+    public ArrayList<Check> getAllChecks(){
+        ArrayList<Check> list = ((ArrayList<Check>) TimberNoCheat.checkmanager.getChecks().clone());
+        list.addAll(TimberNoCheat.checkmanager.getDisabledChecks());
+        return list;
     }
 }

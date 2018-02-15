@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.gui;
+package me.david.TimberNoCheat.gui.items;
 
 import me.david.TimberNoCheat.config.Permissions;
 import me.david.api.Potions;

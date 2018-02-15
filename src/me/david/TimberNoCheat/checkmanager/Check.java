@@ -3,7 +3,7 @@ package me.david.TimberNoCheat.checkmanager;
 import com.comphenix.protocol.events.PacketListener;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.api.ViolationUpdateEvent;
-import me.david.TimberNoCheat.checktools.Tps;
+import me.david.TimberNoCheat.runnable.Tps;
 import me.david.api.utils.StringUtil;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
@@ -37,17 +37,32 @@ public class Check implements Listener{
     private int mintps;
 
     private ArrayList<Check> childs = new ArrayList<>();
+    private ArrayList<Check> diabledsChilds = new ArrayList<>();
     private Check parent = null;
     private boolean isChild = false;
 
     public void registerChilds(Enum[] en) {
-        for(Enum enu : en)
-            childs.add(new Check(enu.name(), category, true, this));
+        for (Enum enu : en) {
+            Check check = new Check(enu.name(), category, true, this);
+            if(check.getBoolean("enabled")) childs.add(check);
+            else diabledsChilds.add(check);
+        }
+    }
+
+    public void registerChilds(Check[] checks) {
+        for(Check check : checks)
+            if(check.getBoolean("enabled")){
+                if(check.getBoolean("enabled")) childs.add(check);
+                else diabledsChilds.add(check);
+            }
     }
 
     public void registerChilds(String[] list) {
-        for(String str : list)
-            childs.add(new Check(str, category, true, this));
+        for(String str : list) {
+            Check check = new Check(str, category, true, this);
+            if(check.getBoolean("enabled")) childs.add(check);
+            else diabledsChilds.add(check);
+        }
     }
 
     public Check(String name, Category category) {
@@ -111,6 +126,23 @@ public class Check implements Listener{
     public boolean getBoolean(String s){
         return yml.getBoolean((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }
+
+    public ArrayList<String> getCustomSettings(){
+        ArrayList<String> list = new ArrayList<>();
+        String basePath = (isChild?parent.name + ".":"") + this.name.toLowerCase();
+        for(String key : yml.getConfigurationSection(basePath).getKeys(false)){
+            if(key.equals("enable") || key.equals("max_ping") || key.equals("min_tps") || key.equals("vioresetafteraction") || key.equals("viocachedelay") || key.equals("vioactions")) continue;
+            ConfigurationSection section = yml.getConfigurationSection(basePath + "." + key);
+            if(section == null) list.add(basePath + key);
+            else for(String key2 : section.getKeys(true)) list.add(basePath + key2);
+        }
+        return list;
+    }
+
+    public void setSetting(String name, Object value){
+        yml.set((isChild?parent.name + ".":"") + this.name.toLowerCase() + "." + name, value);
+    }
+
     public double[] getDoubleArray(String s){
         Object[] list = yml.getDoubleList((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s).toArray();
         return ArrayUtils.toPrimitive(Arrays.copyOf(list, list.length, Double[].class));
@@ -401,5 +433,13 @@ public class Check implements Listener{
 
     public Check getParent() {
         return parent;
+    }
+
+    public ArrayList<Check> getChilds() {
+        return childs;
+    }
+
+    public ArrayList<Check> getDiabledsChilds() {
+        return diabledsChilds;
     }
 }

@@ -1,6 +1,7 @@
-package me.david.TimberNoCheat.checkmanager;
+package me.david.TimberNoCheat.runnable;
 
 import me.david.TimberNoCheat.TimberNoCheat;
+import me.david.TimberNoCheat.checkmanager.Check;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

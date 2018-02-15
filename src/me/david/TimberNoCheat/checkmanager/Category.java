@@ -1,24 +1,36 @@
 package me.david.TimberNoCheat.checkmanager;
 
+import org.bukkit.Material;
+
 /*
  * Check Category's
  */
 public enum Category {
 
     /* For Example Spammer, Whitelist etc. */
-    CHAT,
+    CHAT(Material.SIGN),
     /* For Example NBT-Data-Exploits, ServerCrasher etc. */
-    EXPLOITS,
+    EXPLOITS(Material.REDSTONE_COMPARATOR_ON),
     /* Labymod, Vape etc prevention */
-    CLIENT_CHANEL,
+    CLIENT_CHANEL(Material.CHEST),
     /* All the stuff that is to less for its own category */
-    OTHER,
+    OTHER(Material.SLIME_BLOCK),
     /* For Example AirPlace, NoSwing Scaffold etc. */
-    INTERACT,
+    INTERACT(Material.STICK),
     /* For Exaple FastEat, Respawn, ChestStealer etc. */
-    PLAYER,
+    PLAYER(Material.SKULL_ITEM),
     /* All Movement related Checks */
-    MOVEMENT,
+    MOVEMENT(Material.ENDER_PEARL),
     /* All Combat related Checks */
-    COBMAT;
+    COBMAT(Material.DIAMOND_SWORD);
+
+    private final Material material;
+
+    Category(Material material){
+        this.material = material;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
 }

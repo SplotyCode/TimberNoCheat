@@ -137,6 +137,6 @@ public class Step extends Check {
 
     private boolean check2(Location loc) {
         Material mat = loc.getBlock().getType();
-        return mat != Material.SLIME_BLOCK && !MaterialHelper.FENCES.contains(mat) && !MaterialHelper.STAIRS.contains(mat) && !MaterialHelper.TRAPDOOR.contains(mat) && !MaterialHelper.DOOR.contains(mat) && !MaterialHelper.CHESTS.contains(mat) && !MaterialHelper.PLATES.contains(mat) && (mat != Material.getMaterial(127)) && (mat != Material.FIRE) && mat != Material.COCOA && mat != Material.DRAGON_EGG && (mat != Material.ENDER_PORTAL_FRAME) && (mat != Material.ENCHANTMENT_TABLE) && (mat != Material.FLOWER_POT) && (mat != Material.BREWING_STAND);
+        return mat != Material.SLIME_BLOCK && !MaterialHelper.FENCES.contains(mat) && !MaterialHelper.STAIRS.contains(mat) && !MaterialHelper.TRAPDOOR.contains(mat) && !MaterialHelper.DOOR.contains(mat) && !MaterialHelper.CHESTS.contains(mat) && !MaterialHelper.PLATES.contains(mat) && (mat != Material.FIRE) && mat != Material.COCOA && mat != Material.DRAGON_EGG && (mat != Material.ENDER_PORTAL_FRAME) && (mat != Material.ENCHANTMENT_TABLE) && (mat != Material.FLOWER_POT) && (mat != Material.BREWING_STAND);
     }
 }

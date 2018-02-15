@@ -4,7 +4,7 @@ import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;
 import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
-import me.david.TimberNoCheat.checktools.Velocity;
+import me.david.TimberNoCheat.runnable.Velocity;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

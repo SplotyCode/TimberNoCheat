@@ -20,4 +20,8 @@ public class Permissions {
     public static final String PROFILER_MOVEMENT = "tnc.profiler.move";
 
     public static final String DEBUGGER = "tnc.debugger";
+
+    public static final String CHECKMAP = "tnc.checkmap";
+
+    public static final String SETTINGS = "tnc.settings";
 }

@@ -1,4 +1,4 @@
-package me.david.TimberNoCheat.checktools;
+package me.david.TimberNoCheat.runnable;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.Category;

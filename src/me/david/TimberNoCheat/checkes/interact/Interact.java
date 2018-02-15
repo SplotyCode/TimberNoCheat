@@ -111,7 +111,7 @@ public class Interact extends Check {
         }
         if(e.getClickedBlock() == null || !ghost)
             return;
-        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK) && ((MaterialHelper.checkmat(e.getClickedBlock().getLocation())) || (p.getItemInHand().getType() == Material.getMaterial(383)))) {
+        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK) && ((MaterialHelper.checkmat(e.getClickedBlock().getLocation())) || (p.getInventory().getItemInHand().getType() == Material.MONSTER_EGG))) {
             if (MaterialHelper.checkb(p, e.getClickedBlock().getLocation()) != null) {
                 updatevio(this, p, 1, " §6CHECK: §bGHOST");
                 e.setCancelled(true);
