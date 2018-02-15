@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.logging.Level;
 
 /* The Main Api Class for other plugins that want to communicate with TNC */
-public class TNCAPI {
+public final class TNCAPI {
 
     /* Get Server Tps in a specific time or with colour*/
     public static double getTPS() {
@@ -109,5 +109,9 @@ public class TNCAPI {
             if(c.getViolations().containsKey(p))
                 vio += c.getViolations().get(p);
         return vio;
+    }
+
+    public static void whitelist(final Check check, final Player player, final long time){
+        check.whitelist(player, time);
     }
 }
