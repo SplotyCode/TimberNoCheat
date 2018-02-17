@@ -32,4 +32,6 @@ public class Permissions {
 
     public static final String ORE_NOTIFY = "tnc.orenotify";
 
+    public static final String BLOCK_TRIGGERS = "tnc.blocktriggers";
+
 }

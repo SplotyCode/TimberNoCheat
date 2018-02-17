@@ -31,6 +31,7 @@ public class TNCCommand extends Command {
                 new Object[]{"playerdata", false, Permissions.PLAYER_DATA},
                 new Object[]{"permissioncache", false, Permissions.PERMISSION_CACHE},
                 new Object[]{"oreNotify", true, Permissions.ORE_NOTIFY},
+                new Object[]{"blockTriggers", true, Permissions.BLOCK_TRIGGERS},
                 new Object[]{"resetcache", false, Permissions.PERMISSION_CACHE_CLEAR}).
                 build(), TimberNoCheat.instance.prefix, false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
         setOnlyplayers(true);
@@ -121,6 +122,8 @@ public class TNCCommand extends Command {
                 break;
             case "oreNotify":
                 TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "OreNotifyMulti");
+                break;
+            case "blockTriggers":
                 break;
         }
     }

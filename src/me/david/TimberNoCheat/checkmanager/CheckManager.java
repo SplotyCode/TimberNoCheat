@@ -267,4 +267,11 @@ public class CheckManager {
         list.addAll(TimberNoCheat.checkmanager.getDisabledChecks());
         return list;
     }
+
+    public Check getCheckbyString(String name){
+        boolean child = name.contains("_");
+        String[] split = name.split("_");
+        Check mother = getCheckbyName(split[0]);
+        return child?mother.getChildbyString(split[1]):mother;
+    }
 }
