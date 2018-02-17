@@ -7,6 +7,7 @@ import me.david.TimberNoCheat.gui.debug.GuiDebug;
 import me.david.TimberNoCheat.gui.items.GuiItemTest;
 import me.david.TimberNoCheat.gui.items.GuiItemTools;
 import me.david.TimberNoCheat.gui.items.GuiItems;
+import me.david.TimberNoCheat.gui.oreNotify.OreNotifyGui;
 import me.david.TimberNoCheat.gui.profiler.GuiMoveProfiler;
 import me.david.TimberNoCheat.gui.profiler.GuiProfiler;
 import me.david.TimberNoCheat.gui.profiler.ProfilerAllScheduler;
@@ -32,5 +33,8 @@ public class GuiLoader {
         pl.addGui("ReloadMulti", Permissions.SETTINGS, new ReloadGui());
         pl.addGui("CustomSettingMulti", Permissions.SETTINGS, new CustomSettingsGui());
         pl.addGui("ViolationMulti", Permissions.SETTINGS, new ViolationGui());
+
+        pl.addGui("OreNotifyMulti", Permissions.ORE_NOTIFY, new OreNotifyGui());
+
     }
 }

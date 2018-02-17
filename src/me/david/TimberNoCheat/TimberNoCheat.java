@@ -4,6 +4,7 @@ import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.CheckManager;
 import me.david.TimberNoCheat.checktools.*;
 import me.david.TimberNoCheat.command.TNCCommand;
+import me.david.TimberNoCheat.command.oreNotify.OreNotifyManager;
 import me.david.TimberNoCheat.config.Config;
 import me.david.TimberNoCheat.config.Permissions;
 import me.david.TimberNoCheat.debug.Debuger;
@@ -11,6 +12,7 @@ import me.david.TimberNoCheat.debug.obj.DebugPermissionCache;
 import me.david.TimberNoCheat.gui.GuiLoader;
 import me.david.TimberNoCheat.listener.ChatHandler;
 import me.david.TimberNoCheat.listener.JoinLeave;
+import me.david.TimberNoCheat.listener.OreNotify;
 import me.david.TimberNoCheat.listener.TNCHandler;
 import me.david.TimberNoCheat.debug.MoveProfiler;
 import me.david.TimberNoCheat.record.RecordManager;
@@ -40,6 +42,8 @@ public class TimberNoCheat extends ApiPlugin {
     /* Debug stuff */
     private MoveProfiler moveprofiler;
     private Debuger debuger;
+
+    private OreNotifyManager oreNotifyManager;
 
 
     /* Default Prefix normaly this prefix gets overridden from the config */
@@ -78,7 +82,8 @@ public class TimberNoCheat extends ApiPlugin {
         //settings = new old_Settings();
         checkmanager = new CheckManager();
         recordManager = new RecordManager(config);
-        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General(), new ChatHandler());
+        oreNotifyManager = new OreNotifyManager();
+        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General(), new ChatHandler(), new OreNotify());
         registerCommands(new TNCCommand()/*, new TestCommand()*/);
         clearPlayerData = YamlConfiguration.loadConfiguration(config).getBoolean("clearPlayerData");
         log(false, "Es wurden " + checkmanager.getChecks().size() + " module geladen mit vielen unterchecks!");
@@ -122,5 +127,9 @@ public class TimberNoCheat extends ApiPlugin {
 
     public Debuger getDebuger() {
         return debuger;
+    }
+
+    public OreNotifyManager getOreNotifyManager() {
+        return oreNotifyManager;
     }
 }

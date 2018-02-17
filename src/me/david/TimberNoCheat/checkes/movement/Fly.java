@@ -56,16 +56,14 @@ public class Fly extends Check {
     }
     
     @EventHandler(priority = EventPriority.MONITOR)
-    public void playermove(PlayerMoveEvent e){
+    public void playerMove(PlayerMoveEvent e){
         final Player p = e.getPlayer();
         final Location to = e.getTo();
         final Location from = e.getFrom();
         if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         TimberNoCheat.instance.getMoveprofiler().start("Fly ");
-        if(PlayerUtil.isOnGround(p)) pd.setTicksonground(0);
-        else pd.setTicksonground(pd.getTicksonground()+1);
-        System.out.println(pd.getTicksonground() + " " + p.getVelocity().getY());
+        System.out.println(pd.getGenerals().getTicksInAir() + " " + p.getVelocity().getY());
         TimberNoCheat.instance.getMoveprofiler().end();
     }
 

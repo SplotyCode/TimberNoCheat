@@ -29,4 +29,7 @@ public class Permissions {
 
     public static final String PERMISSION_CACHE = "tnc.permissioncache";
     public static final String PERMISSION_CACHE_CLEAR = "tnc.clearcache";
+
+    public static final String ORE_NOTIFY = "tnc.orenotify";
+
 }

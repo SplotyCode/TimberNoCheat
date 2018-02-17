@@ -31,7 +31,6 @@ public class PlayerData {
 
     /* FastPlace */private int blockplacelastsecond;
     /* NoSwing */private boolean shoudswing;
-    /* Jesus*/ private long jesus;
 
     /* ServerCrasher*/
     private int itemswinginonesecond;
@@ -122,10 +121,9 @@ public class PlayerData {
     private double godhealth;
     private int godhealthtick;
 
-    /* Fly */
-    private int ticksInAir;
-
     /* Rotate */ private int snappyRotate;
+
+    /* Criticals */ private double critHight = -1;
 
 
     private FalsePositive.FalsePositiveChecks falsepositives;
@@ -141,7 +139,6 @@ public class PlayerData {
         this.hitslastsecond = 0;
         this.blockplacelastsecond = 0;
         this.shoudswing = false;
-        this.jesus = System.currentTimeMillis();
         this.itemswinginonesecond = 0;
         this.itemshwitchinonesecond = 0;
         this.lastbowshot = System.currentTimeMillis()-15000L;
@@ -200,11 +197,11 @@ public class PlayerData {
         asyncGenerals = new AsyncGeneral.AsyncGeneralValues();
         newstep = 0;
         hittetEntitys = new HashMap<>();
-        ticksInAir = 0;
         lastRegen = -1;
         lastRegenMagic = -1;
         lastRegenPeaceful = -1;
         snappyRotate = -1;
+        critHight = -1;
     }
 
     /**
@@ -646,14 +643,6 @@ public class PlayerData {
         this.itemshwitchinonesecond = itemshwitchinonesecond;
     }
 
-    public long getJesus() {
-        return jesus;
-    }
-
-    public void setJesus(long jesus) {
-        this.jesus = jesus;
-    }
-
     public boolean isShoudswing() {
         return shoudswing;
     }
@@ -748,5 +737,13 @@ public class PlayerData {
 
     public void setSnappyRotate(int snappyRotate) {
         this.snappyRotate = snappyRotate;
+    }
+
+    public double getCritHight() {
+        return critHight;
+    }
+
+    public void setCritHight(double critHight) {
+        this.critHight = critHight;
     }
 }

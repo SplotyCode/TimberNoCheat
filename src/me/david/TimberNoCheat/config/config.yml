@@ -804,6 +804,7 @@ fly:
       14: "KICK:FLY!"
 jesus:
    enable: true
+   speed: true
    #lower = more sesetiv
    sensitivity: 8
    max_ping: -1

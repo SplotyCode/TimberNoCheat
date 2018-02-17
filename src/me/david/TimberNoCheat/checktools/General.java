@@ -3,17 +3,35 @@ package me.david.TimberNoCheat.checktools;
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.checkmanager.PlayerData;
 import me.david.api.utils.player.PlayerUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 
-public class General implements Listener {
+public class General implements Listener, Runnable  {
+
+    public General(){
+        Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, this, 1, 1);
+    }
+
+    @Override
+    public void run() {
+        for(Player player : Bukkit.getServer().getOnlinePlayers()){
+            if(TimberNoCheat.checkmanager.isvalid_create(player)) {
+                GeneralValues generals = TimberNoCheat.checkmanager.getPlayerdata(player).getGenerals();
+                if(PlayerUtil.isOnGround(player)) generals.ticksInAir = 0;
+                else generals.ticksInAir++;
+            }
+        }
+    }
 
     public static class GeneralValues {
 
@@ -24,6 +42,7 @@ public class General implements Listener {
         private Location loginLocation;
         private long lastItemClick;
         private Location lastOnGround;
+        private int ticksInAir;
 
         public GeneralValues(){
             messages = new ArrayList<>();
@@ -33,6 +52,7 @@ public class General implements Listener {
             lastRealMove = System.currentTimeMillis()-15000L;
             lastItemClick = System.currentTimeMillis()-15000L;
             lastOnGround = null;
+            ticksInAir = 0;
         }
 
         public Location getLastOnGround() {
@@ -62,6 +82,10 @@ public class General implements Listener {
         public long getLastItemClick() {
             return lastItemClick;
         }
+
+        public int getTicksInAir() {
+            return ticksInAir;
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -86,6 +110,7 @@ public class General implements Listener {
             pd.getGenerals().lastMove = System.currentTimeMillis();
             Location to = event.getTo();
             Location fr = event.getFrom();
+
             if(!(to.getX() == fr.getX() && to.getY() == fr.getY() && to.getZ() == to.getZ())) pd.getGenerals().lastRealMove = System.currentTimeMillis();
             pd.getGenerals().lastLocation = to;
         }
