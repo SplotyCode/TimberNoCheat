@@ -13,3 +13,6 @@ Temp ToDo list
 11) Fix backwards and side sprint
 12) Improve Phase
 13) Redo Badpackets (mege with speed_timer, badpackets and morepackets)
+14) Clean up Check class
+15) Make TNCAPI a enum singleton (maby new class? for backwards compability?)
+16) Statistics Command
