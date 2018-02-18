@@ -36,11 +36,11 @@ public class CommandDelay extends Check {
         }, 200);
         long delay = System.currentTimeMillis() - pd.getLastcommand();
         if(delay < this.delay){
-            updatevio(this, p, 1, " §6MODE: §bDELAY", " §6DELAY: §b" + delay);
+            updateVio(this, p, 1, " §6MODE: §bDELAY", " §6DELAY: §b" + delay);
             e.setCancelled(true);
         }
         if(pd.getCommands10sec() > commands10){
-            updatevio(this, p, 1, " §6MODE: §bSPAM", " §6COMMANDSLASTSECOND: §b" + pd.getCommands10sec());
+            updateVio(this, p, 1, " §6MODE: §bSPAM", " §6COMMANDSLASTSECOND: §b" + pd.getCommands10sec());
             e.setCancelled(true);
         }
         pd.setLastcommand(System.currentTimeMillis());

@@ -37,7 +37,7 @@ public class Clip extends Check {
                 Location l = xDist < -0.9D?to.clone().add(i, 0, 0):from.clone().add(i, 0, 0.);
                 if(checkblock(l)){
                     e.setCancelled(true);
-                    updatevio(this, e.getPlayer(), 1);
+                    updateVio(this, e.getPlayer(), 1);
                     return;
                 }
             }
@@ -47,7 +47,7 @@ public class Clip extends Check {
                 Location l = zDist < -0.9D?to.clone().add(0, 0, i):from.clone().add(0, 0, i);
                 if(checkblock(l)){
                     e.setCancelled(true);
-                    updatevio(this, e.getPlayer(), 1);
+                    updateVio(this, e.getPlayer(), 1);
                     return;
                 }
             }
@@ -57,7 +57,7 @@ public class Clip extends Check {
                 Location l = yDist < -0.9D?to.clone().add(0, i, 0):from.clone().add(0, i, 0);
                 if(checkblock(l)){
                     e.setCancelled(true);
-                    updatevio(this, e.getPlayer(), 1);
+                    updateVio(this, e.getPlayer(), 1);
                     return;
                 }
             }

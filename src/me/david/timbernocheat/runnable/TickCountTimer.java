@@ -17,9 +17,9 @@ public class TickCountTimer implements Runnable {
     @Override
     public void run() {
         for(Check check : TimberNoCheat.checkmanager.getChecks()){
-            for(Map.Entry<Player, HashMap<String, Double>> list : check.tickcounts.entrySet())
+            for(Map.Entry<Player, HashMap<String, Double>> list : check.tickCounts.entrySet())
                 for(Map.Entry<String, Double> values : list.getValue().entrySet())
-                    check.tickcounts.get(list.getKey()).put(values.getKey(), values.getValue()-1 <= 0?0:values.getValue()-1);
+                    check.tickCounts.get(list.getKey()).put(values.getKey(), values.getValue()-1 <= 0?0:values.getValue()-1);
         }
     }
 }

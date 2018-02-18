@@ -4,9 +4,7 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkmanager.Category;
 import me.david.timbernocheat.checkmanager.Check;
 import me.david.timbernocheat.runnable.Tps;
-import me.david.api.anotations.Incompleat;
 import me.david.api.anotations.NotNull;
-import org.apache.logging.log4j.core.helpers.Assert;
 import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
@@ -112,9 +110,9 @@ public final class TNCAPI {
 
     public static void clearViolcation(final Player player){
         for(Check c : TimberNoCheat.checkmanager.getChecks()){
-            c.resetvio(player);
+            c.resetVio(player);
             for(Check child : c.getChilds())
-                child.resetvio(player);
+                child.resetVio(player);
         }
     }
 }

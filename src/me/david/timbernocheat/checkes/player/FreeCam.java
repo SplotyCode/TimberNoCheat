@@ -44,7 +44,7 @@ public class FreeCam extends Check {
         }
         if (!isValid && p.getItemInHand().getType() != Material.ENDER_PEARL) {
             e.setCancelled(true);
-            updatevio(this, p, 1);
+            updateVio(this, p, 1);
         }
     }
     private List<Location> getrayTrace(Location f, Location t) {

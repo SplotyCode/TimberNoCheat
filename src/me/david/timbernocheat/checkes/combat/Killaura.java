@@ -90,14 +90,14 @@ public class Killaura extends Check {
     }
 
     @Override
-    public void starttasks() {
+    public void startTasks() {
         register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
             @Override
             public void run() {
                 for(Player player : Bukkit.getOnlinePlayers())
                     if (TimberNoCheat.checkmanager.isvalid_create(player)){
                         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
-                        if(pd.getPackethit() < pd.getPacketswing()) updatevio(Killaura.this, player, (pd.getPacketswing()-pd.getPackethit())*swingvio, " §6TYPE: §bHITSWING");
+                        if(pd.getPackethit() < pd.getPacketswing()) updateVio(Killaura.this, player, (pd.getPacketswing()-pd.getPackethit())*swingvio, " §6TYPE: §bHITSWING");
                         pd.setPackethit(0);
                         pd.setPacketswing(0);
                     }
@@ -131,12 +131,12 @@ public class Killaura extends Check {
             if(System.currentTimeMillis()-pair.getValue() > 800)
                 pd.getHittetEntitys().remove(pair.getKey());
         if(pd.getHittetEntitys().size() > max_targets){
-            updatevio(this, (Player) e.getDamager(), pd.getHittetEntitys().size()-max_targets*6, " §6TYPE: §bMULTI_AURA_TARGETS", " §6TARGETS: §b" + pd.getHittetEntitys().size());
+            updateVio(this, (Player) e.getDamager(), pd.getHittetEntitys().size()-max_targets*6, " §6TYPE: §bMULTI_AURA_TARGETS", " §6TARGETS: §b" + pd.getHittetEntitys().size());
         }
         long delay = System.currentTimeMillis()-pd.getLasthitmutli();
         if(pd.getLasthitentity() != e.getEntity().getEntityId() && delay < multi_delay){
             e.setCancelled(true);
-            updatevio(this, (Player) e.getDamager(), multi_delay-delay*1.6, " §6TYPE: §bMULTI_AURA_DELAY", " §6DELAY: §b" + delay);
+            updateVio(this, (Player) e.getDamager(), multi_delay-delay*1.6, " §6TYPE: §bMULTI_AURA_DELAY", " §6DELAY: §b" + delay);
         }
         pd.setLasthitmutli(System.currentTimeMillis());
         pd.setLasthitentity(e.getEntity().getEntityId());
@@ -165,7 +165,7 @@ public class Killaura extends Check {
         pd.setAimbotdiff(diffnow);
         if (hasReached(damager, "aimbot", 3)) {
             resetCount(damager, "aimbot");
-            updatevio(this, damager, 6);
+            updateVio(this, damager, 6);
         }
     }
 
@@ -207,7 +207,7 @@ public class Killaura extends Check {
             TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.ATTACK_RANGE, "MaxReach=" + maxreach + " Reach=" + reach);
 
             if(reach > maxreach) {
-                updatevio(this, damager, reach-maxreach*viomodifier, " §6TYPE: §bREACH", " §6MAXREACH: §b" + maxreach, " §6REACH: §b" + reach);
+                updateVio(this, damager, reach-maxreach*viomodifier, " §6TYPE: §bREACH", " §6MAXREACH: §b" + maxreach, " §6REACH: §b" + reach);
                 //pd.getReaches().add(reach);
                 //pd.setLastreach(System.currentTimeMillis());
             }

@@ -51,7 +51,7 @@ public class Other extends Check implements PluginMessageListener {
             if(zig5_kick){
                 player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere 5zig!");
             }
-            updatevio(this, player, 1, " §6MOD: §b5ZIG", " §6KICK: §b" + zig5_kick);
+            updateVio(this, player, 1, " §6MOD: §b5ZIG", " §6KICK: §b" + zig5_kick);
             out.writeByte(1);
             ByteArrayDataOutput out2 = ByteStreams.newDataOutput();
             out2.writeByte(2);
@@ -73,22 +73,22 @@ public class Other extends Check implements PluginMessageListener {
             if(bsprint_kick){
                 player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere BSPRINT!");
             }
-            updatevio(this, player, 1, " §6MOD: §bBSPRINT", " §6KICK: §b" + bsprint_kick);
+            updateVio(this, player, 1, " §6MOD: §bBSPRINT", " §6KICK: §b" + bsprint_kick);
         }else if(chanel.equals(chanelBSM)){
             if(bsm_kick){
                 player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere BSM!");
             }
-            updatevio(this, player, 1, " §6MOD: §bBSM", " §6KICK: §b" + bsm_kick);
+            updateVio(this, player, 1, " §6MOD: §bBSM", " §6KICK: §b" + bsm_kick);
         }else if(StringUtil.containsIgnoreCase(chanel, "fml")){
             if(fml_kick){
                 player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere FORGE!");
             }
-            updatevio(this, player, 1, " §6MOD: §bFORGE", " §6KICK: §b" + fml_kick);
+            updateVio(this, player, 1, " §6MOD: §bFORGE", " §6KICK: §b" + fml_kick);
         }else if(StringUtil.containsIgnoreCase(chanel, "wbl")){
             if(wdl_kick){
                 player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere WBL!");
             }
-            updatevio(this, player, 1, " §6MOD: §bWBL", " §6KICK: §b" + wdl_kick);
+            updateVio(this, player, 1, " §6MOD: §bWBL", " §6KICK: §b" + wdl_kick);
         }else if (chanel.equalsIgnoreCase("MC|Brand")) {
             String brand;
             try {
@@ -101,19 +101,19 @@ public class Other extends Check implements PluginMessageListener {
                 if(wdl_kick){
                     player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere WDL!");
                 }
-                updatevio(this, player, 1, " §6MOD: §bWDL", " §6KICK: §b" + wdl_kick);
+                updateVio(this, player, 1, " §6MOD: §bWDL", " §6KICK: §b" + wdl_kick);
             }
             if (brand.contains("fml") || brand.contains("forge")) {
                 if(fml_kick){
                     player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere FML!");
                 }
-                updatevio(this, player, 1, " §6MOD: §bFML", " §6KICK: §b" + fml_kick);
+                updateVio(this, player, 1, " §6MOD: §bFML", " §6KICK: §b" + fml_kick);
             }
             if (brand.contains("LiteLoader") || brand.equalsIgnoreCase("LiteLoader")) {
                 if(liteloader_kick){
                     player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere LITELOADER!");
                 }
-                updatevio(this, player, 1, " §6MOD: §bLITELOADER", " §6KICK: §b" + liteloader_kick);
+                updateVio(this, player, 1, " §6MOD: §bLITELOADER", " §6KICK: §b" + liteloader_kick);
             }
         }
     }

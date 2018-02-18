@@ -27,8 +27,8 @@ public class CharSpamm extends Check {
         for(char c  : event.getMessage().toCharArray())
             if(c == lastchar) i++;
         if(event.getMessage().length() > minlen && i != 0){
-            if(i >= maxcharspam) updatevio(this, event.getPlayer(), i-maxcharspam < 1?1:i-maxcharspam, " §6MODE: §bMAXSPAMCHARS");
-            if((i/event.getMessage().length())*100 >= per) updatevio(this, event.getPlayer(), ((i/event.getMessage().length())*100)/4, " §6MODE: §bPERCENTAGE");
+            if(i >= maxcharspam) updateVio(this, event.getPlayer(), i-maxcharspam < 1?1:i-maxcharspam, " §6MODE: §bMAXSPAMCHARS");
+            if((i/event.getMessage().length())*100 >= per) updateVio(this, event.getPlayer(), ((i/event.getMessage().length())*100)/4, " §6MODE: §bPERCENTAGE");
         }
     }
 }

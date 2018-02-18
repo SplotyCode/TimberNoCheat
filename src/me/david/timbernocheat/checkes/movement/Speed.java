@@ -155,7 +155,7 @@ public class Speed extends Check {
     }
 
     @Override
-    public void starttasks() {
+    public void startTasks() {
         register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
             @Override
             public void run() {
@@ -224,7 +224,7 @@ public class Speed extends Check {
                         }
                         toomushper *= 100;
                         if (toomushper >= patternlatency) {
-                            updatevio(Speed.this, p, toomushper / 2, "§6MODE: §bPATTERN", "§6PERCENTAGE: §b" + toomushper, "§6DISTANCE: §b" + toomuch);
+                            updateVio(Speed.this, p, toomushper / 2, "§6MODE: §bPATTERN", "§6PERCENTAGE: §b" + toomushper, "§6DISTANCE: §b" + toomuch);
                             if(patterncancel) p.teleport(pd.getLastticklocation());
                         }
                     }
@@ -251,15 +251,15 @@ public class Speed extends Check {
         if(PlayerUtil.isOnGround(p)) pd.setLastongroundtime(System.currentTimeMillis());
         if(ssenable && p.isSprinting() && p.isSneaking()){
             e.setCancelled(true);
-            updatevio(this, p, ssviomodi, " §6MODE: §bSNEAK&SPRINT");
+            updateVio(this, p, ssviomodi, " §6MODE: §bSNEAK&SPRINT");
         }
         if(sfenable && p.isSprinting() && p.getFoodLevel() <= sffood){
             e.setCancelled(true);
-            updatevio(this, p, sfvio, "§6MODE: §bSPRINTFOOD");
+            updateVio(this, p, sfvio, "§6MODE: §bSPRINTFOOD");
         }
         if(bsenable && p.isSprinting() && p.isBlocking()){
             e.setCancelled(true);
-            updatevio(this, p, bsvio, " §6MODE: §bBLOCKSPRINT");
+            updateVio(this, p, bsvio, " §6MODE: §bBLOCKSPRINT");
         }
         if(to.getX() != from.getX() || to.getY() != from.getY() || to.getZ() != from.getZ()){
             if(tenable)check_timer(e, pd);
@@ -291,14 +291,14 @@ public class Speed extends Check {
                 limitXZ += (PlayerUtil.isOnGround(p)?nspeedground:nspeed) * (effect.getAmplifier() + 1);
         TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, " max=" + limitXZ + " player=" + offsetXZ);
         if(offsetXZ > limitXZ)
-            updatevio(this, p, offsetXZ-limitXZ*nviomodi, " §6MODE: §bNORMAL");
+            updateVio(this, p, offsetXZ-limitXZ*nviomodi, " §6MODE: §bNORMAL");
     }
 
     private void check_timer(PlayerMoveEvent e, PlayerData pd){
         pd.getTimerms().add(System.currentTimeMillis()-(pd.getTimerms().size() == 0?0:pd.getTimerms().get(pd.getTimerms().size()-1)));
         if(pd.getTimerms().size() == tchecksize) {
             if(MathUtil.averageLong(pd.getTimerms()) < tmax_average) {
-                updatevio(this, e.getPlayer(), tvio, " §6MODE: §bTIMER");
+                updateVio(this, e.getPlayer(), tvio, " §6MODE: §bTIMER");
             }
             pd.getTimerms().clear();
         }
@@ -308,11 +308,11 @@ public class Speed extends Check {
         double yspeed = LocationUtil.getVerticalVector(e.getFrom().toVector()).subtract(LocationUtil.getVerticalVector(e.getTo().toVector())).length();
         if(uyenable)
             if(((yspeed == 0.25D || (yspeed >= 0.58D && yspeed < 0.581D)) && yspeed > 0.0D || (yspeed > 0.2457D && yspeed < 0.24582D) || (yspeed > 0.329 && yspeed < 0.33)) && !e.getPlayer().getLocation().clone().subtract(0.0D, 0.1, 0.0D).getBlock().getType().equals(Material.SNOW))
-                updatevio(this, e.getPlayer(), uyvio, " §6MODE: §bUNUSUAL_Y", " §6SPEED: §b" + yspeed, " §6BLOCK: §b" + e.getPlayer().getLocation().clone().subtract(0, 0.1D, 0).getBlock().getType().name());
+                updateVio(this, e.getPlayer(), uyvio, " §6MODE: §bUNUSUAL_Y", " §6SPEED: §b" + yspeed, " §6BLOCK: §b" + e.getPlayer().getLocation().clone().subtract(0, 0.1D, 0).getBlock().getType().name());
         if(blenable)
             for(Block block : BlockUtil.getBlocksAround(e.getPlayer().getLocation(), 1))
                 if(block.getType().isSolid() && yspeed >= 0.321 && yspeed < 0.322)
-                    updatevio(this, e.getPlayer(), uyvio, " §6MODE: §bBLOCKS", " §6SPEED: §b" + yspeed);
+                    updateVio(this, e.getPlayer(), uyvio, " §6MODE: §bBLOCKS", " §6SPEED: §b" + yspeed);
     }
 
     private void check_grounddiff(PlayerMoveEvent e, PlayerData pd){
@@ -326,14 +326,14 @@ public class Speed extends Check {
                 && ongroundDiff > 0 && ongroundDiff != 0){
             boolean whitelist = false;
             for(double white : grounddiff) if(white == ongroundDiff) whitelist = true;
-            //if(whitelist) updatevio(this, p, groundvio, " §6MODE: §bGROUND", " §6DIFF: §b" + ongroundDiff);
+            //if(whitelist) updateVio(this, p, groundvio, " §6MODE: §bGROUND", " §6DIFF: §b" + ongroundDiff);
         }
     }
 
     private void check_jumping(PlayerMoveEvent e){
         if(PlayerUtil.isOnClimbable(e.getPlayer()) || e.getPlayer().getAllowFlight())return;
         if(e.getFrom().getY() < e.getTo().getY() && e.getTo().getY()-e.getFrom().getY() > SpeedUtil.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){
-            updatevio(this, e.getPlayer(), tvio, " §6MODE: §bJUMP");
+            updateVio(this, e.getPlayer(), tvio, " §6MODE: §bJUMP");
         }
     }
 
@@ -342,11 +342,11 @@ public class Speed extends Check {
         if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) return;
         if(ssenable && e.isSprinting() && e.getPlayer().isSneaking()){
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSPRINTSNEAK(2)");
+            updateVio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSPRINTSNEAK(2)");
         }
         if(sfenable && e.isSprinting() && e.getPlayer().getFoodLevel() <= sffood){
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSPRINTFOOD(2)");
+            updateVio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSPRINTFOOD(2)");
         }
     }
 
@@ -363,12 +363,12 @@ public class Speed extends Check {
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setTogglesneaklastsec(pd.getTogglesneaklastsec()-1), 20);
         if(spenable && pd.getTogglesneaklastsec() > spmaxsecond){
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), spvio, " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());
+            updateVio(this, e.getPlayer(), spvio, " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());
             //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());
         }
         if(ssenable && e.isSneaking() && e.getPlayer().isSprinting()){
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSNEAKSPRINT(2)");
+            updateVio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSNEAKSPRINT(2)");
             //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAK");
         }
     }

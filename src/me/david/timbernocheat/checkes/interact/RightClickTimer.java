@@ -28,7 +28,7 @@ public class RightClickTimer extends Check {
         long delay = System.currentTimeMillis() - pd.getLastrightclick();
         if(delay < max_delay){
             e.setCancelled(true);
-            updatevio(this, p, 2);
+            updateVio(this, p, 2);
         }
         pd.setLastrightclick(System.currentTimeMillis());
     }

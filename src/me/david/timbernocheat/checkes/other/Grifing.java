@@ -23,7 +23,7 @@ public class Grifing extends Check {
         }
         if (e.getItem().getType() == Material.EXPLOSIVE_MINECART) {
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), 1, " §6CHECK: §bTntMineCard");
+            updateVio(this, e.getPlayer(), 1, " §6CHECK: §bTntMineCard");
            // TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6CHECK: §bTntMineCard");
         }
     }

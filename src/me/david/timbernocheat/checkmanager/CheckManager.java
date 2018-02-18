@@ -188,13 +188,13 @@ public class CheckManager {
         check.disable();
         checks.remove(check);
         HandlerList.unregisterAll(check);
-        check.disablelisteners();
-        check.disabletasks();
+        check.disableListeners();
+        check.disableTasks();
         for(Check child : check.getChilds()){
             check.disable();
             HandlerList.unregisterAll(check);
-            check.disablelisteners();
-            check.disabletasks();
+            check.disableListeners();
+            check.disableTasks();
         }
     }
 
@@ -277,6 +277,6 @@ public class CheckManager {
         boolean child = name.contains("_");
         String[] split = name.split("_");
         Check mother = getCheckbyName(split[0]);
-        return child?mother.getChildbyString(split[1]):mother;
+        return child?mother.getChildByString(split[1]):mother;
     }
 }

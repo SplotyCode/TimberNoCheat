@@ -28,7 +28,7 @@ public class FastBow extends Check {
         long delay = System.currentTimeMillis() - pd.getLastbowshot();
         if(e.getForce() <= mimimumforce) return;
         if(delay < this.delay){
-            updatevio(this, p, (this.delay-delay),  " §6DELAY: §b" + delay, " §6FORCE: §b" + e.getForce());
+            updateVio(this, p, (this.delay-delay),  " §6DELAY: §b" + delay, " §6FORCE: §b" + e.getForce());
             e.setCancelled(true);
         }
         pd.setLastbowshot(System.currentTimeMillis());

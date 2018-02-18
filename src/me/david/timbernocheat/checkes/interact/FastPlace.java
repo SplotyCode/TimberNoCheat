@@ -33,7 +33,7 @@ public class FastPlace extends Check {
         if(pd.getBlockplacelastsecond() > persecond){
             e.setCancelled(true);
             pd.setBlockplacelastsecond(0);
-            updatevio(this, p, pd.getBlockplacelastsecond()-persecond, " §6BLOCKPLACEPERSECOND: §b" + pd.getBlockplacelastsecond());
+            updateVio(this, p, pd.getBlockplacelastsecond()-persecond, " §6BLOCKPLACEPERSECOND: §b" + pd.getBlockplacelastsecond());
         }
     }
 }

@@ -33,7 +33,7 @@ public class Regen extends Check {
             return;
         }
         if(!p.hasPotionEffect(PotionEffectType.REGENERATION) && p.getFoodLevel() <= 17 && e.getRegainReason() != EntityRegainHealthEvent.RegainReason.CUSTOM && e.getRegainReason() != EntityRegainHealthEvent.RegainReason.MAGIC){
-            updatevio(this, p, 4+(17-p.getFoodLevel())*2, " §6TYPE: §bIMPOSIBLE STATE");
+            updateVio(this, p, 4+(17-p.getFoodLevel())*2, " §6TYPE: §bIMPOSIBLE STATE");
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         long speed = 0;
@@ -57,7 +57,7 @@ public class Regen extends Check {
         }
         if(delay == -1)return;
         if(speed > delay){
-            updatevio(this, p, speed-delay/2, " §6TYPE: §bDelay");
+            updateVio(this, p, speed-delay/2, " §6TYPE: §bDelay");
         }
     }
 }

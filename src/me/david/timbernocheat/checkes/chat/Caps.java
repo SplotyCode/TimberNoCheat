@@ -37,7 +37,7 @@ public class Caps extends Check {
                     else parts[i] = parts[i].toLowerCase();
                     caps = (!parts[i].endsWith(".")) && (!parts[i].endsWith("!"));
                 }
-                if (!msgBefore.equals(StringUtils.join(parts, " "))) updatevio(this, event.getPlayer(), percentageCaps-per*1.6);
+                if (!msgBefore.equals(StringUtils.join(parts, " "))) updateVio(this, event.getPlayer(), percentageCaps-per*1.6);
             }
         }
     }

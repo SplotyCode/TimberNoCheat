@@ -33,7 +33,7 @@ public class Nuker extends Check {
         }, 20);
         if(pd.getBlockbreakslastsec() > maxblockpersec){
             //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6BLOCKBREAKS: §b" + pd.getBlockbreakslastsec());
-            updatevio(this, p, pd.getBlockbreakslastsec()-maxblockpersec*2, " §6BLOCKBREAKS: §b" + pd.getBlockbreakslastsec());
+            updateVio(this, p, pd.getBlockbreakslastsec()-maxblockpersec*2, " §6BLOCKBREAKS: §b" + pd.getBlockbreakslastsec());
             //pd.setBlockbreakslastsec(0);
         }
 

@@ -21,11 +21,11 @@ public class BreakCovered extends Check {
         if (isbed(e.getBlock())) {
             if (checkbed(e.getBlock())) {
                 e.setCancelled(true);
-                updatevio(this, e.getPlayer(), 1, " §6BED: §bTRUE");
+                updateVio(this, e.getPlayer(), 1, " §6BED: §bTRUE");
             }
         } else if (check(e.getBlock())) {
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), 1, " §6BED: §bFALSE");
+            updateVio(this, e.getPlayer(), 1, " §6BED: §bFALSE");
         }
     }
 

@@ -14,5 +14,6 @@
     <orderEntry type="module" module-name="PreLoad" />
     <orderEntry type="library" name="spigot-1.8.8-R0.1-SNAPSHOT-latest" level="project" />
     <orderEntry type="library" name="Maven: org.bukkit:craftbukkit:1.10.2-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: net.ess3:Essentials:2.13.1" level="project" />
   </component>
 </module>

@@ -120,7 +120,7 @@ public class MorePackets extends Check {
             if(pd.getLastpacket() != 0 && DateTimeUtil.elapsed(time, elapsed)) {
                 if(count > maxpackets) {
                     //flag
-                    updatevio(this, p, maxpackets-count, " §6PACKETS: §b" + count);
+                    updateVio(this, p, maxpackets-count, " §6PACKETS: §b" + count);
                     //TimberNoCheat.checkmanager.notify(this, p, " §6PACKETS: §b" + count);
                     pd.setMorepackets(new AbstractMap.SimpleEntry<Integer, Long>(0, System.currentTimeMillis()));
                     pd.setLastpacket(System.currentTimeMillis());

@@ -14,6 +14,8 @@ import me.david.timbernocheat.gui.profiler.GuiMoveProfiler;
 import me.david.timbernocheat.gui.profiler.GuiProfiler;
 import me.david.timbernocheat.gui.profiler.ProfilerAllScheduler;
 import me.david.timbernocheat.gui.settings.*;
+import me.david.timbernocheat.gui.violation.GlobalViolationGui;
+import me.david.timbernocheat.gui.violation.PlayerViolationGui;
 
 public class GuiLoader {
 
@@ -39,5 +41,8 @@ public class GuiLoader {
 
         pl.addGui("TriggerBlockMulti", Permissions.BLOCK_TRIGGERS, new TriggerBlockGui());
         pl.addGui("TriggerBlockManageMulti", Permissions.BLOCK_TRIGGERS, new TriggerBlockManageGui());
+
+        pl.addGui("PlayerViolationMulti", Permissions.VIOLATIONMENU, new PlayerViolationGui());
+        pl.addGui("GlobalViolationMulti", Permissions.VIOLATIONMENU, new GlobalViolationGui());
     }
 }

@@ -33,7 +33,7 @@ public class PlaceReach extends Check {
 
         if(reach > maxreach){
             e.setCancelled(true);
-            updatevio(this, p, (reach-maxreach)*vlmodi, "§6REACH: §b" + reach);
+            updateVio(this, p, (reach-maxreach)*vlmodi, "§6REACH: §b" + reach);
         }
     }
 }

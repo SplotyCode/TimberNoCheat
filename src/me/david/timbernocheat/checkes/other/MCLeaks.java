@@ -46,7 +46,7 @@ public class MCLeaks extends Check {
         if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())) return;
         final Boolean value = caches.getIfPresent(e.getPlayer().getName());
         if (value != null && !value) {
-            updatevio(MCLeaks.this, e.getPlayer(), 1);
+            updateVio(MCLeaks.this, e.getPlayer(), 1);
         }
     }
     public MCLeaks(){
@@ -143,7 +143,7 @@ public class MCLeaks extends Check {
 
             } else {
                 caches.put(name, false);
-                updatevio(MCLeaks.this, Bukkit.getPlayer(name), 1);
+                updateVio(MCLeaks.this, Bukkit.getPlayer(name), 1);
             }
         } catch (Exception ignored) {
 

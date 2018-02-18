@@ -34,4 +34,6 @@ public class Permissions {
 
     public static final String BLOCK_TRIGGERS = "tnc.blocktriggers";
 
+    public static final String VIOLATIONMENU = "tnc.violationmenu";
+
 }

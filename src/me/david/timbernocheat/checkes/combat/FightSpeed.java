@@ -45,7 +45,7 @@ public class FightSpeed extends Check {
             }
         }, 20);
         if(pd.getInteractslastsecond() > interactspersecond){
-            updatevio(this, p , pd.getInteractslastsecond()-interactspersecond," §6CHECK: §bINTERACTS", " §6INTERACTLASTSECOND: §b" + pd.getInteractslastsecond());
+            updateVio(this, p , pd.getInteractslastsecond()-interactspersecond," §6CHECK: §bINTERACTS", " §6INTERACTLASTSECOND: §b" + pd.getInteractslastsecond());
             e.setCancelled(true);
         }
     }
@@ -63,7 +63,7 @@ public class FightSpeed extends Check {
             }
         }, 20);
         if(pd.getHitslastsecond() > hitspersecond){
-            updatevio(this, p , pd.getHitslastsecond()-hitspersecond, " §6CHECK: §bHITS", " §6HITSTSECOND: §b" + pd.getHitslastsecond());
+            updateVio(this, p , pd.getHitslastsecond()-hitspersecond, " §6CHECK: §bHITS", " §6HITSTSECOND: §b" + pd.getHitslastsecond());
             e.setCancelled(true);
         }
         //Consistency
@@ -95,7 +95,7 @@ public class FightSpeed extends Check {
                 last = bet;
             }
             if(consisdent){
-                updatevio(this, p, 8, " §6MODE: §bCONSISDEND");
+                updateVio(this, p, 8, " §6MODE: §bCONSISDEND");
                 pd.getFightSpeed().clear();
             }
         }

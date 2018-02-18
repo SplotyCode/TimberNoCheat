@@ -24,7 +24,7 @@ public class Address extends Check{
     public void onChat(AsyncPlayerChatEvent e){
         if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.getMessage().startsWith("/")) return;
         if(!UrlUtil.blockURL(e.getMessage()).equals(e.getMessage())){
-            updatevio(this, e.getPlayer(), 1, " §6MESSAGE: §b" + e.getMessage());
+            updateVio(this, e.getPlayer(), 1, " §6MESSAGE: §b" + e.getMessage());
             if(block) e.setCancelled(true);
         }
     }

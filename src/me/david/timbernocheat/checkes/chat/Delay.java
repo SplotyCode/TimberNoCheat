@@ -39,18 +39,18 @@ public class Delay extends Check {
             }
         }, 200);
         if(pd.getChats10sec() > chats10){
-            updatevio(this, p, 1, " §6MODE: §bSPAM", " §6MESSAGESLAST10SECONDS: §b" + pd.getChats10sec());
+            updateVio(this, p, 1, " §6MODE: §bSPAM", " §6MESSAGESLAST10SECONDS: §b" + pd.getChats10sec());
             e.setCancelled(true);
         }
         long delay = System.currentTimeMillis() - pd.getLastchat();
         if(e.getMessage().length() >= delayschwelle){
             if(delay <= delaybig){
-                updatevio(this, p, 1, " §6MODE: §bBIG", " §6DELAY: §b" + delay, " §6LENGtH: §b" + e.getMessage().length());
+                updateVio(this, p, 1, " §6MODE: §bBIG", " §6DELAY: §b" + delay, " §6LENGtH: §b" + e.getMessage().length());
                 e.setCancelled(true);
             }
         }else{
             if(delay <= delaysmall){
-                updatevio(this, p, 1, " §6MODE: §bSMALL", " §6DELAY: §b" + delay, " §6LENGtH: §b" + e.getMessage().length());
+                updateVio(this, p, 1, " §6MODE: §bSMALL", " §6DELAY: §b" + delay, " §6LENGtH: §b" + e.getMessage().length());
                 e.setCancelled(true);
             }
         }

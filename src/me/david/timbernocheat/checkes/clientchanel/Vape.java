@@ -24,6 +24,6 @@ public class Vape extends Check implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String s, Player player, byte[] bytes) {
-        if(TimberNoCheat.checkmanager.isvalid_create(player)) updatevio(this, player, 1);
+        if(TimberNoCheat.checkmanager.isvalid_create(player)) updateVio(this, player, 1);
     }
 }

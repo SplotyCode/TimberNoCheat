@@ -74,40 +74,40 @@ public class Velocity extends Check {
                     if (d7 >= 1.5D) {
                         setCountTick(p, "extreme", 77);
                         if (getCountTick(p, "extreme") >= j)
-                            updatevio(this, p, d7*3);
+                            updateVio(this, p, d7*3);
                     }
                 }
                 if (dis <= 0.3D && ydis != 0) {
                     setCountTick(p, "hard", 77);
                     if (getCountTick(p, "hard") >= j)
-                    updatevio(this, p, dis*4);
+                    updateVio(this, p, dis*4);
                 }
                 if (d4 == dis && countTickexsits(p, "projectile")) {
                     setCountTick(p, "combined", 55);
-                    if (getCountTick(p, "combined") >= j) updatevio(this, p, 8);
+                    if (getCountTick(p, "combined") >= j) updateVio(this, p, 8);
                 }
                 if (dis <= 0.15D) {
                     setCountTick(p, "distance", 66);
-                    if (getCountTick(p, "distance") >= j) updatevio(this, p, dis*2.8);
+                    if (getCountTick(p, "distance") >= j) updateVio(this, p, dis*2.8);
                 }
                 if (ydis > 0 && ydis <= 0.5D && countTickexsits(p, "projectile")) {
                     d5 = Math.abs(ydis - getCountTick(p, "ver"));
                     if (d5 <= 0.01D && getCountTick(p, "ver") != -1) {
                         setCountTick(p, "vertical", 77);
-                        if (getCountTick(p, "vertical") >= j) updatevio(this, p, getCountTick(p, "vertical")-j*3.2);
+                        if (getCountTick(p, "vertical") >= j) updateVio(this, p, getCountTick(p, "vertical")-j*3.2);
                     }
                     setCountTick(p, "ver", ydis);
                 } else resetCountTick(p, "ver");
                 if (ydis > 0 && hdis == 0) {
                     setCountTick(p, "horizontal", 99);
-                    if (getCountTick(p, "horizontal") >= 2) updatevio(this, p, hdis*2.8);
+                    if (getCountTick(p, "horizontal") >= 2) updateVio(this, p, hdis*2.8);
                 }
                 Location loc3;
                 if (dis >= 2.5D && countTickexsits(p, "projectile") && countTickexsits(p, "direction")) {
                     loc3 = loc2.clone();
                     loc3 = loc3.add(loc3.getDirection().multiply(dis));
                     double d6 = LocationUtil.getHorizontalDistance(loc3, loc1);
-                    if (d6 <= 0.5D) updatevio(this, p, 5);
+                    if (d6 <= 0.5D) updateVio(this, p, 5);
                 }
                 if (back.containsKey(p) && dis >= 3 && countTickexsits(p, "projectile"))
                 {
@@ -116,7 +116,7 @@ public class Velocity extends Check {
                     d7 = LocationUtil.getHorizontalDistance(localLocation4, loc1);
                     double d9 = d7 - dis;
                     if (d7 >= 2.5D && d9 >= 1) {
-                        updatevio(this, p, 1);
+                        updateVio(this, p, 1);
                         if (teleport) p.teleport(loc2);
                     }
                 }
@@ -168,7 +168,7 @@ public class Velocity extends Check {
         double cache = getCount(p, "cache");
         double d3 = Math.abs(dis - cache);
         if (d3 >= fp.speed(p)){
-            updatevio(this, p, d3*3.2);
+            updateVio(this, p, d3*3.2);
             if (teleport) p.teleport(from);
         }
         setCount(p, "cache", dis);

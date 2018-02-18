@@ -39,7 +39,7 @@ public class ChestStealer extends Check {
         long delay = System.currentTimeMillis()-pd.getLastcheststealer();
         if(delay < this.delay){
             e.setCancelled(true);
-            updatevio(this, p, 2, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
+            updateVio(this, p, 2, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
             //TimberNoCheat.checkmanager.notify(this, p, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
             pd.getCheststealercon().clear();
         }
@@ -74,7 +74,7 @@ public class ChestStealer extends Check {
                 last = bet;
             }
             if(consisdent){
-                updatevio(this, p, 8, " §6MODE: §bCONSISDEND");
+                updateVio(this, p, 8, " §6MODE: §bCONSISDEND");
                 //TimberNoCheat.checkmanager.notify(this, p, " §6MODE: §bCONSISDEND");
                 pd.getCheststealercon().clear();
             }

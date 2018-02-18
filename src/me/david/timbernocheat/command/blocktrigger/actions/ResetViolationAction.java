@@ -11,7 +11,7 @@ public class ResetViolationAction extends OnTrigger {
     protected void execute(AttributeList atributes, boolean state) {
         Check check = atributes.getChecks().get(0);
         for(final Player player : getPlayersInRange(atributes.getDoubles().get(0))){
-            check.resetvio(player);
+            check.resetVio(player);
         }
     }
 }

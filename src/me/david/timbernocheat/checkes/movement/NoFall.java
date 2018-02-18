@@ -29,7 +29,7 @@ public class NoFall extends Check {
            else blocks++;
         }
         if(p.getFallDistance() < blocks && blocks<2){
-            updatevio(this, p, blocks-p.getFallDistance());
+            updateVio(this, p, blocks-p.getFallDistance());
             e.setCancelled(true);
         }
         TimberNoCheat.instance.getMoveprofiler().end();

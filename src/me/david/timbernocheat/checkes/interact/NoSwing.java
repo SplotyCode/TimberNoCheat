@@ -32,7 +32,7 @@ public class NoSwing extends Check {
             @Override
             public void run() {
                 if(TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer()).isShoudswing())
-                    updatevio(NoSwing.this, e.getPlayer(), 1);
+                    updateVio(NoSwing.this, e.getPlayer(), 1);
             }
         }, checkdelay);
     }

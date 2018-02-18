@@ -58,26 +58,26 @@ public class Break extends Check {
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         if(nsenable && pd.getStartbreak() == null){
             e.setCancelled(true);
-            updatevio(this, p, nsvio, " §6CHECK: §bNOTSTART");
+            updateVio(this, p, nsvio, " §6CHECK: §bNOTSTART");
             return;
         }
         if(neenable && !pd.getStartbreak().getLocation().equals(e.getBlock().getLocation())){
             e.setCancelled(true);
-            updatevio(this, p, nevio, " §6CHECK: §bNOTEQULS");
+            updateVio(this, p, nevio, " §6CHECK: §bNOTEQULS");
             return;
         }
         if(rayenable && !BlockUtil.HOLLOW_MATERIALS.contains(p.getTargetBlock((Set)null, 5).getType()) && !e.getBlock().getLocation().equals(p.getTargetBlock((Set)null, 5))){
             if(raycancel) e.setCancelled(true);
-            updatevio(this, p, rayvio, " §6CHECK: §bWRONG BLOCK");
+            updateVio(this, p, rayvio, " §6CHECK: §bWRONG BLOCK");
         }
         if(tenable && (e.getBlock().getType() == Material.OBSIDIAN && System.currentTimeMillis()-pd.getStartbreaktime() > 260000) || (e.getBlock().getType() != Material.OBSIDIAN && System.currentTimeMillis()-pd.getStartbreaktime() > 22000)){
             e.setCancelled(true);
-            updatevio(this, p, tvio, " §6CHECK: §bTOSLOW(TIME)");
+            updateVio(this, p, tvio, " §6CHECK: §bTOSLOW(TIME)");
             return;
         }
         if(tenable && InteractTool.getBreakingDuration(e.getBlock().getType(), p) > System.currentTimeMillis()-pd.getStartbreaktime()){
             e.setCancelled(true);
-            updatevio(this, p, tvio, " §6CHECK: §bFAST");
+            updateVio(this, p, tvio, " §6CHECK: §bFAST");
             return;
         }
         pd.setStartbreaktime(0);

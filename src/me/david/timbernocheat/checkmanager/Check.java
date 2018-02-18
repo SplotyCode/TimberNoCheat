@@ -23,11 +23,11 @@ public class Check implements Listener{
     private String name;
     private Category category;
     private long viodelay;
-    private HashMap<Player, HashMap<Long, Double>> viochache;
-    private HashMap<Player, Double> violations;
-    private HashMap<Player, HashMap<String, Double>> counts;
-    public HashMap<Player, HashMap<String, Double>> tickcounts;
-    private HashMap<Player, Map.Entry<Long, Long>> whitelist;
+    private HashMap<UUID, HashMap<Long, Double>> vioCache;
+    private HashMap<UUID, Double> violations;
+    private HashMap<UUID, HashMap<String, Double>> counts;
+    public HashMap<UUID, HashMap<String, Double>> tickCounts;
+    private HashMap<UUID, Map.Entry<Long, Long>> whitelist;
     private boolean resetafter;
     private ArrayList<Violation> vios;
     private YamlConfiguration yml;
@@ -71,10 +71,10 @@ public class Check implements Listener{
         this.category = category;
         this.resetafter = getBoolean("vioresetafteraction");
         this.viodelay = getLong("viocachedelay");
-        this.viochache = new HashMap<>();
+        this.vioCache = new HashMap<>();
         this.violations = new HashMap<>();
         this.counts = new HashMap<>();
-        this.tickcounts = new HashMap<>();
+        this.tickCounts = new HashMap<>();
         this.whitelist = new HashMap<>();
         this.bukkittasks = new ArrayList<>();
         this.protocollistener = new ArrayList<>();
@@ -87,7 +87,7 @@ public class Check implements Listener{
             String[] split = getString("vioactions." + cvio).split(":");
             vios.add(new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:""));
         }
-        starttasks();
+        startTasks();
     }
 
     public Check(String name, Category category, boolean child, Check parent) {
@@ -99,9 +99,9 @@ public class Check implements Listener{
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event){
-        final Player p = event.getPlayer();
-        if(counts.containsKey(p)) counts.remove(p);
-        if(tickcounts.containsKey(p)) tickcounts.remove(p);
+        final UUID uuid = event.getPlayer().getUniqueId();
+        if(counts.containsKey(uuid)) counts.remove(uuid);
+        if(tickCounts.containsKey(uuid)) tickCounts.remove(uuid);
     }
 
     /*
@@ -148,25 +148,29 @@ public class Check implements Listener{
         return ArrayUtils.toPrimitive(Arrays.copyOf(list, list.length, Double[].class));
     }
 
-    public void starttasks(){}
+    public void startTasks(){}
 
 
     protected ArrayList<String> getStringList(String s){
         return (ArrayList<String>) yml.getStringList((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }
 
-    public void resetvio(Player p){
-        if(viochache.containsKey(p))viochache.get(p).clear();
-        if(violations.containsKey(p))violations.put(p, 0D);
+    public void resetVio(final Player player){
+        resetVio(player.getUniqueId());
     }
 
-    public void whitelist(Player p, Long time){
-        whitelist.put(p, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), time));
+    public void resetVio(final UUID uuid){
+        if(vioCache.containsKey(uuid)) vioCache.get(uuid).clear();
+        if(violations.containsKey(uuid))violations.put(uuid, 0D);
     }
 
-    public Check getChildbyString(String s){
+    public void whitelist(Player player, Long time){
+        whitelist.put(player.getUniqueId(), new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), time));
+    }
+
+    public Check getChildByString(String name){
         for(Check check : childs)
-            if(check.name.equalsIgnoreCase(s))
+            if(check.name.equalsIgnoreCase(name))
                 return check;
         return null;
     }
@@ -179,39 +183,40 @@ public class Check implements Listener{
     }
 
     public void updatevioChild(String c, Player p, double vio, String... other){
-        updatevio(getChildbyString(c), p, vio, other);
+        updateVio(getChildByString(c), p, vio, other);
     }
 
-    public void updatevio(Check c, Player p, double vio, String... other){
-        if(p == null) throw new IllegalArgumentException("Arg Player might not be null...");
-        if(whitelist.containsKey(p) && System.currentTimeMillis()-whitelist.get(p).getKey()<whitelist.get(p).getValue()) return;
+    public void updateVio(Check check, Player player, double vio, String... other){
+        if(player == null) throw new IllegalArgumentException("Arg Player might not be null...");
+        final UUID uuid = player.getUniqueId();
+        if(whitelist.containsKey(uuid) && System.currentTimeMillis()-whitelist.get(uuid).getKey()<whitelist.get(uuid).getValue()) return;
         boolean down = vio < 0;
-        if(((maxping > 0 && TimberNoCheat.checkmanager.getping(p) >= maxping) || (mintps > 0 && mintps <= Tps.getTPS()))) return;
-        if(viodelay > 0 && viochache.containsKey(p) && violations.containsKey(p))
-            for(Map.Entry<Long, Double> v : viochache.get(p).entrySet()){
+        if(((maxping > 0 && TimberNoCheat.checkmanager.getping(player) >= maxping) || (mintps > 0 && mintps <= Tps.getTPS()))) return;
+        if(viodelay > 0 && vioCache.containsKey(uuid) && violations.containsKey(uuid))
+            for(Map.Entry<Long, Double> v : vioCache.get(uuid).entrySet()){
                 long delay = System.currentTimeMillis()-v.getKey();
                 if(delay>viodelay){
-                    violations.put(p, violations.get(p)-v.getValue());
-                    viochache.get(p).remove(v.getKey());
+                    violations.put(uuid, violations.get(uuid)-v.getValue());
+                    vioCache.get(uuid).remove(v.getKey());
                 }
             }
-        if(down && getViolations().containsKey(p) && getViolations().get(p)-vio < 0) {
-            ViolationUpdateEvent e = new ViolationUpdateEvent(p, 0, violations.getOrDefault(p, 0D), c);
+        if(down && getViolations().containsKey(uuid) && getViolations().get(uuid)-vio < 0) {
+            ViolationUpdateEvent e = new ViolationUpdateEvent(player, 0, violations.getOrDefault(uuid, 0D), check);
             Bukkit.getServer().getPluginManager().callEvent(e);
             if(!e.isCancelled()) {
-                violations.put(p, 0D);
-                if(isChild) parent.updatevio(parent, p, vio, other);
+                violations.put(uuid, 0D);
+                if(isChild) parent.updateVio(parent, player, vio, other);
             }
             return;
         }
-        ViolationUpdateEvent e = new ViolationUpdateEvent(p, violations.containsKey(p)? violations.get(p)+vio:vio, violations.getOrDefault(p, 0D), c);
+        ViolationUpdateEvent e = new ViolationUpdateEvent(player, violations.containsKey(uuid)? violations.get(uuid)+vio:vio, violations.getOrDefault(uuid, 0D), check);
         Bukkit.getServer().getPluginManager().callEvent(e);
         if(e.isCancelled())
             return;
-        violations.put(p, e.getNewViolation());
-        if(isChild) parent.updatevio(parent, p, vio, other);
+        violations.put(uuid, e.getNewViolation());
+        if(isChild) parent.updateVio(parent, player, vio, other);
         if(down)return;
-        double violation = violations.get(p);
+        double violation = violations.get(uuid);
         ArrayList<Violation> triggert = new ArrayList<Violation>();
         for(Violation cvio : vios)
             if(cvio.getLevel() <= violation)
@@ -222,19 +227,19 @@ public class Check implements Listener{
                 for(Violation ctrig : triggert) {
                     switch (ctrig.getType()) {
                         case MESSAGE:
-                            p.sendMessage(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), p));
+                            player.sendMessage(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), player));
                             break;
                         case KICK:
-                            TimberNoCheat.checkmanager.notify(p, "[KICK] §bName: §6" + getCategory().name() + "_" + getName() + " §bPlayer: §6" + p.getName() + " §bTPS: " + TimberNoCheat.checkmanager.gettpscolor() + " §bPING: " + TimberNoCheat.checkmanager.getpingcolor(p) + violation + StringUtil.toString(other, ""));
-                            p.kickPlayer(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), p));
+                            TimberNoCheat.checkmanager.notify(player, "[KICK] §bName: §6" + getCategory().name() + "_" + getName() + " §bPlayer: §6" + player.getName() + " §bTPS: " + TimberNoCheat.checkmanager.gettpscolor() + " §bPING: " + TimberNoCheat.checkmanager.getpingcolor(player) + violation + StringUtil.toString(other, ""));
+                            player.kickPlayer(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), player));
                             canreset = true;
                             break;
                         case NOTIFY:
-                            TimberNoCheat.checkmanager.notify(c, " §6LEVEL: §b" + violations.get(p), p, other);
+                            TimberNoCheat.checkmanager.notify(check, " §6LEVEL: §b" + violations.get(uuid), player, other);
                             break;
                         case CMD:
                             for (String cmd : ctrig.getRest().split(":"))
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replacemarker(cmd, p).replaceFirst("/", ""));
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replacemarker(cmd, player).replaceFirst("/", ""));
                             canreset = true;
                             break;
                         default:
@@ -243,21 +248,22 @@ public class Check implements Listener{
                     }
                 }
                 if(resetafter && canreset) {
-                    ViolationUpdateEvent e1 = new ViolationUpdateEvent(p, 0, violations.get(p), c);
+                    ViolationUpdateEvent e1 = new ViolationUpdateEvent(player, 0, violations.get(uuid), check);
                     Bukkit.getServer().getPluginManager().callEvent(e1);
                     if(e1.isCancelled()){
                         return;
                     }
-                    violations.put(p, e.getNewViolation());
+                    violations.put(uuid, e.getNewViolation());
                 }
             }
         });
     }
 
     public double getCount(Player player, String count){
-        if(!counts.containsKey(player)) return -1;
-        if(!counts.get(player).containsKey(count)) return -1;
-        return counts.get(player).get(count);
+        final UUID uuid = player.getUniqueId();
+        if(!counts.containsKey(uuid)) return -1;
+        if(!counts.get(uuid).containsKey(count)) return -1;
+        return counts.get(uuid).get(count);
     }
 
     public boolean hasReached(Player player, String count, int value){
@@ -265,8 +271,9 @@ public class Check implements Listener{
     }
 
     public void setCount(Player player, String count, double value){
-        if(!counts.containsKey(player)) counts.put(player, new HashMap<>());
-        counts.get(player).put(count, value);
+        final UUID uuid = player.getUniqueId();
+        if(!counts.containsKey(uuid)) counts.put(uuid, new HashMap<>());
+        counts.get(uuid).put(count, value);
     }
 
     public void addCount(Player player, String count){
@@ -277,30 +284,32 @@ public class Check implements Listener{
         setCount(player, count, 0);
     }
 
-    public Double getCountTick(Player player, String count){
-        if(!tickcounts.containsKey(player)) return -1d;
-        if(!tickcounts.get(player).containsKey(count)) return -1d;
-        return tickcounts.get(player).get(count);
+    protected Double getCountTick(Player player, String count){
+        final UUID uuid = player.getUniqueId();
+        if(!tickCounts.containsKey(uuid)) return -1d;
+        if(!tickCounts.get(uuid).containsKey(count)) return -1d;
+        return tickCounts.get(uuid).get(count);
     }
 
     public boolean hasReachedTick(Player player, String count, int value){
         return getCountTick(player, count) >= value;
     }
 
-    public void setCountTick(Player player, String count, double value){
-        if(!tickcounts.containsKey(player)) tickcounts.put(player, new HashMap<>());
-        tickcounts.get(player).put(count, value);
+    protected void setCountTick(Player player, String count, double value){
+        final UUID uuid = player.getUniqueId();
+        if(!tickCounts.containsKey(uuid)) tickCounts.put(uuid, new HashMap<>());
+        tickCounts.get(uuid).put(count, value);
     }
 
     public void addCountTick(Player player, String count){
         setCountTick(player, count, getCountTick(player, count)+1);
     }
 
-    public boolean countTickexsits(Player player, String count){
+    protected boolean countTickexsits(Player player, String count){
         return getCountTick(player, count) == 0;
     }
 
-    public void resetCountTick(Player player, String count){
+    protected void resetCountTick(Player player, String count){
         setCountTick(player, count, 0);
     }
 
@@ -318,16 +327,20 @@ public class Check implements Listener{
         for(PacketListener listener : listeners) TimberNoCheat.instance.protocolmanager.addPacketListener(listener);
     }
 
-    public void disabletasks(){
+    public void disableTasks(){
         for(int task : bukkittasks) Bukkit.getScheduler().cancelTask(task);
     }
 
-    public void disablelisteners(){
+    public void disableListeners(){
         for(PacketListener listener : protocollistener) TimberNoCheat.instance.protocolmanager.removePacketListener(listener);
     }
 
     public double getViolation(Player player){
-        return violations.getOrDefault(player, 0d);
+        return violations.getOrDefault(player.getUniqueId(), 0d);
+    }
+
+    public double getViolation(UUID uuid){
+        return violations.getOrDefault(uuid, 0d);
     }
 
 
@@ -340,7 +353,7 @@ public class Check implements Listener{
         s = s.replaceAll("%pingcolor%", String.valueOf(TimberNoCheat.checkmanager.getpingcolor(p)));
         s = s.replaceAll("%display%", p.getDisplayName());
         s = s.replaceAll("%tapname%", p.getPlayerListName());
-        s = s.replaceAll("%vio%", String.valueOf(violations.getOrDefault(p, 0D)));
+        s = s.replaceAll("%vio%", String.valueOf(violations.getOrDefault(p.getUniqueId(), 0D)));
         s = s.replaceAll("%tps%", String.valueOf(Tps.getTPS()));
         s = s.replaceAll("%tpscolor%", TimberNoCheat.checkmanager.gettpscolor());
         return s.replaceAll("%port%", String.valueOf(Bukkit.getPort()));
@@ -393,19 +406,19 @@ public class Check implements Listener{
         this.mintps = mintps;
     }
 
-    public HashMap<Player, HashMap<Long, Double>> getViochache() {
-        return viochache;
+    public HashMap<UUID, HashMap<Long, Double>> getVioCache() {
+        return vioCache;
     }
 
-    public void setViochache(HashMap<Player, HashMap<Long, Double>> viochache) {
-        this.viochache = viochache;
+    public void setVioCache(HashMap<UUID, HashMap<Long, Double>> vioCache) {
+        this.vioCache = vioCache;
     }
 
-    public HashMap<Player, Double> getViolations() {
+    public HashMap<UUID, Double> getViolations() {
         return violations;
     }
 
-    public void setViolations(HashMap<Player, Double> violations) {
+    public void setViolations(HashMap<UUID, Double> violations) {
         this.violations = violations;
     }
 

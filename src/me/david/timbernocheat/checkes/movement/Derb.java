@@ -24,7 +24,7 @@ public class Derb extends Check {
         TimberNoCheat.instance.getMoveprofiler().start("Derb");
         if((e.getTo().getPitch() > maxpitch && maxpitch != -1) || (e.getTo().getPitch() < minpitch && minpitch != -1)){
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), 1);
+            updateVio(this, e.getPlayer(), 1);
         }
         TimberNoCheat.instance.getMoveprofiler().end();
     }

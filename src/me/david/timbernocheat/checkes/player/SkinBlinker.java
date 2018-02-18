@@ -45,27 +45,27 @@ public class SkinBlinker extends Check {
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         long delay = System.currentTimeMillis() - pd.getGenerals().getLastMove();
         if(delay < move_delay){
-            updatevio(this, p, 1, " §6CHECK: §bMOVE", " §6DELAY: §b" + delay);
+            updateVio(this, p, 1, " §6CHECK: §bMOVE", " §6DELAY: §b" + delay);
             return true;
         }
         if(p.isSneaking() && sneak){
-            updatevio(this, p, 1, " §6CHECK: §bSNEAKING");
+            updateVio(this, p, 1, " §6CHECK: §bSNEAKING");
             return true;
         }
         if(p.isSprinting() && sprint){
-            updatevio(this, p, 1, " §6CHECK: §bSPRINT");
+            updateVio(this, p, 1, " §6CHECK: §bSPRINT");
             return true;
         }
         if(p.isBlocking() && block){
-            updatevio(this, p, 1, " §6CHECK: §bBLOCK");
+            updateVio(this, p, 1, " §6CHECK: §bBLOCK");
             return true;
         }
         if(p.isSleeping() && sleep){
-            updatevio(this, p, 1, " §6CHECK: §bSLEEP");
+            updateVio(this, p, 1, " §6CHECK: §bSLEEP");
             return true;
         }
         if(cursor && p.getItemOnCursor().getType() != Material.AIR) {
-            updatevio(this, p, 1, " §6CHECK: §bCURSOR");
+            updateVio(this, p, 1, " §6CHECK: §bCURSOR");
             return true;
         }
 

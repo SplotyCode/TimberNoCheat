@@ -50,7 +50,7 @@ public class Accuracy extends Check {
                 int hits = 0;
                 for(Boolean bool : pd.getAccuracy().values()) if(!bool) hits++;
                 float per = hits/pd.getAccuracy().size()*100;
-                if(per >= minaccuracy) updatevio(this, p, per/2, " §6HitPercentage: §b" + per, " §6IN: §b" + delay/1000 + "s");
+                if(per >= minaccuracy) updateVio(this, p, per/2, " §6HitPercentage: §b" + per, " §6IN: §b" + delay/1000 + "s");
             }
             pd.getAccuracy().clear();
         }

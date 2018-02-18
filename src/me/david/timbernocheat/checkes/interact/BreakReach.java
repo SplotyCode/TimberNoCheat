@@ -31,7 +31,7 @@ public class BreakReach extends Check {
         TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.RANGE, "BREAK: MaxReach=" + maxreach + " Reach=" + reach);
         if(reach > maxreach){
             e.setCancelled(true);
-            updatevio(this, p, (reach-maxreach)*vlmodi, "§6REACH: §b" + reach);
+            updateVio(this, p, (reach-maxreach)*vlmodi, "§6REACH: §b" + reach);
         }
     }
 }

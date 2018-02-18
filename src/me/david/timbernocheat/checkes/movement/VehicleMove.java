@@ -45,7 +45,7 @@ public class VehicleMove extends Check {
                         if (yDiff > 0.005D) {
                             if ((((isOnWater(p, -1.0D) ? 0 : 1) & (isOnWater(p, 0.0D) ? 0 : 1)) != 0) && isOnWater(p, -0.5D)) {
                                 pd.setVehicledif(pd.getVehicledif()==-1?1:pd.getVehicledif()+1);
-                                if (pd.getVehicledif() / (type == EntityType.BOAT ? 4 : 8) > 0) updatevio(VehicleMove.this, p, 1);
+                                if (pd.getVehicledif() / (type == EntityType.BOAT ? 4 : 8) > 0) updateVio(VehicleMove.this, p, 1);
                             } else pd.setVehicledif(-1);
                         } else pd.setVehicledif(-1);
                         pd.setVehicley(y);

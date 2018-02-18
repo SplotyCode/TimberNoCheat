@@ -50,9 +50,9 @@ public class HitBoxes extends Check {
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
         Player attacked = (Player) e.getEntity();
         float nomral = normal(pd, player, attacked);
-        if(normal && nomral != 0) updatevio(this, player, nomral<1?1:nomral, " §6MODE: §bNORMAL");
+        if(normal && nomral != 0) updateVio(this, player, nomral<1?1:nomral, " §6MODE: §bNORMAL");
         float advanced = advanced(pd, player, attacked);
-        if(this.advanced && advanced != 0) updatevio(this, player, advanced<1?1:advanced*1.4, " §6MODE: §bADVANCED");
+        if(this.advanced && advanced != 0) updateVio(this, player, advanced<1?1:advanced*1.4, " §6MODE: §bADVANCED");
     }
 
     private float advanced(PlayerData pd, Player player, Player attacked){

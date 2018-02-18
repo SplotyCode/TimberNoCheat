@@ -35,7 +35,7 @@ public class Fly extends Check {
             return;
         }
         if(vanilla && e.getReason().equals("Flying is not enabled on this server")) {
-            updatevio(this, e.getPlayer(), 1, " §6CHECK: §bVANILLA");
+            updateVio(this, e.getPlayer(), 1, " §6CHECK: §bVANILLA");
         }
     }
     

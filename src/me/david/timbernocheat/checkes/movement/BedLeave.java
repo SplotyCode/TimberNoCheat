@@ -32,7 +32,7 @@ public class BedLeave extends Check{
                 }
             }
         }
-        updatevio(this, e.getPlayer(), 1);
+        updateVio(this, e.getPlayer(), 1);
         TimberNoCheat.instance.getMoveprofiler().end();
     }
 }

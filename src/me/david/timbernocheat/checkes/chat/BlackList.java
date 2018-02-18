@@ -31,7 +31,7 @@ public class BlackList extends Check {
             }
         if(!key.equals("")){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6WORD: §b" + key, " §6MESSAGE: §b" + e.getMessage());
+            updateVio(this, p, 1, " §6WORD: §b" + key, " §6MESSAGE: §b" + e.getMessage());
         }
     }
 }

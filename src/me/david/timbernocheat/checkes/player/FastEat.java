@@ -53,7 +53,7 @@ public class FastEat extends Check {
         long delay = System.currentTimeMillis()-pd.getLasteat();
         if(delay < this.delay){
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), 1, " §6DELAY: §b" + delay);
+            updateVio(this, e.getPlayer(), 1, " §6DELAY: §b" + delay);
             //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6DELAY: §b" + delay);
             return;
         }

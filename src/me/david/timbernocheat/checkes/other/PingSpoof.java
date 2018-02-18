@@ -43,7 +43,7 @@ public class PingSpoof extends Check {
                     if (TimberNoCheat.checkmanager.getping(p) == 0) {
                         addCount(p, "keepalive");
                         if (getCount(p, "keepalive") / 5 > 0)
-                            updatevio(PingSpoof.this, p, getCount(p, "keepalive") * 1.4, " §6MODE: §bKEEK_ALIVE");
+                            updateVio(PingSpoof.this, p, getCount(p, "keepalive") * 1.4, " §6MODE: §bKEEK_ALIVE");
                     } else resetCount(p, "keepalive");
                 }
             });
@@ -85,7 +85,7 @@ public class PingSpoof extends Check {
                 return;
             }
             if(ping>realping){
-                updatevio(this, p, realping-ping, " §6MODE: §bNORMAL", " §6PING: §b" + ping, " §6REALPING: §b" + realping);
+                updateVio(this, p, realping-ping, " §6MODE: §bNORMAL", " §6PING: §b" + ping, " §6REALPING: §b" + realping);
                 //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6PING: §b" + ping, " §6REALPING: §b" + realping);
             }
         }catch (IOException | InterruptedException ex){

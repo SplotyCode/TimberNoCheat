@@ -26,7 +26,7 @@ public class AirPlace extends Check {
         }
         if(check(e.getBlockPlaced()) || e.getBlockAgainst() == null){
             if(cancel)e.setCancelled(true);
-            updatevio(this, e.getPlayer(), 1);
+            updateVio(this, e.getPlayer(), 1);
         }
     }
 

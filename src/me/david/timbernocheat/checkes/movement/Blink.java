@@ -26,7 +26,7 @@ public class Blink extends Check {
         double dis = e.getTo().distance(e.getFrom());
         if(dis > maxrangemove && maxrangemove != -1){
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), dis-maxrangemove, " §6DISTANCE: §b" + dis, " §6TYPE: §bMOVE");
+            updateVio(this, e.getPlayer(), dis-maxrangemove, " §6DISTANCE: §b" + dis, " §6TYPE: §bMOVE");
         }
         TimberNoCheat.instance.getMoveprofiler().end();
     }
@@ -39,7 +39,7 @@ public class Blink extends Check {
         double dis = e.getTo().distance(e.getFrom());
         if(dis > maxrangemove && maxrangetp != -1 && e.getCause() == PlayerTeleportEvent.TeleportCause.UNKNOWN){
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), dis-maxrangemove, " §6DISTANCE: §b" + dis, " §6TYPE: §bTELEPORT");
+            updateVio(this, e.getPlayer(), dis-maxrangemove, " §6DISTANCE: §b" + dis, " §6TYPE: §bTELEPORT");
         }
     }
 }

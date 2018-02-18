@@ -61,10 +61,10 @@ public class Step extends Check {
             maxshoud = 0.7D;
         }
         if (yDis >= maxshoud) {
-            updatevio(this, p, yDis * 4, " §6MODE: §bHIGHT", " §6HIGHT: §b" + yDis, " §6MAX: §b" + maxshoud);
+            updateVio(this, p, yDis * 4, " §6MODE: §bHIGHT", " §6HIGHT: §b" + yDis, " §6MAX: §b" + maxshoud);
         } else if (yDis == 0.25D && maxshoud == 0.601 && !fp.hasLiquid(20 * 5) && !fp.hasHitorbow(60 * 5) && !a(yDis) && !(fp.hasBed(60 * 5) || fp.hasSlime(60 * 5)) && !fp.hasClimp(30 * 5) && !fp.enderpearl && !fp.hasOtherKB(30 * 5) &&
                 MaterialHelper.checksouroundpos3(p, 1, 0, 1) && !MaterialHelper.CHESTS.contains(p.getLocation().add(0.0D, -1.0D, 0).getBlock().getType()))
-            updatevio(this, p, 1, " §6MODE: §bLOW");
+            updateVio(this, p, 1, " §6MODE: §bLOW");
         else if (!fp.hasPiston(30 * 5)) {
             double d5 = e.getFrom().getY() - e.getFrom().getBlockY();
             if (!fp.hasHitorbow(80) && (yDis >= 0.34D) && !(fp.hasBed(60) || fp.hasSlime(60)) && (yDisblock != 0.5D) && !a(yDis) &&  !fp.jumpboost(p) && !fp.hasLiquid(140)){
@@ -74,12 +74,12 @@ public class Step extends Check {
                 double d6 = Math.abs(yDis - d5);
                 double d8 = Math.abs(yDisblock - d6);
                 if ((d6 != yDis) && (yDisblock != d5) && (d8 >= 0.35D)) {
-                    updatevio(this, p, 5, " §6MODE: §bDIFF", " §6HIGHT: §bJUMPING" + yDis);
+                    updateVio(this, p, 5, " §6MODE: §bDIFF", " §6HIGHT: §bJUMPING" + yDis);
                 }
             }
         }
         if (from.getY() + 1.0 == to.getY()) {
-            updatevio(this, p, 15, " §6MODE: §b EXTREMLY BASIC");
+            updateVio(this, p, 15, " §6MODE: §b EXTREMLY BASIC");
             p.teleport(pd.getGenerals().getLastOnGround());
         }
         TimberNoCheat.instance.getMoveprofiler().end();

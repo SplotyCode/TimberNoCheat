@@ -66,7 +66,7 @@ public class GodMode extends Check {
         pd.setGodAcc(pd.getGodAcc()+delta);
         boolean cancel;
         if (pd.getGodAcc() > 2){
-            updatevio(this, player, delta);
+            updateVio(this, player, delta);
             cancel = true;
         } else cancel = false;
         pd.setGodlastNoDamageTicks(noDamageTicks);

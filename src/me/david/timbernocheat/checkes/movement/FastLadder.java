@@ -41,7 +41,7 @@ public class FastLadder extends Check {
             pd.setLastfastladderlongZ(pd.getLastfastladderlongZ()+zdis);
             TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.FASTLADDER, "[ADD] " + zdis);
             if(pd.getLastfastladderlongZ() > 1.8 && zdis > 0.118)
-                updatevio(this, e.getPlayer(), (zdis-0.118)*shortmulti, " §6MODE: §bSHORT");
+                updateVio(this, e.getPlayer(), (zdis-0.118)*shortmulti, " §6MODE: §bSHORT");
             return;
         }
         double shoud = pd.getLastfastladderlongZ()*msperblock;
@@ -49,7 +49,7 @@ public class FastLadder extends Check {
         if(shoud<0)return;
         if(pd.getLastfastladderlongZ() != -1 && shoud>does){
             TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.FASTLADDER, " shoud=" + shoud + " actual=" + does);
-            updatevio(this, e.getPlayer(), (int)(does-shoud), " §6MODE: §bLONGTIME", " §6BLOCKS: §b" + pd.getLastfastladderlongZ(), " §6NEDEDSECONDS: §b" + (does/1000), " §6SHOUDNEDEDSECONDS: §b" + (shoud/1000));
+            updateVio(this, e.getPlayer(), (int)(does-shoud), " §6MODE: §bLONGTIME", " §6BLOCKS: §b" + pd.getLastfastladderlongZ(), " §6NEDEDSECONDS: §b" + (does/1000), " §6SHOUDNEDEDSECONDS: §b" + (shoud/1000));
             e.getPlayer().teleport(pd.getFastladderstart());
             pd.setLastfastladderlongZ(-1);
             pd.setFastladderstart(null);

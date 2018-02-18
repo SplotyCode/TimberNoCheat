@@ -14,8 +14,8 @@ public class TNCHandler implements Listener {
     public void onReload(RefreshEvent event){
         for(Check check : TimberNoCheat.checkmanager.getChecks()){
             HandlerList.unregisterAll(check);
-            check.disablelisteners();
-            check.disabletasks();
+            check.disableListeners();
+            check.disableTasks();
         }
         TimberNoCheat.checkmanager.loadchecks();
     }

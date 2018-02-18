@@ -39,7 +39,7 @@ public class Shematica extends Check implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String s, Player player, byte[] bytes) {
-        updatevio(this, player, 1);
+        updateVio(this, player, 1);
     }
 
     @Override

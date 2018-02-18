@@ -59,10 +59,10 @@ public class Inventory extends Check {
         final Player p = event.getPlayer();
         if(!TimberNoCheat.checkmanager.isvalid_create(p))return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-        if(itemcursor && p.getItemOnCursor().getType() != Material.AIR) updatevio(this, p, 1, " §6CHECK: §bCURSOR");
+        if(itemcursor && p.getItemOnCursor().getType() != Material.AIR) updateVio(this, p, 1, " §6CHECK: §bCURSOR");
         long delay = System.currentTimeMillis() - pd.getLastachivementopeninv();
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
-        if(delay < 550 && !fp.jumpboost(p) && !fp.enderpearl && !fp.hasVehicle(60) && !fp.hasSlime(80) && !fp.hasPiston(60) && !fp.hasLiquid(60) && !fp.hasHitorbow(80) && !fp.hasRod(60) && !fp.hasExplosion(80) && !fp.hasExplosion(120) && !fp.hasOtherKB(60) && !fp.hasTeleport(60) && !fp.hasWorld(35) && p.getFallDistance() == 0F) updatevio(this, p, (delay-550)/2, " §6CHECK: §bACHIVEMENT");
+        if(delay < 550 && !fp.jumpboost(p) && !fp.enderpearl && !fp.hasVehicle(60) && !fp.hasSlime(80) && !fp.hasPiston(60) && !fp.hasLiquid(60) && !fp.hasHitorbow(80) && !fp.hasRod(60) && !fp.hasExplosion(80) && !fp.hasExplosion(120) && !fp.hasOtherKB(60) && !fp.hasTeleport(60) && !fp.hasWorld(35) && p.getFallDistance() == 0F) updateVio(this, p, (delay-550)/2, " §6CHECK: §bACHIVEMENT");
     }
 
     @EventHandler
@@ -71,7 +71,7 @@ public class Inventory extends Check {
         if((achivement || achivementportal) && event.getAchievement() == Achievement.OPEN_INVENTORY && TimberNoCheat.checkmanager.isvalid_create(p)){
             event.setCancelled(true);
             if(achivementportal && p.getLocation().getBlock().getType() == Material.PORTAL || p.getLocation().add(0, p.getEyeHeight(), 0).getBlock().getType() == Material.PORTAL)
-                updatevio(this, p, 1, " §6CHECK: §bPORTAL_ACHIVEMENT");
+                updateVio(this, p, 1, " §6CHECK: §bPORTAL_ACHIVEMENT");
             if(achivement) TimberNoCheat.checkmanager.getPlayerdata(p).setLastachivementopeninv(System.currentTimeMillis());
         }
     }
@@ -92,27 +92,27 @@ public class Inventory extends Check {
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         if(delay < move_delay && !fp.jumpboost(p) && !fp.enderpearl && !fp.hasVehicle(60) && !fp.hasSlime(80) && !fp.hasPiston(60) && !fp.hasLiquid(60) && !fp.hasHitorbow(80) && !fp.hasRod(60) && !fp.hasExplosion(80) && !fp.hasExplosion(120) && !fp.hasOtherKB(60) && !fp.hasTeleport(60) && !fp.hasWorld(35) && p.getFallDistance() == 0F){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bMOVE", " §6DELAY: §b" + delay);
+            updateVio(this, p, 1, " §6CHECK: §bMOVE", " §6DELAY: §b" + delay);
         }
         if(p.isSneaking() && sneaking){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bSNEAKING");
+            updateVio(this, p, 1, " §6CHECK: §bSNEAKING");
         }
         if(p.isSprinting() && sprint){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bSPRINT");
+            updateVio(this, p, 1, " §6CHECK: §bSPRINT");
         }
         if(p.isBlocking() && block){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bBLOCK");
+            updateVio(this, p, 1, " §6CHECK: §bBLOCK");
         }
         if(p.isSleeping() && sleep){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bSLEEP");
+            updateVio(this, p, 1, " §6CHECK: §bSLEEP");
         }
         if(portalclick && e.getCursor() != null && p.getLocation().getBlock().getType() == Material.PORTAL || p.getLocation().add(0, p.getEyeHeight(), 0).getBlock().getType() == Material.PORTAL){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bPORTALCLICK", " §6CLOSE: §bTRUE");
+            updateVio(this, p, 1, " §6CHECK: §bPORTALCLICK", " §6CLOSE: §bTRUE");
             p.closeInventory();
         }
     }
@@ -125,7 +125,7 @@ public class Inventory extends Check {
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         if(portalopen && p.getLocation().getBlock().getType() == Material.PORTAL || p.getLocation().add(0, 0, 1).getBlock().getType() == Material.PORTAL){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bPORTALOPEN", " §6CLOSE: §bTRUE");
+            updateVio(this, p, 1, " §6CHECK: §bPORTALOPEN", " §6CLOSE: §bTRUE");
             //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bPORTALOPEN", " §6CLOSE: §bTRUE");
             p.closeInventory();
         }
@@ -143,11 +143,11 @@ public class Inventory extends Check {
         long delay = System.currentTimeMillis()-pd.getGenerals().getLastItemClick();
         if(delay < hitdelay){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bHITDELAY", " §6DELAY: §b" + delay);
+            updateVio(this, p, 1, " §6CHECK: §bHITDELAY", " §6DELAY: §b" + delay);
         }
         if(PlayerUtil.hasInventoryOpen(p) && openinvhit){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bHITINVOPEN");
+            updateVio(this, p, 1, " §6CHECK: §bHITINVOPEN");
         }
     }
 
@@ -161,11 +161,11 @@ public class Inventory extends Check {
         long delay = System.currentTimeMillis()-pd.getGenerals().getLastItemClick();
         if(delay < chatdelay){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bCHATDELAY", " §6DELAY: §b" + delay);
+            updateVio(this, p, 1, " §6CHECK: §bCHATDELAY", " §6DELAY: §b" + delay);
         }
         if(PlayerUtil.hasInventoryOpen(p) && openinvchat){
             e.setCancelled(true);
-            updatevio(this, p, 1, " §6CHECK: §bCHATNORMAL");
+            updateVio(this, p, 1, " §6CHECK: §bCHATNORMAL");
         }
     }
 }

@@ -52,7 +52,7 @@ public class Spamming extends Check {
         }
         if(ignorecase && ArrayCollectUtil.containsignorecase(pd.getGenerals().getMessages(), message)){
             e.setCancelled(true);
-            updatevio(this, e.getPlayer(), 1);
+            updateVio(this, e.getPlayer(), 1);
         }
     }
 }

@@ -26,7 +26,7 @@ public class Respawn extends Check {
         //message nicht vergessen :D wenn neie config
         if(mdelay > delay){
             pd.setLastdead(System.currentTimeMillis()-15000L);
-            updatevio(this, e.getPlayer(), delay-mdelay, " §6DELAY: §b" + delay, " §6MAXDELAY: §b" + mdelay);
+            updateVio(this, e.getPlayer(), delay-mdelay, " §6DELAY: §b" + delay, " §6MAXDELAY: §b" + mdelay);
             //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6DELAY: §b" + delay, " §6MAXDELAY: §b" + mdelay);
         }
     }

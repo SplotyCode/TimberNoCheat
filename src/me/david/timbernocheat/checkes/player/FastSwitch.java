@@ -25,7 +25,7 @@ public class FastSwitch extends Check {
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         long delay = System.currentTimeMillis()-pd.getLastitemwsitch();
         if(delay < this.delay){
-            updatevio(this, p, 1, " §6DELAY: §b" + delay);
+            updateVio(this, p, 1, " §6DELAY: §b" + delay);
             //TimberNoCheat.checkmanager.notify(this, p, " §6DELAY: §b" + delay);
             //pd.setLastitemwsitch(System.currentTimeMillis()-15000L);
             e.setCancelled(true);

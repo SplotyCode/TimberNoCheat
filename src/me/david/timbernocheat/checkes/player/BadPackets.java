@@ -35,7 +35,7 @@ public class BadPackets extends Check {
             }
         }, 3);
         if(pd.getMoveslastticks() > max_moves){
-            updatevio(this, p, (pd.getMoveslastticks()-max_moves)/2);
+            updateVio(this, p, (pd.getMoveslastticks()-max_moves)/2);
             //TimberNoCheat.checkmanager.notify(this, p, " §6LEVEL: §b" + (pd.getMoveslastticks()-TimberNoCheat.instance.settings.player_badpackets_maxmoves)/2);
             //pd.setMoveslastticks(0);
         }

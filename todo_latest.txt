@@ -1,0 +1,15 @@
+Temp ToDo list
+1) Merge Todo Lists
+2) Finish Fly
+3) Finish Jesus
+3) Redo NoFall
+4) Add Aim Patterns
+5) Violation Menus
+6) Update permissions.txt
+7) Register Permissions in plugin.yml
+8) Improve Speed check
+9) Fix Speed patterns
+10) Add setBack functions
+11) Fix backwards and side sprint
+12) Improve Phase
+13) Redo Badpackets (mege with speed_timer, badpackets and morepackets)

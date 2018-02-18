@@ -27,7 +27,7 @@ public class Scaffold extends Check {
             return;
         }
         if((p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR ) && illegalblocks(p.getLocation()).contains(e.getBlockPlaced().getLocation())){
-            updatevio(this, p, 1);
+            updateVio(this, p, 1);
             e.setCancelled(true);
         }
     }

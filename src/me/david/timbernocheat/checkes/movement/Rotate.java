@@ -43,7 +43,7 @@ public class Rotate extends Check {
                      pitch = wrapper.getPitch();
                  }
                  if(lastLoc.getYaw() == yaw && lastLoc.getPitch() == pitch)
-                     Rotate.this.updatevio(Rotate.this, p, 1, " §6MODE: §bEQULAS");
+                     Rotate.this.updateVio(Rotate.this, p, 1, " §6MODE: §bEQULAS");
                  lastLoc.setYaw(yaw);
                  lastLoc.setPitch(pitch);
              }
@@ -73,7 +73,7 @@ public class Rotate extends Check {
             if (p == null || !TimberNoCheat.checkmanager.isvalid_create(p)) return;
             PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
             if(Tps.tickCount -pd.getSnappyRotate() < 2 && event.getEntity().getLocation().toVector().subtract(p.getLocation().toVector()).normalize().dot(p.getLocation().getDirection()) > 0.97)
-                updatevio(this, p, 1, " §6MODE: §bSNAPPY");
+                updateVio(this, p, 1, " §6MODE: §bSNAPPY");
         }
     }
 
