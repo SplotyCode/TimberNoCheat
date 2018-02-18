@@ -37,8 +37,6 @@ public class GlobalViolationGui extends NoStaticListGui<Player> {
         return list;
     }
 
-    Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-
     @Override
     protected void itemclick(Player obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         if(clicktype.isLeftClick()) {
@@ -47,12 +45,11 @@ public class GlobalViolationGui extends NoStaticListGui<Player> {
             TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "PlayerViolationMulti");
         }else if(clicktype.isRightClick()) {
             if(clicktype.isShiftClick()) {
-                if(essentials != null){
-                    User user = essentials.getUser(p);
+                TimberNoCheat.instance.executeEssentials(p, (user -> {
                     if(user.isVanished()){
                         p.sendMessage(TimberNoCheat.instance.prefix + "§cTrotel Du bist schon im Vanish...");
                     }else user.setVanished(true);
-                }else p.sendMessage(TimberNoCheat.instance.prefix + "§cEssentials konnte nicht unter dem Namen 'Essentials' gefunden werden...");
+                }));
             }
             p.teleport(obj);
         }

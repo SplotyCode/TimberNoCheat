@@ -1,5 +1,7 @@
 package me.david.timbernocheat;
 
+import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.User;
 import me.david.timbernocheat.checkmanager.Check;
 import me.david.timbernocheat.checkmanager.CheckManager;
 import me.david.timbernocheat.checktools.*;
@@ -20,10 +22,13 @@ import me.david.timbernocheat.record.RecordManager;
 import me.david.timbernocheat.runnable.Tps;
 import me.david.timbernocheat.runnable.Velocity;
 import me.david.api.ApiPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 
 public class TimberNoCheat extends ApiPlugin {
@@ -51,6 +56,8 @@ public class TimberNoCheat extends ApiPlugin {
 
     private OreNotifyManager oreNotifyManager;
     private TriggerBlockManager triggerBlockManager;
+
+    private Essentials essentials;
 
 
     /* Default Prefix normaly this prefix gets overridden from the config */
@@ -85,6 +92,9 @@ public class TimberNoCheat extends ApiPlugin {
         }
         moveprofiler = new MoveProfiler();
         debuger = new Debuger();
+
+        essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+        if(essentials == null) log(false, "§cEssentials konnte nicht unter dem Namen 'Essentials' gefunden werden... Ein paar Features werden nicht funktionieren...");
 
         //settings = new old_Settings();
         checkmanager = new CheckManager();
@@ -143,5 +153,10 @@ public class TimberNoCheat extends ApiPlugin {
 
     public TriggerBlockManager getTriggerBlockManager() {
         return triggerBlockManager;
+    }
+
+    public void executeEssentials(final Player player, Consumer<User> runable){
+        if(essentials == null) player.sendMessage(TimberNoCheat.instance.prefix + "Es gab ein Fehler dar ein Plugin nicht gefunden/abgestürtzt ist... Du kannst diesen Fehler gerne melden!");
+        else runable.accept(essentials.getUser(player));
     }
 }
