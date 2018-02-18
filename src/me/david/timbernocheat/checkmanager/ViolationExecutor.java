@@ -10,12 +10,15 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class ViolationExecuter {
+/*
+ * This Class is for Punishing a Player
+ * The File Parser for the Violation can be found in the Check Constructor
+ */
+public class ViolationExecutor {
 
     public static void execute(final Player player, final Check check, double vio, String[] other){
         if(player == null) throw new IllegalArgumentException("Arg Player might not be null...");
@@ -42,8 +45,7 @@ public class ViolationExecuter {
         }
         ViolationUpdateEvent e = new ViolationUpdateEvent(player, check.getViolations().containsKey(uuid)? check.getViolations().get(uuid)+vio:vio, check.getViolations().getOrDefault(uuid, 0D), check);
         Bukkit.getServer().getPluginManager().callEvent(e);
-        if(e.isCancelled())
-            return;
+        if(e.isCancelled()) return;
         check.getViolations().put(uuid, e.getNewViolation());
         if(check.isChild()) check.getParent().updateVio(check.getParent(), player, vio, other);
         if(down)return;
@@ -55,6 +57,7 @@ public class ViolationExecuter {
         Bukkit.getScheduler().runTask(TimberNoCheat.instance, () -> {
             boolean canreset = false;
             for(Violation ctrig : triggert) {
+                /* Definition for the Types can be read in Vialation.ViolationTypes */
                 switch (ctrig.getType()) {
                     case MESSAGE:
                         player.sendMessage(TimberNoCheat.instance.prefix + replaceMarker(ctrig.getRest(), player, check));
@@ -71,6 +74,9 @@ public class ViolationExecuter {
                         for (String cmd : ctrig.getRest().split(":"))
                             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replaceMarker(cmd, player, check).replaceFirst("/", ""));
                         canreset = true;
+                        break;
+                    case DAMAGE:
+                        player.damage(Double.parseDouble(ctrig.getRest()));
                         break;
                     default:
                         TimberNoCheat.instance.getLogger().log(Level.WARNING, "Unknomn ViolationCheckType: " + ctrig.getType().name());

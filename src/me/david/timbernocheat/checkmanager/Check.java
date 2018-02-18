@@ -2,12 +2,8 @@ package me.david.timbernocheat.checkmanager;
 
 import com.comphenix.protocol.events.PacketListener;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.api.ViolationUpdateEvent;
-import me.david.timbernocheat.runnable.Tps;
-import me.david.api.utils.StringUtil;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -16,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.*;
-import java.util.logging.Level;
 
 public class Check implements Listener{
 
@@ -187,7 +182,7 @@ public class Check implements Listener{
     }
 
     public void updateVio(Check check, Player player, double vio, String... other){
-        ViolationExecuter.execute(player, check, vio, other);
+        ViolationExecutor.execute(player, check, vio, other);
     }
 
     public double getCount(Player player, String count){

@@ -7,14 +7,16 @@ public class Violation {
 
     /* Types of Violation */
     public enum ViolationTypes{
-        /* Notify Stuff*/
+        /* Notify Staff */
         NOTIFY,
         /* Execute a Command (over the console) */
         CMD,
         /* Kicks a Player */
         KICK,
-        /* Sends a Message to the Player*/
-        MESSAGE
+        /* Sends a Message to the Player */
+        MESSAGE,
+        /* Damage the Player */
+        DAMAGE
     }
 
     /* The Level when the Violation will trigger*/
