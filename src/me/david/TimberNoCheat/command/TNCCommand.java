@@ -124,6 +124,7 @@ public class TNCCommand extends Command {
                 TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "OreNotifyMulti");
                 break;
             case "blockTriggers":
+                TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "TriggerBlockManageMulti");
                 break;
         }
     }

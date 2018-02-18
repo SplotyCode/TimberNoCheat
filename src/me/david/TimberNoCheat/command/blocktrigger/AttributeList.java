@@ -8,8 +8,9 @@ import me.david.api.utils.NumberUtil;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class AtributeList implements YamlComponent {
+public class AttributeList implements YamlComponent {
 
     private ArrayList<Boolean> booleans = new ArrayList<>();
     private ArrayList<Double> doubles = new ArrayList<>();
@@ -19,10 +20,13 @@ public class AtributeList implements YamlComponent {
     private ArrayList<String> strings = new ArrayList<>();
     private ArrayList<Check> checks = new ArrayList<>();
 
+    private ArrayList<String> realArguments = new ArrayList<>();
     private ArrayList<AtributeParseErrors> errors = new ArrayList<>();
 
-    public AtributeList(){}
-    public AtributeList(String[] objects, Class[] classes){
+    public AttributeList(){}
+
+    public AttributeList(String[] objects, Class[] classes){
+        Collections.addAll(realArguments, objects);
         if(objects.length != classes.length) errors.add(AtributeParseErrors.ARGUMENT_LENGHT);
         int i = 0;
         for(String object : objects){
@@ -99,24 +103,38 @@ public class AtributeList implements YamlComponent {
         return checks;
     }
 
-    public ArrayList<AtributeParseErrors> getErrors() {
-        return errors;
-    }
-
     @Override
     public void read(YamlFile yaml) {
         booleans = (ArrayList<Boolean>) yaml.getBooleanList("booleans");
         doubles = (ArrayList<Double>) yaml.getDoubleList("doubles");
-        floats = (ArrayList<Float>) yaml.getFloatList("floates");
+        floats = (ArrayList<Float>) yaml.getFloatList("floats");
         longs = (ArrayList<Long>) yaml.getLongList("longs");
         integers = (ArrayList<Integer>) yaml.getIntegerList("integers");
         strings = (ArrayList<String>) yaml.getStringList("strings");
+        realArguments = (ArrayList<String>) yaml.getStringList("realArguments");
         for(String check : yaml.getStringList("checks"))
             checks.add(TimberNoCheat.checkmanager.getCheckbyName(check));
     }
 
     @Override
     public void save(YamlFile yaml) {
+        yaml.set("booleans", booleans);
+        yaml.set("doubles", doubles);
+        yaml.set("floats", floats);
+        yaml.set("longs", longs);
+        yaml.set("integers", integers);
+        yaml.set("strings", strings);
+        yaml.set("realArguments", realArguments);
+        ArrayList<String> names = new ArrayList<>();
+        checks.forEach((check) -> names.add((check.isChild()?check.getParent().getName() + "_":"") + check.getName().toLowerCase()));
+        yaml.set("checks", names);
+    }
 
+    public ArrayList<AtributeParseErrors> getErrors() {
+        return errors;
+    }
+
+    public ArrayList<String> getRealArguments() {
+        return realArguments;
     }
 }

@@ -114,4 +114,12 @@ public final class TNCAPI {
     public static void whitelist(final Check check, final Player player, final long time){
         check.whitelist(player, time);
     }
+
+    public static void clearViolcation(final Player player){
+        for(Check c : TimberNoCheat.checkmanager.getChecks()){
+            c.resetvio(player);
+            for(Check child : c.getChilds())
+                child.resetvio(player);
+        }
+    }
 }

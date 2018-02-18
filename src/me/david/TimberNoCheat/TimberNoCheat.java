@@ -4,6 +4,7 @@ import me.david.TimberNoCheat.checkmanager.Check;
 import me.david.TimberNoCheat.checkmanager.CheckManager;
 import me.david.TimberNoCheat.checktools.*;
 import me.david.TimberNoCheat.command.TNCCommand;
+import me.david.TimberNoCheat.command.blocktrigger.TriggerBlockManager;
 import me.david.TimberNoCheat.command.oreNotify.OreNotifyManager;
 import me.david.TimberNoCheat.config.Config;
 import me.david.TimberNoCheat.config.Permissions;
@@ -22,16 +23,21 @@ import me.david.api.ApiPlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 
 public class TimberNoCheat extends ApiPlugin {
 
     public static TimberNoCheat instance;
+
     /* Handles Checks, PlayerData and the Violation Message Output */
     public static CheckManager checkmanager;
+
     /* The Location of the TNC Config File normally plugins/TimberNoCheat/config.yml */
     public final File config = new File(getDataFolder() + "/config.yml");
     public final File speedpatterns = new File(getDataFolder() + "/speed_pattern.yml");
+    public final File triggerBlocks = new File(getDataFolder() + "/triggerBlocks.yml");
+
     /* Does the plugin stops Because of a crash for example old config or capability problem with ProtocolLib */
     private boolean crash = false;
     /* Handles Records and Replays */
@@ -44,6 +50,7 @@ public class TimberNoCheat extends ApiPlugin {
     private Debuger debuger;
 
     private OreNotifyManager oreNotifyManager;
+    private TriggerBlockManager triggerBlockManager;
 
 
     /* Default Prefix normaly this prefix gets overridden from the config */
@@ -60,7 +67,7 @@ public class TimberNoCheat extends ApiPlugin {
      * Enable Checks
      */
     @Override
-    public void pluginEnable() {
+    public void pluginEnable() throws IOException {
         instance = this;
         if (!startprotocollib()) {
             getLogger().log(Level.WARNING, "ProtocollLib konnte nicht gefunden wurde!");
@@ -82,6 +89,7 @@ public class TimberNoCheat extends ApiPlugin {
         //settings = new old_Settings();
         checkmanager = new CheckManager();
         recordManager = new RecordManager(config);
+        triggerBlockManager = new TriggerBlockManager(this, triggerBlocks);
         oreNotifyManager = new OreNotifyManager();
         registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General(), new ChatHandler(), new OreNotify());
         registerCommands(new TNCCommand()/*, new TestCommand()*/);
@@ -131,5 +139,9 @@ public class TimberNoCheat extends ApiPlugin {
 
     public OreNotifyManager getOreNotifyManager() {
         return oreNotifyManager;
+    }
+
+    public TriggerBlockManager getTriggerBlockManager() {
+        return triggerBlockManager;
     }
 }

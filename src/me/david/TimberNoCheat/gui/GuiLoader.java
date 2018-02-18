@@ -2,6 +2,8 @@ package me.david.TimberNoCheat.gui;
 
 import me.david.TimberNoCheat.TimberNoCheat;
 import me.david.TimberNoCheat.config.Permissions;
+import me.david.TimberNoCheat.gui.blocktrigger.TriggerBlockGui;
+import me.david.TimberNoCheat.gui.blocktrigger.TriggerBlockManageGui;
 import me.david.TimberNoCheat.gui.debug.DebugSetting;
 import me.david.TimberNoCheat.gui.debug.GuiDebug;
 import me.david.TimberNoCheat.gui.items.GuiItemTest;
@@ -36,5 +38,7 @@ public class GuiLoader {
 
         pl.addGui("OreNotifyMulti", Permissions.ORE_NOTIFY, new OreNotifyGui());
 
+        pl.addGui("TriggerBlockMulti", Permissions.BLOCK_TRIGGERS, new TriggerBlockGui());
+        pl.addGui("TriggerBlockManageMulti", Permissions.BLOCK_TRIGGERS, new TriggerBlockManageGui());
     }
 }

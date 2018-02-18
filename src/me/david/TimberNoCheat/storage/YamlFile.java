@@ -1,12 +1,10 @@
 package me.david.TimberNoCheat.storage;
 
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -17,6 +15,10 @@ import java.util.UUID;
 public class YamlFile extends YamlConfiguration {
 
     private final File file;
+
+    public YamlFile(){
+        file = null;
+    }
 
     public YamlFile(File file){
         this.file = file;
@@ -83,7 +85,7 @@ public class YamlFile extends YamlConfiguration {
         return Bukkit.getOfflinePlayer(getUUID(path));
     }
 
-    public void saveEnum(final String path, final Enum<?> source){
+    public void setEnum(final String path, final Enum<?> source){
         set(path, source.ordinal());
     }
 
@@ -97,5 +99,17 @@ public class YamlFile extends YamlConfiguration {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public YamlFile getConfigurationSection(String path) {
+        YamlFile yaml = new YamlFile();
+        String content = ((YamlConfiguration)super.getConfigurationSection(path)).saveToString();
+        try {
+            yaml.loadFromString(content);
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+        return yaml;
     }
 }
