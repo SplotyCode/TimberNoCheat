@@ -88,12 +88,7 @@ public class MorePackets extends Check {
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setMorepacketblacklist(true);
         pd.setMorepacketsblacklist2(true);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                pd.setMorepacketsblacklist2(false);
-            }
-        }, worlddownloadingdelayinticks);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setMorepacketsblacklist2(false), worlddownloadingdelayinticks);
     }
     private boolean check(Player p){
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){

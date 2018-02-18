@@ -29,13 +29,10 @@ public class Velocity extends Check {
     public Velocity() {
         super("Velocity", Category.COBMAT);
         teleport = getBoolean("teleport");
-        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                for(Player p : Bukkit.getOnlinePlayers())
-                    if(TimberNoCheat.checkmanager.isvalid_create(p))
-                        check(p);
-            }
+        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {
+            for(Player p : Bukkit.getOnlinePlayers())
+                if(TimberNoCheat.checkmanager.isvalid_create(p))
+                    check(p);
         }, 1, 1).getTaskId());
     }
 

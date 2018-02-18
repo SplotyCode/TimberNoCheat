@@ -1,5 +1,6 @@
 package me.david.timbernocheat.checkes.clientchanel;
 
+import me.david.api.Api;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkmanager.Category;
 import me.david.timbernocheat.checkmanager.Check;
@@ -27,6 +28,7 @@ public class Shematica extends Check implements PluginMessageListener {
     private final boolean print;
     private final boolean load;
     private final boolean save;
+
     public Shematica(){
         super("Shematica", Category.CLIENT_CHANEL);
         block = getBoolean("block");
@@ -52,9 +54,10 @@ public class Shematica extends Check implements PluginMessageListener {
     public void onlogin(PlayerLoginEvent e){
         final Player p = e.getPlayer();
         if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
-        sendPluginMessage(p, getPayload());
+        Api.instance.nms.sendPluingMessage(p, getPayload(), channel, TimberNoCheat.instance);
         p.sendPluginMessage(TimberNoCheat.instance, channel, getPayload());
     }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         final Player p = e.getPlayer();
@@ -65,6 +68,7 @@ public class Shematica extends Check implements PluginMessageListener {
             ((CraftPlayer)p).getHandle().playerConnection.sendPacket(chat);
         }
     }
+
     private byte[] getPayload() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
@@ -78,19 +82,5 @@ public class Shematica extends Check implements PluginMessageListener {
             e.printStackTrace();
         }
         return null;
-    }
-    private void sendPluginMessage(Player player, byte[] payload) {
-        try {
-            Class playerClass = player.getClass();
-            if (playerClass.getSimpleName().equals("CraftPlayer")) {
-                Method addChannel = playerClass.getDeclaredMethod("addChannel", String.class);
-                Method removeChannel = playerClass.getDeclaredMethod("removeChannel", String.class);
-                addChannel.invoke(player, channel);
-                player.sendPluginMessage(TimberNoCheat.instance, channel, payload);
-                removeChannel.invoke(player, channel);
-            }
-        }catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
     }
 }

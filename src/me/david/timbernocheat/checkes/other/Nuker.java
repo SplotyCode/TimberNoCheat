@@ -25,12 +25,7 @@ public class Nuker extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setBlockbreakslastsec(pd.getBlockbreakslastsec()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                pd.setBlockbreakslastsec(pd.getBlockbreakslastsec()-1);
-            }
-        }, 20);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setBlockbreakslastsec(pd.getBlockbreakslastsec()-1), 20);
         if(pd.getBlockbreakslastsec() > maxblockpersec){
             //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6BLOCKBREAKS: §b" + pd.getBlockbreakslastsec());
             updateVio(this, p, pd.getBlockbreakslastsec()-maxblockpersec*2, " §6BLOCKBREAKS: §b" + pd.getBlockbreakslastsec());

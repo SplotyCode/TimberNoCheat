@@ -14,7 +14,6 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -50,12 +49,9 @@ public class DamageIndicator extends Check {
     @EventHandler
     public void onMount(final VehicleEnterEvent event) {
         if (event.getEntered() instanceof Player) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(TimberNoCheat.instance, new Runnable(){
-                @Override
-                public void run() {
-                    if (event.getVehicle().isValid() && event.getEntered().isValid()) {
-                        ProtocolLibrary.getProtocolManager().updateEntity(event.getVehicle(), Collections.singletonList((Player) event.getEntered()));
-                    }
+            Bukkit.getScheduler().scheduleSyncDelayedTask(TimberNoCheat.instance, () -> {
+                if (event.getVehicle().isValid() && event.getEntered().isValid()) {
+                    ProtocolLibrary.getProtocolManager().updateEntity(event.getVehicle(), Collections.singletonList((Player) event.getEntered()));
                 }
             });
         }

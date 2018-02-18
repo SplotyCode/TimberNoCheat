@@ -221,40 +221,38 @@ public class Check implements Listener{
         for(Violation cvio : vios)
             if(cvio.getLevel() <= violation)
                 triggert.add(cvio);
-        Bukkit.getScheduler().runTask(TimberNoCheat.instance, new Runnable() {
-            public void run() {
-                boolean canreset = false;
-                for(Violation ctrig : triggert) {
-                    switch (ctrig.getType()) {
-                        case MESSAGE:
-                            player.sendMessage(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), player));
-                            break;
-                        case KICK:
-                            TimberNoCheat.checkmanager.notify(player, "[KICK] §bName: §6" + getCategory().name() + "_" + getName() + " §bPlayer: §6" + player.getName() + " §bTPS: " + TimberNoCheat.checkmanager.gettpscolor() + " §bPING: " + TimberNoCheat.checkmanager.getpingcolor(player) + violation + StringUtil.toString(other, ""));
-                            player.kickPlayer(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), player));
-                            canreset = true;
-                            break;
-                        case NOTIFY:
-                            TimberNoCheat.checkmanager.notify(check, " §6LEVEL: §b" + violations.get(uuid), player, other);
-                            break;
-                        case CMD:
-                            for (String cmd : ctrig.getRest().split(":"))
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replacemarker(cmd, player).replaceFirst("/", ""));
-                            canreset = true;
-                            break;
-                        default:
-                            TimberNoCheat.instance.getLogger().log(Level.WARNING, "Unknomn ViolationCheckType: " + ctrig.getType().name());
-                            break;
-                    }
+        Bukkit.getScheduler().runTask(TimberNoCheat.instance, () -> {
+            boolean canreset = false;
+            for(Violation ctrig : triggert) {
+                switch (ctrig.getType()) {
+                    case MESSAGE:
+                        player.sendMessage(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), player));
+                        break;
+                    case KICK:
+                        TimberNoCheat.checkmanager.notify(player, "[KICK] §bName: §6" + getCategory().name() + "_" + getName() + " §bPlayer: §6" + player.getName() + " §bTPS: " + TimberNoCheat.checkmanager.gettpscolor() + " §bPING: " + TimberNoCheat.checkmanager.getpingcolor(player) + violation + StringUtil.toString(other, ""));
+                        player.kickPlayer(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), player));
+                        canreset = true;
+                        break;
+                    case NOTIFY:
+                        TimberNoCheat.checkmanager.notify(check, " §6LEVEL: §b" + violations.get(uuid), player, other);
+                        break;
+                    case CMD:
+                        for (String cmd : ctrig.getRest().split(":"))
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replacemarker(cmd, player).replaceFirst("/", ""));
+                        canreset = true;
+                        break;
+                    default:
+                        TimberNoCheat.instance.getLogger().log(Level.WARNING, "Unknomn ViolationCheckType: " + ctrig.getType().name());
+                        break;
                 }
-                if(resetafter && canreset) {
-                    ViolationUpdateEvent e1 = new ViolationUpdateEvent(player, 0, violations.get(uuid), check);
-                    Bukkit.getServer().getPluginManager().callEvent(e1);
-                    if(e1.isCancelled()){
-                        return;
-                    }
-                    violations.put(uuid, e.getNewViolation());
+            }
+            if(resetafter && canreset) {
+                ViolationUpdateEvent e1 = new ViolationUpdateEvent(player, 0, violations.get(uuid), check);
+                Bukkit.getServer().getPluginManager().callEvent(e1);
+                if(e1.isCancelled()){
+                    return;
                 }
+                violations.put(uuid, e.getNewViolation());
             }
         });
     }

@@ -38,12 +38,7 @@ public class FightSpeed extends Check {
         if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setInteractslastsecond(pd.getInteractslastsecond()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                pd.setInteractslastsecond(pd.getInteractslastsecond()-1);
-            }
-        }, 20);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setInteractslastsecond(pd.getInteractslastsecond()-1), 20);
         if(pd.getInteractslastsecond() > interactspersecond){
             updateVio(this, p , pd.getInteractslastsecond()-interactspersecond," §6CHECK: §bINTERACTS", " §6INTERACTLASTSECOND: §b" + pd.getInteractslastsecond());
             e.setCancelled(true);
@@ -56,12 +51,7 @@ public class FightSpeed extends Check {
         if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setHitslastsecond(pd.getHitslastsecond()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                pd.setHitslastsecond(pd.getHitslastsecond()-1);
-            }
-        }, 20);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setHitslastsecond(pd.getHitslastsecond()-1), 20);
         if(pd.getHitslastsecond() > hitspersecond){
             updateVio(this, p , pd.getHitslastsecond()-hitspersecond, " §6CHECK: §bHITS", " §6HITSTSECOND: §b" + pd.getHitslastsecond());
             e.setCancelled(true);

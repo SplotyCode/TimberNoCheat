@@ -1,12 +1,10 @@
 package me.david.timbernocheat.gui.violation;
 
-import com.earth2me.essentials.Essentials;
-import com.earth2me.essentials.User;
 import me.david.api.guis.CloseReason;
 import me.david.api.guis.standart.NoStaticListGui;
 import me.david.api.utils.ItemStackUtil;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.api.TNCAPI;
+import me.david.timbernocheat.api.TNCApi;
 import me.david.timbernocheat.config.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -57,6 +55,6 @@ public class GlobalViolationGui extends NoStaticListGui<OfflinePlayer> {
 
     @Override
     protected ItemStack getItemStack(OfflinePlayer obj, Player player) {
-        return ItemStackUtil.createPlayerHeadLohre("§6" + TNCAPI.getAllViolations(obj.getUniqueId()), 1, obj.getName(), "§6LeftClick: MoreInfos", "§6Rightclick: Teleport", "§6ShiftRightclick: Teleport+Vanish");
+        return ItemStackUtil.createPlayerHeadLohre("§6" + TNCApi.INSTANCE.getAllViolations(obj.getUniqueId()), 1, obj.getName(), "§6LeftClick: MoreInfos", "§6Rightclick: Teleport", "§6ShiftRightclick: Teleport+Vanish");
     }
 }

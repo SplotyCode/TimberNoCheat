@@ -156,80 +156,77 @@ public class Speed extends Check {
 
     @Override
     public void startTasks() {
-        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                for(Player p : Bukkit.getOnlinePlayers()){
-                    if(!TimberNoCheat.checkmanager.isvalid_create(p) || p.getAllowFlight())continue;
-                    PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-                    if(pd.getLastticklocation() != null)     {
-                        FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
-                        if (p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20)) continue;
-                        SpeedPattern optimalpattern = generateSpeedPattern(p, pd);
-                        boolean found = false;
-                        for (SpeedPattern pattern : patterns)
-                            if (pattern.equalsnospeed(optimalpattern)) {
-                                optimalpattern = pattern;
-                                found = true;
-                                break;
-                            }
-                        double xzDiff = LocationUtil.getHorizontalDistance(pd.getLastticklocation(), p.getLocation());
-                        double yDiffUp = p.getLocation().getY() - pd.getLastticklocation().getY();
-                        double yDiffdown = pd.getLastticklocation().getY() - p.getLocation().getY();
-                        if (!found) {
-                            if(generators.contains(p.getUniqueId())){
-                                optimalpattern.verticaldown = (float) yDiffdown;
-                                optimalpattern.verticalup = (float) yDiffUp;
-                                optimalpattern.horizontal = (float) xzDiff;
-                                patterns.add(optimalpattern);
-                                savepatterns();
-                                p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] Neue Pattern '" + optimalpattern.name + "' erstellt!");
-                            }else p.sendMessage(TimberNoCheat.instance.prefix + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
+        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {
+            for(Player p : Bukkit.getOnlinePlayers()){
+                if(!TimberNoCheat.checkmanager.isvalid_create(p) || p.getAllowFlight())continue;
+                PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+                if(pd.getLastticklocation() != null)     {
+                    FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
+                    if (p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20)) continue;
+                    SpeedPattern optimalpattern = generateSpeedPattern(p, pd);
+                    boolean found = false;
+                    for (SpeedPattern pattern : patterns)
+                        if (pattern.equalsnospeed(optimalpattern)) {
+                            optimalpattern = pattern;
+                            found = true;
+                            break;
+                        }
+                    double xzDiff = LocationUtil.getHorizontalDistance(pd.getLastticklocation(), p.getLocation());
+                    double yDiffUp = p.getLocation().getY() - pd.getLastticklocation().getY();
+                    double yDiffdown = pd.getLastticklocation().getY() - p.getLocation().getY();
+                    if (!found) {
+                        if(generators.contains(p.getUniqueId())){
+                            optimalpattern.verticaldown = (float) yDiffdown;
+                            optimalpattern.verticalup = (float) yDiffUp;
+                            optimalpattern.horizontal = (float) xzDiff;
+                            patterns.add(optimalpattern);
+                            savepatterns();
+                            p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] Neue Pattern '" + optimalpattern.name + "' erstellt!");
+                        }else p.sendMessage(TimberNoCheat.instance.prefix + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
+                        continue;
+                    }
+                    if(disabledpatterns.contains(optimalpattern.name)) continue;
+                    double toomuch = 0;
+                    int toomushper = 0;
+                    TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, "CAPTURED: xz=" + xzDiff + " yUp=" + yDiffUp + " yDown=" + yDiffdown);
+                    TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, "PATTERN: xz=" + optimalpattern.horizontal + " yUP=" + optimalpattern.verticalup + " yDown=" + optimalpattern.verticaldown);
+                    if (optimalpattern.verticaldown < yDiffdown) {
+                        if(generators.contains(p.getUniqueId())){
+                            p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffdown to '" + yDiffdown + "'!");
+                            optimalpattern.verticaldown = (float) yDiffdown;
+                            savepatterns();
                             continue;
                         }
-                        if(disabledpatterns.contains(optimalpattern.name)) continue;
-                        double toomuch = 0;
-                        int toomushper = 0;
-                        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, "CAPTURED: xz=" + xzDiff + " yUp=" + yDiffUp + " yDown=" + yDiffdown);
-                        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, "PATTERN: xz=" + optimalpattern.horizontal + " yUP=" + optimalpattern.verticalup + " yDown=" + optimalpattern.verticaldown);
-                        if (optimalpattern.verticaldown < yDiffdown) {
-                            if(generators.contains(p.getUniqueId())){
-                                p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffdown to '" + yDiffdown + "'!");
-                                optimalpattern.verticaldown = (float) yDiffdown;
-                                savepatterns();
-                                continue;
-                            }
-                            toomuch += optimalpattern.verticaldown - yDiffdown;
-                            toomushper += optimalpattern.verticaldown/yDiffdown;
-                        }
-                        if (optimalpattern.verticalup < yDiffUp) {
-                            if(generators.contains(p.getUniqueId())){
-                                p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffup to '" + yDiffdown + "'!");
-                                optimalpattern.verticalup = (float) yDiffUp;
-                                savepatterns();
-                                continue;
-                            }
-                            toomuch += optimalpattern.verticalup - yDiffUp;
-                            toomushper +=  optimalpattern.verticalup/yDiffUp;
-                        }
-                        if (optimalpattern.horizontal < xzDiff) {
-                            if(generators.contains(p.getUniqueId())){
-                                p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet xzDiff to '" + yDiffdown + "'!");
-                                optimalpattern.horizontal = (float) xzDiff;
-                                savepatterns();
-                                continue;
-                            }
-                            toomuch += optimalpattern.horizontal - xzDiff;
-                            toomushper += optimalpattern.horizontal/xzDiff;
-                        }
-                        toomushper *= 100;
-                        if (toomushper >= patternlatency) {
-                            updateVio(Speed.this, p, toomushper / 2, "§6MODE: §bPATTERN", "§6PERCENTAGE: §b" + toomushper, "§6DISTANCE: §b" + toomuch);
-                            if(patterncancel) p.teleport(pd.getLastticklocation());
-                        }
+                        toomuch += optimalpattern.verticaldown - yDiffdown;
+                        toomushper += optimalpattern.verticaldown/yDiffdown;
                     }
-                    pd.setLastticklocation(p.getLocation());
+                    if (optimalpattern.verticalup < yDiffUp) {
+                        if(generators.contains(p.getUniqueId())){
+                            p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffup to '" + yDiffdown + "'!");
+                            optimalpattern.verticalup = (float) yDiffUp;
+                            savepatterns();
+                            continue;
+                        }
+                        toomuch += optimalpattern.verticalup - yDiffUp;
+                        toomushper +=  optimalpattern.verticalup/yDiffUp;
+                    }
+                    if (optimalpattern.horizontal < xzDiff) {
+                        if(generators.contains(p.getUniqueId())){
+                            p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet xzDiff to '" + yDiffdown + "'!");
+                            optimalpattern.horizontal = (float) xzDiff;
+                            savepatterns();
+                            continue;
+                        }
+                        toomuch += optimalpattern.horizontal - xzDiff;
+                        toomushper += optimalpattern.horizontal/xzDiff;
+                    }
+                    toomushper *= 100;
+                    if (toomushper >= patternlatency) {
+                        updateVio(Speed.this, p, toomushper / 2, "§6MODE: §bPATTERN", "§6PERCENTAGE: §b" + toomushper, "§6DISTANCE: §b" + toomuch);
+                        if(patterncancel) p.teleport(pd.getLastticklocation());
+                    }
                 }
+                pd.setLastticklocation(p.getLocation());
             }
         }, 0, 1).getTaskId());
     }
@@ -319,7 +316,7 @@ public class Speed extends Check {
         final Player p = e.getPlayer();
         final FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         if(e.getFrom().getYaw() == e.getTo().getYaw() || p.getAllowFlight() || fp.hasVehicle(60) || fp.enderpearl || fp.hasOtherKB(60) || fp.hasTeleport(60) || fp.hasOtherKB(80) || fp.hasExplosion(60) || fp.hasHitorbow(60) || fp.hasPiston(60) || fp.hasRod(55)) return;
-        double ongroundDiff = (e.getTo().getY() - e.getFrom().getY());
+        double ongroundDiff = (e.getTo().getY() - e.getFrom().getBlockY());
 
         if (PlayerUtil.isOnGround(p) && !p.hasPotionEffect(PotionEffectType.JUMP)
                 && p.getLocation().add(0, 2, 0).getBlock().getType() == Material.AIR && p.getLocation().add(0, 1, 0).getBlock().getType() == Material.AIR

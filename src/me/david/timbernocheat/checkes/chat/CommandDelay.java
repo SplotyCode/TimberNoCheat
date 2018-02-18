@@ -28,12 +28,7 @@ public class CommandDelay extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setCommands10sec(pd.getCommands10sec()+1);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                pd.setCommands10sec(pd.getCommands10sec()-1);
-            }
-        }, 200);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(TimberNoCheat.instance, () -> pd.setCommands10sec(pd.getCommands10sec()-1), 200);
         long delay = System.currentTimeMillis() - pd.getLastcommand();
         if(delay < this.delay){
             updateVio(this, p, 1, " §6MODE: §bDELAY", " §6DELAY: §b" + delay);

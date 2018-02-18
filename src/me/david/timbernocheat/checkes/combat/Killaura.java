@@ -91,17 +91,14 @@ public class Killaura extends Check {
 
     @Override
     public void startTasks() {
-        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                for(Player player : Bukkit.getOnlinePlayers())
-                    if (TimberNoCheat.checkmanager.isvalid_create(player)){
-                        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
-                        if(pd.getPackethit() < pd.getPacketswing()) updateVio(Killaura.this, player, (pd.getPacketswing()-pd.getPackethit())*swingvio, " §6TYPE: §bHITSWING");
-                        pd.setPackethit(0);
-                        pd.setPacketswing(0);
-                    }
-            }
+        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {
+            for(Player player : Bukkit.getOnlinePlayers())
+                if (TimberNoCheat.checkmanager.isvalid_create(player)){
+                    PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+                    if(pd.getPackethit() < pd.getPacketswing()) updateVio(Killaura.this, player, (pd.getPacketswing()-pd.getPackethit())*swingvio, " §6TYPE: §bHITSWING");
+                    pd.setPackethit(0);
+                    pd.setPacketswing(0);
+                }
         }, 1, 20).getTaskId());
     }
 

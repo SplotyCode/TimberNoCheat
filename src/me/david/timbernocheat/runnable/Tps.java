@@ -4,8 +4,6 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkmanager.Category;
 import me.david.timbernocheat.checkmanager.Check;
 import me.david.timbernocheat.config.Permissions;
-import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
 
 import java.util.ArrayList;
 

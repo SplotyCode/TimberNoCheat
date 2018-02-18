@@ -32,12 +32,7 @@ public class Delay extends Check {
         }
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         pd.setChats10sec(pd.getChats10sec()+1);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(TimberNoCheat.instance, new Runnable() {
-            @Override
-            public void run() {
-                pd.setChats10sec(pd.getChats10sec()-1);
-            }
-        }, 200);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(TimberNoCheat.instance, () -> pd.setChats10sec(pd.getChats10sec()-1), 200);
         if(pd.getChats10sec() > chats10){
             updateVio(this, p, 1, " §6MODE: §bSPAM", " §6MESSAGESLAST10SECONDS: §b" + pd.getChats10sec());
             e.setCancelled(true);
