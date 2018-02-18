@@ -6,3 +6,45 @@ main: me.david.timbernocheat.TimberNoCheat
 depend: [ProtocolLib, Api]
 softdepend: [Essentials]
 load: STARTUP
+permissions:
+   tnc.notcheck:
+      description: Allow Players to bypass all checks
+   tnc.items:
+      description: Allow Players to execute /tnc items
+      children:
+         tnc.items.tools:
+            description: Enables Gui with Item Tools
+         tnc.items.test:
+            description: Enables Gui with Test Items
+   tnc.reload:
+      description: Allow Players to execute /tnc reload
+   tnc.generate:
+      description: Allow Players to create or update Patterns automaticly
+   tnc.profiler:
+      description: Profilers for Debugging
+      children:
+         tnc.profiler.allscheduler:
+            description: Enables Gui with add Scheduler
+         tnc.profiler.scheduler:
+                     description: Enables Gui with TimberNoCheat Scheduler
+         tnc.profiler.move:
+                     description: Enables Gui with the MoveProfiler
+   tnc.debugger:
+      description: Give Players Access to all Debuggers(via /tnc debuggers)
+   tnc.checkmap:
+      description: Allow Players to execute /tnc checkmap
+   tnc.settings:
+      description: Allow Players to configurate the Plugin ingame
+   tnc.playerdata:
+      description: Allow Players to execute /tnc checkmap
+      default: true
+   tnc.permissioncache:
+         description: Allow Players to execute /tnc permissioncache
+   tnc.clearcache:
+         description: Allow Players to execute /tnc clearcache
+   tnc.orenotify:
+            description: Allow Players to execute /tnc oreNotify
+   tnc.blocktriggers:
+            description: Allow Players to execute /tnc blockTriggers
+   tnc.tnc.violationmenu:
+            description: Allow Players to execute /tnc violations

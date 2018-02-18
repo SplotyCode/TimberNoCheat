@@ -3,6 +3,7 @@ Created: Before 4 Januar 2018
 Last Update: 18.2.2018
 
 Note: 90% Of the permissions are named after an Command!
+Note: For a Description for each Permission you may want to look in the plugin.yml located in src/plugin.yml
 
 NOTITY = "tnc.notify"
 NOTCHECKT = "tnc.notcheck"

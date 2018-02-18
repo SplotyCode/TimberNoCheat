@@ -2,39 +2,40 @@ Created: 04:01:2018
 Last-Refresh: 18:02:2018
 
 List:
-    1) Merge Todo Lists
-    2) Finish Fly
-    3) Finish Jesus
-    3) Redo NoFall
-    4) Add Aim Patterns
-    5) Violation Menus
-    6) Update permissions.txt
-    7) Register Permissions in plugin.yml
-    8) Improve Speed check
-    9) Fix Speed patterns
-    10) Add setBack functions
-    11) Fix backwards and side sprint
-    12) Improve Phase
-    13) Redo Badpackets (mege with speed_timer, badpackets and morepackets)
-    14) Clean up Check class
-    15) Make TNCAPI a enum singleton (maby new class? for backwards compability?)
-    16) Statistics Command
-    17) Improve Config Documentation
-    18) Loop for Step (rod, hit, bow, slimes, jumo potions etc)
-    19) Speed ground diff
-    20) Fix GodMode exeptions
-    21) Redo Scaffoldwalk
-    22) Add Tower Check
-    23) Improve Code Documentation
-    24) Finishing AuraBots
-    25) Finishing Record & Play System
-    26) Inventory -> Delay walk check in both direktions
-    
-Already Done (just a few) :
-    1) Fix equls roatations
-    2) Fix CharSpamm
-    3) Gui for Violations
-    4) Redo Equals rotation
-    5) Remove Check Dependencies
-    
-#<- Just becouse of Inteliij :)
+    2) Finish Fly<br>
+    3) Finish Jesus<br>
+    3) Redo NoFall<br>
+    4) Add Aim Patterns<br>
+    8) Improve Speed check<br>
+    9) Fix Speed patterns<br>
+    10) Add setBack functions<br>
+    11) Fix backwards and side sprint<br>
+    12) Improve Phase<br>
+    13) Redo Badpackets (mege with speed_timer, badpackets and morepackets)<br>
+    14) Clean up Check class<br>
+    16) Statistics Command<br><br>
+    17) Improve Config Documentation<br>
+    18) Loop for Step (rod, hit, bow, slimes, jumo potions etc)<br>
+    19) Speed ground diff<br>
+    20) Fix GodMode exeptions<br>
+    21) Redo Scaffoldwalk<br>
+    22) Add Tower Check<br>
+    23) Improve Code Documentation<br>
+    24) Finishing AuraBots<br>
+    25) Finishing Record & Play System<br>
+    26) Inventory -> Delay walk check in both direktions<br>
+    27) Add Check Listener Debugger(Enable/Dissable)<br>
+    28) Add Normal Scheduler Gui<br>
+    29) Finish InGame Configuration (/tnc settings)<br>
+
+Already Done (just a few) :<br>
+    1) Fix equls roatations<br>
+    2) Fix CharSpamm<br>
+    3) Gui for Violations<br>
+    4) Redo Equals rotation<br>
+    5) Remove Check Dependencies<br>
+    5) Violation Menus<br>
+    1) Merge Todo Lists<br>
+    6) Update permissions.txt<br>
+    15) Make TNCAPI a enum singleton (maby new class? for backwards compability?)<br>
+    7) Register Permissions in plugin.yml<br>
