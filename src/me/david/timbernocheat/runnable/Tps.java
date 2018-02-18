@@ -14,44 +14,41 @@ public class Tps implements Runnable{
     /*
      * Class for Checking current server tps
      */
-    public static int tickcount = 0;
+    public static int tickCount = 0;
     private static long[] ticks = new long[600];
-    private boolean lowcpumode = false;
+    private static boolean lowTpsMode = false;
+    public static ArrayList<Check> disabledChecks = new ArrayList<>();
 
     public static double getTPS() {
         return getTPS(100);
     }
 
-    public static double getTPS(int checklastticks) {
-        if (tickcount < checklastticks) return 20;
-        int target = (tickcount - 1 - checklastticks) % ticks.length;
+    public static double getTPS(int checkTimeRadius) {
+        if (tickCount < checkTimeRadius) return 20;
+        int target = (tickCount - 1 - checkTimeRadius) % ticks.length;
         if(target == -1) return 20;
         long elapsed = System.currentTimeMillis() - ticks[target];
 
-        return checklastticks / (elapsed / 1000);
+        return checkTimeRadius / (elapsed / 1000);
     }
 
     public void run() {
-        ticks[(tickcount % ticks.length)] = System.currentTimeMillis();
-        tickcount++;
-        if(!lowcpumode && getTPS() < 16){
+        ticks[(tickCount % ticks.length)] = System.currentTimeMillis();
+        tickCount++;
+        if(!lowTpsMode && getTPS() < 16){
             TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wegen der geringen Tps deaktiviert!");
             for(Check check : (ArrayList<Check>)TimberNoCheat.checkmanager.getChecks().clone())
                 if(check.getCategory() == Category.MOVEMENT) {
-                    HandlerList.unregisterAll(check);
-                    check.disablelisteners();
-                    check.disabletasks();
+                    TimberNoCheat.checkmanager.unregister(check);
+                    disabledChecks.add(check);
                 }
-            lowcpumode = true;
-        }else if(lowcpumode && getTPS() > 17){
+            lowTpsMode = true;
+        }else if(lowTpsMode && getTPS() > 17){
             TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wieder aktiviert!");
-            for(Check check : TimberNoCheat.checkmanager.getChecks())
-                if(check.getCategory() == Category.MOVEMENT) {
-                    Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.instance);
-                    check.registernew();
-                    check.starttasks();
-                }
-            lowcpumode = false;
+            for(Check check : disabledChecks)
+                TimberNoCheat.checkmanager.register(check);
+            disabledChecks.clear();
+            lowTpsMode = false;
         }
     }
 }

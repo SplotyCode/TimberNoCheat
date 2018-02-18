@@ -63,7 +63,7 @@ public class Rotate extends Check {
         if ((!(from >= 90.0f || to <= 270.0f) && (to >= 90.0f || from <= 270))) distance -= 360;
         distance = Math.abs(distance);
         if(distance > 80)
-            pd.setSnappyRotate(Tps.tickcount);
+            pd.setSnappyRotate(Tps.tickCount);
     }
 
     @EventHandler
@@ -72,7 +72,7 @@ public class Rotate extends Check {
             Player p = (Player) event.getDamager();
             if (p == null || !TimberNoCheat.checkmanager.isvalid_create(p)) return;
             PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
-            if(Tps.tickcount-pd.getSnappyRotate() < 2 && event.getEntity().getLocation().toVector().subtract(p.getLocation().toVector()).normalize().dot(p.getLocation().getDirection()) > 0.97)
+            if(Tps.tickCount -pd.getSnappyRotate() < 2 && event.getEntity().getLocation().toVector().subtract(p.getLocation().toVector()).normalize().dot(p.getLocation().getDirection()) > 0.97)
                 updatevio(this, p, 1, " §6MODE: §bSNAPPY");
         }
     }

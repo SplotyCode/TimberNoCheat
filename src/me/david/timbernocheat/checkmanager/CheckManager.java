@@ -190,6 +190,12 @@ public class CheckManager {
         HandlerList.unregisterAll(check);
         check.disablelisteners();
         check.disabletasks();
+        for(Check child : check.getChilds()){
+            check.disable();
+            HandlerList.unregisterAll(check);
+            check.disablelisteners();
+            check.disabletasks();
+        }
     }
 
     /* Methods for Notifying Players, Console about Violation Updates */

@@ -9,7 +9,9 @@ import me.david.timbernocheat.config.Permissions;
 import me.david.api.commands.CheckBuilder;
 import me.david.api.commands.Command;
 import me.david.api.utils.StringUtil;
+import me.david.timbernocheat.runnable.Tps;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -87,6 +89,11 @@ public class TNCCommand extends Command {
                         p.sendMessage(TimberNoCheat.instance.prefix + "    ->" + StringUtil.colorbyBool(true) + child.getName());
                     for(Check child : check.getDiabledsChilds())
                         p.sendMessage(TimberNoCheat.instance.prefix + "    ->" + StringUtil.colorbyBool(false) + child.getName());
+                }
+                for(Check check : Tps.disabledChecks){
+                    p.sendMessage(TimberNoCheat.instance.prefix + ChatColor.YELLOW + check.getName());
+                    for(Check child : check.getChilds())
+                        p.sendMessage(TimberNoCheat.instance.prefix + ChatColor.YELLOW + child.getName());
                 }
                 p.sendMessage(TimberNoCheat.instance.prefix + "---[CheckMap]---");
                 break;

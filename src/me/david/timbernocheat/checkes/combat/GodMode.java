@@ -30,7 +30,7 @@ public class GodMode extends Check {
     }
 
     private boolean check(final Player player, final double damage){
-        final int tick = Tps.tickcount;
+        final int tick = Tps.tickCount;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
         final int noDamageTicks = Math.max(0, player.getNoDamageTicks());
         final int invulnerabilityTicks = ((CraftPlayer) player).getHandle().invulnerableTicks;
