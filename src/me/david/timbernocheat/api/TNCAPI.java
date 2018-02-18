@@ -7,6 +7,7 @@ import me.david.timbernocheat.runnable.Tps;
 import me.david.api.anotations.NotNull;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
 import java.util.logging.Level;
 
 /* The Main Api Class for other plugins that want to communicate with TNC */
@@ -92,15 +93,19 @@ public final class TNCAPI {
         return TimberNoCheat.checkmanager.getCheckbyString(name);
     }
 
+
+    public static double getAllViolations(@NotNull Player player){
+        return getAllViolations(player.getUniqueId());
+    }
     /*
      * Returns the total violation Level
      */
-    public static double getAllViolations(@NotNull Player player){
-        assert player != null:"Check Name might not be null";
+    public static double getAllViolations(@NotNull UUID uuid){
+        assert uuid != null:"Check Name might not be null";
         double vio = 0;
         for(Check c : TimberNoCheat.checkmanager.getChecks())
-            if(c.getViolations().containsKey(player))
-                vio += c.getViolations().get(player);
+            if(c.getViolations().containsKey(uuid))
+                vio += c.getViolations().get(uuid);
         return vio;
     }
 

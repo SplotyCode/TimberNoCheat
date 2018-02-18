@@ -33,6 +33,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class CheckManager {
@@ -278,5 +281,16 @@ public class CheckManager {
         String[] split = name.split("_");
         Check mother = getCheckbyName(split[0]);
         return child?mother.getChildByString(split[1]):mother;
+    }
+
+    public HashMap<UUID, Double> getViolations(){
+        HashMap<UUID, Double> map = new HashMap<>();
+        for(final Check check : checks){
+            for(final Map.Entry<UUID, Double> entry : check.getViolations().entrySet()){
+                if(map.containsKey(entry.getKey())) map.put(entry.getKey(), entry.getValue() + map.get(entry.getKey()));
+                else map.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return map;
     }
 }
