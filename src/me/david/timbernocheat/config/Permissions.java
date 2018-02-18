@@ -1,6 +1,6 @@
 package me.david.timbernocheat.config;
 
-public class Permissions {
+public final class Permissions {
 
     /* Permission for getting Notift over the Chat */
     public static final String NOTITY = "tnc.notify";
