@@ -5,11 +5,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class RecordPlayer {
+class RecordPlayer {
 
     private Player player;
 
-    public RecordPlayer(Player player, boolean join, boolean update) {
+    private RecordPlayer(Player player, boolean join, boolean update) {
         this.player = player;
         this.join = join;
         this.loc = new Location(null, 0, 0, 0);
@@ -130,7 +130,7 @@ public class RecordPlayer {
         return updateSneaking;
     }
 
-    public void setUpdateSneaking(boolean updateSneaking) {
+    private void setUpdateSneaking(boolean updateSneaking) {
         this.updateSneaking = updateSneaking;
     }
 
@@ -149,7 +149,7 @@ public class RecordPlayer {
         return updateSprinting;
     }
 
-    public void setUpdateSprinting(boolean updateSprinting) {
+    private void setUpdateSprinting(boolean updateSprinting) {
         this.updateSprinting = updateSprinting;
     }
 
@@ -173,7 +173,7 @@ public class RecordPlayer {
         return itemInHand;
     }
 
-    public void setItemInHand(ItemStack itemInHand) {
+    private void setItemInHand(ItemStack itemInHand) {
         if(this.itemInHand != itemInHand){
             this.itemInHand = itemInHand;
             setUpdateHand(true);
@@ -184,7 +184,7 @@ public class RecordPlayer {
         return updateHand;
     }
 
-    public void setUpdateHand(boolean updateHand) {
+    private void setUpdateHand(boolean updateHand) {
         this.updateHand = updateHand;
     }
 
@@ -236,7 +236,7 @@ public class RecordPlayer {
         return updateArmor;
     }
 
-    public void setUpdateArmor(boolean updateArmor) {
+    private void setUpdateArmor(boolean updateArmor) {
         this.updateArmor = updateArmor;
     }
 
@@ -260,7 +260,7 @@ public class RecordPlayer {
         return onFire;
     }
 
-    public void setOnFire(boolean onFire) {
+    private void setOnFire(boolean onFire) {
         if (onFire != this.onFire) {
             this.onFire = onFire;
             setUpdateFire(true);
@@ -271,7 +271,7 @@ public class RecordPlayer {
         return updateFire;
     }
 
-    public void setUpdateFire(boolean updateFire) {
+    private void setUpdateFire(boolean updateFire) {
         this.updateFire = updateFire;
     }
 
@@ -279,7 +279,7 @@ public class RecordPlayer {
         return join;
     }
 
-    public void setJoin(boolean join) {
+    private void setJoin(boolean join) {
         this.join = join;
     }
 }

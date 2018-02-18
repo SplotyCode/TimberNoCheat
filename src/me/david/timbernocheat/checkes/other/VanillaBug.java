@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class VanillaBug extends Check {
 
-    public final ArrayList<Material> fences = new ArrayList<Material>();
+    private final ArrayList<Material> fences = new ArrayList<Material>();
     public VanillaBug(){
         super("VanillaBug", Category.OTHER);
         fences.add(Material.FENCE);

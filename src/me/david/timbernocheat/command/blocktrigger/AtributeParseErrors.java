@@ -9,5 +9,5 @@ public enum  AtributeParseErrors {
     NOFLOAT,
     NOLONG,
     NOINT,
-    CHECKNOTEXSITS;
+    CHECKNOTEXSITS
 }

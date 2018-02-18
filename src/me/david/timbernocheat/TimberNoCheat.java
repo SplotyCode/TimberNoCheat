@@ -36,7 +36,7 @@ public class TimberNoCheat extends ApiPlugin {
     /* The Location of the TNC Config File normally plugins/TimberNoCheat/config.yml */
     public final File config = new File(getDataFolder() + "/config.yml");
     public final File speedpatterns = new File(getDataFolder() + "/speed_pattern.yml");
-    public final File triggerBlocks = new File(getDataFolder() + "/triggerBlocks.yml");
+    private final File triggerBlocks = new File(getDataFolder() + "/triggerBlocks.yml");
 
     /* Does the plugin stops Because of a crash for example old config or capability problem with ProtocolLib */
     private boolean crash = false;

@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 
 public class FastSwitch extends Check {
 
-    final long delay;
+    private final long delay;
     public FastSwitch(){
         super("FastSwitch", Category.PLAYER);
         delay = getLong("delay");

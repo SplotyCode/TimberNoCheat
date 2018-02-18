@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public class FastEat extends Check {
 
     private final long delay;
-    public static final ArrayList<Material>food = new ArrayList<Material>();
+
+    private static final ArrayList<Material> food = new ArrayList<Material>();
     public FastEat(){
         super("FastEat", Category.PLAYER);
         delay = getLong("delay");

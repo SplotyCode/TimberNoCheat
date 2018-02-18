@@ -69,7 +69,7 @@ public class Step extends Check {
             double d5 = e.getFrom().getY() - e.getFrom().getBlockY();
             if (!fp.hasHitorbow(80) && (yDis >= 0.34D) && !(fp.hasBed(60) || fp.hasSlime(60)) && (yDisblock != 0.5D) && !a(yDis) &&  !fp.jumpboost(p) && !fp.hasLiquid(140)){
                 for (int j = -1; j <= 1; j++)
-                    if (!checkall2(p, 1.0D, j, 1.0D))
+                    if (!checkall2(p, 1.0D, j))
                         return;
                 double d6 = Math.abs(yDis - d5);
                 double d8 = Math.abs(yDisblock - d6);
@@ -97,7 +97,7 @@ public class Step extends Check {
             paramDouble = Math.abs(paramDouble);
             negative = true;
         }
-        paramInt = (int) Math.pow(10.0D, paramInt);
+        paramInt = (int) Math.pow(10, paramInt);
         paramDouble *= paramInt;
         paramDouble = Math.floor(paramDouble) / paramInt;
         return negative ? -paramDouble : paramDouble;
@@ -121,17 +121,17 @@ public class Step extends Check {
         (check(loc.clone().add(-x, y, z)));
     }
 
-    private boolean checkall2(Player p, double x, double y, double z)
+    private boolean checkall2(Player p, double x, double y)
     {
         return (check2(p.getLocation().add(0.0D, y, 0.0D))) &&
-        (check2(p.getLocation().add(x, y, 0.0D))) &&
-        (check2(p.getLocation().add(-x, y, 0.0D))) &&
-        (check2(p.getLocation().add(0.0D, y, z))) &&
-        (check2(p.getLocation().add(0.0D, y, -z))) &&
-        (check2(p.getLocation().add(x, y, z))) &&
-        (check2(p.getLocation().add(-x, y, -z))) &&
-        (check2(p.getLocation().add(x, y, -z))) &&
-        (check2(p.getLocation().add(-x, y, z)));
+        (check2(p.getLocation().add(1.0D, y, 0.0D))) &&
+        (check2(p.getLocation().add(-1.0D, y, 0.0D))) &&
+        (check2(p.getLocation().add(0.0D, y, 1.0D))) &&
+        (check2(p.getLocation().add(0.0D, y, -1.0D))) &&
+        (check2(p.getLocation().add(1.0D, y, 1.0D))) &&
+        (check2(p.getLocation().add(-1.0D, y, -1.0D))) &&
+        (check2(p.getLocation().add(1.0D, y, -1.0D))) &&
+        (check2(p.getLocation().add(-1.0D, y, 1.0D)));
     }
 
     private boolean check2(Location loc) {

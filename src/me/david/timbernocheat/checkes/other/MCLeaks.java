@@ -127,7 +127,7 @@ public class MCLeaks extends Check {
                     this.plugin.getServer().getScheduler().runTaskLaterAsynchronously(this.plugin, new Runnable() {
                         @Override
                         public void run() {
-                            task(name, serverId, address.getAddress(), true);
+                            task(name, serverId, address.getAddress());
                         }
                     }, 60);
                 }
@@ -135,7 +135,7 @@ public class MCLeaks extends Check {
         });
     }
 
-    private void task(final String name, final String serverId, final InetAddress address, boolean again) {
+    private void task(final String name, final String serverId, final InetAddress address) {
         try {
             boolean result = this.isSafe(name, serverId, address);
             if (result) {
@@ -150,7 +150,7 @@ public class MCLeaks extends Check {
         }
     }
 
-    public boolean isSafe(final String name, final String serverId, final InetAddress address) throws UnsupportedEncodingException, MalformedURLException {
+    private boolean isSafe(final String name, final String serverId, final InetAddress address) throws UnsupportedEncodingException, MalformedURLException {
         URL url = new URL("https://sessionserver.mojang.com/session/minecraft/hasJoined?"
                 + "username=" + URLEncoder.encode(name , "UTF-8")
                 + "&serverId=" + URLEncoder.encode(serverId , "UTF-8")

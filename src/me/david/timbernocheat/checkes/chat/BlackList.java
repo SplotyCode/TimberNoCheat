@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class BlackList extends Check {
 
-    final ArrayList<String> blacklist;
+    private final ArrayList<String> blacklist;
     public BlackList(){
         super("BlackList", Category.CHAT);
         blacklist = getStringList("blacklist");

@@ -107,23 +107,23 @@ public class Check implements Listener{
     /*
      * get config values
      */
-    public String getString(String s){
+    protected String getString(String s){
         return yml.getString((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }
-    public int getInt(String s){
+    protected int getInt(String s){
         return yml.getInt((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }
-    public double getDouble(String s){
+    protected double getDouble(String s){
         return yml.getDouble((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }
-    public long getLong(String s){
+    protected long getLong(String s){
         return yml.getLong((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }
-    public Long[] getLongList(String s){
+    protected Long[] getLongList(String s){
         return yml.getLongList((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s).toArray(new Long[0]);
     }
 
-    public boolean getBoolean(String s){
+    protected boolean getBoolean(String s){
         return yml.getBoolean((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }
 
@@ -143,7 +143,7 @@ public class Check implements Listener{
         yml.set((isChild?parent.name + ".":"") + this.name.toLowerCase() + "." + name, value);
     }
 
-    public double[] getDoubleArray(String s){
+    protected double[] getDoubleArray(String s){
         Object[] list = yml.getDoubleList((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s).toArray();
         return ArrayUtils.toPrimitive(Arrays.copyOf(list, list.length, Double[].class));
     }
@@ -151,7 +151,7 @@ public class Check implements Listener{
     public void starttasks(){}
 
 
-    public ArrayList<String> getStringList(String s){
+    protected ArrayList<String> getStringList(String s){
         return (ArrayList<String>) yml.getStringList((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }
 
@@ -331,7 +331,7 @@ public class Check implements Listener{
     }
 
 
-    public String replacemarker(String s, Player p){
+    private String replacemarker(String s, Player p){
         s = ChatColor.translateAlternateColorCodes('&', s);
         s = s.replaceAll("%player%", p.getName());
         s = s.replaceAll("%uuid%", p.getUniqueId().toString());

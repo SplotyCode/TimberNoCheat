@@ -22,11 +22,11 @@ import java.math.BigInteger;
 
 public class Shematica extends Check implements PluginMessageListener {
 
-    final String channel = "schematica";
-    final boolean block;
-    final boolean print;
-    final boolean load;
-    final boolean save;
+    private final String channel = "schematica";
+    private final boolean block;
+    private final boolean print;
+    private final boolean load;
+    private final boolean save;
     public Shematica(){
         super("Shematica", Category.CLIENT_CHANEL);
         block = getBoolean("block");
@@ -65,7 +65,7 @@ public class Shematica extends Check implements PluginMessageListener {
             ((CraftPlayer)p).getHandle().playerConnection.sendPacket(chat);
         }
     }
-    public byte[] getPayload() {
+    private byte[] getPayload() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
         try {
@@ -79,7 +79,7 @@ public class Shematica extends Check implements PluginMessageListener {
         }
         return null;
     }
-    public void sendPluginMessage(Player player, byte[] payload) {
+    private void sendPluginMessage(Player player, byte[] payload) {
         try {
             Class playerClass = player.getClass();
             if (playerClass.getSimpleName().equals("CraftPlayer")) {

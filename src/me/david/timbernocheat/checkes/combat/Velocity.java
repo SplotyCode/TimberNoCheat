@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 public class Velocity extends Check {
 
-    private boolean teleport;
+    private final boolean teleport;
 
     public Velocity() {
         super("Velocity", Category.COBMAT);

@@ -180,7 +180,7 @@ public class InteractTool {
         SHEARS,
         AXE,
         PICKAXE,
-        HOE;
+        HOE
     }
     public static Block getBlock(final Material m){
         if (m.getId() < 0 || m.getId() >= blocks.length || blocks[m.getId()] == null) {

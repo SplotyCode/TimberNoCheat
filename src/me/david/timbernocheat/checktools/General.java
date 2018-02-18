@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -99,9 +100,9 @@ public class General implements Listener, Runnable  {
             TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer()).getGenerals().loginLocation = event.getPlayer().getLocation();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMove(PlayerMoveEvent event){
-        if(!event.isCancelled() && TimberNoCheat.checkmanager.isvalid_create(event.getPlayer())){
+        if(TimberNoCheat.checkmanager.isvalid_create(event.getPlayer())){
             PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer());
             if(PlayerUtil.isOnGround(event.getPlayer())){
                 pd.getGenerals().lastOnGround = event.getPlayer().getLocation();
@@ -114,4 +115,12 @@ public class General implements Listener, Runnable  {
             pd.getGenerals().lastLocation = to;
         }
     }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onItemClick(final InventoryClickEvent event){
+        final Player player = (Player) event.getWhoClicked();
+        if(TimberNoCheat.checkmanager.isvalid_create(player))
+            TimberNoCheat.checkmanager.getPlayerdata(player).getGenerals().lastItemClick = System.currentTimeMillis();
+    }
+
 }

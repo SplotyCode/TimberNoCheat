@@ -64,7 +64,7 @@ public class Clip extends Check {
         TimberNoCheat.instance.getMoveprofiler().end();
     }
 
-    public boolean checkblock(Location l){
+    private boolean checkblock(Location l){
         if(l.getBlock() != null && l.getBlock().getType().isSolid() && l.getBlock().getType().isBlock() && l.getBlock().getType() != Material.AIR) {
             if(!onlyfull){
                 if(!BlockUtil.HOLLOW_MATERIALS.contains(l.getBlock().getType())){

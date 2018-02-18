@@ -10,8 +10,8 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 
 public class FastBow extends Check {
 
-    final double mimimumforce;
-    final long delay;
+    private final double mimimumforce;
+    private final long delay;
     public FastBow(){
         super("FastBow", Category.COBMAT);
         mimimumforce = getDouble("mimimumforce");

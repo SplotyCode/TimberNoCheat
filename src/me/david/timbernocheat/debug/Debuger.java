@@ -14,7 +14,7 @@ public class Debuger {
 
     private HashMap<UUID, ArrayList<String>> debuggingPlayers = new HashMap<>();
 
-    public boolean isDebugging(UUID uuid, String debugger) {
+    private boolean isDebugging(UUID uuid, String debugger) {
         ArrayList<String> list = debuggingPlayers.get(uuid);
         return list != null && list.contains(debugger);
     }
@@ -23,7 +23,7 @@ public class Debuger {
         return isDebugging(player.getUniqueId(), debugger);
     }
 
-    public void addDebugg(UUID uuid, String debugger){
+    private void addDebugg(UUID uuid, String debugger){
         ArrayList<String> list = debuggingPlayers.get(uuid);
         if(list != null){
             if(!list.contains(debugger)) list.add(debugger);
@@ -35,7 +35,7 @@ public class Debuger {
         }
     }
 
-    public void removeDebugger(UUID uuid, String debugger){
+    private void removeDebugger(UUID uuid, String debugger){
         ArrayList<String> list = debuggingPlayers.get(uuid);
         if(list == null || !list.contains(debugger))return;
         list.remove(debugger);

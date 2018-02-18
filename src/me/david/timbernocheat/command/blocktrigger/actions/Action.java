@@ -18,7 +18,7 @@ public abstract class Action {
         execute(atributes, state);
     }
 
-    public ArrayList<Player> getPlayersInRange(final double range){
+    ArrayList<Player> getPlayersInRange(final double range){
         ArrayList<Player> list = new ArrayList<>();
         for(Player player : Bukkit.getOnlinePlayers())
             if(player.getLocation().distance(location) <= range)

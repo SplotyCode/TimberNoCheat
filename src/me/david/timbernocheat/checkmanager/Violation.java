@@ -14,7 +14,7 @@ public class Violation {
         /* Kicks a Player */
         KICK,
         /* Sends a Message to the Player*/
-        MESSAGE;
+        MESSAGE
     }
 
     /* The Level when the Violation will trigger*/

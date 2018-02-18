@@ -48,7 +48,7 @@ public class Clock extends Check {
     }
 
     private class Data {
-        private long start;
+        private final long start;
         private int toggles;
 
         private Data(){

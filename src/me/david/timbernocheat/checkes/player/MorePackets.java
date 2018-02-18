@@ -21,11 +21,11 @@ import java.util.AbstractMap;
 
 public class MorePackets extends Check {
 
-    final long elapsed;
-    final int maxpackets;
-    final long blacklistadd;
-    final long blacklistremove;
-    final long worlddownloadingdelayinticks;
+    private final long elapsed;
+    private final int maxpackets;
+    private final long blacklistadd;
+    private final long blacklistremove;
+    private final long worlddownloadingdelayinticks;
     public MorePackets(){
         super("MorePackets", Category.PLAYER);
         elapsed = getLong("elapsed");
@@ -81,7 +81,7 @@ public class MorePackets extends Check {
     public void PlayerRespawn(PlayerRespawnEvent e) {
         blacklistadd(e.getPlayer());
     }
-    public void blacklistadd(Player p){
+    private void blacklistadd(Player p){
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return;
         }
@@ -95,7 +95,7 @@ public class MorePackets extends Check {
             }
         }, worlddownloadingdelayinticks);
     }
-    public boolean check(Player p){
+    private boolean check(Player p){
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return false;
         }

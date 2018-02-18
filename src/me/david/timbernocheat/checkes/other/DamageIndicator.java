@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -33,7 +34,7 @@ public class DamageIndicator extends Check {
         });
     }
 
-    public void check(PacketEvent event){
+    private void check(PacketEvent event){
         Player observer = event.getPlayer();
         StructureModifier entityModifer = event.getPacket().getEntityModifier(observer.getWorld());
         Entity entity = (Entity)entityModifer.read(0);
@@ -53,7 +54,7 @@ public class DamageIndicator extends Check {
                 @Override
                 public void run() {
                     if (event.getVehicle().isValid() && event.getEntered().isValid()) {
-                        ProtocolLibrary.getProtocolManager().updateEntity(event.getVehicle(), Arrays.asList((Player)event.getEntered()));
+                        ProtocolLibrary.getProtocolManager().updateEntity(event.getVehicle(), Collections.singletonList((Player) event.getEntered()));
                     }
                 }
             });

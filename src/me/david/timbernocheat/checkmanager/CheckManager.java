@@ -1,7 +1,6 @@
 package me.david.timbernocheat.checkmanager;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkes.chat.Bots;
 import me.david.timbernocheat.checkes.clientchanel.Vape;
 import me.david.timbernocheat.checkes.combat.*;
 import me.david.timbernocheat.checkes.interact.*;

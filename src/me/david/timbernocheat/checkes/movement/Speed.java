@@ -375,12 +375,26 @@ public class Speed extends Check {
 
     class SpeedPattern {
 
-        private String name;
-        private int speed, jumpboost, slowness;
+        private final String name;
+        private final int speed;
+        private final int jumpboost;
+        private final int slowness;
         private float verticaldown, verticalup, horizontal;
-        private boolean vehicle, liquid, ice, block, sprint, sneak, web, ladder, slabs, stairs, blockover, wasonground, soulsand;
+        private final boolean vehicle;
+        private final boolean liquid;
+        private final boolean ice;
+        private final boolean block;
+        private final boolean sprint;
+        private final boolean sneak;
+        private final boolean web;
+        private final boolean ladder;
+        private final boolean slabs;
+        private final boolean stairs;
+        private final boolean blockover;
+        private final boolean wasonground;
+        private final boolean soulsand;
 
-        public SpeedPattern(String name, int speed, int jumpboost, int slowness, float verticaldown, float verticalup, float horizontal, boolean vehicle, boolean liquid, boolean ice, boolean block, boolean sprint, boolean sneak, boolean web, boolean ladder, boolean slabs, boolean stairs, boolean blockover, boolean wasonground, boolean soulsand) {
+        SpeedPattern(String name, int speed, int jumpboost, int slowness, float verticaldown, float verticalup, float horizontal, boolean vehicle, boolean liquid, boolean ice, boolean block, boolean sprint, boolean sneak, boolean web, boolean ladder, boolean slabs, boolean stairs, boolean blockover, boolean wasonground, boolean soulsand) {
             this.name = name;
             this.speed = speed;
             this.jumpboost = jumpboost;
@@ -432,7 +446,7 @@ public class Speed extends Check {
             return soulsand == that.soulsand;
         }
 
-        public boolean equalsnospeed(Object o) {
+        boolean equalsnospeed(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 

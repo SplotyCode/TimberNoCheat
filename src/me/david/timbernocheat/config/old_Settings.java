@@ -8,196 +8,196 @@ import java.util.List;
 
 @Deprecated
 public class old_Settings {
-    public int chat_delay_schwelle = 6;
-    public double chat_delay_small = 0.0;
-    public double chat_delay_big = 0.0;
+    private int chat_delay_schwelle = 6;
+    private double chat_delay_small = 0.0;
+    private double chat_delay_big = 0.0;
 
-    public boolean chat_address_blockcompletly = false;
+    private boolean chat_address_blockcompletly = false;
 
-    public boolean chat_spamming_ignorecase = false;
-    public int chat_spamming_toshort = 4;
-    public List<String> chat_spamming_whitelist = new ArrayList<String>();
-    public boolean chat_spamming_whitelist_ignorecase = false;
+    private boolean chat_spamming_ignorecase = false;
+    private int chat_spamming_toshort = 4;
+    private List<String> chat_spamming_whitelist = new ArrayList<String>();
+    private boolean chat_spamming_whitelist_ignorecase = false;
 
-    public double chat_commanddelay_delay = 0.0;
+    private double chat_commanddelay_delay = 0.0;
 
-    public List<String> chat_blacklist = new ArrayList<String>();
-
-
-    public boolean shematica_kick = false;
-    public boolean shematica_print = false;
-    public boolean shematica_save = false;
-    public boolean shematica_load = false;
-    public boolean shematica_block = false;
-
-    public boolean betterpvp_use = false;
-
-    public boolean reiminimap_use = false;
-
-    public boolean damageindicators_use = false;
-
-    public boolean voxelmap_use = false;
-
-    public boolean smartmoving_use = false;
-
-    public boolean labymod_use_animations = false;
-    public boolean labymod_use_armor = false;
-    public boolean labymod_use_blockbuild = false;
-    public boolean labymod_use_chat = false;
-    public boolean labymod_use_damageindicator = false;
-    public boolean labymod_use_extras = false;
-    public boolean labymod_use_food = false;
-    public boolean labymod_use_minimap_radar = false;
-    public boolean labymod_use_nick = false;
-    public boolean labymod_use_potions = false;
-    public boolean labymod_use_gui = false;
-
-    public boolean zig5_kick = false;
-    public boolean wdl_kick = false;
-    public boolean bsm_kick = false;
-    public boolean bsprint_kick = false;
-    public boolean fml_kick = false;
-    public boolean liteloader_kick = false;
+    private List<String> chat_blacklist = new ArrayList<String>();
 
 
-    public boolean exploit_sign_notiyplayer = false;
-    public boolean exploit_sign_sendcommand = false;
-    public String exploit_sign_command = "";
+    private boolean shematica_kick = false;
+    private boolean shematica_print = false;
+    private boolean shematica_save = false;
+    private boolean shematica_load = false;
+    private boolean shematica_block = false;
 
-    public boolean exploit_book_cancel = false;
-    public boolean exploit_book_sendcommand = false;
-    public String exploit_book_command = "";
+    private boolean betterpvp_use = false;
 
-    public String exploit_nbt_nonbtdatacmd = "";
-    public String exploit_nbt_nullcmd = "";
-    public String exploit_nbt_nopagescmd = "";
-    public String exploit_nbt_toomanypagescmd = "";
-    public int exploit_nbt_toomanypages = 0;
-    public String exploit_nbt_toolongcmd = "";
-    public int exploit_nbt_toolong = 0;
+    private boolean reiminimap_use = false;
 
-    public String exploit_nbtchannel_cmd = "";
-    public int exploit_nbtchannel_toomany = 0;
+    private boolean damageindicators_use = false;
 
-    public String exploit_nbtpacketfloor_cmd = "";
-    public int exploit_nbtpacketfloor_toomany = 0;
+    private boolean voxelmap_use = false;
 
-    public int exploit_craher_itempersec = 0;
-    public int exploit_craher_swingpersec = 0;
+    private boolean smartmoving_use = false;
 
+    private boolean labymod_use_animations = false;
+    private boolean labymod_use_armor = false;
+    private boolean labymod_use_blockbuild = false;
+    private boolean labymod_use_chat = false;
+    private boolean labymod_use_damageindicator = false;
+    private boolean labymod_use_extras = false;
+    private boolean labymod_use_food = false;
+    private boolean labymod_use_minimap_radar = false;
+    private boolean labymod_use_nick = false;
+    private boolean labymod_use_potions = false;
+    private boolean labymod_use_gui = false;
 
-    public boolean other_mcleaks_sendcommand = false;
-    public String other_mcleaks_command = "";
-
-    public int other_pingspoof_checkspeed = 0;
-    public int other_pingspoof_maxdiffrence = 0;
-    public int other_pingspoof_maxping = 0;
-
-    public int other_nuker_maxblockbreakssec = 0;
-
-
-    public int movement_derb_maxpitch = 0;
-    public int movement_derb_minpitch = 0;
-    public String movement_derb_cmd = "";
-
-    public int movement_blink_distance = 0;
-
-    public boolean movement_clip_onlyfullblocks = false;
-
-    public int movement_speed_timercheck = 0;
-    public long movement_speed_timeraverage_inmilis = 0;
-    public int movement_speed_timerflagtomessage = 0;
-    public int movement_speed_togglesnekinsec = 0;
-    public double movement_speed_normal_normal = 0;
-    public double movement_speed_normal_normalground = 0;
-    public double movement_speed_normal_modistairs = 0;
-    public double movement_speed_normal_modislabs = 0;
-    public double movement_speed_normal_modisolid = 0;
-    public double movement_speed_normal_modiice = 0;
-    public double movement_speed_normal_modiicesolic = 0;
-    public double movement_speed_normal_modispeed = 0;
-    public double movement_speed_normal_modispeedground = 0;
-    public long movement_speed_normal_elapsedtoret = 0;
-    public long movement_speed_normal_elapsedtoretflag = 0;
-    public int movement_speed_normal_flagcountertoflag = 0;
-    public int movement_speed_normal_tofastnewcount = 0;
-
-    public int movement_fly_nodowntonotify = 0;
+    private boolean zig5_kick = false;
+    private boolean wdl_kick = false;
+    private boolean bsm_kick = false;
+    private boolean bsprint_kick = false;
+    private boolean fml_kick = false;
+    private boolean liteloader_kick = false;
 
 
-    public int fight_fightspeed_maxhitspersecond = 0;
-    public int fight_fightspeed_maxinteractspersecond = 0;
+    private boolean exploit_sign_notiyplayer = false;
+    private boolean exploit_sign_sendcommand = false;
+    private String exploit_sign_command = "";
 
-    public double fight_fastbow_ignoreforce = 0;
-    public int fight_fastbow_delay   = 0;
+    private boolean exploit_book_cancel = false;
+    private boolean exploit_book_sendcommand = false;
+    private String exploit_book_command = "";
 
-    public double fight_killaura_defaultrange = 0;
-    public double fight_killaura_rangespeed1 = 0;
-    public double fight_killaura_rangespeed2 = 0;
-    public double fight_killaura_rangeping_100_200 = 0;
-    public double fight_killaura_rangeping_200_250 = 0;
-    public double fight_killaura_rangeping_250_300 = 0;
-    public double fight_killaura_rangeping_300_350 = 0;
-    public double fight_killaura_rangeping_350_400 = 0;
-    public double fight_killaura_rangeping_over400 = 0;
-    public double fight_killaura_rangevectorlen = 0;
-    public double fight_killaura_rangeisup = 0;
-    public long fight_killaura_rangeclearaftermilis = 0;
-    public double fight_killaura_range_levelrange = 0;
-    public int fight_killaura_range_toohitslongtoreport = 0;
-    public long fight_killaura_multiauradelay = 0;
+    private String exploit_nbt_nonbtdatacmd = "";
+    private String exploit_nbt_nullcmd = "";
+    private String exploit_nbt_nopagescmd = "";
+    private String exploit_nbt_toomanypagescmd = "";
+    private int exploit_nbt_toomanypages = 0;
+    private String exploit_nbt_toolongcmd = "";
+    private int exploit_nbt_toolong = 0;
 
-    public long fight_regen_delay = 0;
+    private String exploit_nbtchannel_cmd = "";
+    private int exploit_nbtchannel_toomany = 0;
+
+    private String exploit_nbtpacketfloor_cmd = "";
+    private int exploit_nbtpacketfloor_toomany = 0;
+
+    private int exploit_craher_itempersec = 0;
+    private int exploit_craher_swingpersec = 0;
 
 
-    public int interact_fasplace_cps = 0;
+    private boolean other_mcleaks_sendcommand = false;
+    private String other_mcleaks_command = "";
 
-    public int interact_noswing_delayticks = 0;
+    private int other_pingspoof_checkspeed = 0;
+    private int other_pingspoof_maxdiffrence = 0;
+    private int other_pingspoof_maxping = 0;
 
-    public boolean interact_water = false;
-    public boolean interact_ghosthand = false;
-    public boolean interact_keepalive = false;
-    public boolean interact_block = false;
-    public boolean interact_sleep = false;
-    public boolean interact_invisible = false;
-    public boolean interact_openinv = false;
+    private int other_nuker_maxblockbreakssec = 0;
 
-    public int player_fasteat_delay = 0;
 
-    public long player_inv_delay_inmilis = 0;
-    public boolean player_inv_sneak = false;
-    public boolean player_inv_sprint = false;
-    public boolean player_inv_block = false;
-    public boolean player_inv_sleep = false;
-    public long player_inv_hitdelayinmili = 0;
-    public boolean player_inv_openinvhit = false;
-    public long player_inv_invchatdelay = 0;
-    public boolean player_inv_openinvchat = false;
+    private int movement_derb_maxpitch = 0;
+    private int movement_derb_minpitch = 0;
+    private String movement_derb_cmd = "";
 
-    public long player_morepackets_elapsed = 0;
-    public int player_morepackets_maxpackets = 0;
-    public int player_morepackets_blacklistadd = 0;
-    public int player_morepackets_blacklistremove = 0;
-    public int player_morepackets_worlddownloadingdelayinticks = 0;
+    private int movement_blink_distance = 0;
 
-    public boolean player_skinblinker_sleep = false;
-    public boolean player_skinblinker_sprint = false;
-    public boolean player_skinblinker_block = false;
-    public boolean player_skinblinker_sneak = false;
-    public int player_skinblinker_movemindelay = 0;
+    private boolean movement_clip_onlyfullblocks = false;
 
-    public int player_badpackets_maxmoves = 0;
+    private int movement_speed_timercheck = 0;
+    private long movement_speed_timeraverage_inmilis = 0;
+    private int movement_speed_timerflagtomessage = 0;
+    private int movement_speed_togglesnekinsec = 0;
+    private double movement_speed_normal_normal = 0;
+    private double movement_speed_normal_normalground = 0;
+    private double movement_speed_normal_modistairs = 0;
+    private double movement_speed_normal_modislabs = 0;
+    private double movement_speed_normal_modisolid = 0;
+    private double movement_speed_normal_modiice = 0;
+    private double movement_speed_normal_modiicesolic = 0;
+    private double movement_speed_normal_modispeed = 0;
+    private double movement_speed_normal_modispeedground = 0;
+    private long movement_speed_normal_elapsedtoret = 0;
+    private long movement_speed_normal_elapsedtoretflag = 0;
+    private int movement_speed_normal_flagcountertoflag = 0;
+    private int movement_speed_normal_tofastnewcount = 0;
 
-    public int player_fastswitch_maxping = 0;
-    public int player_fastswitch_delaymili = 0;
+    private int movement_fly_nodowntonotify = 0;
 
-    public long player_cheststeler_delay = 0;
-    public boolean player_cheststeler_consistent = false;
-    public long player_cheststeler_consistent_cacheinmilis = 0;
-    public int player_cheststeler_consistent_maxdelaymilis = 0;
-    public int player_cheststeler_consistent_maxcachesize = 0;
-    public int player_cheststeler_consistent_mincachesize = 0;
-    public int player_cheststeler_maxping = 0;
+
+    private int fight_fightspeed_maxhitspersecond = 0;
+    private int fight_fightspeed_maxinteractspersecond = 0;
+
+    private double fight_fastbow_ignoreforce = 0;
+    private int fight_fastbow_delay   = 0;
+
+    private double fight_killaura_defaultrange = 0;
+    private double fight_killaura_rangespeed1 = 0;
+    private double fight_killaura_rangespeed2 = 0;
+    private double fight_killaura_rangeping_100_200 = 0;
+    private double fight_killaura_rangeping_200_250 = 0;
+    private double fight_killaura_rangeping_250_300 = 0;
+    private double fight_killaura_rangeping_300_350 = 0;
+    private double fight_killaura_rangeping_350_400 = 0;
+    private double fight_killaura_rangeping_over400 = 0;
+    private double fight_killaura_rangevectorlen = 0;
+    private double fight_killaura_rangeisup = 0;
+    private long fight_killaura_rangeclearaftermilis = 0;
+    private double fight_killaura_range_levelrange = 0;
+    private int fight_killaura_range_toohitslongtoreport = 0;
+    private long fight_killaura_multiauradelay = 0;
+
+    private long fight_regen_delay = 0;
+
+
+    private int interact_fasplace_cps = 0;
+
+    private int interact_noswing_delayticks = 0;
+
+    private boolean interact_water = false;
+    private boolean interact_ghosthand = false;
+    private boolean interact_keepalive = false;
+    private boolean interact_block = false;
+    private boolean interact_sleep = false;
+    private boolean interact_invisible = false;
+    private boolean interact_openinv = false;
+
+    private int player_fasteat_delay = 0;
+
+    private long player_inv_delay_inmilis = 0;
+    private boolean player_inv_sneak = false;
+    private boolean player_inv_sprint = false;
+    private boolean player_inv_block = false;
+    private boolean player_inv_sleep = false;
+    private long player_inv_hitdelayinmili = 0;
+    private boolean player_inv_openinvhit = false;
+    private long player_inv_invchatdelay = 0;
+    private boolean player_inv_openinvchat = false;
+
+    private long player_morepackets_elapsed = 0;
+    private int player_morepackets_maxpackets = 0;
+    private int player_morepackets_blacklistadd = 0;
+    private int player_morepackets_blacklistremove = 0;
+    private int player_morepackets_worlddownloadingdelayinticks = 0;
+
+    private boolean player_skinblinker_sleep = false;
+    private boolean player_skinblinker_sprint = false;
+    private boolean player_skinblinker_block = false;
+    private boolean player_skinblinker_sneak = false;
+    private int player_skinblinker_movemindelay = 0;
+
+    private int player_badpackets_maxmoves = 0;
+
+    private int player_fastswitch_maxping = 0;
+    private int player_fastswitch_delaymili = 0;
+
+    private long player_cheststeler_delay = 0;
+    private boolean player_cheststeler_consistent = false;
+    private long player_cheststeler_consistent_cacheinmilis = 0;
+    private int player_cheststeler_consistent_maxdelaymilis = 0;
+    private int player_cheststeler_consistent_maxcachesize = 0;
+    private int player_cheststeler_consistent_mincachesize = 0;
+    private int player_cheststeler_maxping = 0;
 
     @Deprecated
     public old_Settings(){

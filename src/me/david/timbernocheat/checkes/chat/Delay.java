@@ -12,7 +12,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class Delay extends Check {
 
-    public final int chats10;
+    private final int chats10;
     private final long delaysmall;
     private final long delaybig;
     private final int delayschwelle;

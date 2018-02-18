@@ -49,7 +49,7 @@ public class BreakCovered extends Check {
         return b.getType() == Material.BED || b.getType() == Material.BED_BLOCK;
     }
 
-    public boolean check(Block b) {
+    private boolean check(Block b) {
         for (Block blocks : BlockUtil.getSurrounding(b, false))
             if (BlockUtil.TRANSPARENT_MATERIALS.contains(blocks.getType()))
                 return false;

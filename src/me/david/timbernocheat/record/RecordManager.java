@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class RecordManager implements Listener {
 
-    private ConfigRecord record;
+    private final ConfigRecord record;
     private BukkitTask task;
     private final Set<Recording> recordings = (Set<Recording>)new HashSet<Recording>();
 

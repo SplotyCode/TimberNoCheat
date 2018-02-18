@@ -38,7 +38,7 @@ public class SkinBlinker extends Check {
         });
     }
 
-    public boolean check(Player p){
+    private boolean check(Player p){
         if(!TimberNoCheat.checkmanager.isvalid_create(p)){
             return false;
         }

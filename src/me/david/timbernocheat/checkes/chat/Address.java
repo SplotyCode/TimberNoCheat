@@ -13,7 +13,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  */
 public class Address extends Check{
 
-    public final boolean block;
+    private final boolean block;
 
     public Address(){
         super("Address", Category.CHAT);

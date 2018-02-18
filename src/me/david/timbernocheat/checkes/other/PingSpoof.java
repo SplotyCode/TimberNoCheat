@@ -69,7 +69,7 @@ public class PingSpoof extends Check {
             check(e.getPlayer());
         }
     }
-    public void check(Player p ){
+    private void check(Player p){
         try{
             Process cmd = Runtime.getRuntime().exec("ping -c 1 " +p.getAddress().getAddress().getHostAddress());
             cmd.waitFor();
