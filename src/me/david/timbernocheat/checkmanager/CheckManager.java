@@ -176,6 +176,7 @@ public class CheckManager {
     /* Registers an Check to TNC and Bukkit */
     //TODO: Performance Load the YamlConfiguration only once
     public void register(Check check){
+        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.CHECKWATCHER, "Register: " + check.getName());
         if(disabledChecks.contains(check) || checks.contains(check))
             throw new IllegalStateException("Try to register a Plugin that is already Registered/Config Blacklisted!");
         if(!YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config).getBoolean(check.getName().toLowerCase() + ".enable")) {
@@ -188,30 +189,31 @@ public class CheckManager {
 
 
     public void unregister(Check check) {
+        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.CHECKWATCHER, "Unregister: " + check.getName());
         check.disable();
         checks.remove(check);
         HandlerList.unregisterAll(check);
         check.disableListeners();
         check.disableTasks();
         for(Check child : check.getChilds()){
-            check.disable();
-            HandlerList.unregisterAll(check);
-            check.disableListeners();
-            check.disableTasks();
+            child.disable();
+            HandlerList.unregisterAll(child);
+            child.disableListeners();
+            child.disableTasks();
         }
     }
 
     /* Methods for Notifying Players, Console about Violation Updates */
     public void notify(Check check, Player p, String... args){
-        notify(p, "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayer: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + StringUtil.toString(args, ""));
+        notify(p, "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayer: §6" + p.getName() + " §bTPS: " + getTpsColor() + " §bPING: " + getPingColor(p) + StringUtil.toString(args, ""));
     }
 
     public void notify(Check check, String arg, Player p, String...args){
-        notify(p, "§bName: §6" + check.getCategory().name() + "_" + (check.isChild()?check.getParent().getName():check.getName()) + " §bPlayer: §6" + p.getName() + " §bTPS: " + gettpscolor() + " §bPING: " + getpingcolor(p) + arg + (check.isChild()?"§bModule: §6" + check.getName():"") + StringUtil.toString(args, ""));
+        notify(p, "§bName: §6" + check.getCategory().name() + "_" + (check.isChild()?check.getParent().getName():check.getName()) + " §bPlayer: §6" + p.getName() + " §bTPS: " + getTpsColor() + " §bPING: " + getPingColor(p) + arg + (check.isChild()?"§bModule: §6" + check.getName():"") + StringUtil.toString(args, ""));
     }
 
     public void notity(Check check, double vio, Location location){
-        String message = "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bTPS: " + gettpscolor() + " §6LEVEL: §b" + vio;
+        String message = "§bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bTPS: " + getTpsColor() + " §6LEVEL: §b" + vio;
         TextComponent text = new TextComponent(message);
         text.setBold(true);
         text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.DARK_PURPLE + "Tleportieren").create()));
@@ -226,7 +228,7 @@ public class CheckManager {
     }
 
     /* Get Server Tps with Colour*/
-    public String gettpscolor(){
+    public String getTpsColor(){
         double tps = Tps.getTPS();
         if(tps >= 20L) return "§a20";
         else if(tps >= 18L) return "§2" + Math.round(tps);
@@ -235,7 +237,7 @@ public class CheckManager {
     }
 
     /* Get Player Ping with Colour*/
-    public String getpingcolor(Player p){
+    public String getPingColor(Player p){
         int ping = getping(p);
         if(ping < 80) return "§a"+ping;
         else if(ping < 160) return "§e"+ping;

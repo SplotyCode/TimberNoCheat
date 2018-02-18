@@ -24,7 +24,7 @@ public final class TNCAPI {
         return Tps.getTPS(ticks);
     }
     @Deprecated public static String getTPSColor(){
-        return TimberNoCheat.checkmanager.gettpscolor();
+        return TimberNoCheat.checkmanager.getTpsColor();
     }
 
     /*
@@ -35,7 +35,7 @@ public final class TNCAPI {
         return TimberNoCheat.checkmanager.getping(player);
     }
     @Deprecated public static String getPingColor(Player player){
-        return TimberNoCheat.checkmanager.getpingcolor(player);
+        return TimberNoCheat.checkmanager.getPingColor(player);
     }
 
     /*

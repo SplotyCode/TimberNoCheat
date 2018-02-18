@@ -23,7 +23,7 @@ public enum TNCApi {
         return Tps.getTPS(ticks);
     }
     public  String getTPSColor(){
-        return TimberNoCheat.checkmanager.gettpscolor();
+        return TimberNoCheat.checkmanager.getTpsColor();
     }
 
     /*
@@ -34,7 +34,7 @@ public enum TNCApi {
         return TimberNoCheat.checkmanager.getping(player);
     }
     public  String getPingColor(Player player){
-        return TimberNoCheat.checkmanager.getpingcolor(player);
+        return TimberNoCheat.checkmanager.getPingColor(player);
     }
 
     /*

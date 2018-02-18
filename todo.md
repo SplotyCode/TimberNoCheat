@@ -11,26 +11,26 @@ List:
     10) Add setBack functions<br>
     11) Fix backwards and side sprint<br>
     12) Improve Phase<br>
-    13) Redo Badpackets (mege with speed_timer, badpackets and morepackets)<br>
+    13) Redo Badpackets (merge with speed_timer, badpackets and morepackets)<br>
     14) Clean up Check class<br>
     16) Statistics Command<br><br>
     17) Improve Config Documentation<br>
-    18) Loop for Step (rod, hit, bow, slimes, jumo potions etc)<br>
+    18) Check for Step (rod, hit, bow, slimes, jump potions etc)<br>
     19) Speed ground diff<br>
-    20) Fix GodMode exeptions<br>
+    20) Fix GodMode Exceptions<br>
     21) Redo Scaffoldwalk<br>
     22) Add Tower Check<br>
     23) Improve Code Documentation<br>
     24) Finishing AuraBots<br>
     25) Finishing Record & Play System<br>
-    26) Inventory -> Delay walk check in both direktions<br>
-    27) Add Check Listener Debugger(Enable/Dissable)<br>
+    26) Inventory -> Delay walk check in both directions<br>
     28) Add Normal Scheduler Gui<br>
     29) Finish InGame Configuration (/tnc settings)<br>
+    30) Remove usages of Velocity.java<br>
 
 Already Done (just a few) :<br>
     1) Fix equls roatations<br>
-    2) Fix CharSpamm<br>
+    2) Fix CharSpam<br>
     3) Gui for Violations<br>
     4) Redo Equals rotation<br>
     5) Remove Check Dependencies<br>
@@ -39,3 +39,5 @@ Already Done (just a few) :<br>
     6) Update permissions.txt<br>
     15) Make TNCAPI a enum singleton (maby new class? for backwards compability?)<br>
     7) Register Permissions in plugin.yml<br>
+    27) Add Check Listener Debugger(Enable/Disable)<br>
+

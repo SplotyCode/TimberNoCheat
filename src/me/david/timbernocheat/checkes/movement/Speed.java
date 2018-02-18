@@ -327,6 +327,18 @@ public class Speed extends Check {
         }
     }
 
+    //TODO
+    private void sprintDirection(final PlayerMoveEvent event, final PlayerData playerData, final Player player){
+        final FalsePositive.FalsePositiveChecks falsePositives = playerData.getFalsepositives();
+        if(!player.getAllowFlight() && !falsePositives.hasVehicle(80) && !falsePositives.hasHitorbow(8) && !falsePositives.hasRod(14) && !falsePositives.hasExplosion(80)){
+            Location location = player.getLocation().clone();
+            location.setPitch(0);
+            float yaw = location.getYaw();
+            double normal = 0.06;
+
+        }
+    }
+
     private void check_jumping(PlayerMoveEvent e){
         if(PlayerUtil.isOnClimbable(e.getPlayer()) || e.getPlayer().getAllowFlight())return;
         if(e.getFrom().getY() < e.getTo().getY() && e.getTo().getY()-e.getFrom().getY() > SpeedUtil.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){

@@ -23,7 +23,8 @@ public enum  Debuggers {
     PLAYERDATA_USE,
     PLAYERDATA_MANAGE,
     PERMISSIONCACHE("Messages", "PermissionCheck"),
-    FASTLADDER("Add");
+    FASTLADDER("Add"),
+    CHECKWATCHER;
 
     private final ExternalDebuger debuger;
     private final boolean external;

@@ -187,74 +187,7 @@ public class Check implements Listener{
     }
 
     public void updateVio(Check check, Player player, double vio, String... other){
-        if(player == null) throw new IllegalArgumentException("Arg Player might not be null...");
-        final UUID uuid = player.getUniqueId();
-        if(whitelist.containsKey(uuid) && System.currentTimeMillis()-whitelist.get(uuid).getKey()<whitelist.get(uuid).getValue()) return;
-        boolean down = vio < 0;
-        if(((maxping > 0 && TimberNoCheat.checkmanager.getping(player) >= maxping) || (mintps > 0 && mintps <= Tps.getTPS()))) return;
-        if(viodelay > 0 && vioCache.containsKey(uuid) && violations.containsKey(uuid))
-            for(Map.Entry<Long, Double> v : vioCache.get(uuid).entrySet()){
-                long delay = System.currentTimeMillis()-v.getKey();
-                if(delay>viodelay){
-                    violations.put(uuid, violations.get(uuid)-v.getValue());
-                    vioCache.get(uuid).remove(v.getKey());
-                }
-            }
-        if(down && getViolations().containsKey(uuid) && getViolations().get(uuid)-vio < 0) {
-            ViolationUpdateEvent e = new ViolationUpdateEvent(player, 0, violations.getOrDefault(uuid, 0D), check);
-            Bukkit.getServer().getPluginManager().callEvent(e);
-            if(!e.isCancelled()) {
-                violations.put(uuid, 0D);
-                if(isChild) parent.updateVio(parent, player, vio, other);
-            }
-            return;
-        }
-        ViolationUpdateEvent e = new ViolationUpdateEvent(player, violations.containsKey(uuid)? violations.get(uuid)+vio:vio, violations.getOrDefault(uuid, 0D), check);
-        Bukkit.getServer().getPluginManager().callEvent(e);
-        if(e.isCancelled())
-            return;
-        violations.put(uuid, e.getNewViolation());
-        if(isChild) parent.updateVio(parent, player, vio, other);
-        if(down)return;
-        double violation = violations.get(uuid);
-        ArrayList<Violation> triggert = new ArrayList<Violation>();
-        for(Violation cvio : vios)
-            if(cvio.getLevel() <= violation)
-                triggert.add(cvio);
-        Bukkit.getScheduler().runTask(TimberNoCheat.instance, () -> {
-            boolean canreset = false;
-            for(Violation ctrig : triggert) {
-                switch (ctrig.getType()) {
-                    case MESSAGE:
-                        player.sendMessage(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), player));
-                        break;
-                    case KICK:
-                        TimberNoCheat.checkmanager.notify(player, "[KICK] §bName: §6" + getCategory().name() + "_" + getName() + " §bPlayer: §6" + player.getName() + " §bTPS: " + TimberNoCheat.checkmanager.gettpscolor() + " §bPING: " + TimberNoCheat.checkmanager.getpingcolor(player) + violation + StringUtil.toString(other, ""));
-                        player.kickPlayer(TimberNoCheat.instance.prefix + replacemarker(ctrig.getRest(), player));
-                        canreset = true;
-                        break;
-                    case NOTIFY:
-                        TimberNoCheat.checkmanager.notify(check, " §6LEVEL: §b" + violations.get(uuid), player, other);
-                        break;
-                    case CMD:
-                        for (String cmd : ctrig.getRest().split(":"))
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replacemarker(cmd, player).replaceFirst("/", ""));
-                        canreset = true;
-                        break;
-                    default:
-                        TimberNoCheat.instance.getLogger().log(Level.WARNING, "Unknomn ViolationCheckType: " + ctrig.getType().name());
-                        break;
-                }
-            }
-            if(resetafter && canreset) {
-                ViolationUpdateEvent e1 = new ViolationUpdateEvent(player, 0, violations.get(uuid), check);
-                Bukkit.getServer().getPluginManager().callEvent(e1);
-                if(e1.isCancelled()){
-                    return;
-                }
-                violations.put(uuid, e.getNewViolation());
-            }
-        });
+        ViolationExecuter.execute(player, check, vio, other);
     }
 
     public double getCount(Player player, String count){
@@ -341,21 +274,6 @@ public class Check implements Listener{
         return violations.getOrDefault(uuid, 0d);
     }
 
-
-    private String replacemarker(String s, Player p){
-        s = ChatColor.translateAlternateColorCodes('&', s);
-        s = s.replaceAll("%player%", p.getName());
-        s = s.replaceAll("%uuid%", p.getUniqueId().toString());
-        s = s.replaceAll("%ip%", p.getAddress().getAddress().getHostAddress());
-        s = s.replaceAll("%ping%", String.valueOf(TimberNoCheat.checkmanager.getping(p)));
-        s = s.replaceAll("%pingcolor%", String.valueOf(TimberNoCheat.checkmanager.getpingcolor(p)));
-        s = s.replaceAll("%display%", p.getDisplayName());
-        s = s.replaceAll("%tapname%", p.getPlayerListName());
-        s = s.replaceAll("%vio%", String.valueOf(violations.getOrDefault(p.getUniqueId(), 0D)));
-        s = s.replaceAll("%tps%", String.valueOf(Tps.getTPS()));
-        s = s.replaceAll("%tpscolor%", TimberNoCheat.checkmanager.gettpscolor());
-        return s.replaceAll("%port%", String.valueOf(Bukkit.getPort()));
-    }
     public long getViodelay() {
         return viodelay;
     }
@@ -452,5 +370,9 @@ public class Check implements Listener{
 
     public ArrayList<Check> getDiabledsChilds() {
         return diabledsChilds;
+    }
+
+    public HashMap<UUID, Map.Entry<Long, Long>> getWhitelist() {
+        return whitelist;
     }
 }
