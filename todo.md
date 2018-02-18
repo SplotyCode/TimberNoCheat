@@ -27,6 +27,11 @@ List:
     28) Add Normal Scheduler Gui<br>
     29) Finish InGame Configuration (/tnc settings)<br>
     30) Remove usages of Velocity.java<br>
+    31) Add Listener Manager (only for listenrs how use static) and link it up in nocheatplus to remove static in listeners<br>
+    32) Maby Extends check from YamlFile? = Would clear a few listeners in check<br>
+    33) Link ViolationExecuter up to Checkmanager<br>
+    34) Write configuration variables in caps<br>
+    35) Make use of the Parent-Child-Check System (config change)<br>
 
 Already Done (just a few) :<br>
     1) Fix equls roatations<br>
