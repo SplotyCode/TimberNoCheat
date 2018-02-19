@@ -3,7 +3,6 @@ package me.david.timbernocheat.checkmanager;
 import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.ViolationUpdateEvent;
-import me.david.timbernocheat.listener.FreezHandler;
 import me.david.timbernocheat.runnable.Tps;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
@@ -20,7 +19,7 @@ import java.util.logging.Level;
  */
 public class ViolationExecutor {
 
-    public static void execute(final Player player, final Check check, double vio, String[] other){
+    public void execute(final Player player, final Check check, double vio, String[] other){
         if(player == null) throw new IllegalArgumentException("Arg Player might not be null...");
         final UUID uuid = player.getUniqueId();
         if(check.getWhitelist().containsKey(uuid) && System.currentTimeMillis()-check.getWhitelist().get(uuid).getKey()<check.getWhitelist().get(uuid).getValue()) return;
@@ -94,8 +93,8 @@ public class ViolationExecutor {
         });
     }
 
-    private static void kick(final Player player, final String reason){
-        FreezHandler.freez(player, 20*20*20*1000);
+    private void kick(final Player player, final String reason){
+        TimberNoCheat.instance.getListenerManager().getFreezeListener().freeze(player, 20*20*20*1000);
         runTask(() -> playEffect(player.getLocation().clone().add(0, 1.8, 0), Effect.ENDER_SIGNAL), 4, 50);
         final Location location = player.getEyeLocation();
         final double pitch = Math.toRadians(location.getYaw() + 90);
@@ -113,7 +112,7 @@ public class ViolationExecutor {
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> player.kickPlayer(reason), 20*20);
     }
 
-    private static void playEffect(final Location location, final Effect effect){
+    private void playEffect(final Location location, final Effect effect){
         final World world = location.getWorld();
         world.playEffect(location, effect, BlockFace.SOUTH_EAST);
         world.playEffect(location, effect, BlockFace.SOUTH);
@@ -126,12 +125,12 @@ public class ViolationExecutor {
         world.playEffect(location, effect, BlockFace.NORTH_WEST);
     }
 
-    private static void runTask(final Runnable runnable, final long delay, final int times){
+    private void runTask(final Runnable runnable, final long delay, final int times){
         for(int i = 0;i < times;i++)
             Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, runnable, i*delay);
     }
 
-    private static String replaceMarker(String s, Player p, Check check){
+    private String replaceMarker(String s, Player p, Check check){
         s = ChatColor.translateAlternateColorCodes('&', s);
         s = s.replaceAll("%player%", p.getName());
         s = s.replaceAll("%uuid%", p.getUniqueId().toString());

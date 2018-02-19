@@ -182,7 +182,7 @@ public class Check implements Listener{
     }
 
     public void updateVio(Check check, Player player, double vio, String... other){
-        ViolationExecutor.execute(player, check, vio, other);
+        TimberNoCheat.checkmanager.getExecutor().execute(player, check, vio, other);
     }
 
     public double getCount(Player player, String count){

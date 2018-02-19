@@ -47,6 +47,8 @@ public class TimberNoCheat extends ApiPlugin {
     /* Should we clear the PlayerData when the Player Logs out */
     private boolean clearPlayerData = true;
 
+    private ListenerManager listenerManager;
+
     /* Debug stuff */
     private MoveProfiler moveprofiler;
     private Debuger debuger;
@@ -98,7 +100,8 @@ public class TimberNoCheat extends ApiPlugin {
         recordManager = new RecordManager(config);
         triggerBlockManager = new TriggerBlockManager(this, triggerBlocks);
         oreNotifyManager = new OreNotifyManager();
-        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General(), new ChatHandler(), new OreNotify(), new FreezHandler());
+        listenerManager = new ListenerManager(this);
+        registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General(), new ChatHandler(), new OreNotify());
         registerCommands(new TNCCommand()/*, new TestCommand()*/);
         clearPlayerData = YamlConfiguration.loadConfiguration(config).getBoolean("clearPlayerData");
         log(false, "Es wurden " + checkmanager.getChecks().size() + " module geladen mit vielen unterchecks!");
@@ -150,6 +153,10 @@ public class TimberNoCheat extends ApiPlugin {
 
     public TriggerBlockManager getTriggerBlockManager() {
         return triggerBlockManager;
+    }
+
+    public ListenerManager getListenerManager() {
+        return listenerManager;
     }
 
     public void executeEssentials(final Player player, Consumer<User> runable){

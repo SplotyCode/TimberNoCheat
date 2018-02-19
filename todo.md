@@ -13,7 +13,7 @@ List:
     12) Improve Phase<br>
     13) Redo Badpackets (merge with speed_timer, badpackets and morepackets)<br>
     14) Clean up Check class<br>
-    16) Statistics Command<br><br>
+    16) Statistics Command<br>
     17) Improve Config Documentation<br>
     18) Check for Step (rod, hit, bow, slimes, jump potions etc)<br>
     19) Speed ground diff<br>
@@ -27,11 +27,10 @@ List:
     28) Add Normal Scheduler Gui<br>
     29) Finish InGame Configuration (/tnc settings)<br>
     30) Remove usages of Velocity.java<br>
-    31) Add Listener Manager (only for listenrs how use static) and link it up in nocheatplus to remove static in listeners<br>
     32) Maby Extends check from YamlFile? = Would clear a few listeners in check<br>
-    33) Link ViolationExecuter up to Checkmanager<br>
     34) Write configuration variables in caps<br>
     35) Make use of the Parent-Child-Check System (config change)<br>
+    36) Make Violation Reason abstract or over enums<br>
 
 Already Done (just a few) :<br>
     1) Fix equls roatations<br>
@@ -45,4 +44,5 @@ Already Done (just a few) :<br>
     15) Make TNCAPI a enum singleton (maby new class? for backwards compability?)<br>
     7) Register Permissions in plugin.yml<br>
     27) Add Check Listener Debugger(Enable/Disable)<br>
-
+    33) Link ViolationExecuter up to Checkmanager<br>
+    31) Add Listener Manager (only for listenrs how use static) and link it up in nocheatplus to remove static in listeners<br>

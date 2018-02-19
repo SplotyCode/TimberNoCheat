@@ -51,6 +51,9 @@ public class CheckManager {
      */
     private ArrayList<PlayerData> playerdata = new DebugPlayerDataList();
 
+    private ViolationExecutor executor = new ViolationExecutor();
+
+
     /*
      * Registering/Starting checks
      */
@@ -294,5 +297,9 @@ public class CheckManager {
             }
         }
         return map;
+    }
+
+    public ViolationExecutor getExecutor() {
+        return executor;
     }
 }
