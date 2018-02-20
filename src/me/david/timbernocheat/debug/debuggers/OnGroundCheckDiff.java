@@ -2,13 +2,13 @@ package me.david.timbernocheat.debug.debuggers;
 
 import me.david.timbernocheat.api.DebugMessageEvent;
 import me.david.timbernocheat.debug.Debuggers;
-import me.david.timbernocheat.debug.ExternalDebuger;
+import me.david.timbernocheat.debug.ExternalDebugger;
 import org.bukkit.event.EventHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class OnGroundCheckDiff extends ExternalDebuger {
+public class OnGroundCheckDiff extends ExternalDebugger {
 
     @EventHandler
     public void onDebug(DebugMessageEvent event){

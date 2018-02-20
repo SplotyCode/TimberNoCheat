@@ -29,7 +29,7 @@ public class PlaceReach extends Check {
             return;
         final double reach = e.getBlock().getLocation().distance(PlayerUtil.getEyeLocation(p));
         final double maxreach = p.getGameMode() == GameMode.CREATIVE?distancecreative:distancenormal;
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.RANGE, "PLACE: MaxReach=" + maxreach + " Reach=" + reach);
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.RANGE, "PLACE: MaxReach=" + maxreach + " Reach=" + reach);
 
         if(reach > maxreach){
             e.setCancelled(true);

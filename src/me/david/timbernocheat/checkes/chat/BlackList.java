@@ -9,10 +9,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BlackList extends Check {
 
-    private final ArrayList<String> blacklist;
+    private final List<String> blacklist;
+
     public BlackList(){
         super("BlackList", Category.CHAT);
         blacklist = getStringList("blacklist");

@@ -24,23 +24,24 @@ public enum  Debuggers {
     PLAYERDATA_MANAGE,
     PERMISSIONCACHE("Messages", "PermissionCheck"),
     FASTLADDER("Add"),
-    CHECKWATCHER;
+    CHECKWATCHER,
+    SCHEDULEREXEPTION("Deactivate Cooldown");
 
-    private final ExternalDebuger debuger;
+    private final ExternalDebugger debugger;
     private final boolean external;
     private HashMap<String, HashMap<UUID, Boolean>> settings = new HashMap<>();
 
     Debuggers(String... settings){
-        debuger = null;
+        debugger = null;
         external = false;
         for(String setting : settings)
             this.settings.put(setting, new HashMap<>());
     }
 
-    Debuggers(ExternalDebuger debuger, String... settings){
+    Debuggers(ExternalDebugger debugger, String... settings){
         external = true;
-        this.debuger = debuger;
-        TimberNoCheat.instance.registerListener(debuger);
+        this.debugger = debugger;
+        TimberNoCheat.instance.registerListener(debugger);
         for(String setting : settings)
             this.settings.put(setting, new HashMap<>());
     }
@@ -63,7 +64,7 @@ public enum  Debuggers {
         return external;
     }
 
-    public ExternalDebuger getDebuger() {
-        return debuger;
+    public ExternalDebugger getDebugger() {
+        return debugger;
     }
 }

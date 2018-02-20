@@ -10,7 +10,8 @@ import me.david.timbernocheat.command.blocktrigger.TriggerBlockManager;
 import me.david.timbernocheat.command.oreNotify.OreNotifyManager;
 import me.david.timbernocheat.config.Config;
 import me.david.timbernocheat.config.Permissions;
-import me.david.timbernocheat.debug.Debuger;
+import me.david.timbernocheat.debug.Debugger;
+import me.david.timbernocheat.debug.SchedulerProfiler;
 import me.david.timbernocheat.debug.obj.DebugPermissionCache;
 import me.david.timbernocheat.gui.GuiLoader;
 import me.david.timbernocheat.listener.*;
@@ -51,7 +52,9 @@ public class TimberNoCheat extends ApiPlugin {
 
     /* Debug stuff */
     private MoveProfiler moveprofiler;
-    private Debuger debuger;
+    private Debugger debugger;
+    private SchedulerProfiler schedulerProfiler;
+
 
     private OreNotifyManager oreNotifyManager;
     private TriggerBlockManager triggerBlockManager;
@@ -90,7 +93,8 @@ public class TimberNoCheat extends ApiPlugin {
             return;
         }
         moveprofiler = new MoveProfiler();
-        debuger = new Debuger();
+        debugger = new Debugger();
+        schedulerProfiler = new SchedulerProfiler();
 
         essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         if(essentials == null) log(false, "§cEssentials konnte nicht unter dem Namen 'Essentials' gefunden werden... Ein paar Features werden nicht funktionieren...");
@@ -143,8 +147,8 @@ public class TimberNoCheat extends ApiPlugin {
         return clearPlayerData;
     }
 
-    public Debuger getDebuger() {
-        return debuger;
+    public Debugger getDebugger() {
+        return debugger;
     }
 
     public OreNotifyManager getOreNotifyManager() {
@@ -157,6 +161,10 @@ public class TimberNoCheat extends ApiPlugin {
 
     public ListenerManager getListenerManager() {
         return listenerManager;
+    }
+
+    public SchedulerProfiler getSchedulerProfiler() {
+        return schedulerProfiler;
     }
 
     public void executeEssentials(final Player player, Consumer<User> runable){

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class Debuger {
+public class Debugger {
 
     private HashMap<UUID, ArrayList<String>> debuggingPlayers = new HashMap<>();
 
@@ -66,6 +66,18 @@ public class Debuger {
             if(isDebugging(entry.getKey(), event.getDebugger().name())){
                 Player player = Bukkit.getPlayer(entry.getKey());
                 if(player == null || !debug.getSetting(player, setting)) continue;
+                player.sendMessage(TimberNoCheat.instance.prefix + "§7[§eDEBUG§7][§b" + event.getDebugger().name().toUpperCase() + "§7] §6" + event.getMessage());
+            }
+    }
+
+    public void sendDebugNotSetting(Debuggers debug, String message, String setting, Object... data){
+        DebugMessageEvent event = new DebugMessageEvent(debug, message, data);
+        Bukkit.getPluginManager().callEvent(event);
+        if(event.isCancelled())return;
+        for(Map.Entry<UUID, ArrayList<String>> entry : debuggingPlayers.entrySet())
+            if(isDebugging(entry.getKey(), event.getDebugger().name())){
+                Player player = Bukkit.getPlayer(entry.getKey());
+                if(player == null || debug.getSetting(player, setting)) continue;
                 player.sendMessage(TimberNoCheat.instance.prefix + "§7[§eDEBUG§7][§b" + event.getDebugger().name().toUpperCase() + "§7] §6" + event.getMessage());
             }
     }

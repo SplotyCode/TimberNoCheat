@@ -10,11 +10,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Spamming extends Check {
     private final boolean ignorecase;
     private final boolean ignorecasewhitelist;
-    private final ArrayList<String> whitelist;
+    private final List<String> whitelist;
     private final int toshort;
 
     public Spamming(){

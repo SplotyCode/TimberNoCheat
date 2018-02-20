@@ -1,7 +1,11 @@
 package me.david.timbernocheat.checkmanager;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketListener;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.runnable.TimberScheduler;
+import me.david.timbernocheat.storage.YamlFile;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -12,8 +16,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.*;
+import java.util.logging.Level;
 
-public class Check implements Listener{
+public class Check extends YamlFile implements Listener {
 
     private String name;
     private Category category;
@@ -61,7 +66,11 @@ public class Check implements Listener{
     }
 
     public Check(String name, Category category) {
-        yml = YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config);
+        this(name, category, name.toLowerCase());
+    }
+
+    private Check(String name, Category category, String path) {
+        setRoot(path);
         this.name = name;
         this.category = category;
         this.resetafter = getBoolean("vioresetafteraction");
@@ -86,7 +95,7 @@ public class Check implements Listener{
     }
 
     public Check(String name, Category category, boolean child, Check parent) {
-        this(name, category);
+        this(name, category, parent.name + "." + name.toLowerCase());
         if(parent.isChild) throw new IllegalArgumentException("Childs can not have childs :(");
         isChild = child;
         this.parent = parent;
@@ -97,29 +106,6 @@ public class Check implements Listener{
         final UUID uuid = event.getPlayer().getUniqueId();
         if(counts.containsKey(uuid)) counts.remove(uuid);
         if(tickCounts.containsKey(uuid)) tickCounts.remove(uuid);
-    }
-
-    /*
-     * get config values
-     */
-    protected String getString(String s){
-        return yml.getString((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
-    }
-    protected int getInt(String s){
-        return yml.getInt((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
-    }
-    protected double getDouble(String s){
-        return yml.getDouble((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
-    }
-    protected long getLong(String s){
-        return yml.getLong((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
-    }
-    protected Long[] getLongList(String s){
-        return yml.getLongList((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s).toArray(new Long[0]);
-    }
-
-    protected boolean getBoolean(String s){
-        return yml.getBoolean((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
     }
 
     public ArrayList<String> getCustomSettings(){
@@ -138,17 +124,8 @@ public class Check implements Listener{
         yml.set((isChild?parent.name + ".":"") + this.name.toLowerCase() + "." + name, value);
     }
 
-    protected double[] getDoubleArray(String s){
-        Object[] list = yml.getDoubleList((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s).toArray();
-        return ArrayUtils.toPrimitive(Arrays.copyOf(list, list.length, Double[].class));
-    }
-
     public void startTasks(){}
-
-
-    protected ArrayList<String> getStringList(String s){
-        return (ArrayList<String>) yml.getStringList((isChild?parent.name + ".":"") + name.toLowerCase() + "." + s);
-    }
+    public void disable(){}
 
     public void resetVio(final Player player){
         resetVio(player.getUniqueId());
@@ -240,8 +217,20 @@ public class Check implements Listener{
     }
 
 
+    @Deprecated
     public void register(int... tasks){
         for(int task : tasks) bukkittasks.add(task);
+    }
+
+    public void register(TimberScheduler... schedulers){
+        for(TimberScheduler scheduler : schedulers) {
+            if(scheduler.getTaskId() == -1){
+                TimberNoCheat.instance.log(false, Level.WARNING, "Whoops. The Check '" + getName() + "' has tried to register Scheduler '" + scheduler.getRealName() + "' but has forgetting to start it...");
+                TimberNoCheat.instance.log(false, Level.WARNING, "Unfortunately we can not start it because we don't know the mode and the timing...");
+                continue;
+            }
+            bukkittasks.add(scheduler.getTaskId());
+        }
     }
 
     public void registernew(){
@@ -250,7 +239,24 @@ public class Check implements Listener{
 
     public void register(PacketListener... listeners){
         Collections.addAll(protocollistener, listeners);
-        for(PacketListener listener : listeners) TimberNoCheat.instance.protocolmanager.addPacketListener(listener);
+        for(PacketListener listener : listeners) {
+            boolean failed = false;
+            for(PacketType type : listener.getReceivingWhitelist().getTypes())
+                if(!type.isSupported()) {
+                    failed = true;
+                    if(protocollistener.contains(listener)) protocollistener.remove(listener);
+                }
+            for(PacketType type : listener.getSendingWhitelist().getTypes())
+                if(!type.isSupported()) {
+                    failed = true;
+                    if(protocollistener.contains(listener)) protocollistener.remove(listener);
+                }
+            if(!failed) TimberNoCheat.instance.protocolmanager.addPacketListener(listener);
+        }
+    }
+
+    public void runLater(TimberScheduler scheduler, int ticks){
+        scheduler.runTaskLater(TimberNoCheat.instance, ticks);
     }
 
     public void disableTasks(){
@@ -336,8 +342,6 @@ public class Check implements Listener{
     public String getName() {
         return name;
     }
-
-    public void disable(){}
 
     public void setName(String name) {
         this.name = name;

@@ -7,6 +7,8 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkmanager.Category;
 import me.david.timbernocheat.checkmanager.Check;
 import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.debug.Scheduler;
+import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.timbernocheat.runnable.Velocity;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.api.utils.player.PlayerUtil;
@@ -91,7 +93,7 @@ public class Killaura extends Check {
 
     @Override
     public void startTasks() {
-        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {
+        register(new TimberScheduler(Scheduler.KILLAURA, () -> {
             for(Player player : Bukkit.getOnlinePlayers())
                 if (TimberNoCheat.checkmanager.isvalid_create(player)){
                     PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
@@ -99,7 +101,7 @@ public class Killaura extends Check {
                     pd.setPackethit(0);
                     pd.setPacketswing(0);
                 }
-        }, 1, 20).getTaskId());
+        }).startTimmer(20));
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -201,7 +203,7 @@ public class Killaura extends Check {
             } else if(player.getLocation().getY() > damager.getLocation().getY()) {
                 maxreach += player.getLocation().getY() - damager.getLocation().getY() / lowgroud_mofier;
             }
-            TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.ATTACK_RANGE, "MaxReach=" + maxreach + " Reach=" + reach);
+            TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.ATTACK_RANGE, "MaxReach=" + maxreach + " Reach=" + reach);
 
             if(reach > maxreach) {
                 updateVio(this, damager, reach-maxreach*viomodifier, " §6TYPE: §bREACH", " §6MAXREACH: §b" + maxreach, " §6REACH: §b" + reach);

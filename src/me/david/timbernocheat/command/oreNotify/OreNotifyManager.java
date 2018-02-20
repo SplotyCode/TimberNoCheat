@@ -44,7 +44,7 @@ public class OreNotifyManager {
         final UUID uuid = player.getUniqueId();
         HashMap<Material, Integer> count = counters.get(uuid);
         if(count == null){
-            counters.put(uuid, new HashMap<>(){{
+            counters.put(uuid, new HashMap<Material, Integer>(){{
                 put(material, 1);
             }});
             return 1;

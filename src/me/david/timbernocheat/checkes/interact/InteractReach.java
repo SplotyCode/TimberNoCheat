@@ -31,7 +31,7 @@ public class InteractReach extends Check {
         Location loc = p.getLocation();
         final double reach = LocationUtil.distance(loc.getX(), loc.getY() + p.getEyeHeight(), loc.getZ(), 0.5 + e.getClickedBlock().getX(), 0.5 + e.getClickedBlock().getY(), 0.5 + e.getClickedBlock().getZ());
         final double maxreach = p.getGameMode() == GameMode.CREATIVE?distancecreative:distancenormal;
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.RANGE, "INTERACT: MaxReach=" + maxreach + " Reach=" + reach);
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.RANGE, "INTERACT: MaxReach=" + maxreach + " Reach=" + reach);
 
         if(reach > maxreach){
             e.setCancelled(true);

@@ -20,7 +20,7 @@ public class Regen extends Check {
         super("Regen", Category.COBMAT);
         delaySatiated = getLong("delaySatiated");
         delayPeaceful = getLong("delayPeaceful");
-        delayRegens = getLongList("delayRegens");
+        delayRegens = getLangLongArray("delayRegens");
     }
 
     @EventHandler

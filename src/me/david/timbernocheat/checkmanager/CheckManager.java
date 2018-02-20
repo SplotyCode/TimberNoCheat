@@ -156,11 +156,11 @@ public class CheckManager {
      */
     public boolean isvalid_create(Player p){
         if(TimberNoCheat.instance.permissioncache.hasPermission(p, Permissions.NOTCHECKT)) {
-            TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PLAYERDATA_USE, "Access granted: " + p.getName());
+            TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PLAYERDATA_USE, "Access granted: " + p.getName());
             return false;
         }
         if(getPlayerdata(p) == null) playerdata.add(new PlayerData(p.getUniqueId()));
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PLAYERDATA_USE, "Data Okay: " + p.getName());
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PLAYERDATA_USE, "Data Okay: " + p.getName());
 
         return true;
     }
@@ -179,7 +179,7 @@ public class CheckManager {
     /* Registers an Check to TNC and Bukkit */
     //TODO: Performance Load the YamlConfiguration only once
     public void register(Check check){
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.CHECKWATCHER, "Register: " + check.getName());
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.CHECKWATCHER, "Register: " + check.getName());
         if(disabledChecks.contains(check) || checks.contains(check))
             throw new IllegalStateException("Try to register a Plugin that is already Registered/Config Blacklisted!");
         if(!YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config).getBoolean(check.getName().toLowerCase() + ".enable")) {
@@ -192,7 +192,7 @@ public class CheckManager {
 
 
     public void unregister(Check check) {
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.CHECKWATCHER, "Unregister: " + check.getName());
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.CHECKWATCHER, "Unregister: " + check.getName());
         check.disable();
         checks.remove(check);
         HandlerList.unregisterAll(check);

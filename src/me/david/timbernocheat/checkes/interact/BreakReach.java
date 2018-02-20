@@ -28,7 +28,7 @@ public class BreakReach extends Check {
         if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         final double reach = e.getBlock().getLocation().distance(PlayerUtil.getEyeLocation(p));
         final double maxreach = p.getGameMode() == GameMode.CREATIVE?distancecreative:distancenormal;
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.RANGE, "BREAK: MaxReach=" + maxreach + " Reach=" + reach);
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.RANGE, "BREAK: MaxReach=" + maxreach + " Reach=" + reach);
         if(reach > maxreach){
             e.setCancelled(true);
             updateVio(this, p, (reach-maxreach)*vlmodi, "§6REACH: §b" + reach);

@@ -18,12 +18,10 @@ public class BadPackets extends Check {
         max_moves = getInt("max_moves");
     }
 
-        @EventHandler
-        public void onMove(PlayerMoveEvent e){
-            final Player p = e.getPlayer();
-            if(!TimberNoCheat.checkmanager.isvalid_create(p)){
-                return;
-        }
+    @EventHandler
+    public void onMove(PlayerMoveEvent e){
+        final Player p = e.getPlayer();
+        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
         if(!e.getTo().getWorld().getName().equals(e.getFrom().getWorld().getName()))return;
         if(!(e.getTo().getX() != e.getFrom().getX() || e.getTo().getZ() != e.getFrom().getZ() || e.getTo().getY() != e.getFrom().getY()))return;
@@ -34,6 +32,5 @@ public class BadPackets extends Check {
             //TimberNoCheat.checkmanager.notify(this, p, " §6LEVEL: §b" + (pd.getMoveslastticks()-TimberNoCheat.instance.settings.player_badpackets_maxmoves)/2);
             //pd.setMoveslastticks(0);
         }
-
     }
 }

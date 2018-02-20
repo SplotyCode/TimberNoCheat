@@ -23,14 +23,14 @@ public class GuiDebug extends ArrayGui<Debuggers> {
 
     @Override
     protected ItemStack getItemStack(Debuggers obj, Player player) {
-        return ItemStackUtil.createbasic("§6Toggle §b" + obj.name(), 1, TimberNoCheat.instance.getDebuger().isDebugging(player, obj.name())?Material.GLOWSTONE_DUST:Material.REDSTONE);
+        return ItemStackUtil.createbasic("§6Toggle §b" + obj.name(), 1, TimberNoCheat.instance.getDebugger().isDebugging(player, obj.name())?Material.GLOWSTONE_DUST:Material.REDSTONE);
     }
 
     @Override
     protected void itemclick(Debuggers obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         if(clicktype.isLeftClick()) {
-            TimberNoCheat.instance.getDebuger().toggleDebugger(p.getUniqueId(), obj.name());
-            p.sendMessage(TimberNoCheat.instance.prefix + "Der Debugger §b" + obj.name() + "§6 ist nun " + (TimberNoCheat.instance.getDebuger().isDebugging(p, obj.name()) ? "§aAktiviert" : "§cDeaktiviert") + "§6!");
+            TimberNoCheat.instance.getDebugger().toggleDebugger(p.getUniqueId(), obj.name());
+            p.sendMessage(TimberNoCheat.instance.prefix + "Der Debugger §b" + obj.name() + "§6 ist nun " + (TimberNoCheat.instance.getDebugger().isDebugging(p, obj.name()) ? "§aAktiviert" : "§cDeaktiviert") + "§6!");
             TimberNoCheat.instance.guimanager.reopen(p);
         }else if(clicktype.isRightClick()){
             TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REMOVE);

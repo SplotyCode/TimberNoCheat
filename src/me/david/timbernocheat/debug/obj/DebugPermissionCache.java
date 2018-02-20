@@ -15,13 +15,13 @@ public class DebugPermissionCache extends PermissionCache{
         super(TimberNoCheat.instance, permissionex, autoupdate, clearonleave, new HashMap<UUID, HashMap<String, Boolean>>(){
             @Override
             public HashMap<String, Boolean> put(UUID uuid, HashMap<String, Boolean> stringBooleanHashMap) {
-                TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PERMISSIONCACHE, "Put Nodes into " + uuid.toString());
+                TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PERMISSIONCACHE, "Put Nodes into " + uuid.toString());
                 return super.put(uuid, stringBooleanHashMap);
             }
         }, new HashMap<String, Boolean>(){
             @Override
             public Boolean put(String s, Boolean aBoolean) {
-                TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PERMISSIONCACHE, "Updatet '" + s + "' to " + aBoolean);
+                TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PERMISSIONCACHE, "Updatet '" + s + "' to " + aBoolean);
                 return super.put(s, aBoolean);
             }
         });
@@ -29,32 +29,32 @@ public class DebugPermissionCache extends PermissionCache{
 
     @Override
     public void clearAll() {
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PERMISSIONCACHE, "Clear complete permission cache");
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PERMISSIONCACHE, "Clear complete permission cache");
         super.clearAll();
     }
 
     @Override
     public void clearPlayer(Player p) {
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PERMISSIONCACHE, "Clear permission cache for '" + p.getName() + "'");
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PERMISSIONCACHE, "Clear permission cache for '" + p.getName() + "'");
         super.clearPlayer(p);
     }
 
     @Override
     public boolean hasPermission(Player p, String permission) {
         boolean result =  super.hasPermission(p, permission);
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PERMISSIONCACHE, "Cashed result for '" + permission + "' is " + result, "PermissionCheck");
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PERMISSIONCACHE, "Cashed result for '" + permission + "' is " + result, "PermissionCheck");
         return result;
     }
 
     @Override
     public void sendAll(String permission, String message) {
         super.sendAll(permission, message);
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PERMISSIONCACHE, "Send Message '" + message + "' for players with permission '" + permission + "'", "Messages");
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PERMISSIONCACHE, "Send Message '" + message + "' for players with permission '" + permission + "'", "Messages");
     }
 
     @Override
     public void sendAll(String permission, TextComponent message) {
         super.sendAll(permission, message);
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PERMISSIONCACHE, "Send Message '" + message + "' for players with permission '" + permission + "'(2)", "Messages");
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PERMISSIONCACHE, "Send Message '" + message + "' for players with permission '" + permission + "'(2)", "Messages");
     }
 }

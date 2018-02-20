@@ -10,7 +10,7 @@ public abstract class PulseTrigger extends Action {
     @Override protected void execute(AttributeList atributes, boolean state) {}
 
     @Override
-    protected void trigger(Location location, AttributeList atributes, boolean state) {
+    public void trigger(Location location, AttributeList atributes, boolean state) {
         this.location = location;
         if(state) start(atributes);
         else end(atributes);

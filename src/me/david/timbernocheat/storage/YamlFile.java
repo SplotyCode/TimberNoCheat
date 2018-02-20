@@ -1,5 +1,6 @@
 package me.david.timbernocheat.storage;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -8,6 +9,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class YamlFile extends YamlConfiguration {
@@ -91,6 +95,26 @@ public class YamlFile extends YamlConfiguration {
         return enumClass.getEnumConstants()[getInt(path)];
     }
 
+    protected double[] getDoubleArray(String path){
+        Object[] list = getDoubleList(path).toArray();
+        return ArrayUtils.toPrimitive(Arrays.copyOf(list, list.length, Double[].class));
+    }
+
+    protected String[] getStringArray(String path){
+        List<String> list = getStringList(path);
+        return list.toArray(new String[list.size()]);
+    }
+
+    protected long[] getLongArray(String path){
+        Object[] list = getLongList(path).toArray();
+        return ArrayUtils.toPrimitive(Arrays.copyOf(list, list.length, Long[].class));
+    }
+
+    protected Long[] getLangLongArray(String path){
+        List<Long> list = getLongList(path);
+        return list.toArray(new Long[list.size()]);
+    }
+
     public void save(){
         try {
             save(file);
@@ -109,5 +133,13 @@ public class YamlFile extends YamlConfiguration {
             e.printStackTrace();
         }
         return yaml;
+    }
+
+    public void setRoot(String path){
+        try {
+            loadFromString(((YamlConfiguration)super.getConfigurationSection(path)).saveToString());
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 }

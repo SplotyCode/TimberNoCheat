@@ -8,6 +8,8 @@ import me.david.timbernocheat.checkmanager.Category;
 import me.david.timbernocheat.checkmanager.Check;
 import me.david.timbernocheat.checkmanager.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
+import me.david.timbernocheat.debug.Scheduler;
+import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.timbernocheat.util.SpeedUtil;
 import me.david.timbernocheat.runnable.Velocity;
 import me.david.timbernocheat.debug.Debuggers;
@@ -156,7 +158,7 @@ public class Speed extends Check {
 
     @Override
     public void startTasks() {
-        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {
+        register(new TimberScheduler(Scheduler.PATTERN_SPEED, () -> {
             for(Player p : Bukkit.getOnlinePlayers()){
                 if(!TimberNoCheat.checkmanager.isvalid_create(p) || p.getAllowFlight())continue;
                 PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
@@ -188,8 +190,8 @@ public class Speed extends Check {
                     if(disabledpatterns.contains(optimalpattern.name)) continue;
                     double toomuch = 0;
                     int toomushper = 0;
-                    TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, "CAPTURED: xz=" + xzDiff + " yUp=" + yDiffUp + " yDown=" + yDiffdown);
-                    TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, "PATTERN: xz=" + optimalpattern.horizontal + " yUP=" + optimalpattern.verticalup + " yDown=" + optimalpattern.verticaldown);
+                    TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PATTERN_SPEED, "CAPTURED: xz=" + xzDiff + " yUp=" + yDiffUp + " yDown=" + yDiffdown);
+                    TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PATTERN_SPEED, "PATTERN: xz=" + optimalpattern.horizontal + " yUP=" + optimalpattern.verticalup + " yDown=" + optimalpattern.verticaldown);
                     if (optimalpattern.verticaldown < yDiffdown) {
                         if(generators.contains(p.getUniqueId())){
                             p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffdown to '" + yDiffdown + "'!");
@@ -228,7 +230,7 @@ public class Speed extends Check {
                 }
                 pd.setLastticklocation(p.getLocation());
             }
-        }, 0, 1).getTaskId());
+        }).runTaskLater(1));
     }
 
     private SpeedPattern generateSpeedPattern(Player player, PlayerData pd){
@@ -286,7 +288,7 @@ public class Speed extends Check {
         for (PotionEffect effect : p.getActivePotionEffects())
             if (effect.getType().equals(PotionEffectType.SPEED))
                 limitXZ += (PlayerUtil.isOnGround(p)?nspeedground:nspeed) * (effect.getAmplifier() + 1);
-        TimberNoCheat.instance.getDebuger().sendDebug(Debuggers.PATTERN_SPEED, " max=" + limitXZ + " player=" + offsetXZ);
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PATTERN_SPEED, " max=" + limitXZ + " player=" + offsetXZ);
         if(offsetXZ > limitXZ)
             updateVio(this, p, offsetXZ-limitXZ*nviomodi, " §6MODE: §bNORMAL");
     }
