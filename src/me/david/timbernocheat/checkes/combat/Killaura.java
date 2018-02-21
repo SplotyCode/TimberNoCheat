@@ -101,7 +101,7 @@ public class Killaura extends Check {
                     pd.setPackethit(0);
                     pd.setPacketswing(0);
                 }
-        }).startTimmer(20));
+        }).startTimer(20));
     }
 
     @EventHandler(priority = EventPriority.LOW)

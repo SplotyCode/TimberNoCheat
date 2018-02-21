@@ -9,7 +9,6 @@ import me.david.api.sound.SoundCategory;
 import me.david.api.utils.ItemStackUtil;
 import me.david.api.utils.ScoreboardUtil;
 import me.david.timbernocheat.debug.Scheduler;
-import me.david.timbernocheat.debug.SchedulerProfiler;
 import me.david.timbernocheat.runnable.TimberScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -43,7 +42,7 @@ public class GuiMoveProfiler extends Gui implements Listener {
                 i++;
             }
             ScoreboardUtil.sendScoreboard(ScoreboardUtil.createScoreboard("§bMove§6Profiler", profile), profilePlayer);
-        }).startTimmer(20);
+        }).startTimer(20);
         Bukkit.getPluginManager().registerEvents(this, pl);
     }
 

@@ -50,7 +50,12 @@ public class TimberScheduler extends BukkitRunnable {
         return this;
     }
 
-    public TimberScheduler startTimmer(long delay){
+    public TimberScheduler runNextTick(){
+        super.runTask(TimberNoCheat.instance);
+        return this;
+    }
+
+    public TimberScheduler startTimer(long delay){
         super.runTaskTimer(TimberNoCheat.instance, 1, delay);
         return this;
     }

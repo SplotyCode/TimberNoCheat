@@ -16,7 +16,9 @@ public class Violation {
         /* Sends a Message to the Player */
         MESSAGE,
         /* Damage the Player */
-        DAMAGE
+        DAMAGE,
+        /* Setbacks the action */
+        SETBACK
     }
 
     /* The Level when the Violation will trigger*/

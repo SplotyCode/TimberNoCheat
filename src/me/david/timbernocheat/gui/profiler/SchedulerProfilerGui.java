@@ -41,7 +41,7 @@ public class SchedulerProfilerGui extends Gui implements Listener {
                 i++;
             }
             ScoreboardUtil.sendScoreboard(ScoreboardUtil.createScoreboard("§bMove§6Profiler", profile), profilePlayer);
-        }).startTimmer(20);
+        }).startTimer(20);
         Bukkit.getPluginManager().registerEvents(this, pl);
     }
 

@@ -70,6 +70,7 @@ public class Check extends YamlFile implements Listener {
     }
 
     private Check(String name, Category category, String path) {
+        super(TimberNoCheat.instance.config);
         setRoot(path);
         this.name = name;
         this.category = category;
@@ -158,8 +159,8 @@ public class Check extends YamlFile implements Listener {
         updateVio(getChildByString(c), p, vio, other);
     }
 
-    public void updateVio(Check check, Player player, double vio, String... other){
-        TimberNoCheat.checkmanager.getExecutor().execute(player, check, vio, other);
+    public boolean updateVio(Check check, Player player, double vio, String... other){
+        return TimberNoCheat.checkmanager.getExecutor().execute(player, check, vio, other);
     }
 
     public double getCount(Player player, String count){

@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkmanager;
 import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.ViolationUpdateEvent;
+import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.timbernocheat.runnable.Tps;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
@@ -19,12 +20,12 @@ import java.util.logging.Level;
  */
 public class ViolationExecutor {
 
-    public void execute(final Player player, final Check check, double vio, String[] other){
+    public boolean execute(final Player player, final Check check, double vio, String[] other){
         if(player == null) throw new IllegalArgumentException("Arg Player might not be null...");
         final UUID uuid = player.getUniqueId();
-        if(check.getWhitelist().containsKey(uuid) && System.currentTimeMillis()-check.getWhitelist().get(uuid).getKey()<check.getWhitelist().get(uuid).getValue()) return;
+        if(check.getWhitelist().containsKey(uuid) && System.currentTimeMillis()-check.getWhitelist().get(uuid).getKey()<check.getWhitelist().get(uuid).getValue()) return false;
         boolean down = vio < 0;
-        if(((check.getMaxping() > 0 && TimberNoCheat.checkmanager.getping(player) >= check.getMaxping()) || (check.getMintps() > 0 && check.getMintps() <= Tps.getTPS()))) return;
+        if(((check.getMaxping() > 0 && TimberNoCheat.checkmanager.getping(player) >= check.getMaxping()) || (check.getMintps() > 0 && check.getMintps() <= Tps.getTPS()))) return false;
         if(check.getViodelay() > 0 && check.getVioCache().containsKey(uuid) && check.getViolations().containsKey(uuid))
             for(Map.Entry<Long, Double> v : check.getVioCache().get(uuid).entrySet()){
                 long delay = System.currentTimeMillis()-v.getKey();
@@ -40,57 +41,61 @@ public class ViolationExecutor {
                 check.getViolations().put(uuid, 0D);
                 if(check.isChild()) check.getParent().updateVio(check.getParent(), player, vio, other);
             }
-            return;
+            return false;
         }
         ViolationUpdateEvent e = new ViolationUpdateEvent(player, check.getViolations().containsKey(uuid)? check.getViolations().get(uuid)+vio:vio, check.getViolations().getOrDefault(uuid, 0D), check);
         Bukkit.getServer().getPluginManager().callEvent(e);
-        if(e.isCancelled()) return;
+        if(e.isCancelled()) return false;
         check.getViolations().put(uuid, e.getNewViolation());
         if(check.isChild()) check.getParent().updateVio(check.getParent(), player, vio, other);
-        if(down)return;
+        if(down)return false;
         double violation = check.getViolations().get(uuid);
         ArrayList<Violation> triggert = new ArrayList<Violation>();
         for(Violation cvio : check.getVios())
             if(cvio.getLevel() <= violation)
                 triggert.add(cvio);
-        Bukkit.getScheduler().runTask(TimberNoCheat.instance, () -> {
-            boolean canreset = false;
-            for(Violation ctrig : triggert) {
-                /* Definition for the Types can be read in Vialation.ViolationTypes */
-                switch (ctrig.getType()) {
-                    case MESSAGE:
-                        player.sendMessage(TimberNoCheat.instance.prefix + replaceMarker(ctrig.getRest(), player, check));
-                        break;
-                    case KICK:
-                        TimberNoCheat.checkmanager.notify(player, "[KICK] §bName: §6" + check.getCategory().name() + "_" + check.getName() + " §bPlayer: §6" + player.getName() + " §bTPS: " + TimberNoCheat.checkmanager.getTpsColor() + " §bPING: " + TimberNoCheat.checkmanager.getPingColor(player) + violation + StringUtil.toString(other, ""));
-                        kick(player, TimberNoCheat.instance.prefix + replaceMarker(ctrig.getRest(), player, check));
-                        canreset = true;
-                        break;
-                    case NOTIFY:
-                        TimberNoCheat.checkmanager.notify(check, " §6LEVEL: §b" + check.getViolations().get(uuid), player, other);
-                        break;
-                    case CMD:
+        boolean canReset = false;
+        boolean setBack = false;
+        for(Violation ctrig : triggert) {
+            /* Definition for the Types can be read in Vialation.ViolationTypes */
+            switch (ctrig.getType()) {
+                case MESSAGE:
+                    new TimberScheduler("ViolationExecutor(Message)", () -> player.sendMessage(TimberNoCheat.instance.prefix + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
+                    break;
+                case KICK:
+                    new TimberScheduler("ViolationExecutor(Kick)", () -> kick(player, TimberNoCheat.instance.prefix + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
+                    canReset = true;
+                    break;
+                case NOTIFY:
+                    new TimberScheduler("ViolationExecutor(Notify)", () -> TimberNoCheat.checkmanager.notify(check, " §6LEVEL: §b" + check.getViolations().get(uuid), player, other)).runNextTick();
+                    break;
+                case CMD:
+                    new TimberScheduler("ViolationExecutor(Command)", () -> {
                         for (String cmd : ctrig.getRest().split(":"))
                             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replaceMarker(cmd, player, check).replaceFirst("/", ""));
-                        canreset = true;
-                        break;
-                    case DAMAGE:
-                        player.damage(Double.parseDouble(ctrig.getRest()));
-                        break;
-                    default:
-                        TimberNoCheat.instance.getLogger().log(Level.WARNING, "Unknomn ViolationCheckType: " + ctrig.getType().name());
-                        break;
-                }
+                    }).runNextTick();
+                    canReset = true;
+                    break;
+                case DAMAGE:
+                    new TimberScheduler("ViolationExecutor(Damage)", () -> player.damage(Double.parseDouble(ctrig.getRest()))).runNextTick();
+                    break;
+                case SETBACK:
+                    setBack = true;
+                    break;
+                default:
+                    TimberNoCheat.instance.getLogger().log(Level.WARNING, "Unknomn ViolationCheckType: " + ctrig.getType().name());
+                    break;
             }
-            if(check.isResetafter() && canreset) {
-                ViolationUpdateEvent e1 = new ViolationUpdateEvent(player, 0, check.getViolations().get(uuid), check);
-                Bukkit.getServer().getPluginManager().callEvent(e1);
-                if(e1.isCancelled()){
-                    return;
-                }
-                check.getViolations().put(uuid, e.getNewViolation());
+        }
+        if(check.isResetafter() && canReset) {
+            ViolationUpdateEvent e1 = new ViolationUpdateEvent(player, 0, check.getViolations().get(uuid), check);
+            Bukkit.getServer().getPluginManager().callEvent(e1);
+            if(e1.isCancelled()){
+                return setBack;
             }
-        });
+            check.getViolations().put(uuid, e.getNewViolation());
+        }
+        return setBack;
     }
 
     private void kick(final Player player, final String reason){

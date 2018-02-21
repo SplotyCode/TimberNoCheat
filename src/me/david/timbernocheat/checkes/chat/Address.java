@@ -4,6 +4,7 @@ import me.david.timbernocheat.checkmanager.Category;
 import me.david.timbernocheat.checkmanager.Check;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.api.utils.UrlUtil;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -13,19 +14,18 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  */
 public class Address extends Check{
 
-    private final boolean block;
-
     public Address(){
         super("Address", Category.CHAT);
-        block = getBoolean("block");
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChat(AsyncPlayerChatEvent e){
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.getMessage().startsWith("/")) return;
-        if(!UrlUtil.blockURL(e.getMessage()).equals(e.getMessage())){
-            updateVio(this, e.getPlayer(), 1, " §6MESSAGE: §b" + e.getMessage());
-            if(block) e.setCancelled(true);
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onChat(final AsyncPlayerChatEvent event){
+        final Player player = event.getPlayer();
+        final String message = event.getMessage();
+        if(!TimberNoCheat.checkmanager.isvalid_create(player) || message.startsWith("/")) return;
+        if(!UrlUtil.blockURL(message).equals(message)){
+            if(updateVio(this, player, 1, " §6MESSAGE: §b" + message))
+                event.setCancelled(true);
         }
     }
 }
