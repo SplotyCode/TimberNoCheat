@@ -42,17 +42,17 @@ public class HitBoxes extends Check {
     }
 
     @EventHandler
-    public void onUse(EntityDamageByEntityEvent e) {
-        if (e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;
-        if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) return;
-        Player player = (Player) e.getDamager();
+    public void onUse(EntityDamageByEntityEvent event) {
+        if (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;
+        if (!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player)) return;
+        Player player = (Player) event.getDamager();
         if(!TimberNoCheat.checkmanager.isvalid_create(player))return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
-        Player attacked = (Player) e.getEntity();
+        Player attacked = (Player) event.getEntity();
         float nomral = normal(pd, player, attacked);
-        if(normal && nomral != 0) updateVio(this, player, nomral<1?1:nomral, " §6MODE: §bNORMAL");
+        if(normal && nomral != 0) if(updateVio(this, player, nomral<1?1:nomral, " §6MODE: §bNORMAL")) event.setCancelled(true);
         float advanced = advanced(pd, player, attacked);
-        if(this.advanced && advanced != 0) updateVio(this, player, advanced<1?1:advanced*1.4, " §6MODE: §bADVANCED");
+        if(this.advanced && advanced != 0) if(updateVio(this, player, advanced<1?1:advanced*1.4, " §6MODE: §bADVANCED")) event.setCancelled(true);
     }
 
     private float advanced(PlayerData pd, Player player, Player attacked){

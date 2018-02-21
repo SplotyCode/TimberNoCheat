@@ -15,44 +15,58 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class Accuracy extends Check {
 
-    private final int mindata;
-    private final long mindelay;
-    private final float minaccuracy;
+    private final int MINDATA;
+    private final long MINDELAY;
+    private final float MINACCURACY;
+    private final boolean MOVE;
+    private final long MOVEDELAY;
 
     public Accuracy() {
         super("Accuracy", Category.COBMAT);
-        mindata = getInt("mindata");
-        mindelay = getLong("mindelay");
-        minaccuracy = (float) getDouble("minaccuracy");
+        MINDATA = getInt("mindata");
+        MINDELAY = getLong("mindelay");
+        MINACCURACY = (float) getDouble("minaccuracy");
+        MOVE = getBoolean("move");
+        MOVEDELAY = getLong("movedelay");
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    private void onHit(EntityDamageByEntityEvent event) {
+    @EventHandler(priority = EventPriority.HIGH)
+    private void onHit(final EntityDamageByEntityEvent event) {
         if(!(event.getDamager() instanceof Player) || event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getDamager().getNearbyEntities(5.8, 5.8, 5.8).stream().anyMatch(en -> en instanceof LivingEntity))return;
-        if(TimberNoCheat.checkmanager.isvalid_create((Player) event.getDamager()))
-            check((Player) event.getDamager(), false);
+        final Player player = (Player) event.getDamager();
+        if(TimberNoCheat.checkmanager.isvalid_create(player))
+            if(!MOVE || event.getEntity() instanceof Player)
+                if(check(player, MOVE?(Player) event.getEntity():null, false)) event.setCancelled(true);
     }
 
+    //TODO: Do we know to cancel this?
     @EventHandler
-    private void onFail(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
-        if (event.getAction() != Action.LEFT_CLICK_AIR || p.getNearbyEntities(5.8, 5.8, 5.8).stream().anyMatch(en -> en instanceof LivingEntity)) return;
-        if(TimberNoCheat.checkmanager.isvalid_create(p))
-            check(p, true);
+    private void onFail(final PlayerInteractEvent event) {
+        final Player player = event.getPlayer();
+        if (event.getAction() != Action.LEFT_CLICK_AIR || player.getNearbyEntities(5.8, 5.8, 5.8).stream().anyMatch(en -> en instanceof LivingEntity)) return;
+        if(TimberNoCheat.checkmanager.isvalid_create(player))
+            check(player, null, true);
     }
 
-    private void check(Player p, boolean miss) {
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+    private boolean check(final Player player, final Player target, boolean miss) {
+        if(target != null){
+            if(!TimberNoCheat.checkmanager.isvalid_create(target))return false;
+            long moveDelay = System.currentTimeMillis()-TimberNoCheat.checkmanager.getPlayerdata(target).getGenerals().getLastRealMove();
+            if(moveDelay > MOVEDELAY) return false;
+        }
+        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
         pd.getAccuracy().put(System.currentTimeMillis(), miss);
-        if(pd.getAccuracy().size() == mindata){
+        if(pd.getAccuracy().size() == MINDATA){
             final long delay = System.currentTimeMillis()-(long)pd.getAccuracy().keySet().toArray()[0];
-            if(delay <= mindelay){
+            if(delay <= MINDELAY){
                 int hits = 0;
                 for(Boolean bool : pd.getAccuracy().values()) if(!bool) hits++;
                 float per = hits/pd.getAccuracy().size()*100;
-                if(per >= minaccuracy) updateVio(this, p, per/2, " §6HitPercentage: §b" + per, " §6IN: §b" + delay/1000 + "s");
+                if(per >= MINACCURACY)
+                    return updateVio(this, player, per/2, " §6HitPercentage: §b" + per, " §6IN: §b" + delay/1000 + "s");
             }
             pd.getAccuracy().clear();
         }
+        return false;
     }
 }

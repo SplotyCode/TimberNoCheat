@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+//TODO: Clear Up
 public class FightSpeed extends Check {
 
     private final int hitspersecond;
@@ -44,6 +45,7 @@ public class FightSpeed extends Check {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
     public void onHit(EntityDamageByEntityEvent e){
         if(!(e.getDamager() instanceof  Player) || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;

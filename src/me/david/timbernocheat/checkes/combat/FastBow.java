@@ -4,6 +4,7 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkmanager.Category;
 import me.david.timbernocheat.checkmanager.Check;
 import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.debug.Debuggers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -19,17 +20,17 @@ public class FastBow extends Check {
     }
 
     @EventHandler
-    public void onshot(EntityShootBowEvent e){
-        if(!(e.getEntity() instanceof Player)) return;
-        final Player p = (Player) e.getEntity();
-        //p.sendMessage(e.getForce()+"");
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+    public void onshot(final EntityShootBowEvent event){
+        if(!(event.getEntity() instanceof Player)) return;
+        final Player player = (Player) event.getEntity();
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.BOWFORCE, "Force: " + event.getEntity());
+        if(!TimberNoCheat.checkmanager.isvalid_create(player)) return;
+        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
         long delay = System.currentTimeMillis() - pd.getLastbowshot();
-        if(e.getForce() <= mimimumforce) return;
+        if(event.getForce() <= mimimumforce) return;
         if(delay < this.delay){
-            updateVio(this, p, (this.delay-delay),  " §6DELAY: §b" + delay, " §6FORCE: §b" + e.getForce());
-            e.setCancelled(true);
+            if(updateVio(this, player, (this.delay-delay),  " §6DELAY: §b" + delay, " §6FORCE: §b" + event.getForce()))
+                event.setCancelled(true);
         }
         pd.setLastbowshot(System.currentTimeMillis());
     }

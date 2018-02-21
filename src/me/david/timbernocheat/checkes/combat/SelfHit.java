@@ -18,14 +18,14 @@ public class SelfHit extends Check {
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onDamage(EntityDamageByEntityEvent e) {
-        if(e.isCancelled() || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;
-        if (!(e.getDamager() instanceof Player) || !(e.getEntity() instanceof Player)) return;
-        final Player p = (Player) e.getDamager();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p)) return;
-        if(e.getEntity().getEntityId() == e.getDamager().getEntityId()){
-            e.setCancelled(true);
-            updateVio(this, p, 1);
+    public void onDamage(EntityDamageByEntityEvent event) {
+        if(event.isCancelled() || event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;
+        if (!(event.getDamager() instanceof Player) || !(event.getEntity() instanceof Player)) return;
+        final Player player = (Player) event.getDamager();
+        if (!TimberNoCheat.checkmanager.isvalid_create(player)) return;
+        if(event.getEntity().getEntityId() == event.getDamager().getEntityId()){
+            if(updateVio(this, player, 1))
+                event.setCancelled(true);
         }
     }
 

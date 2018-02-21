@@ -24,21 +24,21 @@ public class Regen extends Check {
     }
 
     @EventHandler
-    public void onregen(EntityRegainHealthEvent e){
-        if(!(e.getEntity() instanceof Player)){
+    public void onregen(final EntityRegainHealthEvent event){
+        if(!(event.getEntity() instanceof Player)){
             return;
         }
-        final Player p = (Player) e.getEntity();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
+        final Player player = (Player) event.getEntity();
+        if(!TimberNoCheat.checkmanager.isvalid_create(player)){
             return;
         }
-        if(!p.hasPotionEffect(PotionEffectType.REGENERATION) && p.getFoodLevel() <= 17 && e.getRegainReason() != EntityRegainHealthEvent.RegainReason.CUSTOM && e.getRegainReason() != EntityRegainHealthEvent.RegainReason.MAGIC){
-            updateVio(this, p, 4+(17-p.getFoodLevel())*2, " §6TYPE: §bIMPOSIBLE STATE");
+        if(!player.hasPotionEffect(PotionEffectType.REGENERATION) && player.getFoodLevel() <= 17 && event.getRegainReason() != EntityRegainHealthEvent.RegainReason.CUSTOM && event.getRegainReason() != EntityRegainHealthEvent.RegainReason.MAGIC){
+            if(updateVio(this, player, 4+(17-player.getFoodLevel())*2, " §6TYPE: §bIMPOSIBLE STATE")) event.setCancelled(true);
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
         long speed = 0;
         long delay = -1;
-        switch (e.getRegainReason()){
+        switch (event.getRegainReason()){
             case EATING:
                 speed = delaySatiated;
                 if(pd.getLastRegen() != -1) delay = System.currentTimeMillis()-pd.getLastRegen();
@@ -50,14 +50,14 @@ public class Regen extends Check {
                 pd.setLastRegenPeaceful(System.currentTimeMillis());
                 break;
             case REGEN:
-                speed = delayRegens[PotionUtil.getPotionEffectAmplifier(p, PotionEffectType.REGENERATION)];
+                speed = delayRegens[PotionUtil.getPotionEffectAmplifier(player, PotionEffectType.REGENERATION)];
                 if(pd.getLastRegenMagic() != -1) delay = System.currentTimeMillis()-pd.getLastRegenMagic();
                 pd.setLastRegenMagic(System.currentTimeMillis());
                 break;
         }
         if(delay == -1)return;
         if(speed > delay){
-            updateVio(this, p, speed-delay/2, " §6TYPE: §bDelay");
+            updateVio(this, player, speed-delay/2, " §6TYPE: §bDelay");
         }
     }
 }

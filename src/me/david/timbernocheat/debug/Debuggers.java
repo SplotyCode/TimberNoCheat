@@ -25,7 +25,8 @@ public enum  Debuggers {
     PERMISSIONCACHE("Messages", "PermissionCheck"),
     FASTLADDER("Add"),
     CHECKWATCHER,
-    SCHEDULEREXEPTION("Deactivate Cooldown");
+    SCHEDULEREXEPTION("Deactivate Cooldown"),
+    BOWFORCE;
 
     private final ExternalDebugger debugger;
     private final boolean external;

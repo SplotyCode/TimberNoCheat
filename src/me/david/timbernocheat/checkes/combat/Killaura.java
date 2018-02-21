@@ -41,27 +41,25 @@ public class Killaura extends Check {
     private final double viomodifier;
     private final double max_velocity;
     private final double lowgroud_mofier;
-    private final float swingvio;
-    private final boolean aimbot;
     private final int max_targets;
 
     public Killaura() {
         super("Killaura", Category.COBMAT);
-        multi_delay = getLong("multi_delay");
-        defaultrange = getDouble("range.defaultrange");
-        speed = getDouble("range.speed");
-        ping_100_200 = getDouble("range.ping_100_200");
-        ping_200_250 = getDouble("range.ping_200_250");
-        ping_250_300 = getDouble("range.ping_250_300");
-        ping_300_350 = getDouble("range.ping_300_350");
-        ping_350_400 = getDouble("range.ping_350_400");
-        ping_over400 = getDouble("range.ping_over400");
-        viomodifier = getDouble("range.viomodifier");
-        max_velocity = getDouble("range.max_velocity");
-        lowgroud_mofier = getDouble("range.lowgroud_mofier");
-        swingvio = (float) getDouble("swinghitviomodi");
-        aimbot = getBoolean("aimbot");
-        max_targets = getInt("multi_maxtargets");
+        registerChilds(Types.values());
+        Check range = getChildbyEnum(Types.RANGE);
+        multi_delay = getChildbyEnum(Types.MULTIDELAY).getLong("delay");
+        defaultrange = range.getDouble("defaultrange");
+        speed = range.getDouble("speed");
+        ping_100_200 = range.getDouble("ping_100_200");
+        ping_200_250 = range.getDouble("ping_200_250");
+        ping_250_300 = range.getDouble("ping_250_300");
+        ping_300_350 = range.getDouble("ping_300_350");
+        ping_350_400 = range.getDouble("ping_350_400");
+        ping_over400 = range.getDouble("ping_over400");
+        viomodifier = range.getDouble("viomodifier");
+        max_velocity = range.getDouble("max_velocity");
+        lowgroud_mofier = range.getDouble("lowgroud_mofier");
+        max_targets = getChildbyEnum(Types.MULTITARGET).getInt("maxtargets");
 
         register(new PacketAdapter(TimberNoCheat.instance,
                 PacketType.Play.Client.USE_ENTITY) {
@@ -91,13 +89,23 @@ public class Killaura extends Check {
         });
     }
 
+    public enum Types {
+
+        HITSWING,
+        MULTIDELAY,
+        MULTITARGET,
+        AIMBOT,
+        RANGE
+
+    }
+
     @Override
     public void startTasks() {
         register(new TimberScheduler(Scheduler.KILLAURA, () -> {
             for(Player player : Bukkit.getOnlinePlayers())
                 if (TimberNoCheat.checkmanager.isvalid_create(player)){
                     PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
-                    if(pd.getPackethit() < pd.getPacketswing()) updateVio(Killaura.this, player, (pd.getPacketswing()-pd.getPackethit())*swingvio, " §6TYPE: §bHITSWING");
+                    if(pd.getPackethit() < pd.getPacketswing()) updateVio(Killaura.this, player, pd.getPacketswing()-pd.getPackethit());
                     pd.setPackethit(0);
                     pd.setPacketswing(0);
                 }
@@ -118,32 +126,31 @@ public class Killaura extends Check {
             check_range(e, pd);
         }
         check_multi(e, pd);
-        if(aimbot) check_aimbot(e, pd);
+        check_aimbot(e, pd);
     }
 
-    private void check_multi(EntityDamageByEntityEvent e, PlayerData pd){
+    private void check_multi(EntityDamageByEntityEvent event, PlayerData pd){
         if(pd.getLasthitentity() == 0){
-            pd.setLasthitentity(e.getEntity().getEntityId());
+            pd.setLasthitentity(event.getEntity().getEntityId());
         }
-        pd.getHittetEntitys().put(e.getEntity().getEntityId(), System.currentTimeMillis());
+        pd.getHittetEntitys().put(event.getEntity().getEntityId(), System.currentTimeMillis());
         for(Map.Entry<Integer, Long> pair : ((HashMap<Integer, Long>)pd.getHittetEntitys().clone()).entrySet())
             if(System.currentTimeMillis()-pair.getValue() > 800)
                 pd.getHittetEntitys().remove(pair.getKey());
         if(pd.getHittetEntitys().size() > max_targets){
-            updateVio(this, (Player) e.getDamager(), pd.getHittetEntitys().size()-max_targets*6, " §6TYPE: §bMULTI_AURA_TARGETS", " §6TARGETS: §b" + pd.getHittetEntitys().size());
+            if(updateVio(getChildbyEnum(Types.MULTITARGET), (Player) event.getDamager(), pd.getHittetEntitys().size()-max_targets*6, " §6TARGETS: §b" + pd.getHittetEntitys().size())) event.setCancelled(true);
         }
         long delay = System.currentTimeMillis()-pd.getLasthitmutli();
-        if(pd.getLasthitentity() != e.getEntity().getEntityId() && delay < multi_delay){
-            e.setCancelled(true);
-            updateVio(this, (Player) e.getDamager(), multi_delay-delay*1.6, " §6TYPE: §bMULTI_AURA_DELAY", " §6DELAY: §b" + delay);
+        if(pd.getLasthitentity() != event.getEntity().getEntityId() && delay < multi_delay){
+            if(updateVio(getChildbyEnum(Types.MULTIDELAY), (Player) event.getDamager(), multi_delay-delay*1.6, " §6DELAY: §b" + delay)) event.setCancelled(true);
         }
         pd.setLasthitmutli(System.currentTimeMillis());
-        pd.setLasthitentity(e.getEntity().getEntityId());
+        pd.setLasthitentity(event.getEntity().getEntityId());
     }
 
-    private void check_aimbot(EntityDamageByEntityEvent e, PlayerData pd){
-        Player damager = (Player) e.getDamager();
-        if (damager.getAllowFlight() || !((e.getEntity()) instanceof Player)) return;
+    private void check_aimbot(EntityDamageByEntityEvent event, PlayerData pd){
+        Player damager = (Player) event.getDamager();
+        if (damager.getAllowFlight() || !((event.getEntity()) instanceof Player)) return;
         Location from = pd.getAimborloc();
         Location to = damager.getLocation();
         pd.setAimborloc(damager.getLocation());
@@ -153,7 +160,7 @@ public class Killaura extends Check {
         if (diffnow == 0.0) return;
         if (diffnow > 2.4) {
             double diff = Math.abs(LastDifference - diffnow);
-            if(e.getEntity().getVelocity().length() < 0.1) {
+            if(event.getEntity().getVelocity().length() < 0.1) {
                 if(diff < 1.4) addCount(damager, "aimbot");
                 else resetCount(damager, "aimbot");
             } else {
@@ -164,7 +171,8 @@ public class Killaura extends Check {
         pd.setAimbotdiff(diffnow);
         if (hasReached(damager, "aimbot", 3)) {
             resetCount(damager, "aimbot");
-            updateVio(this, damager, 6);
+            if(updateVio(getChildbyEnum(Types.AIMBOT), damager, 6))
+                event.setCancelled(true);
         }
     }
 
@@ -206,7 +214,7 @@ public class Killaura extends Check {
             TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.ATTACK_RANGE, "MaxReach=" + maxreach + " Reach=" + reach);
 
             if(reach > maxreach) {
-                updateVio(this, damager, reach-maxreach*viomodifier, " §6TYPE: §bREACH", " §6MAXREACH: §b" + maxreach, " §6REACH: §b" + reach);
+                updateVio(getChildbyEnum(Types.RANGE), damager, reach-maxreach*viomodifier, " §6TYPE: §bREACH", " §6MAXREACH: §b" + maxreach, " §6REACH: §b" + reach);
                 //pd.getReaches().add(reach);
                 //pd.setLastreach(System.currentTimeMillis());
             }

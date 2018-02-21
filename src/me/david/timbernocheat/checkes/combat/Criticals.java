@@ -9,18 +9,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+//TODO
 public class Criticals extends Check {
     public Criticals() {
         super("Criticals", Category.COBMAT);
     }
 
     @EventHandler
-    public void onDamage(EntityDamageByEntityEvent event){
+    public void onDamage(final EntityDamageByEntityEvent event){
         if(!(event.getDamager() instanceof Player))return;
         final Player player = (Player) event.getDamager();
         if(!TimberNoCheat.checkmanager.isvalid_create(player)) return;
         if (!PlayerUtil.isOnGround(player) && !player.getAllowFlight() && player.getLocation().getY() % 1 == 0 && player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().isSolid()) {
-            updateVio(this, player, 1);
+            if(updateVio(this, player, 1))
+                event.setCancelled(true);
         }
 
     }

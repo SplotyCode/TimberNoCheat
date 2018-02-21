@@ -446,6 +446,7 @@ velocity:
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: 4000
+   #No Setback!
    vioactions:
       1: "NOTIFY"
       18: "KICK:VELOCITY?"
@@ -503,6 +504,10 @@ accuracy:
    #ms
    mindelay: 12000
    minaccuracy: 95
+   #Note: When a Hacker is fighting with someone how is not checked by TimberNoCheat the event will be skiped
+   move: true
+   #in ms
+   movedelay: 1200
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -530,14 +535,38 @@ fightspeed:
       23: "KICK:Autoclicker?Killaura?"
 killaura:
    enable: true
-   #[EN]How fast can you swab the entity? In ms[EN]
-   #[DE]Wie schnell kannst du das Entity wegseln? In ms[DE]
-   multi_delay: 8
-   #[EN]How many entity's can a Player hit in 800ms?[EN]
-   #[DE]Wie viele entity's kann ein Spieler in 800ms schlagen?[DE]
-   multi_maxtargets: 2
-   swinghitviomodi: 1.6
+   multidelay:
+      enable: true
+      delay: 8
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: true
+      viocachedelay: -1
+      vioactions:
+         1: "NOTIFY"
+   multitarget:
+      enable: true
+      #[EN]How many entity's can a Player hit in 800ms?[EN]
+      #[DE]Wie viele entity's kann ein Spieler in 800ms schlagen?[DE]
+      maxtargets: 2
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: true
+      viocachedelay: -1
+      vioactions:
+         1: "NOTIFY"
+   hitswing:
+      enable: true
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: true
+      viocachedelay: -1
+      vioactions:
+         1: "NOTIFY"
    range:
+      enable: true
+      max_ping: -1
+      min_tps: -1
       default: 3.9
       #speedmodi
       speed: 0.2
@@ -552,7 +581,18 @@ killaura:
       max_velocity: 0.08
       #lowgrouddis/lowgroud_mofier
       lowgroud_mofier: 3.95
-   aimbot: true
+      vioresetafteraction: true
+      viocachedelay: -1
+      vioactions:
+         1: "NOTIFY"
+   aimbot:
+      enable: true
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: true
+      viocachedelay: -1
+      vioactions:
+         1: "NOTIFY"
    max_ping: -1
    min_tps: 18
    vioresetafteraction: true

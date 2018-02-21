@@ -20,6 +20,7 @@ import org.bukkit.event.player.*;
 import java.util.Random;
 import java.util.UUID;
 
+//TODO
 public class AuraBots extends Check {
 
     private final boolean armor;
