@@ -24,17 +24,17 @@ import java.math.BigInteger;
 public class Shematica extends Check implements PluginMessageListener {
 
     private final String channel = "schematica";
-    private final boolean block;
-    private final boolean print;
-    private final boolean load;
-    private final boolean save;
+    private final boolean BLOCK;
+    private final boolean PRINT;
+    private final boolean LOAD;
+    private final boolean SAVE;
 
     public Shematica(){
         super("Shematica", Category.CLIENT_CHANEL);
-        block = getBoolean("block");
-        print = getBoolean("print");
-        load = getBoolean("load");
-        save = getBoolean("save");
+        BLOCK = getBoolean("block");
+        PRINT = getBoolean("print");
+        LOAD = getBoolean("load");
+        SAVE = getBoolean("save");
         Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, channel, this);
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, channel);
     }
@@ -59,13 +59,13 @@ public class Shematica extends Check implements PluginMessageListener {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e){
-        final Player p = e.getPlayer();
-        if(block && TimberNoCheat.checkmanager.isvalid_create(p)){
+    public void onJoin(PlayerJoinEvent event){
+        final Player player = event.getPlayer();
+        if(BLOCK && TimberNoCheat.checkmanager.isvalid_create(player)){
             String json = "{\"text\":\"\",\"extra\":[{\"text\":\"\u00a70\u00a72\u00a70\u00a70\u00a7e\u00a7f\"},{\"text\":\"\u00a70\u00a72\u00a71\u00a70\u00a7e\u00a7f\"},{\"text\":\"\u00a70\u00a72\u00a71\u00a71\u00a7e\u00a7f\"}]}";
             IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a(json);
             PacketPlayOutChat chat = new PacketPlayOutChat(icbc, BigInteger.valueOf(0).toByteArray()[0]);
-            ((CraftPlayer)p).getHandle().playerConnection.sendPacket(chat);
+            ((CraftPlayer)player).getHandle().playerConnection.sendPacket(chat);
         }
     }
 
@@ -74,12 +74,12 @@ public class Shematica extends Check implements PluginMessageListener {
         DataOutputStream dos = new DataOutputStream(baos);
         try {
             dos.writeByte(0);
-            dos.writeBoolean(print);
-            dos.writeBoolean(save);
-            dos.writeBoolean(load);
+            dos.writeBoolean(PRINT);
+            dos.writeBoolean(SAVE);
+            dos.writeBoolean(LOAD);
             return baos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         return null;
     }

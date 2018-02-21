@@ -8,6 +8,7 @@ import me.david.timbernocheat.checkmanager.Check;
 import net.minecraft.server.v1_8_R3.PacketDataSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutCustomPayload;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -19,51 +20,51 @@ import java.util.HashMap;
 
 public class LabyMod extends Check {
     
-    private final boolean animations;
-    private final boolean armor;
-    private final boolean blockbuild;
-    private final boolean chat;
-    private final boolean damageindicator;
-    private final boolean extras;
-    private final boolean food;
-    private final boolean gui;
-    private final boolean minimap_radar;
-    private final boolean nick;
-    private final boolean potions;
+    private final boolean ANMIMATION;
+    private final boolean ARMOR;
+    private final boolean BLOCKBUILD;
+    private final boolean CHAT;
+    private final boolean DAMAGEINDICATOR;
+    private final boolean EXTRAS;
+    private final boolean FOOD;
+    private final boolean GUI;
+    private final boolean MINIMAP_RADAR;
+    private final boolean NICK;
+    private final boolean POTIONS;
 
     public LabyMod() {
         super("LabyMod", Category.CLIENT_CHANEL);
-        animations = getBoolean("animations");
-        armor = getBoolean("armor");
-        blockbuild = getBoolean("blockbuild");
-        chat = getBoolean("chat");
-        damageindicator = getBoolean("damageindicator");
-        extras = getBoolean("extras");
-        food = getBoolean("food");
-        gui = getBoolean("gui");
-        minimap_radar = getBoolean("minimap_radar");
-        nick = getBoolean("nick");
-        potions = getBoolean("potions");
+        ANMIMATION = getBoolean("animations");
+        ARMOR = getBoolean("armor");
+        BLOCKBUILD = getBoolean("blockbuild");
+        CHAT = getBoolean("chat");
+        DAMAGEINDICATOR = getBoolean("damageindicator");
+        EXTRAS = getBoolean("extras");
+        FOOD = getBoolean("food");
+        GUI = getBoolean("gui");
+        MINIMAP_RADAR = getBoolean("minimap_radar");
+        NICK = getBoolean("nick");
+        POTIONS = getBoolean("potions");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onJoin(PlayerJoinEvent e){
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
+    public void onJoin(final PlayerJoinEvent event){
+        final Player player = event.getPlayer();
+        if(!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer()))
             return;
-        }
         try {
             HashMap<String, Boolean> list = new HashMap<String, Boolean>();
-            list.put("ARMOR", armor);
-            list.put("ANIMATIONS", animations);
-            list.put("BLOCKBUILD", blockbuild);
-            list.put("CHAT", chat);
-            list.put("DAMAGEINDICATOR", damageindicator);
-            list.put("EXTRAS", extras);
-            list.put("FOOD", food);
-            list.put("GUI", gui);
-            list.put("MINIMAP_RADAR", minimap_radar);
-            list.put("NICK", nick);
-            list.put("POTIONS", potions);
+            list.put("ARMOR", ARMOR);
+            list.put("ANIMATIONS", ANMIMATION);
+            list.put("BLOCKBUILD", BLOCKBUILD);
+            list.put("CHAT", CHAT);
+            list.put("DAMAGEINDICATOR", DAMAGEINDICATOR);
+            list.put("EXTRAS", EXTRAS);
+            list.put("FOOD", FOOD);
+            list.put("GUI", GUI);
+            list.put("MINIMAP_RADAR", MINIMAP_RADAR);
+            list.put("NICK", NICK);
+            list.put("POTIONS", POTIONS);
 
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(byteOut);
@@ -71,7 +72,7 @@ public class LabyMod extends Check {
             ByteBuf a = Unpooled.copiedBuffer(byteOut.toByteArray());
             PacketDataSerializer b = new PacketDataSerializer(a);
             PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload("LABYMOD", b);
-            ((CraftPlayer)e.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+            ((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

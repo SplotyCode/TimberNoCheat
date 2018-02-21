@@ -118,14 +118,15 @@ public class Other extends Check implements PluginMessageListener {
         }
     }
     @EventHandler
-    public void onJoin(PlayerJoinEvent e){
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
+    public void onJoin(final PlayerJoinEvent event){
+        final Player player = event.getPlayer();
+        if(!TimberNoCheat.checkmanager.isvalid_create(player)){
             return;
         }
         for(String json : jsons){
             IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a(json);
             PacketPlayOutChat chat = new PacketPlayOutChat(icbc);
-            ((CraftPlayer)e.getPlayer()).getHandle().playerConnection.sendPacket(chat);
+            ((CraftPlayer)player).getHandle().playerConnection.sendPacket(chat);
         }
     }
     @Override

@@ -17,7 +17,7 @@ public class Vape extends Check implements PluginMessageListener {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event){
+    public void onJoin(final PlayerJoinEvent event){
         final Player p = event.getPlayer();
         if(TimberNoCheat.checkmanager.isvalid_create(p)) p.sendMessage("§8 §8 §1 §3 §3 §7 §8 ");
     }
