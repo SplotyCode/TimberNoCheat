@@ -5,55 +5,49 @@ import me.david.timbernocheat.checkmanager.Check;
 import me.david.timbernocheat.checkmanager.PlayerData;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.api.utils.ArrayCollectUtil;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Spamming extends Check {
-    private final boolean ignorecase;
+    private final boolean IGNORECASEWHITELIST;
     private final boolean ignorecasewhitelist;
     private final List<String> whitelist;
     private final int toshort;
 
     public Spamming(){
         super("Spamming", Category.CHAT);
-        ignorecase = getBoolean("ignorecase");
+        IGNORECASEWHITELIST = getBoolean("ignorecase");
         ignorecasewhitelist = getBoolean("whitelist_ignorecase");
         whitelist = getStringList("whitelist");
         toshort = getInt("toshort");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChat(AsyncPlayerChatEvent e){
-        if(e.getMessage().startsWith("/")){
+    public void onChat(AsyncPlayerChatEvent event){
+        final Player player = event.getPlayer();
+        String message = event.getMessage();
+        if(!TimberNoCheat.checkmanager.isvalid_create(player) || event.getMessage().startsWith("/"))
             return;
-        }
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
-            return;
-        }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer());
-        String message = e.getMessage();
-        if(message.length() < toshort){
-            return;
-        }
+        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+        if(message.length() < toshort) return;
         if(ignorecasewhitelist && ArrayCollectUtil.containsignorecase(whitelist, message)){
             return;
         }
 
-        if(!ignorecasewhitelist && whitelist.contains(message)) {
+        if(!ignorecasewhitelist && whitelist.contains(message))
+            return;
+        if(!IGNORECASEWHITELIST && pd.getGenerals().getMessages().contains(message)){
+            if(updateVio(this, player, 1))
+                event.setCancelled(true);
             return;
         }
-        if(!ignorecase && pd.getGenerals().getMessages().contains(message)){
-            e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, e.getPlayer());
-            return;
-        }
-        if(ignorecase && ArrayCollectUtil.containsignorecase(pd.getGenerals().getMessages(), message)){
-            e.setCancelled(true);
-            updateVio(this, e.getPlayer(), 1);
+        if(IGNORECASEWHITELIST && ArrayCollectUtil.containsignorecase(pd.getGenerals().getMessages(), message)){
+            if(updateVio(this, player, 1))
+                event.setCancelled(true);
         }
     }
 }

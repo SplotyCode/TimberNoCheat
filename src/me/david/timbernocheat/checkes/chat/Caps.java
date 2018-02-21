@@ -4,29 +4,32 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkmanager.Category;
 import me.david.timbernocheat.checkmanager.Check;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class Caps extends Check {
 
-    private final int minlen;
-    private final int per;
+    private final int MINLENGTH;
+    private final int PERCENTAGE;
 
     public Caps() {
         super("Caps", Category.CHAT);
-        minlen = getInt("minlen");
-        per = getInt("per");
+        MINLENGTH = getInt("minlength");
+        PERCENTAGE = getInt("percentage");
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event) {
-        if (!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer()) || event.getMessage().startsWith("/")) return;
+    public void onChat(final AsyncPlayerChatEvent event) {
+        final Player player = event.getPlayer();
+        final String message = event.getMessage();
+        if (!TimberNoCheat.checkmanager.isvalid_create(player) || message.startsWith("/")) return;
         int[] newMessage;
-        if (event.getMessage().length() >= minlen) {
+        if (message.length() >= MINLENGTH) {
             String msgBefore = event.getMessage();
             newMessage = checkCaps(event.getMessage());
             int percentageCaps = percentageCaps(newMessage);
-            if (percentageCaps >= per) {
+            if (percentageCaps >= PERCENTAGE) {
                 String[] parts = event.getMessage().split(" ");
                 boolean caps = false;
                 for (int i = 0; i < parts.length; i++) {
@@ -37,7 +40,9 @@ public class Caps extends Check {
                     else parts[i] = parts[i].toLowerCase();
                     caps = (!parts[i].endsWith(".")) && (!parts[i].endsWith("!"));
                 }
-                if (!msgBefore.equals(StringUtils.join(parts, " "))) updateVio(this, event.getPlayer(), percentageCaps-per*1.6);
+                if (!msgBefore.equals(StringUtils.join(parts, " ")))
+                    if(updateVio(this, event.getPlayer(), percentageCaps- PERCENTAGE *1.6))
+                        event.setCancelled(true);
             }
         }
     }

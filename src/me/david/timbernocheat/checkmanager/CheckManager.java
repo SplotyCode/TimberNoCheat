@@ -125,7 +125,7 @@ public class CheckManager {
         register(new Bots());
         register(new Similarity());
         register(new Caps());
-        register(new CharSpamm());
+        register(new CharSpam());
         register(new Vape());
         register(new HitBoxes());
         register(new AuraBots());

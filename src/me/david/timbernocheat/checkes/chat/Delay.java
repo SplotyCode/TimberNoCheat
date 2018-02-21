@@ -12,42 +12,46 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class Delay extends Check {
 
-    private final int chats10;
-    private final long delaysmall;
-    private final long delaybig;
-    private final int delayschwelle;
+    private final int CHATIN10SECS;
+    private final long SMALLDELAY;
+    private final long BIGDELAY;
+    private final int DELAYSCHWELLE;
+
     public Delay(){
         super("Delay", Category.CHAT);
-        delayschwelle = getInt("schwelle");
-        chats10 = getInt("in10seconds");
-        delaysmall = getLong("delaysmall");
-        delaybig = getLong("delaybig");
+        DELAYSCHWELLE = getInt("schwelle");
+        CHATIN10SECS = getInt("in10seconds");
+        SMALLDELAY = getLong("delaysmall");
+        BIGDELAY = getLong("delaybig");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChat(AsyncPlayerChatEvent e){
-        final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.getMessage().startsWith("/")){
-            return;
-        }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+    public void onChat(final AsyncPlayerChatEvent event){
+        final Player player = event.getPlayer();
+        final String message = event.getMessage();
+
+        if(!TimberNoCheat.checkmanager.isvalid_create(player) || message.startsWith("/")) return;
+
+        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+
+
         pd.setChats10sec(pd.getChats10sec()+1);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(TimberNoCheat.instance, () -> pd.setChats10sec(pd.getChats10sec()-1), 200);
-        if(pd.getChats10sec() > chats10){
-            updateVio(this, p, 1, " §6MODE: §bSPAM", " §6MESSAGESLAST10SECONDS: §b" + pd.getChats10sec());
-            e.setCancelled(true);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setChats10sec(pd.getChats10sec()-1), 200);
+        if(pd.getChats10sec() > CHATIN10SECS){
+            updateVio(this, player, 1, " §6MODE: §bSPAM", " §6MESSAGESLAST10SECONDS: §b" + pd.getChats10sec());
+            event.setCancelled(true);
         }
+
         long delay = System.currentTimeMillis() - pd.getLastchat();
-        if(e.getMessage().length() >= delayschwelle){
-            if(delay <= delaybig){
-                updateVio(this, p, 1, " §6MODE: §bBIG", " §6DELAY: §b" + delay, " §6LENGtH: §b" + e.getMessage().length());
-                e.setCancelled(true);
+        if(message.length() >= DELAYSCHWELLE){
+            if(delay <= BIGDELAY){
+                if(updateVio(this, player, 1, " §6MODE: §bBIG", " §6DELAY: §b" + delay, " §6LENGtH: §b" + message.length()))
+                    event.setCancelled(true);
             }
-        }else{
-            if(delay <= delaysmall){
-                updateVio(this, p, 1, " §6MODE: §bSMALL", " §6DELAY: §b" + delay, " §6LENGtH: §b" + e.getMessage().length());
-                e.setCancelled(true);
-            }
+
+        }else if(delay <= SMALLDELAY){
+            if(updateVio(this, player, 1, " §6MODE: §bSMALL", " §6DELAY: §b" + delay, " §6LENGtH: §b" + message.length()))
+                event.setCancelled(true);
         }
         pd.setLastchat(System.currentTimeMillis());
     }

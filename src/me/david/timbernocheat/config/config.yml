@@ -109,10 +109,10 @@ caps:
    enable: true
    #[EN]When Messages are smaller then this they will be ignored[EN]
    #[DE]Wenn Nachichten kleiner sind als dieser Wert werden sie vom Caps Check ignorierd [DE]
-   minlen: 8
+   minlength: 8
    #[EN] Minimum amount of Percantage must be upper case to trigger the check?[EN]
    #[DE] Die Minimale alzahl an prozent die in gross buchtstaben geschriben sein muss um den check auszulósen[DE]
-   per: 45
+   percentage: 45
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -123,13 +123,27 @@ caps:
       1: "NOTIFY"
 #[EN]Check for charspammingin the Chat [EN]
 #[DE]Dieser Check charspammingin[DE]
-charspamm:
+charspam:
    enable: true
    #[EN]When Messages are smaller then this they will be ignored[EN]
    #[DE]Wenn Nachichten kleiner sind als dieser Wert werden sie vom Caps Check ignorierd [DE]
    minlen: 6
-   per: 12
-   maxcharspam: 4
+   maxcharaters:
+      enable: true
+      maxcharspam: 4
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: true
+      viocachedelay: -1
+      vioactions:
+   percentage:
+      enable: true
+      percentage: 12
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: true
+      viocachedelay: -1
+      vioactions:
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -148,7 +162,7 @@ similarity:
    viocachedelay: -1
    vioactions:
       1: "NOTIFY"
-bot:
+chatbot:
    enable: true
    max_ping: -1
    min_tps: -1

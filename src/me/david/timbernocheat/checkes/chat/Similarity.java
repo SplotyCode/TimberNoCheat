@@ -6,38 +6,42 @@ import me.david.timbernocheat.checkmanager.Check;
 import me.david.timbernocheat.checkmanager.PlayerData;
 import me.david.api.utils.StringUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class Similarity extends Check {
 
-    private final int similarity;
-    private final boolean strip_chars;
-    private final boolean strip_duplicates;
-    private final int minlen;
+    private final int SIMILARITY;
+    private final boolean STRIP_COLORS;
+    private final boolean STRIP_DUPLICATES;
+    private final int MINLENGTH;
 
     public Similarity() {
         super("Similarity", Category.CHAT);
-        similarity = getInt("similarity");
-        strip_chars = getBoolean("strip_chars");
-        strip_duplicates = getBoolean("strip_duplicates");
-        minlen = getInt("minlen");
+        SIMILARITY = getInt("similarity");
+        STRIP_COLORS = getBoolean("strip_chars");
+        STRIP_DUPLICATES = getBoolean("strip_duplicates");
+        MINLENGTH = getInt("minlen");
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event) {
-        if (!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer()) || event.getMessage().startsWith("/")) return;
+    public void onChat(final AsyncPlayerChatEvent event) {
+        final Player player = event.getPlayer();
         String message = event.getMessage();
-        if(strip_chars) message = message.replaceAll("[^a-zA-Z0-9\\s]", "");
-        if(strip_duplicates){
+
+        if (!TimberNoCheat.checkmanager.isvalid_create(player) || message.startsWith("/")) return;
+        if(STRIP_COLORS) message = message.replaceAll("[^a-zA-Z0-9\\s]", "");
+        if(STRIP_DUPLICATES){
             message = message.replaceAll("(.)(?=\\1\\1+)", "");
             message = message.replaceAll("(..)(?=\\1\\1+)", "");
             message = message.replaceAll("(...)(?=\\1\\1+)", "");
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer());
+        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
         message = ChatColor.stripColor(message);
-        int similarityper = StringUtil.similarity(message, pd.getGenerals().getMessages().get(pd.getGenerals().getMessages().size()-1));
-        if(similarityper >= similarity && event.getMessage().length() > minlen) updateVio(this, event.getPlayer(), similarityper/2, " §6SIMILARITY: §b" + similarityper);
-
+        int similarityPercentage = StringUtil.similarity(message, pd.getGenerals().getMessages().get(pd.getGenerals().getMessages().size()-1));
+        if(similarityPercentage >= SIMILARITY && event.getMessage().length() > MINLENGTH)
+            if(updateVio(this, player, similarityPercentage/2, " §6SIMILARITY: §b" + similarityPercentage))
+                event.setCancelled(true);
     }
 }
