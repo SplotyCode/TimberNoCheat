@@ -84,7 +84,7 @@ public class CheckManager {
         register(new Blink());
         register(new NoSwing());
         register(new BedLeave());
-        register(new Clip());
+        register(new Phase());
         register(new Jesus());
         register(new Crasher());
         register(new FastBow());

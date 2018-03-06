@@ -801,16 +801,15 @@ blink:
    vioactions:
       1: "NOTIFY"
       1: "KICK:KP!(TNC)"
-clip:
+phase:
    enable: true
-   onlyfullblocks: false
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
       3: "NOTIFY"
-      6: "KICK:Clip/NoClip(TNC)"
+      6: "KICK:Phase/NoClip(TNC)"
 derb:
    enable: true
    minpitch: -91

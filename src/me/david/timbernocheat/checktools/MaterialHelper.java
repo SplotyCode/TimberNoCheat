@@ -27,14 +27,17 @@ public class MaterialHelper {
     public static final ArrayList<Material> LIQUID = new ArrayList<Material>();
     public static final ArrayList<Material> STAIRS = new ArrayList<Material>();
     public static final ArrayList<Material> FENCES = new ArrayList<Material>();
+    public static final ArrayList<Material> GATES = new ArrayList<>();
 
     static {
+        GATES.add(Material.SPRUCE_FENCE_GATE);
+        GATES.add(Material.BIRCH_FENCE_GATE);
+        GATES.add(Material.JUNGLE_FENCE_GATE);
+        GATES.add(Material.DARK_OAK_FENCE_GATE);
+        GATES.add(Material.ACACIA_FENCE_GATE);
+
         FENCES.add(Material.FENCE);
-        FENCES.add(Material.SPRUCE_FENCE_GATE);
-        FENCES.add(Material.BIRCH_FENCE_GATE);
-        FENCES.add(Material.JUNGLE_FENCE_GATE);
-        FENCES.add(Material.DARK_OAK_FENCE_GATE);
-        FENCES.add(Material.ACACIA_FENCE_GATE);
+        FENCES.addAll(GATES);
         FENCES.add(Material.SPRUCE_FENCE);
         FENCES.add(Material.BIRCH_FENCE);
         FENCES.add(Material.JUNGLE_FENCE);

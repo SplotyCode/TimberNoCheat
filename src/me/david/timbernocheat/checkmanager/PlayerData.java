@@ -125,6 +125,8 @@ public class PlayerData {
 
     /* Criticals */ private double critHight = -1;
 
+    /* Phase */ private Location lastPhaseOkay;
+
 
     private FalsePositive.FalsePositiveChecks falsepositives;
     private General.GeneralValues generals;
@@ -202,6 +204,7 @@ public class PlayerData {
         lastRegenPeaceful = -1;
         snappyRotate = -1;
         critHight = -1;
+        lastPhaseOkay = null;
     }
 
     /**
@@ -261,6 +264,14 @@ public class PlayerData {
 
     public int getGodAcc() {
         return godAcc;
+    }
+
+    public Location getLastPhaseOkay() {
+        return lastPhaseOkay;
+    }
+
+    public void setLastPhaseOkay(Location lastPhaseOkay) {
+        this.lastPhaseOkay = lastPhaseOkay;
     }
 
     public void setGodAcc(int godAcc) {
