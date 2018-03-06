@@ -1,5 +1,6 @@
 package me.david.timbernocheat.gui.debug;
 
+import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.config.Permissions;
 import me.david.timbernocheat.debug.Debuggers;
@@ -23,7 +24,10 @@ public class GuiDebug extends ArrayGui<Debuggers> {
 
     @Override
     protected ItemStack getItemStack(Debuggers obj, Player player) {
-        return ItemStackUtil.createbasic("§6Toggle §b" + obj.name(), 1, TimberNoCheat.instance.getDebugger().isDebugging(player, obj.name())?Material.GLOWSTONE_DUST:Material.REDSTONE);
+        return ItemStackUtil.createLohre(
+                "§6Toggle §b" + obj.name(), 1,
+                TimberNoCheat.instance.getDebugger().isDebugging(player, obj.name())?Material.GLOWSTONE_DUST:Material.REDSTONE,
+                "§6External: " + StringUtil.colorbyBool(obj.isExternal()) + (obj.isExternal()?"Ja":"Nein"));
     }
 
     @Override
