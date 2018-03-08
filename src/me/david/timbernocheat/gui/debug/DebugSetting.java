@@ -10,6 +10,7 @@ import me.david.api.sound.Sound;
 import me.david.api.sound.SoundCategory;
 import me.david.api.utils.ItemStackUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
@@ -28,20 +29,26 @@ public class DebugSetting extends Gui {
     }
 
     @Override
-    public Inventory build(Player p) {
+    public Inventory build(Player player) {
         Inventory inv = Bukkit.getServer().createInventory(null, 4*9, "§6Settings");
-        Debuggers debugger = data.get(p.getUniqueId());
+        Debuggers debugger = data.get(player.getUniqueId());
+        if(debugger.isExternal())
+            for(String name : debugger.getDebugger().getButtonNames())
+                inv.addItem(ItemStackUtil.createbasic(name, 1, Material.WOOD_BUTTON));
         for(String setting : debugger.getSettings().keySet())
-            inv.addItem(ItemStackUtil.createColoredWool(setting, 1, (debugger.getSetting(p, setting)?FarbCodes.LIME.getId():FarbCodes.RED.getId())));
+            inv.addItem(ItemStackUtil.createColoredWool(setting, 1, (debugger.getSetting(player, setting)?FarbCodes.LIME.getId():FarbCodes.RED.getId())));
         return inv;
     }
 
     @Override
-    public void itemclick(Player p, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
-        Debuggers debugger = data.get(p.getUniqueId());
+    public void itemclick(Player player, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
+        Debuggers debugger = data.get(player.getUniqueId());
         String name = itemstack.getItemMeta().getDisplayName();
-        debugger.setSetting(p, name, !debugger.getSetting(p, name));
-        TimberNoCheat.instance.guimanager.reopen(p);
+        boolean handeled = false;
+        if(debugger.isExternal())
+            handeled = debugger.getDebugger().handleButtonClick(player, itemstack);
+        if(!handeled) debugger.setSetting(player, name, !debugger.getSetting(player, name));
+        TimberNoCheat.instance.guimanager.reopen(player);
     }
 
     @Override

@@ -4,7 +4,10 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkmanager.Category;
 import me.david.timbernocheat.checkmanager.Check;
 import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checktools.FalsePositive;
+import me.david.timbernocheat.checktools.General;
 import me.david.timbernocheat.checktools.MaterialHelper;
+import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.util.SpeedUtil;
 import me.david.api.utils.BlockUtil;
 import org.bukkit.Location;
@@ -39,17 +42,27 @@ public class Fly extends Check {
         }
     }
     
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void playerMove(PlayerMoveEvent e){
         final Player p = e.getPlayer();
         final Location to = e.getTo();
         final Location from = e.getFrom();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()) return;
+        if (!TimberNoCheat.checkmanager.isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        General.GeneralValues general = pd.getGenerals();
+        FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         TimberNoCheat.instance.getMoveprofiler().start("Fly ");
-        System.out.println(pd.getGenerals().getTicksInAir() + " " + p.getVelocity().getY());
+        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.AIRTICKSVSMOVEVELOCITY, pd.getGenerals().getTicksInAir() + " " + p.getVelocity().getY());
+        final double yDiff = to.getY()-from.getY();
+        final double yDiffBlock = to.getY()-from.getBlockY();
+
+        //Lets Start with Slime Blocks (And Beds for >1.12 Support)
+        
+
         TimberNoCheat.instance.getMoveprofiler().end();
     }
+
+
 
     private void setBack(Player p){
         PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);

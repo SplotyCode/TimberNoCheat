@@ -27,7 +27,8 @@ public class GuiDebug extends ArrayGui<Debuggers> {
         return ItemStackUtil.createLohre(
                 "§6Toggle §b" + obj.name(), 1,
                 TimberNoCheat.instance.getDebugger().isDebugging(player, obj.name())?Material.GLOWSTONE_DUST:Material.REDSTONE,
-                "§6External: " + StringUtil.colorbyBool(obj.isExternal()) + (obj.isExternal()?"Ja":"Nein"));
+                "§6External: " + StringUtil.colorbyBool(obj.isExternal()) + (obj.isExternal()?"Ja":"Nein"),
+                "§6Dependecy: §b" + obj.getDependecy());
     }
 
     @Override
