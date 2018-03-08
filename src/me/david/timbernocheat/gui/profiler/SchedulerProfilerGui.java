@@ -31,12 +31,12 @@ public class SchedulerProfilerGui extends Gui implements Listener {
     private ArrayList<Player> profilePlayer = new ArrayList<>();
 
     public SchedulerProfilerGui(Plugin pl) {
-        super("GuiSchedulerProfiler", Permissions.PROFILER_SCHEDULER, new Sound("SchedulerProfiler", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance));
+        super("GuiSchedulerProfiler", Permissions.PROFILER_SCHEDULER, new Sound("SchedulerProfiler", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()));
         new TimberScheduler(Scheduler.SCHEDULER_PROFILER, () -> {
-            TimberNoCheat.instance.getSchedulerProfiler().setRunning(!profilePlayer.isEmpty());
-            String[] profile = new String[TimberNoCheat.instance.getSchedulerProfiler().getTimes().size()];
+            TimberNoCheat.getInstance().getSchedulerProfiler().setRunning(!profilePlayer.isEmpty());
+            String[] profile = new String[TimberNoCheat.getInstance().getSchedulerProfiler().getTimes().size()];
             int i = 0;
-            for(Map.Entry<String, Long> pr : TimberNoCheat.instance.getSchedulerProfiler().getTimes().entrySet()){
+            for(Map.Entry<String, Long> pr : TimberNoCheat.getInstance().getSchedulerProfiler().getTimes().entrySet()){
                 profile[i] = "§6" + pr.getKey() + ": §b" + pr.getValue();
                 i++;
             }
@@ -61,21 +61,21 @@ public class SchedulerProfilerGui extends Gui implements Listener {
     @Override
     public void itemclick(Player p, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
         if(itemstack.getType() == Material.SIGN){
-            p.sendMessage(TimberNoCheat.instance.prefix + "---[List]---");
+            p.sendMessage(TimberNoCheat.getInstance().prefix + "---[List]---");
             for(Player p1 : profilePlayer)
-                p.sendMessage(TimberNoCheat.instance.prefix + p1.getName());
-            p.sendMessage(TimberNoCheat.instance.prefix + "---[List]---");
+                p.sendMessage(TimberNoCheat.getInstance().prefix + p1.getName());
+            p.sendMessage(TimberNoCheat.getInstance().prefix + "---[List]---");
         }else if(itemstack.getType() == Material.REDSTONE){
-            p.sendMessage(TimberNoCheat.instance.prefix + ChatColor.RED + "Resete den Profiler");
-            TimberNoCheat.instance.getSchedulerProfiler().reset();
+            p.sendMessage(TimberNoCheat.getInstance().prefix + ChatColor.RED + "Resete den Profiler");
+            TimberNoCheat.getInstance().getSchedulerProfiler().reset();
         }else if(itemstack.getDurability() == FarbCodes.LIME.getId()){
             if(!profilePlayer.contains(p)){
                 profilePlayer.add(p);
             }
-            p.sendMessage(TimberNoCheat.instance.prefix + ChatColor.GREEN + "Du bekommst jetzt Profiler Nachichten");
+            p.sendMessage(TimberNoCheat.getInstance().prefix + ChatColor.GREEN + "Du bekommst jetzt Profiler Nachichten");
         }else if(profilePlayer.contains(p)){
             profilePlayer.remove(p);
-            p.sendMessage(TimberNoCheat.instance.prefix + ChatColor.RED + "Du bekommst jetzt keine Profiler Nachichten");
+            p.sendMessage(TimberNoCheat.getInstance().prefix + ChatColor.RED + "Du bekommst jetzt keine Profiler Nachichten");
         }
     }
 }

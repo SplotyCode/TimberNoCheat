@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 public class ViolationGui extends Gui {
 
     public ViolationGui() {
-        super("ViolationGui", Permissions.SETTINGS, new Sound("SettingsGui", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance));
+        super("ViolationGui", Permissions.SETTINGS, new Sound("SettingsGui", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()));
     }
 
     @Override

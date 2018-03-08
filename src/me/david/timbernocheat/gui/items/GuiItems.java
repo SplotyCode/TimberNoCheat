@@ -35,12 +35,12 @@ public class GuiItems extends Gui {
     public void itemclick(Player p, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
         switch (itemstack.getType()){
             case STONE_SPADE:
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REOPEN);
-                TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "ItemsToolMulti");
+                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "ItemsToolMulti");
                 break;
             case POTION:
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REOPEN);
-                TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "ItemsTestMulti");
+                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "ItemsTestMulti");
                 break;
         }
     }

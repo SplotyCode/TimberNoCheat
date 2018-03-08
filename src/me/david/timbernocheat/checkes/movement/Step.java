@@ -1,9 +1,9 @@
 package me.david.timbernocheat.checkes.movement;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.MaterialHelper;
 import org.bukkit.Location;
@@ -23,15 +23,15 @@ public class Step extends Check {
     @EventHandler(priority = EventPriority.LOW)
     public void onMove(PlayerMoveEvent e) {
         final Player p = e.getPlayer();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p) || p.getAllowFlight()) {
+        if (!TimberNoCheat.getCheckManager().isvalid_create(p) || p.getAllowFlight()) {
             return;
         }
-        TimberNoCheat.instance.getMoveprofiler().start("Step");
+        TimberNoCheat.getInstance().getMoveprofiler().start("Step");
         Location to = e.getTo();
         Location from = e.getFrom();
         double yDis = to.getY() - from.getY();
         double yDisblock = to.getY() - to.getBlockY();
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         double maxshoud = 0.601D;
 
@@ -82,7 +82,7 @@ public class Step extends Check {
             updateVio(this, p, 15, " §6MODE: §b EXTREMLY BASIC");
             p.teleport(pd.getGenerals().getLastOnGround());
         }
-        TimberNoCheat.instance.getMoveprofiler().end();
+        TimberNoCheat.getInstance().getMoveprofiler().end();
     }
 
 

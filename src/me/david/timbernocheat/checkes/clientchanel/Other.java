@@ -3,8 +3,8 @@ package me.david.timbernocheat.checkes.clientchanel;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.StringUtil;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
@@ -45,11 +45,11 @@ public class Other extends Check implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String chanel, Player player, byte[] bytes) {
-        if(!TimberNoCheat.checkmanager.isvalid_create(player)) return;
+        if(!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         if(chanel.equals(chanelZIG)){
             if(zig5_kick){
-                player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere 5zig!");
+                player.kickPlayer(TimberNoCheat.getInstance().prefix + "§cBitte deinstaliere 5zig!");
             }
             updateVio(this, player, 1, " §6MOD: §b5ZIG", " §6KICK: §b" + zig5_kick);
             out.writeByte(1);
@@ -63,30 +63,30 @@ public class Other extends Check implements PluginMessageListener {
             out10.writeByte(16);
             ByteArrayDataOutput all = ByteStreams.newDataOutput();
             all.writeByte(31);
-            player.sendPluginMessage(TimberNoCheat.instance, chanelZIG, out.toByteArray());
-            player.sendPluginMessage(TimberNoCheat.instance, chanelZIG, out2.toByteArray());
-            player.sendPluginMessage(TimberNoCheat.instance, chanelZIG, out4.toByteArray());
-            player.sendPluginMessage(TimberNoCheat.instance, chanelZIG, out8.toByteArray());
-            player.sendPluginMessage(TimberNoCheat.instance, chanelZIG, out10.toByteArray());
-            player.sendPluginMessage(TimberNoCheat.instance, chanelZIG, all.toByteArray());
+            player.sendPluginMessage(TimberNoCheat.getInstance(), chanelZIG, out.toByteArray());
+            player.sendPluginMessage(TimberNoCheat.getInstance(), chanelZIG, out2.toByteArray());
+            player.sendPluginMessage(TimberNoCheat.getInstance(), chanelZIG, out4.toByteArray());
+            player.sendPluginMessage(TimberNoCheat.getInstance(), chanelZIG, out8.toByteArray());
+            player.sendPluginMessage(TimberNoCheat.getInstance(), chanelZIG, out10.toByteArray());
+            player.sendPluginMessage(TimberNoCheat.getInstance(), chanelZIG, all.toByteArray());
         }else if(chanel.equals(chanelBSPRINT)){
             if(bsprint_kick){
-                player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere BSPRINT!");
+                player.kickPlayer(TimberNoCheat.getInstance().prefix + "§cBitte deinstaliere BSPRINT!");
             }
             updateVio(this, player, 1, " §6MOD: §bBSPRINT", " §6KICK: §b" + bsprint_kick);
         }else if(chanel.equals(chanelBSM)){
             if(bsm_kick){
-                player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere BSM!");
+                player.kickPlayer(TimberNoCheat.getInstance().prefix + "§cBitte deinstaliere BSM!");
             }
             updateVio(this, player, 1, " §6MOD: §bBSM", " §6KICK: §b" + bsm_kick);
         }else if(StringUtil.containsIgnoreCase(chanel, "fml")){
             if(fml_kick){
-                player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere FORGE!");
+                player.kickPlayer(TimberNoCheat.getInstance().prefix + "§cBitte deinstaliere FORGE!");
             }
             updateVio(this, player, 1, " §6MOD: §bFORGE", " §6KICK: §b" + fml_kick);
         }else if(StringUtil.containsIgnoreCase(chanel, "wbl")){
             if(wdl_kick){
-                player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere WBL!");
+                player.kickPlayer(TimberNoCheat.getInstance().prefix + "§cBitte deinstaliere WBL!");
             }
             updateVio(this, player, 1, " §6MOD: §bWBL", " §6KICK: §b" + wdl_kick);
         }else if (chanel.equalsIgnoreCase("MC|Brand")) {
@@ -99,19 +99,19 @@ public class Other extends Check implements PluginMessageListener {
             }
             if (brand.equalsIgnoreCase("worlddownloader-vanilla")) {
                 if(wdl_kick){
-                    player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere WDL!");
+                    player.kickPlayer(TimberNoCheat.getInstance().prefix + "§cBitte deinstaliere WDL!");
                 }
                 updateVio(this, player, 1, " §6MOD: §bWDL", " §6KICK: §b" + wdl_kick);
             }
             if (brand.contains("fml") || brand.contains("forge")) {
                 if(fml_kick){
-                    player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere FML!");
+                    player.kickPlayer(TimberNoCheat.getInstance().prefix + "§cBitte deinstaliere FML!");
                 }
                 updateVio(this, player, 1, " §6MOD: §bFML", " §6KICK: §b" + fml_kick);
             }
             if (brand.contains("LiteLoader") || brand.equalsIgnoreCase("LiteLoader")) {
                 if(liteloader_kick){
-                    player.kickPlayer(TimberNoCheat.instance.prefix + "§cBitte deinstaliere LITELOADER!");
+                    player.kickPlayer(TimberNoCheat.getInstance().prefix + "§cBitte deinstaliere LITELOADER!");
                 }
                 updateVio(this, player, 1, " §6MOD: §bLITELOADER", " §6KICK: §b" + liteloader_kick);
             }
@@ -120,7 +120,7 @@ public class Other extends Check implements PluginMessageListener {
     @EventHandler
     public void onJoin(final PlayerJoinEvent event){
         final Player player = event.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(player)){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(player)){
             return;
         }
         for(String json : jsons){
@@ -131,25 +131,25 @@ public class Other extends Check implements PluginMessageListener {
     }
     @Override
     public void disable() {
-        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.instance, chanelZIG, this);
-        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.instance, chanelBSPRINT, this);
-        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.instance, chanelBSM, this);
-        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.instance, chanelWDLINIT, this);
-        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.instance, chanelWDLCONTROL, this);
-        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.instance, chanelMCBRAND, this);
-        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.instance, chanelWDLREQ, this);
-        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.instance, chanelFML, this);
-        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.instance, chanelFMLHS, this);
+        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.getInstance(), chanelZIG, this);
+        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.getInstance(), chanelBSPRINT, this);
+        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.getInstance(), chanelBSM, this);
+        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.getInstance(), chanelWDLINIT, this);
+        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.getInstance(), chanelWDLCONTROL, this);
+        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.getInstance(), chanelMCBRAND, this);
+        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.getInstance(), chanelWDLREQ, this);
+        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.getInstance(), chanelFML, this);
+        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.getInstance(), chanelFMLHS, this);
 
-        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.instance, chanelZIG);
-        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.instance, chanelBSPRINT);
-        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.instance, chanelBSM);
-        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.instance, chanelWDLINIT);
-        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.instance, chanelWDLCONTROL);
-        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.instance, chanelMCBRAND);
-        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.instance, chanelWDLREQ);
-        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.instance, chanelFML);
-        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.instance, chanelFMLHS);
+        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelZIG);
+        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelBSPRINT);
+        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelBSM);
+        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelWDLINIT);
+        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelWDLCONTROL);
+        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelMCBRAND);
+        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelWDLREQ);
+        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelFML);
+        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelFMLHS);
     }
 
     public Other() {
@@ -171,25 +171,25 @@ public class Other extends Check implements PluginMessageListener {
         if(voxelmap_block)jsons.add("{\"text\":\"\",\"extra\":[{\"text\":\"\u00a73 \u00a76 \u00a73 \u00a76 \u00a73 \u00a76 \u00a7d\"},{\"text\":\"\u00a73 \u00a76 \u00a73 \u00a76 \u00a73 \u00a76 \u00a7e\"}]}");
         if(smartmoving_block)jsons.add("{\"text\":\"\",\"extra\":[{\"text\":\"\u00a70\u00a71\u00a70\u00a71\u00a72\u00a7f\u00a7f\"},{\"text\":\"\u00a70\u00a71\u00a73\u00a74\u00a7f\u00a7f\"},{\"text\":\"\u00a70\u00a71\u00a75\u00a7f\u00a7f\"},{\"text\":\"\u00a70\u00a71\u00a76\u00a7f\u00a7f\"},{\"text\":\"\u00a70\u00a71\u00a78\u00a79\u00a7a\u00a7b\u00a7f\u00a7f\"}]}");
 
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, chanelZIG, this);
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, chanelBSPRINT, this);
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, chanelBSM, this);
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, chanelWDLINIT, this);
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, chanelWDLCONTROL, this);
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, chanelMCBRAND, this);
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, chanelWDLREQ, this);
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, chanelFML, this);
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, chanelFMLHS, this);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.getInstance(), chanelZIG, this);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.getInstance(), chanelBSPRINT, this);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.getInstance(), chanelBSM, this);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.getInstance(), chanelWDLINIT, this);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.getInstance(), chanelWDLCONTROL, this);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.getInstance(), chanelMCBRAND, this);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.getInstance(), chanelWDLREQ, this);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.getInstance(), chanelFML, this);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.getInstance(), chanelFMLHS, this);
 
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, chanelZIG);
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, chanelBSPRINT);
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, chanelBSM);
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, chanelWDLINIT);
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, chanelWDLCONTROL);
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, chanelMCBRAND);
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, chanelWDLREQ);
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, chanelFML);
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, chanelFMLHS);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelZIG);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelBSPRINT);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelBSM);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelWDLINIT);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelWDLCONTROL);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelMCBRAND);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelWDLREQ);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelFML);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.getInstance(), chanelFMLHS);
     }
 
 }

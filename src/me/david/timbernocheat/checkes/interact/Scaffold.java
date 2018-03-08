@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.interact;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.BlockUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,7 +23,7 @@ public class Scaffold extends Check {
     @EventHandler
     public void onPlace(BlockPlaceEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)){
             return;
         }
         if((p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR ) && illegalblocks(p.getLocation()).contains(e.getBlockPlaced().getLocation())){

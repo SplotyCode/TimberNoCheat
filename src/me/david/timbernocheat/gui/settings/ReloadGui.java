@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class ReloadGui extends BooleanGui {
     public ReloadGui() {
-        super("ReloadGui", Permissions.SETTINGS, new Sound("SettingsGui", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance), ItemStackUtil.createColoredWool("§aJip", 1, FarbCodes.LIME.getId()), ItemStackUtil.createColoredWool("§cEhhh", 1, FarbCodes.RED.getId()), "§6Reload?");
+        super("ReloadGui", Permissions.SETTINGS, new Sound("SettingsGui", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()), ItemStackUtil.createColoredWool("§aJip", 1, FarbCodes.LIME.getId()), ItemStackUtil.createColoredWool("§cEhhh", 1, FarbCodes.RED.getId()), "§6Reload?");
     }
 
     @Override
@@ -20,6 +20,6 @@ public class ReloadGui extends BooleanGui {
         if(SettingsGui.currentCheck.containsKey(p.getUniqueId()))
             SettingsGui.currentCheck.remove(p.getUniqueId());
         if(result) p.performCommand("tnc reload");
-        TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REMOVE);
+        TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
     }
 }

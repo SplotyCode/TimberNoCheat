@@ -17,12 +17,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class OreNotifyGui extends Gui {
     public OreNotifyGui() {
-        super("OreNotifyGui", Permissions.ORE_NOTIFY, new Sound("OreNotify", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance));
+        super("OreNotifyGui", Permissions.ORE_NOTIFY, new Sound("OreNotify", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()));
     }
 
     @Override
     public Inventory build(Player p) {
-        final OreNotifyData data = TimberNoCheat.instance.getOreNotifyManager().getData(p);
+        final OreNotifyData data = TimberNoCheat.getInstance().getOreNotifyManager().getData(p);
         Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.DISPENSER, "§6OreNotify");
         inv.addItem(ItemStackUtil.createColoredWool("§6Notify", 1, data.isActive()));
         inv.addItem(ItemStackUtil.createColoredWool("§bDiamond", 1, data.isDiamond()));
@@ -33,7 +33,7 @@ public class OreNotifyGui extends Gui {
 
     @Override
     public void itemclick(Player p, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
-        OreNotifyData data = TimberNoCheat.instance.getOreNotifyManager().getData(p);
+        OreNotifyData data = TimberNoCheat.getInstance().getOreNotifyManager().getData(p);
         switch (itemstack.getItemMeta().getDisplayName()){
             case "§6Notify":
                 data.setActive(!data.isActive());
@@ -48,6 +48,6 @@ public class OreNotifyGui extends Gui {
                 data.setRedstone(!data.isRedstone());
                 break;
         }
-        TimberNoCheat.instance.guimanager.reopen(p);
+        TimberNoCheat.getInstance().getGuimanager().reopen(p);
     }
 }

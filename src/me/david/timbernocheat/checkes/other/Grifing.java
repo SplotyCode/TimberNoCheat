@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.other;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -15,7 +15,7 @@ public class Grifing extends Check {
     }
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())){
             return;
         }
         if (e.getItem() == null || e.getItem().getType() == Material.AIR || (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
@@ -24,7 +24,7 @@ public class Grifing extends Check {
         if (e.getItem().getType() == Material.EXPLOSIVE_MINECART) {
             e.setCancelled(true);
             updateVio(this, e.getPlayer(), 1, " §6CHECK: §bTntMineCard");
-           // TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6CHECK: §bTntMineCard");
+           // TimberNoCheat.getCheckManager().notify(this, e.getPlayer(), " §6CHECK: §bTntMineCard");
         }
     }
 }

@@ -2,8 +2,8 @@ package me.david.timbernocheat.checkes.chat;
 
 import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,7 +24,7 @@ public class BlackList extends Check {
     public void onChat(final AsyncPlayerChatEvent event) {
         final String message = event.getMessage();
         final Player player = event.getPlayer();
-        if (!TimberNoCheat.checkmanager.isvalid_create(player) || message.startsWith("/")) return;
+        if (!TimberNoCheat.getCheckManager().isvalid_create(player) || message.startsWith("/")) return;
         String key = "";
         for(String black : BLACKLIST)
             if(message.contains(black)){

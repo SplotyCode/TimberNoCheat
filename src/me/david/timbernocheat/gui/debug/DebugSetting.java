@@ -25,7 +25,7 @@ public class DebugSetting extends Gui {
     public static HashMap<UUID, Debuggers> data = new HashMap<>();
 
     public DebugSetting() {
-        super("DebugSetting", Permissions.DEBUGGER, new Sound("DebugGuiOpen", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance));
+        super("DebugSetting", Permissions.DEBUGGER, new Sound("DebugGuiOpen", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class DebugSetting extends Gui {
         if(debugger.isExternal())
             handeled = debugger.getDebugger().handleButtonClick(player, itemstack);
         if(!handeled) debugger.setSetting(player, name, !debugger.getSetting(player, name));
-        TimberNoCheat.instance.guimanager.reopen(player);
+        TimberNoCheat.getInstance().getGuimanager().reopen(player);
     }
 
     @Override

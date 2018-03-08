@@ -1,6 +1,6 @@
 package me.david.timbernocheat.api;
 
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.entity.Player;
 
 /*

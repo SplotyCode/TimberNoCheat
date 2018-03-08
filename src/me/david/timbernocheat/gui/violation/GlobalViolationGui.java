@@ -20,13 +20,13 @@ public class GlobalViolationGui extends NoStaticListGui<OfflinePlayer> {
 
 
     public GlobalViolationGui() {
-        super("PlayerViolationGui", Permissions.VIOLATIONMENU, TimberNoCheat.instance);
+        super("PlayerViolationGui", Permissions.VIOLATIONMENU, TimberNoCheat.getInstance());
     }
 
     @Override
     protected List<OfflinePlayer> getList(Player player) {
         ArrayList<OfflinePlayer> list = new ArrayList<>();
-        HashMap<UUID, Double> violations = TimberNoCheat.checkmanager.getViolations();
+        HashMap<UUID, Double> violations = TimberNoCheat.getCheckManager().getViolations();
         violations.keySet().forEach((player1) -> list.add(Bukkit.getOfflinePlayer(player1)));
         list.sort(Comparator.comparingDouble(player1 -> violations.get(player1.getUniqueId())));
         return list;
@@ -36,19 +36,19 @@ public class GlobalViolationGui extends NoStaticListGui<OfflinePlayer> {
     protected void itemclick(OfflinePlayer obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         if(clicktype.isLeftClick()) {
             PlayerViolationGui.data.put(p.getUniqueId(), obj.getUniqueId());
-            TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REMOVE);
-            TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "PlayerViolationMulti");
+            TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
+            TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "PlayerViolationMulti");
         }else if(clicktype.isRightClick()) {
             if(clicktype.isShiftClick()) {
-                TimberNoCheat.instance.executeEssentials(p, (user -> {
+                TimberNoCheat.getInstance().executeEssentials(p, (user -> {
                     if(user.isVanished()){
-                        p.sendMessage(TimberNoCheat.instance.prefix + "§cTrotel Du bist schon im Vanish...");
+                        p.sendMessage(TimberNoCheat.getInstance().prefix + "§cTrotel Du bist schon im Vanish...");
                     }else user.setVanished(true);
                 }));
             }
             Player target = Bukkit.getPlayer(obj.getUniqueId());
             if(target == null)
-            p.sendMessage(TimberNoCheat.instance.prefix + "§cDer Spieler ist momentan nicht online!");
+            p.sendMessage(TimberNoCheat.getInstance().prefix + "§cDer Spieler ist momentan nicht online!");
             else p.teleport(target);
         }
     }

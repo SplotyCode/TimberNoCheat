@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.combat;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +22,7 @@ public class SelfHit extends Check {
         if(event.isCancelled() || event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;
         if (!(event.getDamager() instanceof Player) || !(event.getEntity() instanceof Player)) return;
         final Player player = (Player) event.getDamager();
-        if (!TimberNoCheat.checkmanager.isvalid_create(player)) return;
+        if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
         if(event.getEntity().getEntityId() == event.getDamager().getEntityId()){
             if(updateVio(this, player, 1))
                 event.setCancelled(true);
@@ -33,7 +33,7 @@ public class SelfHit extends Check {
     public void onFish(final PlayerFishEvent event){
         final Player player = event.getPlayer();
         final Entity caught = event.getCaught();
-        if (!TimberNoCheat.checkmanager.isvalid_create(player)) return;
+        if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
         if(caught.getEntityId() == player.getEntityId()){
             event.setCancelled(true);
             updateVio(this, player, 1);

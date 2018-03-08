@@ -4,9 +4,9 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.debug.Scheduler;
 import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.timbernocheat.runnable.Velocity;
@@ -61,28 +61,28 @@ public class Killaura extends Check {
         lowgroud_mofier = range.getDouble("lowgroud_mofier");
         max_targets = getChildbyEnum(Types.MULTITARGET).getInt("maxtargets");
 
-        register(new PacketAdapter(TimberNoCheat.instance,
+        register(new PacketAdapter(TimberNoCheat.getInstance(),
                 PacketType.Play.Client.USE_ENTITY) {
             public void onPacketReceiving(final PacketEvent event) {
                 final Player player = event.getPlayer();
                 if (player == null) {
                     return;
                 }
-                if (TimberNoCheat.checkmanager.isvalid_create(player)) {
-                    PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+                if (TimberNoCheat.getCheckManager().isvalid_create(player)) {
+                    PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
                     pd.setPackethit(pd.getPackethit()+1);
                 }
             }
         });
-        register(new PacketAdapter(TimberNoCheat.instance,
+        register(new PacketAdapter(TimberNoCheat.getInstance(),
                 PacketType.Play.Client.ARM_ANIMATION) {
             public void onPacketReceiving(final PacketEvent event) {
                 final Player player = event.getPlayer();
                 if (player == null) {
                     return;
                 }
-                if (TimberNoCheat.checkmanager.isvalid_create(player)) {
-                    PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+                if (TimberNoCheat.getCheckManager().isvalid_create(player)) {
+                    PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
                     pd.setPacketswing(pd.getPacketswing()+1);
                 }
             }
@@ -103,8 +103,8 @@ public class Killaura extends Check {
     public void startTasks() {
         register(new TimberScheduler(Scheduler.KILLAURA, () -> {
             for(Player player : Bukkit.getOnlinePlayers())
-                if (TimberNoCheat.checkmanager.isvalid_create(player)){
-                    PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+                if (TimberNoCheat.getCheckManager().isvalid_create(player)){
+                    PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
                     if(pd.getPackethit() < pd.getPacketswing()) updateVio(Killaura.this, player, pd.getPacketswing()-pd.getPackethit());
                     pd.setPackethit(0);
                     pd.setPacketswing(0);
@@ -118,10 +118,10 @@ public class Killaura extends Check {
             return;
         }
         final Player p = (Player) e.getDamager();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || e.isCancelled()) {
+        if (!TimberNoCheat.getCheckManager().isvalid_create(p) || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || e.isCancelled()) {
             return;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         if(e.getEntity() instanceof Player && !((Player)e.getEntity()).getAllowFlight() && !p.getAllowFlight()){
             check_range(e, pd);
         }
@@ -211,7 +211,7 @@ public class Killaura extends Check {
             } else if(player.getLocation().getY() > damager.getLocation().getY()) {
                 maxreach += player.getLocation().getY() - damager.getLocation().getY() / lowgroud_mofier;
             }
-            TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.ATTACK_RANGE, "MaxReach=" + maxreach + " Reach=" + reach);
+            TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.ATTACK_RANGE, "MaxReach=" + maxreach + " Reach=" + reach);
 
             if(reach > maxreach) {
                 updateVio(getChildbyEnum(Types.RANGE), damager, reach-maxreach*viomodifier, " §6TYPE: §bREACH", " §6MAXREACH: §b" + maxreach, " §6REACH: §b" + reach);
@@ -219,19 +219,19 @@ public class Killaura extends Check {
                 //pd.setLastreach(System.currentTimeMillis());
             }
 
-            /*if(DateTimeUtil.elapsed(pd.getLastreach(), TimberNoCheat.instance.settings.fight_killaura_rangeclearaftermilis)) {
+            /*if(DateTimeUtil.elapsed(pd.getLastreach(), TimberNoCheat.getInstance().settings.fight_killaura_rangeclearaftermilis)) {
                 pd.getReaches().clear();
                 pd.setLastreach(System.currentTimeMillis());
             }
 
-            if(pd.getReaches().size() > TimberNoCheat.instance.settings.fight_killaura_range_toohitslongtoreport) {
+            if(pd.getReaches().size() > TimberNoCheat.getInstance().settings.fight_killaura_range_toohitslongtoreport) {
                 Double average = MathUtil.averageDouble(pd.getReaches());
-                Double a = TimberNoCheat.instance.settings.fight_killaura_range_levelrange - maxreach;
+                Double a = TimberNoCheat.getInstance().settings.fight_killaura_range_levelrange - maxreach;
                 Double b = average - maxreach;
 
                 int level = (int)Math.round(b < 0.0D?0.00000000001D:b / a < 0.0D?0.00000000001D:a * 100);
                 pd.getReaches().clear();
-                TimberNoCheat.checkmanager.notify(this, damager, " §6TYPE: §bREACH", " §6WAHRSCHEINLICHKEIT: §b" + level +"%", " §6Reach: §b" + reach, " §6CalculatetMacReach: §b" + maxreach);
+                TimberNoCheat.getCheckManager().notify(this, damager, " §6TYPE: §bREACH", " §6WAHRSCHEINLICHKEIT: §b" + level +"%", " §6Reach: §b" + reach, " §6CalculatetMacReach: §b" + maxreach);
             }
             */
         }

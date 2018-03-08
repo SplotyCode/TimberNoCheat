@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.interact;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.GameMode;
@@ -25,11 +25,11 @@ public class PlaceReach extends Check {
     @EventHandler
     public void onPlace(BlockPlaceEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p))
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p))
             return;
         final double reach = e.getBlock().getLocation().distance(PlayerUtil.getEyeLocation(p));
         final double maxreach = p.getGameMode() == GameMode.CREATIVE?distancecreative:distancenormal;
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.RANGE, "PLACE: MaxReach=" + maxreach + " Reach=" + reach);
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.RANGE, "PLACE: MaxReach=" + maxreach + " Reach=" + reach);
 
         if(reach > maxreach){
             e.setCancelled(true);

@@ -2,9 +2,9 @@
 
 import com.google.common.collect.Lists;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.TimberNoCheat.getCheckManager().Category;
+import me.david.TimberNoCheat.getCheckManager().Check;
+import me.david.TimberNoCheat.getCheckManager().PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
 import me.david.timbernocheat.util.SpeedUtil;
@@ -52,7 +52,7 @@ public class Fly extends Check {
 
     @EventHandler
     public void kick(PlayerKickEvent e) {
-        if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) {
+        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer()) || e.isCancelled()) {
             return;
         }
         if(vanilla && e.getReason().equals("Flying is not enabled on this server")) {
@@ -66,10 +66,10 @@ public class Fly extends Check {
         final Player p = e.getPlayer();
         final Location to = e.getTo();
         final Location from = e.getFrom();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()) {
+        if (!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled()) {
             return;
         }
-        TimberNoCheat.instance.getMoveprofiler().start("Fly ");
+        TimberNoCheat.getInstance().getMoveprofiler().start("Fly ");
         boolean onGround = false;
         AABBBox playerBox = Api.instance.nms.getBoundingBox(p).expand(0, 0.15, 0);
         for(int x = p.getLocation().getBlockX()-1; x<p.getLocation().getBlockX()+3; x++)
@@ -83,7 +83,7 @@ public class Fly extends Check {
         System.out.println(onGround);
 
 
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         //System.out.println(simple + " " + inair(p) + " " + (!fp.enderpearl && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (p.getActivePotionEffects().stream().noneMatch(potionEffect -> potionEffect.getType() == PotionEffectType.JUMP) || to.getY() - from.getY() > getJump(p))));
         if(simple && inair(p) && !fp.enderpearl && !fp.hasPiston(60) && !fp.hasSlime(200) && !fp.hasVehicle(60) && !fp.hasRod(40 * 5) && !fp.hasHitorbow(60 * 5) && !fp.hasExplosion(80 * 5) && !p.getAllowFlight() && to.getY() >= from.getY() && (fp.jumpboost(p) || to.getY() - from.getY() > getJump(p))){
@@ -119,11 +119,11 @@ public class Fly extends Check {
         if(PlayerUtil.isOnGround(p)) pd.setFlycount(0);
         else pd.setFlycount(pd.getFlycount()+1);
 
-        TimberNoCheat.instance.getMoveprofiler().end();
+        TimberNoCheat.getInstance().getMoveprofiler().end();
     }
 
     private void setBack(Player p){
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         switch (setback){
             case "cancel":
                 p.teleport(pd.getGenerals().getLastOnGround(), PlayerTeleportEvent.TeleportCause.PLUGIN);

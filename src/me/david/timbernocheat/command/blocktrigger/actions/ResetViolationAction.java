@@ -1,6 +1,6 @@
 package me.david.timbernocheat.command.blocktrigger.actions;
 
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.command.blocktrigger.AttributeList;
 import me.david.timbernocheat.command.blocktrigger.actions.triggerTypes.OnTrigger;
 import org.bukkit.entity.Player;

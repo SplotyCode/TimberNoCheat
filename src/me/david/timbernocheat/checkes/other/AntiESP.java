@@ -5,8 +5,8 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -27,9 +27,9 @@ public class AntiESP extends Check {
     public AntiESP() {
         super("AntiESP", Category.OTHER);
         items = getBoolean("items");
-        TimberNoCheat.instance.getServer().getScheduler().scheduleSyncRepeatingTask(TimberNoCheat.instance, new Thread(() -> {
+        TimberNoCheat.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(TimberNoCheat.getInstance(), new Thread(() -> {
             for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                if (!TimberNoCheat.checkmanager.isvalid_create(player)) return;
+                if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
                 List<Entity> nearbyEntities = player.getNearbyEntities(12, 255, 12);
                 nearbyEntities.remove(player);
                 nearbyEntities.forEach(target -> {
@@ -37,7 +37,7 @@ public class AntiESP extends Check {
                 });
             }
         })::start, 0, 2);
-        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Server.ENTITY_EQUIPMENT, PacketType.Play.Server.BED, PacketType.Play.Server.ANIMATION, PacketType.Play.Server.NAMED_ENTITY_SPAWN, PacketType.Play.Server.COLLECT, PacketType.Play.Server.SPAWN_ENTITY, PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.SPAWN_ENTITY_PAINTING, PacketType.Play.Server.SPAWN_ENTITY_EXPERIENCE_ORB, PacketType.Play.Server.ENTITY_VELOCITY, PacketType.Play.Server.REL_ENTITY_MOVE, PacketType.Play.Server.ENTITY_LOOK, PacketType.Play.Server.ENTITY_TELEPORT, PacketType.Play.Server.ENTITY_HEAD_ROTATION, PacketType.Play.Server.ENTITY_STATUS, PacketType.Play.Server.ATTACH_ENTITY, PacketType.Play.Server.ENTITY_METADATA, PacketType.Play.Server.ENTITY_EFFECT, PacketType.Play.Server.REMOVE_ENTITY_EFFECT, PacketType.Play.Server.BLOCK_BREAK_ANIMATION) {
+        register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Server.ENTITY_EQUIPMENT, PacketType.Play.Server.BED, PacketType.Play.Server.ANIMATION, PacketType.Play.Server.NAMED_ENTITY_SPAWN, PacketType.Play.Server.COLLECT, PacketType.Play.Server.SPAWN_ENTITY, PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.SPAWN_ENTITY_PAINTING, PacketType.Play.Server.SPAWN_ENTITY_EXPERIENCE_ORB, PacketType.Play.Server.ENTITY_VELOCITY, PacketType.Play.Server.REL_ENTITY_MOVE, PacketType.Play.Server.ENTITY_LOOK, PacketType.Play.Server.ENTITY_TELEPORT, PacketType.Play.Server.ENTITY_HEAD_ROTATION, PacketType.Play.Server.ENTITY_STATUS, PacketType.Play.Server.ATTACH_ENTITY, PacketType.Play.Server.ENTITY_METADATA, PacketType.Play.Server.ENTITY_EFFECT, PacketType.Play.Server.REMOVE_ENTITY_EFFECT, PacketType.Play.Server.BLOCK_BREAK_ANIMATION) {
             @Override
             public void onPacketSending(PacketEvent event) {
                 int entityID = event.getPacket().getIntegers().read(0);
@@ -51,7 +51,7 @@ public class AntiESP extends Check {
     private void check(Player player, Entity entity){
         new Thread(() -> {
             if (!player.hasLineOfSight(entity)) hideEntity(player, entity);
-            else Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> showEntity(player, entity), 1);
+            else Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> showEntity(player, entity), 1);
         }).start();
     }
 
@@ -61,9 +61,9 @@ public class AntiESP extends Check {
             removeEntity(entity);
             return;
         }
-        if (TimberNoCheat.instance.protocolmanager != null && hiddenBefore) {
+        if (TimberNoCheat.getInstance().getProtocolmanager() != null && hiddenBefore) {
             try{
-                TimberNoCheat.instance.protocolmanager.updateEntity(entity, Collections.singletonList(observer));
+                TimberNoCheat.getInstance().getProtocolmanager().updateEntity(entity, Collections.singletonList(observer));
             } catch (IllegalArgumentException e){
                 e.printStackTrace();
             } finally {
@@ -73,7 +73,7 @@ public class AntiESP extends Check {
                     mountEntity.getIntegers().write(0, entity.getVehicle().getEntityId());
                     mountEntity.getIntegerArrays().write(0, new int[]{entity.getEntityId()});
                     try {
-                        TimberNoCheat.instance.protocolmanager.sendServerPacket(observer, mountEntity);
+                        TimberNoCheat.getInstance().getProtocolmanager().sendServerPacket(observer, mountEntity);
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     }
@@ -87,7 +87,7 @@ public class AntiESP extends Check {
             PacketContainer destroyEntity = new PacketContainer(PacketType.Play.Server.ENTITY_DESTROY);
             destroyEntity.getIntegerArrays().write(0, new int[]{entity.getEntityId()});
             try {
-                TimberNoCheat.instance.protocolmanager.sendServerPacket(observer, destroyEntity);
+                TimberNoCheat.getInstance().getProtocolmanager().sendServerPacket(observer, destroyEntity);
             } catch (InvocationTargetException e) {
                e.printStackTrace();
             }

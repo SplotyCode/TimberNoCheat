@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.movement;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,10 +17,10 @@ public class NoFall extends Check {
     @EventHandler
     public void onMode(PlayerMoveEvent e){
         final Player p = e.getPlayer();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()) {
+        if (!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled()) {
             return;
         }
-        TimberNoCheat.instance.getMoveprofiler().start("NoFall");
+        TimberNoCheat.getInstance().getMoveprofiler().start("NoFall");
         int blocks = 0;
         boolean found = false;
         while(!found){
@@ -32,6 +32,6 @@ public class NoFall extends Check {
             updateVio(this, p, blocks-p.getFallDistance());
             e.setCancelled(true);
         }
-        TimberNoCheat.instance.getMoveprofiler().end();
+        TimberNoCheat.getInstance().getMoveprofiler().end();
     }
 }

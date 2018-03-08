@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.chat;
 
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.TimberNoCheat;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -30,13 +30,13 @@ public class Delay extends Check {
         final Player player = event.getPlayer();
         final String message = event.getMessage();
 
-        if(!TimberNoCheat.checkmanager.isvalid_create(player) || message.startsWith("/")) return;
+        if(!TimberNoCheat.getCheckManager().isvalid_create(player) || message.startsWith("/")) return;
 
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
 
 
         pd.setChats10sec(pd.getChats10sec()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setChats10sec(pd.getChats10sec()-1), 200);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setChats10sec(pd.getChats10sec()-1), 200);
         if(pd.getChats10sec() > CHATIN10SECS){
             updateVio(this, player, 1, " §6MODE: §bSPAM", " §6MESSAGESLAST10SECONDS: §b" + pd.getChats10sec());
             event.setCancelled(true);

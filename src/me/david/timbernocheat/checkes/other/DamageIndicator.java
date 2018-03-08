@@ -7,8 +7,8 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -22,10 +22,10 @@ public class DamageIndicator extends Check {
 
     public DamageIndicator(){
         super("DamageIndicator", Category.OTHER);
-        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Server.ENTITY_METADATA) {
+        register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Server.ENTITY_METADATA) {
             @Override
             public void onPacketSending(PacketEvent event) {
-                if(!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer())){
+                if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())){
                     return;
                 }
                 check(event);
@@ -49,7 +49,7 @@ public class DamageIndicator extends Check {
     @EventHandler
     public void onMount(final VehicleEnterEvent event) {
         if (event.getEntered() instanceof Player) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(TimberNoCheat.instance, () -> {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(TimberNoCheat.getInstance(), () -> {
                 if (event.getVehicle().isValid() && event.getEntered().isValid()) {
                     ProtocolLibrary.getProtocolManager().updateEntity(event.getVehicle(), Collections.singletonList((Player) event.getEntered()));
                 }

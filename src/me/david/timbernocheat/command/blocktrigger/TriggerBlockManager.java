@@ -61,14 +61,14 @@ public class TriggerBlockManager implements Listener {
         final Location location = player.getTargetBlock((Set<Material>) null, 5).getLocation();
         final AttributeList atributes = new AttributeList(arguments, action.getClasses());
         if(!atributes.getErrors().isEmpty()){
-            player.sendMessage(TimberNoCheat.instance.prefix + "§cFehler bei der Argument übersetzung sind aufgetreten: ");
+            player.sendMessage(TimberNoCheat.getInstance().prefix + "§cFehler bei der Argument übersetzung sind aufgetreten: ");
             for(AtributeParseErrors error : atributes.getErrors())
-                player.sendMessage(TimberNoCheat.instance.prefix + "§cFehler: " + error.name());
+                player.sendMessage(TimberNoCheat.getInstance().prefix + "§cFehler: " + error.name());
             return;
         }
         final TriggerBlock block = new TriggerBlock(location, action, uuid, atributes);
         triggerBlocks.add(block);
-        player.sendMessage(TimberNoCheat.instance.prefix + "Added Block!");
+        player.sendMessage(TimberNoCheat.getInstance().prefix + "Added Block!");
         //save
         block.save(file);
         file.save();

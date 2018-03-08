@@ -27,14 +27,13 @@ public class TimberScheduler extends BukkitRunnable {
     @Override
     public final void run() {
         String realName = scheduler == null?"Unknown: " + name:scheduler.getName();
-        TimberNoCheat.instance.getSchedulerProfiler().start(realName);
+        TimberNoCheat.getInstance().getSchedulerProfiler().start(realName);
         try {
             runnable.run();
         } catch (Exception e) {
-            System.err.println("Whoops an Error accurs in an TimberNoCheat Scheduler! Scheduler Name: '" + realName + "'");
-            e.printStackTrace();
+            TimberNoCheat.getInstance().getSchedulerProfiler().handleError(e, realName);
         }
-        TimberNoCheat.instance.getSchedulerProfiler().end();
+        TimberNoCheat.getInstance().getSchedulerProfiler().end();
     }
 
     public ExceptionRunnable getRunnable() {
@@ -46,17 +45,17 @@ public class TimberScheduler extends BukkitRunnable {
     }
 
     public TimberScheduler runTaskLater(long delay) {
-        super.runTaskLater(TimberNoCheat.instance, delay);
+        super.runTaskLater(TimberNoCheat.getInstance(), delay);
         return this;
     }
 
     public TimberScheduler runNextTick(){
-        super.runTask(TimberNoCheat.instance);
+        super.runTask(TimberNoCheat.getInstance());
         return this;
     }
 
     public TimberScheduler startTimer(long delay){
-        super.runTaskTimer(TimberNoCheat.instance, 1, delay);
+        super.runTaskTimer(TimberNoCheat.getInstance(), 1, delay);
         return this;
     }
 }

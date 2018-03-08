@@ -20,7 +20,7 @@ public class Recording {
         if (state == RecordState.RECORD)
             if(saveHandler.tick()) {
                 stop();
-                TimberNoCheat.instance.notify("Record of " + Bukkit.getPlayer(saveHandler.getMain()).getDisplayName() + " has stopped becouse the maximum time of " + TimberNoCheat.instance.getRecordManager().getRecord().getMaxleanght() + " was reached!");
+                TimberNoCheat.getInstance().notify("Record of " + Bukkit.getPlayer(saveHandler.getMain()).getDisplayName() + " has stopped becouse the maximum time of " + TimberNoCheat.getInstance().getRecordManager().getRecord().getMaxleanght() + " was reached!");
             }
     }
 

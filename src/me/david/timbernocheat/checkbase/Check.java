@@ -1,12 +1,10 @@
-package me.david.timbernocheat.checkmanager;
+package me.david.timbernocheat.checkbase;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketListener;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.timbernocheat.storage.YamlFile;
-import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -70,7 +68,7 @@ public class Check extends YamlFile implements Listener {
     }
 
     private Check(String name, Category category, String path) {
-        super(TimberNoCheat.instance.config);
+        super(TimberNoCheat.getInstance().getConfigFile());
         setRoot(path);
         this.name = name;
         this.category = category;
@@ -160,7 +158,7 @@ public class Check extends YamlFile implements Listener {
     }
 
     public boolean updateVio(Check check, Player player, double vio, String... other){
-        return TimberNoCheat.checkmanager.getExecutor().execute(player, check, vio, other);
+        return TimberNoCheat.getCheckManager().getExecutor().execute(player, check, vio, other);
     }
 
     public double getCount(Player player, String count){
@@ -226,8 +224,8 @@ public class Check extends YamlFile implements Listener {
     public void register(TimberScheduler... schedulers){
         for(TimberScheduler scheduler : schedulers) {
             if(scheduler.getTaskId() == -1){
-                TimberNoCheat.instance.log(false, Level.WARNING, "Whoops. The Check '" + getName() + "' has tried to register Scheduler '" + scheduler.getRealName() + "' but has forgetting to start it...");
-                TimberNoCheat.instance.log(false, Level.WARNING, "Unfortunately we can not start it because we don't know the mode and the timing...");
+                TimberNoCheat.getInstance().log(false, Level.WARNING, "Whoops. The Check '" + getName() + "' has tried to register Scheduler '" + scheduler.getRealName() + "' but has forgetting to start it...");
+                TimberNoCheat.getInstance().log(false, Level.WARNING, "Unfortunately we can not start it because we don't know the mode and the timing...");
                 continue;
             }
             bukkittasks.add(scheduler.getTaskId());
@@ -235,7 +233,7 @@ public class Check extends YamlFile implements Listener {
     }
 
     public void registernew(){
-        for(PacketListener listener : protocollistener) TimberNoCheat.instance.protocolmanager.addPacketListener(listener);
+        for(PacketListener listener : protocollistener) TimberNoCheat.getInstance().getProtocolmanager().addPacketListener(listener);
     }
 
     public void register(PacketListener... listeners){
@@ -252,12 +250,12 @@ public class Check extends YamlFile implements Listener {
                     failed = true;
                     if(protocollistener.contains(listener)) protocollistener.remove(listener);
                 }
-            if(!failed) TimberNoCheat.instance.protocolmanager.addPacketListener(listener);
+            if(!failed) TimberNoCheat.getInstance().getProtocolmanager().addPacketListener(listener);
         }
     }
 
     public void runLater(TimberScheduler scheduler, int ticks){
-        scheduler.runTaskLater(TimberNoCheat.instance, ticks);
+        scheduler.runTaskLater(TimberNoCheat.getInstance(), ticks);
     }
 
     public void disableTasks(){
@@ -265,7 +263,7 @@ public class Check extends YamlFile implements Listener {
     }
 
     public void disableListeners(){
-        for(PacketListener listener : protocollistener) TimberNoCheat.instance.protocolmanager.removePacketListener(listener);
+        for(PacketListener listener : protocollistener) TimberNoCheat.getInstance().getProtocolmanager().removePacketListener(listener);
     }
 
     public double getViolation(Player player){

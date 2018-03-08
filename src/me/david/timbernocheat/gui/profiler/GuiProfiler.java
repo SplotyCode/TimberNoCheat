@@ -34,12 +34,12 @@ public class GuiProfiler extends Gui {
     public void itemclick(Player p, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
         switch (itemstack.getItemMeta().getDisplayName()){
             case "§6All Sheduler":
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REOPEN);
-                TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "ProfilerAllSchedulerMulti");
+                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "ProfilerAllSchedulerMulti");
                 break;
             case "§6Move":
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REOPEN);
-                TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "MoveProfilerMulti");
+                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "MoveProfilerMulti");
                 break;
         }
     }

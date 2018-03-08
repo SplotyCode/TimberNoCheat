@@ -1,9 +1,9 @@
 package me.david.timbernocheat.checkes.combat;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.debug.Debuggers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,9 +23,9 @@ public class FastBow extends Check {
     public void onshot(final EntityShootBowEvent event){
         if(!(event.getEntity() instanceof Player)) return;
         final Player player = (Player) event.getEntity();
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.BOWFORCE, "Force: " + event.getEntity());
-        if(!TimberNoCheat.checkmanager.isvalid_create(player)) return;
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.BOWFORCE, "Force: " + event.getEntity());
+        if(!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
         long delay = System.currentTimeMillis() - pd.getLastbowshot();
         if(event.getForce() <= mimimumforce) return;
         if(delay < this.delay){

@@ -1,7 +1,7 @@
 package me.david.timbernocheat.gui.settings;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.config.Permissions;
 import me.david.api.guis.CloseReason;
 import me.david.api.guis.standart.ListGui;
@@ -24,7 +24,7 @@ public class SettingsGui extends ListGui<Check> {
     public static HashMap<UUID, Check> currentCheck = new HashMap<>();
 
     public SettingsGui() {
-        super(TimberNoCheat.checkmanager.getAllChecks(), "SettingsGui", new Sound("SettingsGui", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance), Permissions.SETTINGS);
+        super(TimberNoCheat.getCheckManager().getAllChecks(), "SettingsGui", new Sound("SettingsGui", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()), Permissions.SETTINGS);
     }
 
 
@@ -36,7 +36,7 @@ public class SettingsGui extends ListGui<Check> {
 
     @Override
     protected ItemStack getItemStack(Check obj, Player player) {
-        boolean enabled = TimberNoCheat.checkmanager.getChecks().contains(obj);
+        boolean enabled = TimberNoCheat.getCheckManager().getChecks().contains(obj);
         Material mat = obj.getCategory().getMaterial();
         return ItemStackUtil.createLohre("§6" + obj.getName(), 1, mat, "§6Enabled: §b" + StringUtil.colorbyBool(enabled) + enabled, "§6Category: §b" + obj.getCategory(), "§6Childs: §b" + obj.getChilds().size());
     }

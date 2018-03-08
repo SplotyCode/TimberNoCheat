@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.combat;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.api.utils.cordinates.LocationUtil;
 import org.bukkit.Bukkit;
@@ -29,9 +29,9 @@ public class Velocity extends Check {
     public Velocity() {
         super("Velocity", Category.COBMAT);
         teleport = getBoolean("teleport");
-        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, () -> {
+        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.getInstance(), () -> {
             for(Player p : Bukkit.getOnlinePlayers())
-                if(TimberNoCheat.checkmanager.isvalid_create(p))
+                if(TimberNoCheat.getCheckManager().isvalid_create(p))
                     check(p);
         }, 1, 1).getTaskId());
     }
@@ -125,7 +125,7 @@ public class Velocity extends Check {
     private void damage(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player) {
             Player p = (Player)event.getEntity();
-            if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
+            if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
             Entity damager = event.getDamager();
             EntityDamageEvent.DamageCause cause = event.getCause();
             if (cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK || (cause == EntityDamageEvent.DamageCause.PROJECTILE && damager instanceof Arrow)) {
@@ -153,8 +153,8 @@ public class Velocity extends Check {
     private void move(PlayerMoveEvent event) {
         if (LocationUtil.distance(event.getFrom(), event.getTo()) == 0) return;
         Player p = event.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
-        FalsePositive.FalsePositiveChecks fp = TimberNoCheat.checkmanager.getPlayerdata(p).getFalsepositives();
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
+        FalsePositive.FalsePositiveChecks fp = TimberNoCheat.getCheckManager().getPlayerdata(p).getFalsepositives();
         if (!checke(p) || walk(p) != 0.0F || (fp.jumpboost(p)) ||
         (fp.hasKnockbag(80) || countTickexsits(p, "scheduler") || countTickexsits(p, "knockback"))){
             resetCount(p, "cache");
@@ -173,13 +173,13 @@ public class Velocity extends Check {
 
     @EventHandler(priority=EventPriority.HIGH)
     private void velocity(PlayerVelocityEvent event) {
-        if(!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer())) return;
+        if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())) return;
         if (event.isCancelled())
             whitelist(event.getPlayer(), 10L);
     }
 
     private static boolean checke(Player p){
-        FalsePositive.FalsePositiveChecks fp = TimberNoCheat.checkmanager.getPlayerdata(p).getFalsepositives();
+        FalsePositive.FalsePositiveChecks fp = TimberNoCheat.getCheckManager().getPlayerdata(p).getFalsepositives();
         return !fp.hasVehicle(80) && !fp.hasClimp(60) && !p.isFlying() && !fp.worldboarder(p);
     }
 

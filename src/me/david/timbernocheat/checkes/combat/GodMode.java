@@ -1,9 +1,9 @@
 package me.david.timbernocheat.checkes.combat;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.Tps;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -31,7 +31,7 @@ public class GodMode extends Check {
 
     private boolean check(final Player player, final double damage){
         final int tick = Tps.tickCount;
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
         final int noDamageTicks = Math.max(0, player.getNoDamageTicks());
         final int invulnerabilityTicks = ((CraftPlayer) player).getHandle().invulnerableTicks;
 

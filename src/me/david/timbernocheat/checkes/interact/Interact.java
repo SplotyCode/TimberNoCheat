@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.interact;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checktools.MaterialHelper;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.api.Api;
@@ -49,7 +49,7 @@ public class Interact extends Check {
     public void onhitinteract(EntityDamageByEntityEvent e){
         if(!(e.getDamager() instanceof Player)) return;
         final Player p = (Player)e.getDamager();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)){
             return;
         }
         if(e.getEntity() instanceof Player && !p.canSee((Player) e.getEntity()) && visible){
@@ -65,7 +65,7 @@ public class Interact extends Check {
     @EventHandler
     public void onInteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
         if(e.getClickedBlock() != null && e.getClickedBlock().isLiquid() && liquids){
             e.setCancelled(true);
             updateVio(this, p, 1, " §6CHECK: §bLIQUIDS");
@@ -99,13 +99,13 @@ public class Interact extends Check {
             if(e.getClickedBlock() != null) {
                 Location pLoc = p.getLocation();
                 Location bLoc = e.getClickedBlock().getLocation();
-                RayTraceResult rayTrace = Api.instance.nms.rayTrace(new Vector(pLoc.getX(), pLoc.getY() + p.getEyeHeight(), pLoc.getZ()), new Vector(bLoc.getX(), bLoc.getY(), bLoc.getZ()), false, true, false, p.getWorld());
+                RayTraceResult rayTrace = Api.getNms().rayTrace(new Vector(pLoc.getX(), pLoc.getY() + p.getEyeHeight(), pLoc.getZ()), new Vector(bLoc.getX(), bLoc.getY(), bLoc.getZ()), false, true, false, p.getWorld());
                 if(rayTrace.getType() != RayTraceResult.Type.BLOCK){
                     updateVio(this, p, 1, " §6CHECK: §bRAYTRACE");
                 }
 
                 //TODO: Validate e.getBlockFace() or the player facing(by yaw and pitch) with the facing from raytrace?!
-                TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.RAY_TRACE, " calc=" + rayTrace.getFaing().name() + " packet=" + e.getBlockFace().name());
+                TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.RAY_TRACE, " calc=" + rayTrace.getFaing().name() + " packet=" + e.getBlockFace().name());
 
             }
         }
@@ -123,7 +123,7 @@ public class Interact extends Check {
         //}
         /*if(e.getClickedBlock() != null && !.contains(e.getClickedBlock())){
             e.setCancelled(true);
-            TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bGHOST");
+            TimberNoCheat.getCheckManager().notify(this, p, " §6CHECK: §bGHOST");
             return;
         }*/
 

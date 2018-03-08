@@ -1,4 +1,4 @@
-package me.david.timbernocheat.checkmanager;
+package me.david.timbernocheat.checkbase;
 
 import me.david.timbernocheat.checktools.AsyncGeneral;
 import me.david.timbernocheat.checktools.FalsePositive;

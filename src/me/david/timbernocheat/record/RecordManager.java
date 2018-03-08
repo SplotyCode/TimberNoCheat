@@ -3,7 +3,7 @@ package me.david.timbernocheat.record;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
 import me.david.timbernocheat.api.ViolationUpdateEvent;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,7 +31,7 @@ public class RecordManager implements Listener {
     }
 
     private void startTaskTimer(){
-        task = Bukkit.getScheduler().runTaskTimer(TimberNoCheat.instance, this::tick, 1, 1);
+        task = Bukkit.getScheduler().runTaskTimer(TimberNoCheat.getInstance(), this::tick, 1, 1);
     }
 
     private void tick(){
@@ -62,12 +62,12 @@ public class RecordManager implements Listener {
     @EventHandler
     public void onVio(ViolationUpdateEvent event){
         double vio = 0;
-        for(Check check : TimberNoCheat.checkmanager.getChecks())
+        for(Check check : TimberNoCheat.getCheckManager().getChecks())
             vio += check.getViolation(event.getPlayer());
         if(vio >= getRecord().getMinvio() && getRecoardingbyMain(event.getPlayer()) == null){
             try {
-                start(new File(TimberNoCheat.instance.getDataFolder(), "/records/" + System.currentTimeMillis() + ".tncrec"), event.getPlayer(), new ArrayList<>());
-                TimberNoCheat.instance.notify("Start Auto-Record for " + event.getPlayer().getDisplayName() + " because he has an total Violation-Level from over " + getRecord().getMinvio() + "! Vio=" + vio);
+                start(new File(TimberNoCheat.getInstance().getDataFolder(), "/records/" + System.currentTimeMillis() + ".tncrec"), event.getPlayer(), new ArrayList<>());
+                TimberNoCheat.getInstance().notify("Start Auto-Record for " + event.getPlayer().getDisplayName() + " because he has an total Violation-Level from over " + getRecord().getMinvio() + "! Vio=" + vio);
             } catch (IOException e) {
                 e.printStackTrace();
             }

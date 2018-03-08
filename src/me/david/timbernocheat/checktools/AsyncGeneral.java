@@ -8,18 +8,18 @@ import comphenix.packetwrapper.WrapperPlayClientLook;
 import comphenix.packetwrapper.WrapperPlayClientPosition;
 import comphenix.packetwrapper.WrapperPlayClientPositionLook;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.Location;
 
 public class AsyncGeneral {
 
     public AsyncGeneral(){
-        TimberNoCheat.instance.protocolmanager.addPacketListener(new PacketAdapter(TimberNoCheat.instance, ListenerPriority.LOW, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.LOOK, PacketType.Play.Client.POSITION, PacketType.Play.Client.FLYING) {
+        TimberNoCheat.getInstance().getProtocolmanager().addPacketListener(new PacketAdapter(TimberNoCheat.getInstance(), ListenerPriority.LOW, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.LOOK, PacketType.Play.Client.POSITION, PacketType.Play.Client.FLYING) {
             @Override
             public void onPacketReceiving(PacketEvent event) {
                 PacketType type = event.getPacket().getType();
-                if(!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer()))return;
-                PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer());
+                if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()))return;
+                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
                 Location loc = pd.getAsyncGenerals().getLastLoc();
                 if(loc == null) loc = event.getPlayer().getLocation();
                 if (type == WrapperPlayClientLook.TYPE){

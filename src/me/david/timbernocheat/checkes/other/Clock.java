@@ -1,7 +1,7 @@
 package me.david.timbernocheat.checkes.other;
 
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockRedstoneEvent;

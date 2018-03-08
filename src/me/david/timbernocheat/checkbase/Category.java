@@ -1,4 +1,4 @@
-package me.david.timbernocheat.checkmanager;
+package me.david.timbernocheat.checkbase;
 
 import org.bukkit.Material;
 

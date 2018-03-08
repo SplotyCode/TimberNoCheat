@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.chat;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,8 +17,8 @@ public class Bots extends Check {
     @EventHandler
     public void onChat(final AsyncPlayerChatEvent event){
         final Player player = event.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(player) || event.getMessage().startsWith("/")) return;
-        final Location loginLocation = TimberNoCheat.checkmanager.getPlayerdata(player).getGenerals().getLoginLocation();
+        if(!TimberNoCheat.getCheckManager().isvalid_create(player) || event.getMessage().startsWith("/")) return;
+        final Location loginLocation = TimberNoCheat.getCheckManager().getPlayerdata(player).getGenerals().getLoginLocation();
         if(loginLocation.equals(player.getLocation()))
             if(updateVio(this, player, 1))
                 event.setCancelled(true);

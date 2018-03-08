@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.chat;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +23,7 @@ public class Caps extends Check {
     public void onChat(final AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
         final String message = event.getMessage();
-        if (!TimberNoCheat.checkmanager.isvalid_create(player) || message.startsWith("/")) return;
+        if (!TimberNoCheat.getCheckManager().isvalid_create(player) || message.startsWith("/")) return;
         int[] newMessage;
         if (message.length() >= MINLENGTH) {
             String msgBefore = event.getMessage();

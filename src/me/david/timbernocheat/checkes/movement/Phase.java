@@ -3,13 +3,11 @@ package me.david.timbernocheat.checkes.movement;
 import me.david.api.Api;
 import me.david.api.nms.AABBBox;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.BlockUtil;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.MaterialHelper;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,8 +24,8 @@ public class Phase extends Check {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onMove(PlayerMoveEvent event) {
         final Player player = event.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(player)) return;
-        TimberNoCheat.instance.getMoveprofiler().start("Phase");
+        if(!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
+        TimberNoCheat.getInstance().getMoveprofiler().start("Phase");
         AABBBox playerBox = Api.getNms().getBoundingBox(player);
         int blocks = 0;
         for(Block block : BlockUtil.getBlocksAround(event.getTo(), 3)){
@@ -35,9 +33,9 @@ public class Phase extends Check {
             if(MaterialHelper.GATES.contains(block.getType()) && ((Gate) block).isOpen())continue;
             if(playerBox.intersectsWith(boundingBox)) blocks++;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
         if(blocks == 0) pd.setLastPhaseOkay(event.getTo());
         if(updateVio(this, player, blocks*1.2)) player.teleport(pd.getLastPhaseOkay());
-        TimberNoCheat.instance.getMoveprofiler().end();
+        TimberNoCheat.getInstance().getMoveprofiler().end();
     }
 }

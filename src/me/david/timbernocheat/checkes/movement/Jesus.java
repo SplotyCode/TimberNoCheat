@@ -1,9 +1,9 @@
 package me.david.timbernocheat.checkes.movement;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
 import org.bukkit.Location;
@@ -27,9 +27,9 @@ public class Jesus extends Check {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onMove(final PlayerMoveEvent event) {
         final Player player = event.getPlayer();
-        if (!TimberNoCheat.checkmanager.isvalid_create(player)) return;
-        TimberNoCheat.instance.getMoveprofiler().start("Jesus");
-        PlayerData playerData = TimberNoCheat.checkmanager.getPlayerdata(player);
+        if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
+        TimberNoCheat.getInstance().getMoveprofiler().start("Jesus");
+        PlayerData playerData = TimberNoCheat.getCheckManager().getPlayerdata(player);
         final FalsePositive.FalsePositiveChecks falsePositive = playerData.getFalsepositives();
         final General.GeneralValues generals = playerData.getGenerals();
         if(player.getAllowFlight() || falsePositive.hasVehicle(45))return;
@@ -45,7 +45,7 @@ public class Jesus extends Check {
         }
         //if(!invalidData())
 
-        TimberNoCheat.instance.getMoveprofiler().end();
+        TimberNoCheat.getInstance().getMoveprofiler().end();
     }
 
     private boolean invalidData(final Player player, final FalsePositive.FalsePositiveChecks falsePositive){

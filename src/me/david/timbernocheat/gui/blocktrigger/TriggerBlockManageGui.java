@@ -27,12 +27,12 @@ import java.util.List;
 public class TriggerBlockManageGui extends NoStaticListGui<TriggerBlock> {
 
     public TriggerBlockManageGui() {
-        super("TriggerBlockManageGui", new Sound("TriggerBlockManageOpen", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance), Permissions.BLOCK_TRIGGERS);
+        super("TriggerBlockManageGui", new Sound("TriggerBlockManageOpen", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()), Permissions.BLOCK_TRIGGERS);
     }
 
     @Override
     protected List<TriggerBlock> getList(Player player) {
-        ArrayList<TriggerBlock> list = (ArrayList<TriggerBlock>) TimberNoCheat.instance.getTriggerBlockManager().getTriggerBlocks().clone();
+        ArrayList<TriggerBlock> list = (ArrayList<TriggerBlock>) TimberNoCheat.getInstance().getTriggerBlockManager().getTriggerBlocks().clone();
         //AddButton
         list.add(new TriggerBlock());
         return list;
@@ -49,21 +49,21 @@ public class TriggerBlockManageGui extends NoStaticListGui<TriggerBlock> {
     @Override
     protected void itemclick(TriggerBlock obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         if(obj.getAtributes() == null && obj.getAction() == null && obj.getCreator() == null && obj.getLocation() == null){
-            TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REMOVE);
-            TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "TriggerBlockMulti");
+            TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
+            TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "TriggerBlockMulti");
         }else {
             if(clicktype.isRightClick()){
-                TimberNoCheat.instance.getTriggerBlockManager().getTriggerBlocks().remove(obj);
-                p.sendMessage(TimberNoCheat.instance.prefix + "§cOkay, killed!");
+                TimberNoCheat.getInstance().getTriggerBlockManager().getTriggerBlocks().remove(obj);
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "§cOkay, killed!");
             }else if(clicktype.isLeftClick()){
                 final Location location = obj.getLocation();
                 final AttributeList atributes = obj.getAtributes();
-                p.sendMessage(TimberNoCheat.instance.prefix + "---[Trigger]---");
-                p.sendMessage(TimberNoCheat.instance.prefix + "Location: §b" + location.getWorld().getName() + " - " + obj.getLocation().getBlockX() + "/" + obj.getLocation().getBlockY() + "/" + obj.getLocation().getBlockZ());
-                p.sendMessage(TimberNoCheat.instance.prefix + "Creator: §b" + Bukkit.getOfflinePlayer(obj.getCreator()).getName());
-                p.sendMessage(TimberNoCheat.instance.prefix + "Action: §b" + obj.getAction().name());
-                p.sendMessage(TimberNoCheat.instance.prefix + "Attributes: §b" + StringUtil.toString(atributes.getRealArguments(), ", "));
-                p.sendMessage(TimberNoCheat.instance.prefix + "---[Trigger]---");
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Trigger]---");
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "Location: §b" + location.getWorld().getName() + " - " + obj.getLocation().getBlockX() + "/" + obj.getLocation().getBlockY() + "/" + obj.getLocation().getBlockZ());
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "Creator: §b" + Bukkit.getOfflinePlayer(obj.getCreator()).getName());
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "Action: §b" + obj.getAction().name());
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "Attributes: §b" + StringUtil.toString(atributes.getRealArguments(), ", "));
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Trigger]---");
             }
         }
     }

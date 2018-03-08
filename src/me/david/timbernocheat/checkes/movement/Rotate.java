@@ -7,9 +7,9 @@ import com.comphenix.protocol.events.PacketEvent;
 import comphenix.packetwrapper.WrapperPlayClientLook;
 import comphenix.packetwrapper.WrapperPlayClientPositionLook;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.Tps;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -23,11 +23,11 @@ public class Rotate extends Check {
         super("Rotate", Category.MOVEMENT);
         //setViofornotify(7);
         //setViodelay(8000);
-        register(new PacketAdapter(TimberNoCheat.instance, ListenerPriority.HIGH, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.LOOK) {
+        register(new PacketAdapter(TimberNoCheat.getInstance(), ListenerPriority.HIGH, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.LOOK) {
              public void onPacketReceiving(PacketEvent event) {
                  Player p = event.getPlayer();
-                 if (p == null || !TimberNoCheat.checkmanager.isvalid_create(p)) return;
-                 PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+                 if (p == null || !TimberNoCheat.getCheckManager().isvalid_create(p)) return;
+                 PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
                  PacketType type = event.getPacket().getType();
                  Location lastLoc = pd.getAsyncGenerals().getLastLoc();
                  if(lastLoc == null)return;
@@ -53,8 +53,8 @@ public class Rotate extends Check {
     @EventHandler
     public void onRotate(PlayerMoveEvent event){
         Player p = event.getPlayer();
-        if (p == null || !TimberNoCheat.checkmanager.isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        if (p == null || !TimberNoCheat.getCheckManager().isvalid_create(p)) return;
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         float from = (event.getFrom().getYaw()-90) % 360;
         float to = (event.getTo().getYaw()-90) % 360;
         if(from < 0) from += 360;
@@ -70,8 +70,8 @@ public class Rotate extends Check {
     public void onHit(EntityDamageByEntityEvent event){
         if(event.getDamager() instanceof Player){
             Player p = (Player) event.getDamager();
-            if (p == null || !TimberNoCheat.checkmanager.isvalid_create(p)) return;
-            PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+            if (p == null || !TimberNoCheat.getCheckManager().isvalid_create(p)) return;
+            PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
             if(Tps.tickCount -pd.getSnappyRotate() < 2 && event.getEntity().getLocation().toVector().subtract(p.getLocation().toVector()).normalize().dot(p.getLocation().getDirection()) > 0.97)
                 updateVio(this, p, 1, " §6MODE: §bSNAPPY");
         }

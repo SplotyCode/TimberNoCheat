@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.interact;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.BlockUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,7 +21,7 @@ public class AirPlace extends Check {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent e){
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())){
             return;
         }
         if(check(e.getBlockPlaced()) || e.getBlockAgainst() == null){

@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.interact;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,19 +26,19 @@ public class NoSwing extends Check {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEvent e){
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled() || checkdelay == -1 || e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) return;
-        TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer()).setShoudswing(true);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> {
-            if(TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer()).isShoudswing())
+        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer()) || e.isCancelled() || checkdelay == -1 || e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) return;
+        TimberNoCheat.getCheckManager().getPlayerdata(e.getPlayer()).setShoudswing(true);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> {
+            if(TimberNoCheat.getCheckManager().getPlayerdata(e.getPlayer()).isShoudswing())
                 updateVio(NoSwing.this, e.getPlayer(), 1);
         }, checkdelay);
     }
     @EventHandler
     public void onSwing(PlayerAnimationEvent e){
         //System.out.println("a");
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.getAnimationType() != PlayerAnimationType.ARM_SWING) {
+        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer()) || e.getAnimationType() != PlayerAnimationType.ARM_SWING) {
             return;
         }
-        TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer()).setShoudswing(false);
+        TimberNoCheat.getCheckManager().getPlayerdata(e.getPlayer()).setShoudswing(false);
     }
 }

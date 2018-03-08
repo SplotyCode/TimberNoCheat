@@ -1,7 +1,7 @@
 package me.david.timbernocheat.gui.settings;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.config.Permissions;
 import me.david.api.guis.CloseReason;
 import me.david.api.guis.standart.NoStaticListGui;
@@ -23,7 +23,7 @@ public class CustomSettingsGui extends NoStaticListGui<String> {
     public static HashMap<UUID, String> players = new HashMap<>();
 
     public CustomSettingsGui() {
-        super("CustomSettingsGui", new Sound("SettingsGui", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance), Permissions.SETTINGS);
+        super("CustomSettingsGui", new Sound("SettingsGui", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()), Permissions.SETTINGS);
     }
 
     @Override
@@ -40,13 +40,13 @@ public class CustomSettingsGui extends NoStaticListGui<String> {
     @Override
     protected void itemclick(String obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         players.put(p.getUniqueId(), obj);
-        TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REMOVE);
-        p.sendMessage(TimberNoCheat.instance.prefix + "Du kannst den neuen Wert von '" + obj + "' in den Chat eingeben");
+        TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
+        p.sendMessage(TimberNoCheat.getInstance().prefix + "Du kannst den neuen Wert von '" + obj + "' in den Chat eingeben");
     }
 
     @Override
     public void close(Player player, CloseReason reason) {
         if(reason != CloseReason.REMOVE)
-            Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> TimberNoCheat.instance.guimanager.startMultidefaultStage(player, "ReloadMulti"), 1);
+            Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(player, "ReloadMulti"), 1);
     }
 }

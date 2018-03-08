@@ -12,8 +12,8 @@ import comphenix.packetwrapper.WrapperLoginClientEncryptionBegin;
 import comphenix.packetwrapper.WrapperLoginClientStart;
 import comphenix.tinyprotocol.Reflection;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.CryptoUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -43,7 +43,7 @@ public class MCLeaks extends Check {
 
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent e) {
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())) return;
+        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())) return;
         final Boolean value = caches.getIfPresent(e.getPlayer().getName());
         if (value != null && !value) {
             updateVio(MCLeaks.this, e.getPlayer(), 1);
@@ -77,7 +77,7 @@ public class MCLeaks extends Check {
             classYggdrasilMinecraftSessionService = Reflection.getClass("com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService");
             classYggdrasilAuthenticationService = Reflection.getClass("com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService");
 
-            Object console = Reflection.getField(classCraftServer, "console", classMinecraftServer).get(TimberNoCheat.instance.getServer());
+            Object console = Reflection.getField(classCraftServer, "console", classMinecraftServer).get(TimberNoCheat.getInstance().getServer());
             for (Field field : classMinecraftServer.getDeclaredFields()) {
                 if (field.getType().getName().equals(KeyPair.class.getName())) {
                     field.setAccessible(true);
@@ -94,7 +94,7 @@ public class MCLeaks extends Check {
             e.printStackTrace();
         }
         register(new PacketAdapter(
-                TimberNoCheat.instance,
+                TimberNoCheat.getInstance(),
                 ListenerPriority.HIGH,
                 PacketType.Login.Client.START,
                 PacketType.Login.Client.ENCRYPTION_BEGIN
@@ -112,7 +112,7 @@ public class MCLeaks extends Check {
 
                     final String name =  names.getIfPresent(address);
                     if (name == null) {
-                        TimberNoCheat.instance.getLogger().log(Level.WARNING, "Konnte keinen namen für " + address.getAddress().getHostName() + " bekommen!");
+                        TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Konnte keinen namen für " + address.getAddress().getHostName() + " bekommen!");
                         return;
                     }
 

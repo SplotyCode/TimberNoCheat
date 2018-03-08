@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.movement;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,8 +19,8 @@ public class BedLeave extends Check{
 
     @EventHandler
     public void onBedLeave(PlayerBedLeaveEvent e){
-        if(!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())) return;
-        TimberNoCheat.instance.getMoveprofiler().start("BedLeave");
+        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())) return;
+        TimberNoCheat.getInstance().getMoveprofiler().start("BedLeave");
         Location loc = e.getBed().getLocation();
         for(int x = loc.getBlockX() - maxrange; x < loc.getBlockX() + maxrange; ++x) {
             for(int y = loc.getBlockY() - maxrange; y < loc.getBlockY() + maxrange; ++y) {
@@ -33,6 +33,6 @@ public class BedLeave extends Check{
             }
         }
         updateVio(this, e.getPlayer(), 1);
-        TimberNoCheat.instance.getMoveprofiler().end();
+        TimberNoCheat.getInstance().getMoveprofiler().end();
     }
 }

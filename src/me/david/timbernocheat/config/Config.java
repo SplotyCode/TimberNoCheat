@@ -17,9 +17,9 @@ public class Config {
      */
     public static boolean check(File f, final int version, InputStream in){
         if(!f.exists()){
-            TimberNoCheat.instance.getLogger().log(Level.INFO, "Creating Config File!");
+            TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Creating Config File!");
             f.getParentFile().mkdirs();
-            File folder = TimberNoCheat.instance.getDataFolder();
+            File folder = TimberNoCheat.getInstance().getDataFolder();
             if (!folder.exists())
                 folder.mkdir();
             File resourceFile = new File(folder, "config.yml");
@@ -37,12 +37,12 @@ public class Config {
         }
         YamlConfiguration yml = YamlConfiguration.loadConfiguration(f);
         if(yml.getInt("generel.version") < version){
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "Die Config ist auf einer alten Version! Bitte löschen!");
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "Plugin wird disabled...");
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Die Config ist auf einer alten Version! Bitte löschen!");
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Plugin wird disabled...");
             return true;
         }
         if(yml.getString("generel.prefix") != null && !yml.getString("generel.prefix").equals("") && !yml.getString("generel.prefix").equals(" "))
-            TimberNoCheat.instance.prefix = ChatColor.translateAlternateColorCodes('&', yml.getString("generel.prefix"));
+            TimberNoCheat.getInstance().prefix = ChatColor.translateAlternateColorCodes('&', yml.getString("generel.prefix"));
         return false;
     }
 }

@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.interact;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.BlockUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,7 +17,7 @@ public class BreakCovered extends Check {
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
-        if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer())) return;
+        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())) return;
         if (isbed(e.getBlock())) {
             if (checkbed(e.getBlock())) {
                 e.setCancelled(true);

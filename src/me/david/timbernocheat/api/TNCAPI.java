@@ -1,8 +1,8 @@
 package me.david.timbernocheat.api;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.runnable.Tps;
 import me.david.api.anotations.NotNull;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ public final class TNCAPI {
         return Tps.getTPS(ticks);
     }
     @Deprecated public static String getTPSColor(){
-        return TimberNoCheat.checkmanager.getTpsColor();
+        return TimberNoCheat.getCheckManager().getTpsColor();
     }
 
     /*
@@ -32,10 +32,10 @@ public final class TNCAPI {
      * The player may manipulate this function with a PingSpoof
      */
     @Deprecated public static int getPing(Player player){
-        return TimberNoCheat.checkmanager.getping(player);
+        return TimberNoCheat.getCheckManager().getping(player);
     }
     @Deprecated public static String getPingColor(Player player){
-        return TimberNoCheat.checkmanager.getPingColor(player);
+        return TimberNoCheat.getCheckManager().getPingColor(player);
     }
 
     /*
@@ -44,14 +44,14 @@ public final class TNCAPI {
     @Deprecated
     public static void enablecheck(@NotNull Check check){
         if(check == null){
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may noy be null!");
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may noy be null!");
             return;
         }
         if(isEnabled(check)){
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may be disabled inorder to call this function!");
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may be disabled inorder to call this function!");
             return;
         }
-        TimberNoCheat.checkmanager.register(check);
+        TimberNoCheat.getCheckManager().register(check);
     }
 
     /*
@@ -60,26 +60,26 @@ public final class TNCAPI {
     @Deprecated
     public static void disablecheck(@NotNull Check check){
         if(check == null){
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may noy be null!");
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may noy be null!");
             return;
         }
         if(!isEnabled(check)){
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may be enabled inorder to call this function!");
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may be enabled inorder to call this function!");
             return;
         }
-        TimberNoCheat.checkmanager.unregister(check);
+        TimberNoCheat.getCheckManager().unregister(check);
     }
 
     @Deprecated
     public static void disablecheck(@NotNull String name){
-        disablecheck(TimberNoCheat.checkmanager.getCheckbyString(name));
+        disablecheck(TimberNoCheat.getCheckManager().getCheckbyString(name));
     }
 
     /* Check If an Specific Check is */
     @Deprecated
     public static boolean isEnabled(@NotNull Check check){
         if(check == null){
-            TimberNoCheat.instance.getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check darf nicht null sein");
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check darf nicht null sein");
             return false;
         }
         return isEnabled(check.getName());
@@ -88,7 +88,7 @@ public final class TNCAPI {
     @Deprecated
     public static boolean isEnabled(@NotNull String name){
         assert name != null:"Check Name might not be null";
-        return TimberNoCheat.checkmanager.getCheckbyString(name) != null;
+        return TimberNoCheat.getCheckManager().getCheckbyString(name) != null;
     }
 
     /* Returns an Array with all Category's */
@@ -100,7 +100,7 @@ public final class TNCAPI {
     /* Get an Check by its Name */
     @Deprecated
     public static Check getCheckbyName(String name){
-        return TimberNoCheat.checkmanager.getCheckbyString(name);
+        return TimberNoCheat.getCheckManager().getCheckbyString(name);
     }
 
 
@@ -116,7 +116,7 @@ public final class TNCAPI {
     public static double getAllViolations(@NotNull UUID uuid){
         assert uuid != null:"Check Name might not be null";
         double vio = 0;
-        for(Check c : TimberNoCheat.checkmanager.getChecks())
+        for(Check c : TimberNoCheat.getCheckManager().getChecks())
             if(c.getViolations().containsKey(uuid))
                 vio += c.getViolations().get(uuid);
         return vio;
@@ -129,7 +129,7 @@ public final class TNCAPI {
 
     @Deprecated
     public static void clearViolcation(final Player player){
-        for(Check c : TimberNoCheat.checkmanager.getChecks()){
+        for(Check c : TimberNoCheat.getCheckManager().getChecks()){
             c.resetVio(player);
             for(Check child : c.getChilds())
                 child.resetVio(player);

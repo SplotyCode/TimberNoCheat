@@ -25,7 +25,7 @@ public class ExternalDebugger implements Listener {
     private HashMap<String, Consumer<Player>> buttons = new HashMap<>();
 
     protected void send(Debuggers debugger, String msg, Object... data){
-        TimberNoCheat.instance.getDebugger().sendDebug(debugger, msg, data);
+        TimberNoCheat.getInstance().getDebugger().sendDebug(debugger, msg, data);
     }
 
     /**

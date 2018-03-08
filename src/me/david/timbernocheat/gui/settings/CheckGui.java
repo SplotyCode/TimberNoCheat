@@ -1,7 +1,7 @@
 package me.david.timbernocheat.gui.settings;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.config.Permissions;
 import me.david.api.guis.CloseReason;
 import me.david.api.guis.Gui;
@@ -19,14 +19,14 @@ import org.bukkit.inventory.ItemStack;
 
 public class CheckGui extends Gui {
     public CheckGui() {
-        super("CheckGui", Permissions.SETTINGS, new Sound("SettingsGui", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance));
+        super("CheckGui", Permissions.SETTINGS, new Sound("SettingsGui", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()));
     }
 
     @Override
     public Inventory build(Player p) {
         Check check = SettingsGui.currentCheck.get(p.getUniqueId());
         Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.DISPENSER, "§6" + check.getName());
-        boolean enabled = TimberNoCheat.checkmanager.getChecks().contains(check);
+        boolean enabled = TimberNoCheat.getCheckManager().getChecks().contains(check);
         inv.addItem(ItemStackUtil.createbasic((enabled?"§An":"§cAus"), 1, (enabled? Material.REDSTONE_TORCH_ON:Material.REDSTONE_TORCH_OFF)));
         inv.addItem(ItemStackUtil.createbasic("§7Custom Settings", 1, Material.STONE_PICKAXE));
         inv.addItem(ItemStackUtil.createbasic("§bViolations", 1, Material.COMMAND));
@@ -40,15 +40,15 @@ public class CheckGui extends Gui {
         switch (itemstack.getType()){
             case REDSTONE_TORCH_ON:
                 check.setSetting("enable", false);
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REMOVE);
+                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
                 break;
             case REDSTONE_TORCH_OFF:
                 check.setSetting("enable", true);
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REMOVE);
+                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
                 break;
             case STONE_PICKAXE:
-                TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REOPEN);
-                TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "CustomSettingMulti");
+                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "CustomSettingMulti");
                 break;
         }
     }
@@ -56,6 +56,6 @@ public class CheckGui extends Gui {
     @Override
     public void close(Player player, CloseReason reason) {
         if(reason != CloseReason.REOPEN)
-            Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> TimberNoCheat.instance.guimanager.startMultidefaultStage(player, "ReloadMulti"), 1);
+            Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(player, "ReloadMulti"), 1);
     }
 }

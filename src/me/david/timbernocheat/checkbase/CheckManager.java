@@ -1,4 +1,4 @@
-package me.david.timbernocheat.checkmanager;
+package me.david.timbernocheat.checkbase;
 
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkes.clientchanel.Vape;
@@ -155,12 +155,12 @@ public class CheckManager {
      * To prevent NullPointerExeptions call this method before checking players (on events, schedulers etc)
      */
     public boolean isvalid_create(Player p){
-        if(TimberNoCheat.instance.permissioncache.hasPermission(p, Permissions.NOTCHECKT)) {
-            TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PLAYERDATA_USE, "Access granted: " + p.getName());
+        if(TimberNoCheat.getInstance().permissioncache.hasPermission(p, Permissions.NOTCHECKT)) {
+            TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PLAYERDATA_USE, "Access granted: " + p.getName());
             return false;
         }
         if(getPlayerdata(p) == null) playerdata.add(new PlayerData(p.getUniqueId()));
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PLAYERDATA_USE, "Data Okay: " + p.getName());
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PLAYERDATA_USE, "Data Okay: " + p.getName());
 
         return true;
     }
@@ -179,20 +179,20 @@ public class CheckManager {
     /* Registers an Check to TNC and Bukkit */
     //TODO: Performance Load the YamlConfiguration only once
     public void register(Check check){
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.CHECKWATCHER, "Register: " + check.getName());
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.CHECKWATCHER, "Register: " + check.getName());
         if(disabledChecks.contains(check) || checks.contains(check))
             throw new IllegalStateException("Try to register a Plugin that is already Registered/Config Blacklisted!");
-        if(!YamlConfiguration.loadConfiguration(TimberNoCheat.instance.config).getBoolean(check.getName().toLowerCase() + ".enable")) {
+        if(!YamlConfiguration.loadConfiguration(TimberNoCheat.getInstance().getConfigFile()).getBoolean(check.getName().toLowerCase() + ".enable")) {
             disabledChecks.add(check);
             return;
         }
         checks.add(check);
-        TimberNoCheat.instance.getServer().getPluginManager().registerEvents(check, TimberNoCheat.instance);
+        TimberNoCheat.getInstance().getServer().getPluginManager().registerEvents(check, TimberNoCheat.getInstance());
     }
 
 
     public void unregister(Check check) {
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.CHECKWATCHER, "Unregister: " + check.getName());
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.CHECKWATCHER, "Unregister: " + check.getName());
         check.disable();
         checks.remove(check);
         HandlerList.unregisterAll(check);
@@ -221,13 +221,13 @@ public class CheckManager {
         text.setBold(true);
         text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.DARK_PURPLE + "Tleportieren").create()));
         text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "minecraft:tp " + location.getX()));
-        TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, TimberNoCheat.instance.prefix + message);
-        TimberNoCheat.instance.getLogger().log(Level.INFO, message.replace("§", "&"));
+        TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, TimberNoCheat.getInstance().prefix + message);
+        TimberNoCheat.getInstance().getLogger().log(Level.INFO, message.replace("§", "&"));
     }
 
     public void notify(Player p, String message){
-        TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, message);
-        TimberNoCheat.instance.getLogger().log(Level.INFO, message);
+        TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, message);
+        TimberNoCheat.getInstance().getLogger().log(Level.INFO, message);
     }
 
     /* Get Server Tps with Colour*/
@@ -276,8 +276,8 @@ public class CheckManager {
     }
 
     public ArrayList<Check> getAllChecks(){
-        ArrayList<Check> list = ((ArrayList<Check>) TimberNoCheat.checkmanager.getChecks().clone());
-        list.addAll(TimberNoCheat.checkmanager.getDisabledChecks());
+        ArrayList<Check> list = ((ArrayList<Check>) TimberNoCheat.getCheckManager().getChecks().clone());
+        list.addAll(TimberNoCheat.getCheckManager().getDisabledChecks());
         return list;
     }
 

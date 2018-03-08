@@ -37,7 +37,7 @@ public class RecordSaveHandler implements Listener {
     public RecordSaveHandler(UUID main, File file) throws FileNotFoundException {
         this.file = new DataOutputStream(new FileOutputStream(file));
         players = new HashMap<>();
-        Bukkit.getPluginManager().registerEvents(this, TimberNoCheat.instance);
+        Bukkit.getPluginManager().registerEvents(this, TimberNoCheat.getInstance());
     }
 
     public void flushAndStop() throws IOException {
@@ -49,7 +49,7 @@ public class RecordSaveHandler implements Listener {
     private int ticks;
 
     public boolean tick() {
-        if(ticks == TimberNoCheat.instance.getRecordManager().getRecord().getMaxleanght())
+        if(ticks == TimberNoCheat.getInstance().getRecordManager().getRecord().getMaxleanght())
             return true;
         ticks++;
         for(RecordPlayer player : players.values())
@@ -143,12 +143,12 @@ public class RecordSaveHandler implements Listener {
         if(isInCurrentlyInRecord(player)) {
             players.get(player.getUniqueId()).setDel(true);
             if(main == player.getUniqueId()){
-                Recording rec = TimberNoCheat.instance.getRecordManager().getRecoardingbyMain(player);
+                Recording rec = TimberNoCheat.getInstance().getRecordManager().getRecoardingbyMain(player);
                 rec.stop();
-                TimberNoCheat.instance.getRecordManager().getRecordings().remove(rec);
-                TimberNoCheat.instance.notify("Die Aufname von " + player.getDisplayName() + " wurde gestopt der hauptcharakter nicht mehr da ist!");
+                TimberNoCheat.getInstance().getRecordManager().getRecordings().remove(rec);
+                TimberNoCheat.getInstance().notify("Die Aufname von " + player.getDisplayName() + " wurde gestopt der hauptcharakter nicht mehr da ist!");
             }else
-                TimberNoCheat.instance.notify("Der Spieler" + player.getDisplayName() + " wurde aus der Aufnahme von " + Bukkit.getPlayer(main).getDisplayName() + " removed! Grund: " + (reason == RemoveReason.LEAVE?"Server Leave":reason == RemoveReason.WORLDCHANGE?"World Change":"Unbekannt"));
+                TimberNoCheat.getInstance().notify("Der Spieler" + player.getDisplayName() + " wurde aus der Aufnahme von " + Bukkit.getPlayer(main).getDisplayName() + " removed! Grund: " + (reason == RemoveReason.LEAVE?"Server Leave":reason == RemoveReason.WORLDCHANGE?"World Change":"Unbekannt"));
         }
     }
 

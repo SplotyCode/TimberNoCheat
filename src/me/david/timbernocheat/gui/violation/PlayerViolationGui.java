@@ -4,7 +4,7 @@ import me.david.api.guis.CloseReason;
 import me.david.api.guis.standart.NoStaticListGui;
 import me.david.api.utils.ItemStackUtil;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.config.Permissions;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -19,14 +19,14 @@ public class PlayerViolationGui extends NoStaticListGui<Check> {
     public static HashMap<UUID, UUID> data = new HashMap<>();
 
     public PlayerViolationGui() {
-        super("PlayerViolationGui", Permissions.VIOLATIONMENU, TimberNoCheat.instance);
+        super("PlayerViolationGui", Permissions.VIOLATIONMENU, TimberNoCheat.getInstance());
     }
 
     @Override
     protected List<Check> getList(Player p) {
         final UUID uuid = data.get(p.getUniqueId());
         ArrayList<Check> list = new ArrayList<>();
-        for(final Check check : TimberNoCheat.checkmanager.getChecks())
+        for(final Check check : TimberNoCheat.getCheckManager().getChecks())
             if(check.getViolation(uuid) > 0) list.add(check);
         list.sort(Comparator.comparingDouble(check -> check.getViolation(uuid)));
         return list;

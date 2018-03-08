@@ -19,14 +19,14 @@ import org.bukkit.inventory.ItemStack;
 public class GuiDebug extends ArrayGui<Debuggers> {
 
     public GuiDebug() {
-        super(Debuggers.values(), "§6Debug Stuff", new Sound("DebugGuiOpen", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.instance), Permissions.DEBUGGER);
+        super(Debuggers.values(), "§6Debug Stuff", new Sound("DebugGuiOpen", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()), Permissions.DEBUGGER);
     }
 
     @Override
     protected ItemStack getItemStack(Debuggers obj, Player player) {
         return ItemStackUtil.createLohre(
                 "§6Toggle §b" + obj.name(), 1,
-                TimberNoCheat.instance.getDebugger().isDebugging(player, obj.name())?Material.GLOWSTONE_DUST:Material.REDSTONE,
+                TimberNoCheat.getInstance().getDebugger().isDebugging(player, obj.name())?Material.GLOWSTONE_DUST:Material.REDSTONE,
                 "§6External: " + StringUtil.colorbyBool(obj.isExternal()) + (obj.isExternal()?"Ja":"Nein"),
                 "§6Dependecy: §b" + obj.getDependecy());
     }
@@ -34,13 +34,13 @@ public class GuiDebug extends ArrayGui<Debuggers> {
     @Override
     protected void itemclick(Debuggers obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         if(clicktype.isLeftClick()) {
-            TimberNoCheat.instance.getDebugger().toggleDebugger(p.getUniqueId(), obj.name());
-            p.sendMessage(TimberNoCheat.instance.prefix + "Der Debugger §b" + obj.name() + "§6 ist nun " + (TimberNoCheat.instance.getDebugger().isDebugging(p, obj.name()) ? "§aAktiviert" : "§cDeaktiviert") + "§6!");
-            TimberNoCheat.instance.guimanager.reopen(p);
+            TimberNoCheat.getInstance().getDebugger().toggleDebugger(p.getUniqueId(), obj.name());
+            p.sendMessage(TimberNoCheat.getInstance().prefix + "Der Debugger §b" + obj.name() + "§6 ist nun " + (TimberNoCheat.getInstance().getDebugger().isDebugging(p, obj.name()) ? "§aAktiviert" : "§cDeaktiviert") + "§6!");
+            TimberNoCheat.getInstance().getGuimanager().reopen(p);
         }else if(clicktype.isRightClick()){
-            TimberNoCheat.instance.guimanager.removeMultiGui(p, false, CloseReason.REMOVE);
+            TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
             DebugSetting.data.put(p.getUniqueId(), obj);
-            TimberNoCheat.instance.guimanager.startMultidefaultStage(p, "DebugSettingMulti");
+            TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "DebugSettingMulti");
         }
     }
 }

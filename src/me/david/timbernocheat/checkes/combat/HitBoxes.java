@@ -5,9 +5,9 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.api.utils.cordinates.RotationUtil;
 import me.david.api.utils.player.PlayerUtil;
@@ -31,10 +31,10 @@ public class HitBoxes extends Check {
         advanced = getBoolean("advanced.enable");
         advancedincrease = (float) getDouble("advanced.increase");
         normal = getBoolean("normal");
-        register(new PacketAdapter(TimberNoCheat.instance, ListenerPriority.HIGH, PacketType.Play.Client.POSITION_LOOK) {
+        register(new PacketAdapter(TimberNoCheat.getInstance(), ListenerPriority.HIGH, PacketType.Play.Client.POSITION_LOOK) {
             public void onPacketReceiving(PacketEvent event) {
-                if(TimberNoCheat.checkmanager.isvalid_create(event.getPlayer())){
-                    PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer());
+                if(TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())){
+                    PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
                     pd.setHitboxyaw(Math.abs(event.getPacket().getFloat().read(0)-pd.getLastyaw()));
                 }
             }
@@ -46,8 +46,8 @@ public class HitBoxes extends Check {
         if (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;
         if (!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player)) return;
         Player player = (Player) event.getDamager();
-        if(!TimberNoCheat.checkmanager.isvalid_create(player))return;
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+        if(!TimberNoCheat.getCheckManager().isvalid_create(player))return;
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
         Player attacked = (Player) event.getEntity();
         float nomral = normal(pd, player, attacked);
         if(normal && nomral != 0) if(updateVio(this, player, nomral<1?1:nomral, " §6MODE: §bNORMAL")) event.setCancelled(true);
@@ -58,16 +58,16 @@ public class HitBoxes extends Check {
     private float advanced(PlayerData pd, Player player, Player attacked){
         AxisAlignedBB box = ((CraftEntity) attacked).getHandle().getBoundingBox();
         box = box.grow(advancedincrease, advancedincrease, advancedincrease);
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.HITBOX, "MIN_COORDS: x=" + box.a + " y=" + box.b + " z=" + box.c);
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.HITBOX, "MAX_COORDS: x=" + box.d + " y=" + box.e + " z=" + box.f);
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.HITBOX, "MIN_COORDS: x=" + box.a + " y=" + box.b + " z=" + box.c);
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.HITBOX, "MAX_COORDS: x=" + box.d + " y=" + box.e + " z=" + box.f);
 
         float[] min = RotationUtil.getRotation(player, box.a, box.b, box.c);
         float[] max = RotationUtil.getRotation(player, box.d, box.e, box.f);
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.HITBOX, "MIN_ROTS: yaw=" + min[0] + " pitch=" + min[1]);
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.HITBOX, "MAX_ROTS: yaw=" + max[0] + " pitch=" + max[0]);
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.HITBOX, "MIN_ROTS: yaw=" + min[0] + " pitch=" + min[1]);
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.HITBOX, "MAX_ROTS: yaw=" + max[0] + " pitch=" + max[0]);
         float yaw = player.getLocation().getYaw();
         float pitch = player.getLocation().getPitch();
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.HITBOX, "PLAYER_ROTS: yaw=" + yaw + " pitch=" + pitch);
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.HITBOX, "PLAYER_ROTS: yaw=" + yaw + " pitch=" + pitch);
         if(yaw < Math.min(min[0], max[0])) return Math.min(min[0], max[0])-yaw;
         if(yaw > Math.max(min[0], max[0])) return yaw-Math.max(min[0], max[0]);
         if(pitch < Math.min(min[1], max[1])) return Math.min(min[1], max[1])-pitch;

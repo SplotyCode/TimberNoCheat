@@ -1,7 +1,7 @@
 package me.david.timbernocheat.debug;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.debug.debuggers.MoveVelocity;
 import me.david.timbernocheat.debug.debuggers.OnGround;
 import me.david.timbernocheat.debug.debuggers.OnGroundCheckDiff;
@@ -38,7 +38,7 @@ public enum  Debuggers {
     Debuggers(String dependecy, String... settings){
         debugger = null;
         external = false;
-        this.dependecy = TimberNoCheat.checkmanager.getCheckbyString(dependecy);
+        this.dependecy = TimberNoCheat.getCheckManager().getCheckbyString(dependecy);
         for(String setting : settings)
             this.settings.put(setting, new HashMap<>());
     }
@@ -47,7 +47,7 @@ public enum  Debuggers {
         external = true;
         this.debugger = debugger;
         dependecy = null;
-        TimberNoCheat.instance.registerListener(debugger);
+        TimberNoCheat.getInstance().registerListener(debugger);
         for(String setting : settings)
             this.settings.put(setting, new HashMap<>());
     }

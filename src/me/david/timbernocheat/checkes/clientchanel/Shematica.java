@@ -2,8 +2,8 @@ package me.david.timbernocheat.checkes.clientchanel;
 
 import me.david.api.Api;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
@@ -17,8 +17,6 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigInteger;
 
 public class Shematica extends Check implements PluginMessageListener {
@@ -35,8 +33,8 @@ public class Shematica extends Check implements PluginMessageListener {
         PRINT = getBoolean("print");
         LOAD = getBoolean("load");
         SAVE = getBoolean("save");
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.instance, channel, this);
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.instance, channel);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(TimberNoCheat.getInstance(), channel, this);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(TimberNoCheat.getInstance(), channel);
     }
 
     @Override
@@ -46,22 +44,22 @@ public class Shematica extends Check implements PluginMessageListener {
 
     @Override
     public void disable() {
-        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.instance, channel, this);
-        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.instance, channel);
+        Bukkit.getServer().getMessenger().unregisterIncomingPluginChannel(TimberNoCheat.getInstance(), channel, this);
+        Bukkit.getServer().getMessenger().unregisterOutgoingPluginChannel(TimberNoCheat.getInstance(), channel);
     }
 
     @EventHandler
     public void onlogin(PlayerLoginEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
-        Api.instance.nms.sendPluingMessage(p, getPayload(), channel, TimberNoCheat.instance);
-        p.sendPluginMessage(TimberNoCheat.instance, channel, getPayload());
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
+        Api.getNms().sendPluingMessage(p, getPayload(), channel, TimberNoCheat.getInstance());
+        p.sendPluginMessage(TimberNoCheat.getInstance(), channel, getPayload());
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         final Player player = event.getPlayer();
-        if(BLOCK && TimberNoCheat.checkmanager.isvalid_create(player)){
+        if(BLOCK && TimberNoCheat.getCheckManager().isvalid_create(player)){
             String json = "{\"text\":\"\",\"extra\":[{\"text\":\"\u00a70\u00a72\u00a70\u00a70\u00a7e\u00a7f\"},{\"text\":\"\u00a70\u00a72\u00a71\u00a70\u00a7e\u00a7f\"},{\"text\":\"\u00a70\u00a72\u00a71\u00a71\u00a7e\u00a7f\"}]}";
             IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a(json);
             PacketPlayOutChat chat = new PacketPlayOutChat(icbc, BigInteger.valueOf(0).toByteArray()[0]);

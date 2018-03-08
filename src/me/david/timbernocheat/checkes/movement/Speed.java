@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.debug.Scheduler;
 import me.david.timbernocheat.runnable.TimberScheduler;
@@ -133,7 +133,7 @@ public class Speed extends Check {
 
     private void loadpatterns(){
         try {
-            File file = TimberNoCheat.instance.speedpatterns;
+            File file = TimberNoCheat.getInstance().getSpeedPatterns();
             if(!file.exists()){
                 file.getParentFile().mkdirs();
                 file.createNewFile();
@@ -153,15 +153,15 @@ public class Speed extends Check {
     }
 
     private void savepatterns(){
-        JsonFileUtil.saveJSON(TimberNoCheat.instance.speedpatterns, new TypeToken<ArrayList<SpeedPattern>>() {}.getType(), patterns);
+        JsonFileUtil.saveJSON(TimberNoCheat.getInstance().getSpeedPatterns(), new TypeToken<ArrayList<SpeedPattern>>() {}.getType(), patterns);
     }
 
     @Override
     public void startTasks() {
         register(new TimberScheduler(Scheduler.PATTERN_SPEED, () -> {
             for(Player p : Bukkit.getOnlinePlayers()){
-                if(!TimberNoCheat.checkmanager.isvalid_create(p) || p.getAllowFlight())continue;
-                PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+                if(!TimberNoCheat.getCheckManager().isvalid_create(p) || p.getAllowFlight())continue;
+                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
                 if(pd.getLastticklocation() != null)     {
                     FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
                     if (p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20)) continue;
@@ -183,18 +183,18 @@ public class Speed extends Check {
                             optimalpattern.horizontal = (float) xzDiff;
                             patterns.add(optimalpattern);
                             savepatterns();
-                            p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] Neue Pattern '" + optimalpattern.name + "' erstellt!");
-                        }else p.sendMessage(TimberNoCheat.instance.prefix + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
+                            p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] Neue Pattern '" + optimalpattern.name + "' erstellt!");
+                        }else p.sendMessage(TimberNoCheat.getInstance().prefix + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
                         continue;
                     }
                     if(disabledpatterns.contains(optimalpattern.name)) continue;
                     double toomuch = 0;
                     int toomushper = 0;
-                    TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PATTERN_SPEED, "CAPTURED: xz=" + xzDiff + " yUp=" + yDiffUp + " yDown=" + yDiffdown);
-                    TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PATTERN_SPEED, "PATTERN: xz=" + optimalpattern.horizontal + " yUP=" + optimalpattern.verticalup + " yDown=" + optimalpattern.verticaldown);
+                    TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PATTERN_SPEED, "CAPTURED: xz=" + xzDiff + " yUp=" + yDiffUp + " yDown=" + yDiffdown);
+                    TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PATTERN_SPEED, "PATTERN: xz=" + optimalpattern.horizontal + " yUP=" + optimalpattern.verticalup + " yDown=" + optimalpattern.verticaldown);
                     if (optimalpattern.verticaldown < yDiffdown) {
                         if(generators.contains(p.getUniqueId())){
-                            p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffdown to '" + yDiffdown + "'!");
+                            p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffdown to '" + yDiffdown + "'!");
                             optimalpattern.verticaldown = (float) yDiffdown;
                             savepatterns();
                             continue;
@@ -204,7 +204,7 @@ public class Speed extends Check {
                     }
                     if (optimalpattern.verticalup < yDiffUp) {
                         if(generators.contains(p.getUniqueId())){
-                            p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffup to '" + yDiffdown + "'!");
+                            p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffup to '" + yDiffdown + "'!");
                             optimalpattern.verticalup = (float) yDiffUp;
                             savepatterns();
                             continue;
@@ -214,7 +214,7 @@ public class Speed extends Check {
                     }
                     if (optimalpattern.horizontal < xzDiff) {
                         if(generators.contains(p.getUniqueId())){
-                            p.sendMessage(TimberNoCheat.instance.prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet xzDiff to '" + yDiffdown + "'!");
+                            p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet xzDiff to '" + yDiffdown + "'!");
                             optimalpattern.horizontal = (float) xzDiff;
                             savepatterns();
                             continue;
@@ -244,9 +244,9 @@ public class Speed extends Check {
         final Player p = e.getPlayer();
         final Location to = e.getTo();
         final Location from = e.getFrom();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled() || !to.getWorld().getName().equals(from.getWorld().getName())) return;
-        TimberNoCheat.instance.getMoveprofiler().start("Speed");
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        if (!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled() || !to.getWorld().getName().equals(from.getWorld().getName())) return;
+        TimberNoCheat.getInstance().getMoveprofiler().start("Speed");
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         if(PlayerUtil.isOnGround(p)) pd.setLastongroundtime(System.currentTimeMillis());
         if(ssenable && p.isSprinting() && p.isSneaking()){
             e.setCancelled(true);
@@ -267,7 +267,7 @@ public class Speed extends Check {
             if(grounddiffen) check_grounddiff(e, pd);
             yspeed(e);
         }
-        TimberNoCheat.instance.getMoveprofiler().end();
+        TimberNoCheat.getInstance().getMoveprofiler().end();
     }
 
     private void check_normal(PlayerMoveEvent e) {
@@ -288,7 +288,7 @@ public class Speed extends Check {
         for (PotionEffect effect : p.getActivePotionEffects())
             if (effect.getType().equals(PotionEffectType.SPEED))
                 limitXZ += (PlayerUtil.isOnGround(p)?nspeedground:nspeed) * (effect.getAmplifier() + 1);
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.PATTERN_SPEED, " max=" + limitXZ + " player=" + offsetXZ);
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PATTERN_SPEED, " max=" + limitXZ + " player=" + offsetXZ);
         if(offsetXZ > limitXZ)
             updateVio(this, p, offsetXZ-limitXZ*nviomodi, " §6MODE: §bNORMAL");
     }
@@ -350,7 +350,7 @@ public class Speed extends Check {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onSprint(PlayerToggleSprintEvent e){
-        if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) return;
+        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer()) || e.isCancelled()) return;
         if(ssenable && e.isSprinting() && e.getPlayer().isSneaking()){
             e.setCancelled(true);
             updateVio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSPRINTSNEAK(2)");
@@ -363,24 +363,24 @@ public class Speed extends Check {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onSneak(PlayerToggleSneakEvent e){
-        if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) {
+        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer()) || e.isCancelled()) {
             return;
         }
         if((e.getPlayer().isSneaking() && e.isSneaking()) || (!e.getPlayer().isSneaking() && !e.isSneaking())){
             return;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(e.getPlayer());
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(e.getPlayer());
         pd.setTogglesneaklastsec(pd.getTogglesneaklastsec()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setTogglesneaklastsec(pd.getTogglesneaklastsec()-1), 20);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setTogglesneaklastsec(pd.getTogglesneaklastsec()-1), 20);
         if(spenable && pd.getTogglesneaklastsec() > spmaxsecond){
             e.setCancelled(true);
             updateVio(this, e.getPlayer(), spvio, " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());
-            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());
+            //TimberNoCheat.getCheckManager().notify(this, e.getPlayer(), " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());
         }
         if(ssenable && e.isSneaking() && e.getPlayer().isSprinting()){
             e.setCancelled(true);
             updateVio(this, e.getPlayer(), ssviomodi, " §6MODE: §bSNEAKSPRINT(2)");
-            //TimberNoCheat.checkmanager.notify(this, e.getPlayer(), " §6MODE: §bSNEAK");
+            //TimberNoCheat.getCheckManager().notify(this, e.getPlayer(), " §6MODE: §bSNEAK");
         }
     }
 

@@ -4,9 +4,9 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.api.utils.DateTimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -33,7 +33,7 @@ public class MorePackets extends Check {
         blacklistadd = getLong("blacklistadd");
         blacklistremove = getLong("blacklistremove");
         worlddownloadingdelayinticks = getLong("worlddownloadingdelayinticks");
-        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.POSITION_LOOK) {
+        register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Client.POSITION_LOOK) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
                 if(p != null) {
@@ -41,7 +41,7 @@ public class MorePackets extends Check {
                 }
             }
         });
-        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.LOOK) {
+        register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Client.LOOK) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
                 if(p != null) {
@@ -49,7 +49,7 @@ public class MorePackets extends Check {
                 }
             }
         });
-        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.POSITION) {
+        register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Client.POSITION) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
                 if(p != null) {
@@ -57,7 +57,7 @@ public class MorePackets extends Check {
                 }
             }
         });
-        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.FLYING) {
+        register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Client.FLYING) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
                 if(p != null) {
@@ -82,22 +82,22 @@ public class MorePackets extends Check {
         blacklistadd(e.getPlayer());
     }
     private void blacklistadd(Player p){
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)){
             return;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         pd.setMorepacketblacklist(true);
         pd.setMorepacketsblacklist2(true);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setMorepacketsblacklist2(false), worlddownloadingdelayinticks);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setMorepacketsblacklist2(false), worlddownloadingdelayinticks);
     }
     private boolean check(Player p){
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)){
             return false;
         }
         if(p.getGameMode() == GameMode.CREATIVE){
             return false;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         int count = pd.getMorepackets().getKey();
         long time = pd.getMorepackets().getValue();
 
@@ -116,7 +116,7 @@ public class MorePackets extends Check {
                 if(count > maxpackets) {
                     //flag
                     updateVio(this, p, maxpackets-count, " §6PACKETS: §b" + count);
-                    //TimberNoCheat.checkmanager.notify(this, p, " §6PACKETS: §b" + count);
+                    //TimberNoCheat.getCheckManager().notify(this, p, " §6PACKETS: §b" + count);
                     pd.setMorepackets(new AbstractMap.SimpleEntry<Integer, Long>(0, System.currentTimeMillis()));
                     pd.setLastpacket(System.currentTimeMillis());
                     return true;

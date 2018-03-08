@@ -4,9 +4,9 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -28,7 +28,7 @@ public class SkinBlinker extends Check {
         cursor = getBoolean("cursor");
         move_delay = getLong("move_delay");
 
-        register(new PacketAdapter(TimberNoCheat.instance, PacketType.Play.Client.SETTINGS) {
+        register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Client.SETTINGS) {
             public void onPacketReceiving(PacketEvent e) {
                 Player p = e.getPlayer();
                 if(p != null) {
@@ -39,10 +39,10 @@ public class SkinBlinker extends Check {
     }
 
     private boolean check(Player p){
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)){
             return false;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         long delay = System.currentTimeMillis() - pd.getGenerals().getLastMove();
         if(delay < move_delay){
             updateVio(this, p, 1, " §6CHECK: §bMOVE", " §6DELAY: §b" + delay);

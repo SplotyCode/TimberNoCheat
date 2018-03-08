@@ -1,8 +1,8 @@
 package me.david.timbernocheat.runnable;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.config.Permissions;
 
 import java.util.ArrayList;
@@ -34,17 +34,17 @@ public class Tps implements Runnable{
         ticks[(tickCount % ticks.length)] = System.currentTimeMillis();
         tickCount++;
         if(!lowTpsMode && getTPS() < 16){
-            TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wegen der geringen Tps deaktiviert!");
-            for(Check check : (ArrayList<Check>)TimberNoCheat.checkmanager.getChecks().clone())
+            TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wegen der geringen Tps deaktiviert!");
+            for(Check check : (ArrayList<Check>)TimberNoCheat.getCheckManager().getChecks().clone())
                 if(check.getCategory() == Category.MOVEMENT) {
-                    TimberNoCheat.checkmanager.unregister(check);
+                    TimberNoCheat.getCheckManager().unregister(check);
                     disabledChecks.add(check);
                 }
             lowTpsMode = true;
         }else if(lowTpsMode && getTPS() > 17){
-            TimberNoCheat.instance.permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wieder aktiviert!");
+            TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wieder aktiviert!");
             for(Check check : disabledChecks)
-                TimberNoCheat.checkmanager.register(check);
+                TimberNoCheat.getCheckManager().register(check);
             disabledChecks.clear();
             lowTpsMode = false;
         }

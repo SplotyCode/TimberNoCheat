@@ -1,4 +1,4 @@
-package me.david.timbernocheat.checkmanager;
+package me.david.timbernocheat.checkbase;
 
 /*
  * Represents a Violation in the Config

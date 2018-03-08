@@ -1,9 +1,9 @@
 package me.david.timbernocheat.checkes.player;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,15 +32,15 @@ public class ChestStealer extends Check {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onitem(InventoryClickEvent e){
         final Player p = (Player) e.getWhoClicked();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled() || e.getAction() != InventoryAction.MOVE_TO_OTHER_INVENTORY){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled() || e.getAction() != InventoryAction.MOVE_TO_OTHER_INVENTORY){
             return;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         long delay = System.currentTimeMillis()-pd.getLastcheststealer();
         if(delay < this.delay){
             e.setCancelled(true);
             updateVio(this, p, 2, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
-            //TimberNoCheat.checkmanager.notify(this, p, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
+            //TimberNoCheat.getCheckManager().notify(this, p, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
             pd.getCheststealercon().clear();
         }
         if(!enable)return;
@@ -68,14 +68,14 @@ public class ChestStealer extends Check {
                 double dif = bet-last;
                 if(dif<(dif-maxdelaymilis) || dif>(dif+maxcachesize)){
                     consisdent = false;
-                    //System.out.println(firstdelay + " " + (l-TimberNoCheat.instance.settings.player_cheststeler_consistent_maxdelaymilis) + " " + l+TimberNoCheat.instance.settings.player_cheststeler_consistent_maxdelaymilis);
+                    //System.out.println(firstdelay + " " + (l-TimberNoCheat.getInstance().settings.player_cheststeler_consistent_maxdelaymilis) + " " + l+TimberNoCheat.getInstance().settings.player_cheststeler_consistent_maxdelaymilis);
                     break;
                 }
                 last = bet;
             }
             if(consisdent){
                 updateVio(this, p, 8, " §6MODE: §bCONSISDEND");
-                //TimberNoCheat.checkmanager.notify(this, p, " §6MODE: §bCONSISDEND");
+                //TimberNoCheat.getCheckManager().notify(this, p, " §6MODE: §bCONSISDEND");
                 pd.getCheststealercon().clear();
             }
         }

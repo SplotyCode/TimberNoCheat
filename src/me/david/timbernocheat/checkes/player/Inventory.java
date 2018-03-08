@@ -1,9 +1,9 @@
 package me.david.timbernocheat.checkes.player;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Achievement;
@@ -57,8 +57,8 @@ public class Inventory extends Check {
     @EventHandler
     public void onMove(PlayerMoveEvent event){
         final Player p = event.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p))return;
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p))return;
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         if(itemcursor && p.getItemOnCursor().getType() != Material.AIR) updateVio(this, p, 1, " §6CHECK: §bCURSOR");
         long delay = System.currentTimeMillis() - pd.getLastachivementopeninv();
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
@@ -68,26 +68,26 @@ public class Inventory extends Check {
     @EventHandler
     public void onAchivement(PlayerAchievementAwardedEvent event){
         final Player p = event.getPlayer();
-        if((achivement || achivementportal) && event.getAchievement() == Achievement.OPEN_INVENTORY && TimberNoCheat.checkmanager.isvalid_create(p)){
+        if((achivement || achivementportal) && event.getAchievement() == Achievement.OPEN_INVENTORY && TimberNoCheat.getCheckManager().isvalid_create(p)){
             event.setCancelled(true);
             if(achivementportal && p.getLocation().getBlock().getType() == Material.PORTAL || p.getLocation().add(0, p.getEyeHeight(), 0).getBlock().getType() == Material.PORTAL)
                 updateVio(this, p, 1, " §6CHECK: §bPORTAL_ACHIVEMENT");
-            if(achivement) TimberNoCheat.checkmanager.getPlayerdata(p).setLastachivementopeninv(System.currentTimeMillis());
+            if(achivement) TimberNoCheat.getCheckManager().getPlayerdata(p).setLastachivementopeninv(System.currentTimeMillis());
         }
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event){
-        if((achivement || achivementportal) && TimberNoCheat.checkmanager.isvalid_create(event.getPlayer()) && event.getPlayer().hasAchievement(Achievement.OPEN_INVENTORY)) event.getPlayer().removeAchievement(Achievement.OPEN_INVENTORY);
+        if((achivement || achivementportal) && TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()) && event.getPlayer().hasAchievement(Achievement.OPEN_INVENTORY)) event.getPlayer().removeAchievement(Achievement.OPEN_INVENTORY);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInventory(InventoryClickEvent e){
         final Player p = (Player) e.getWhoClicked();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled()){
             return;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         long delay = System.currentTimeMillis() - pd.getGenerals().getLastRealMove();
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         if(delay < move_delay && !fp.jumpboost(p) && !fp.enderpearl && !fp.hasVehicle(60) && !fp.hasSlime(80) && !fp.hasPiston(60) && !fp.hasLiquid(60) && !fp.hasHitorbow(80) && !fp.hasRod(60) && !fp.hasExplosion(80) && !fp.hasExplosion(120) && !fp.hasOtherKB(60) && !fp.hasTeleport(60) && !fp.hasWorld(35) && p.getFallDistance() == 0F){
@@ -119,14 +119,14 @@ public class Inventory extends Check {
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent e){
         final Player p = (Player) e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled()){
             return;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         if(portalopen && p.getLocation().getBlock().getType() == Material.PORTAL || p.getLocation().add(0, 0, 1).getBlock().getType() == Material.PORTAL){
             e.setCancelled(true);
             updateVio(this, p, 1, " §6CHECK: §bPORTALOPEN", " §6CLOSE: §bTRUE");
-            //TimberNoCheat.checkmanager.notify(this, p, " §6CHECK: §bPORTALOPEN", " §6CLOSE: §bTRUE");
+            //TimberNoCheat.getCheckManager().notify(this, p, " §6CHECK: §bPORTALOPEN", " §6CLOSE: §bTRUE");
             p.closeInventory();
         }
     }
@@ -136,10 +136,10 @@ public class Inventory extends Check {
             return;
         }
         final Player p = (Player) e.getDamager();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)){
             return;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         long delay = System.currentTimeMillis()-pd.getGenerals().getLastItemClick();
         if(delay < hitdelay){
             e.setCancelled(true);
@@ -154,10 +154,10 @@ public class Inventory extends Check {
     @EventHandler(priority = EventPriority.LOW)
     public void chat(AsyncPlayerChatEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled()){
             return;
         }
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         long delay = System.currentTimeMillis()-pd.getGenerals().getLastItemClick();
         if(delay < chatdelay){
             e.setCancelled(true);

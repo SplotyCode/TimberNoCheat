@@ -1,6 +1,5 @@
-package me.david.timbernocheat.checkmanager;
+package me.david.timbernocheat.checkbase;
 
-import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.ViolationUpdateEvent;
 import me.david.timbernocheat.runnable.TimberScheduler;
@@ -25,7 +24,7 @@ public class ViolationExecutor {
         final UUID uuid = player.getUniqueId();
         if(check.getWhitelist().containsKey(uuid) && System.currentTimeMillis()-check.getWhitelist().get(uuid).getKey()<check.getWhitelist().get(uuid).getValue()) return false;
         boolean down = vio < 0;
-        if(((check.getMaxping() > 0 && TimberNoCheat.checkmanager.getping(player) >= check.getMaxping()) || (check.getMintps() > 0 && check.getMintps() <= Tps.getTPS()))) return false;
+        if(((check.getMaxping() > 0 && TimberNoCheat.getCheckManager().getping(player) >= check.getMaxping()) || (check.getMintps() > 0 && check.getMintps() <= Tps.getTPS()))) return false;
         if(check.getViodelay() > 0 && check.getVioCache().containsKey(uuid) && check.getViolations().containsKey(uuid))
             for(Map.Entry<Long, Double> v : check.getVioCache().get(uuid).entrySet()){
                 long delay = System.currentTimeMillis()-v.getKey();
@@ -60,14 +59,14 @@ public class ViolationExecutor {
             /* Definition for the Types can be read in Vialation.ViolationTypes */
             switch (ctrig.getType()) {
                 case MESSAGE:
-                    new TimberScheduler("ViolationExecutor(Message)", () -> player.sendMessage(TimberNoCheat.instance.prefix + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
+                    new TimberScheduler("ViolationExecutor(Message)", () -> player.sendMessage(TimberNoCheat.getInstance().prefix + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
                     break;
                 case KICK:
-                    new TimberScheduler("ViolationExecutor(Kick)", () -> kick(player, TimberNoCheat.instance.prefix + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
+                    new TimberScheduler("ViolationExecutor(Kick)", () -> kick(player, TimberNoCheat.getInstance().prefix + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
                     canReset = true;
                     break;
                 case NOTIFY:
-                    new TimberScheduler("ViolationExecutor(Notify)", () -> TimberNoCheat.checkmanager.notify(check, " §6LEVEL: §b" + check.getViolations().get(uuid), player, other)).runNextTick();
+                    new TimberScheduler("ViolationExecutor(Notify)", () -> TimberNoCheat.getCheckManager().notify(check, " §6LEVEL: §b" + check.getViolations().get(uuid), player, other)).runNextTick();
                     break;
                 case CMD:
                     new TimberScheduler("ViolationExecutor(Command)", () -> {
@@ -83,7 +82,7 @@ public class ViolationExecutor {
                     setBack = true;
                     break;
                 default:
-                    TimberNoCheat.instance.getLogger().log(Level.WARNING, "Unknomn ViolationCheckType: " + ctrig.getType().name());
+                    TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Unknomn ViolationCheckType: " + ctrig.getType().name());
                     break;
             }
         }
@@ -99,7 +98,7 @@ public class ViolationExecutor {
     }
 
     private void kick(final Player player, final String reason){
-        TimberNoCheat.instance.getListenerManager().getFreezeListener().freeze(player, 20*20*20*1000);
+        TimberNoCheat.getInstance().getListenerManager().getFreezeListener().freeze(player, 20*20*20*1000);
         runTask(() -> playEffect(player.getLocation().clone().add(0, 1.8, 0), Effect.ENDER_SIGNAL), 4, 50);
         final Location location = player.getEyeLocation();
         final double pitch = Math.toRadians(location.getYaw() + 90);
@@ -114,7 +113,7 @@ public class ViolationExecutor {
                                                                                 location.getZ() + i * posZ);
             playEffect(spawnLocation, Effect.FIREWORKS_SPARK);
         }
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> player.kickPlayer(reason), 20*20);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> player.kickPlayer(reason), 20*20);
     }
 
     private void playEffect(final Location location, final Effect effect){
@@ -132,7 +131,7 @@ public class ViolationExecutor {
 
     private void runTask(final Runnable runnable, final long delay, final int times){
         for(int i = 0;i < times;i++)
-            Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, runnable, i*delay);
+            Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), runnable, i*delay);
     }
 
     private String replaceMarker(String s, Player p, Check check){
@@ -140,13 +139,13 @@ public class ViolationExecutor {
         s = s.replaceAll("%player%", p.getName());
         s = s.replaceAll("%uuid%", p.getUniqueId().toString());
         s = s.replaceAll("%ip%", p.getAddress().getAddress().getHostAddress());
-        s = s.replaceAll("%ping%", String.valueOf(TimberNoCheat.checkmanager.getping(p)));
-        s = s.replaceAll("%pingcolor%", String.valueOf(TimberNoCheat.checkmanager.getPingColor(p)));
+        s = s.replaceAll("%ping%", String.valueOf(TimberNoCheat.getCheckManager().getping(p)));
+        s = s.replaceAll("%pingcolor%", String.valueOf(TimberNoCheat.getCheckManager().getPingColor(p)));
         s = s.replaceAll("%display%", p.getDisplayName());
         s = s.replaceAll("%tapname%", p.getPlayerListName());
         s = s.replaceAll("%vio%", String.valueOf(check.getViolations().getOrDefault(p.getUniqueId(), 0D)));
         s = s.replaceAll("%tps%", String.valueOf(Tps.getTPS()));
-        s = s.replaceAll("%tpscolor%", TimberNoCheat.checkmanager.getTpsColor());
+        s = s.replaceAll("%tpscolor%", TimberNoCheat.getCheckManager().getTpsColor());
         return s.replaceAll("%port%", String.valueOf(Bukkit.getPort()));
     }
 }

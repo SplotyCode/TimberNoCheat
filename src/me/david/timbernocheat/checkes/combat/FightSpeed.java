@@ -1,9 +1,9 @@
 package me.david.timbernocheat.checkes.combat;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,10 +36,10 @@ public class FightSpeed extends Check {
     @EventHandler
     public void oninteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         pd.setInteractslastsecond(pd.getInteractslastsecond()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setInteractslastsecond(pd.getInteractslastsecond()-1), 20);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setInteractslastsecond(pd.getInteractslastsecond()-1), 20);
         if(pd.getInteractslastsecond() > interactspersecond){
             updateVio(this, p , pd.getInteractslastsecond()-interactspersecond," §6CHECK: §bINTERACTS", " §6INTERACTLASTSECOND: §b" + pd.getInteractslastsecond());
             e.setCancelled(true);
@@ -50,10 +50,10 @@ public class FightSpeed extends Check {
     public void onHit(EntityDamageByEntityEvent e){
         if(!(e.getDamager() instanceof  Player) || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;
         final Player p = (Player) e.getDamager();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         pd.setHitslastsecond(pd.getHitslastsecond()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.instance, () -> pd.setHitslastsecond(pd.getHitslastsecond()-1), 20);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setHitslastsecond(pd.getHitslastsecond()-1), 20);
         if(pd.getHitslastsecond() > hitspersecond){
             updateVio(this, p , pd.getHitslastsecond()-hitspersecond, " §6CHECK: §bHITS", " §6HITSTSECOND: §b" + pd.getHitslastsecond());
             e.setCancelled(true);

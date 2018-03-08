@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.player;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class FreeCam extends Check {
     @EventHandler
     public void onInteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.checkmanager.isvalid_create(p) || e.isCancelled()){
+        if(!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled()){
             return;
         }
         boolean isValid = false;

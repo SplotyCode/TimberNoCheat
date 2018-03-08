@@ -1,7 +1,6 @@
 package me.david.timbernocheat.debug;
 
 import me.david.timbernocheat.TimberNoCheat;
-import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 
@@ -10,11 +9,12 @@ public class SchedulerProfiler {
     private boolean measuring;
     private String currentSection;
     private long startSection;
-    private HashMap<String, Long> times = new HashMap<>();;
+    private HashMap<String, Long> times = new HashMap<>();
+    private HashMap<String, Integer> calls = new HashMap<>();
     private HashMap<String, Long> lastExeptions = new HashMap<>();;
     private boolean running;
 
-    private final long EXPETION_DELAY = 1000*90;
+    private final long EXCEPTION_DELAY = 1000*90;
 
     public void start(String section){
         if(running) {
@@ -34,15 +34,15 @@ public class SchedulerProfiler {
 
     public void handleError(Throwable throwable, String realName){
         Long time = lastExeptions.get(realName);
-        boolean cooldown = !(time == null || System.currentTimeMillis()-time < EXPETION_DELAY);
+        boolean cooldown = !(time == null || System.currentTimeMillis()-time < EXCEPTION_DELAY);
         if(!cooldown){
             System.err.println("Whoops an Error accurs in an TimberNoCheat Scheduler! Scheduler Name: '" + realName + "'");
-            System.err.println("The error is now for " + EXPETION_DELAY + " under Cooldown!");
+            System.err.println("The error is now for " + EXCEPTION_DELAY + " under Cooldown!");
             lastExeptions.put(realName, System.currentTimeMillis());
             throwable.printStackTrace();
-            TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.SCHEDULEREXEPTION, "Scheduler " + realName + " throws Exception!", "Deactivate Cooldown");
+            TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.SCHEDULEREXEPTION, "Scheduler " + realName + " throws Exception!", "Deactivate Cooldown");
         }
-        TimberNoCheat.instance.getDebugger().sendDebugNotSetting(Debuggers.SCHEDULEREXEPTION, "Scheduler " + realName + " throws Exception!(spam)", "Deactivate Cooldown");
+        TimberNoCheat.getInstance().getDebugger().sendDebugNotSetting(Debuggers.SCHEDULEREXEPTION, "Scheduler " + realName + " throws Exception!(spam)", "Deactivate Cooldown");
 
     }
 

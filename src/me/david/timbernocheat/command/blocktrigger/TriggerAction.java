@@ -1,6 +1,6 @@
 package me.david.timbernocheat.command.blocktrigger;
 
-import me.david.timbernocheat.checkmanager.Check;
+import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.command.blocktrigger.actions.*;
 
 public enum TriggerAction {

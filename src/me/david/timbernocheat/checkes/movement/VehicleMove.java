@@ -5,9 +5,9 @@ import com.comphenix.protocol.events.PacketEvent;
 import comphenix.packetwrapper.WrapperPlayClientSteerVehicle;
 import comphenix.packetwrapper.WrapperPlayClientVehicleMove;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,10 +24,10 @@ public class VehicleMove extends Check {
         super("VehicleMove", Category.MOVEMENT);
         boat = getBoolean("boat");
         horse = getBoolean("horse");
-        register(new PacketAdapter(TimberNoCheat.instance, WrapperPlayClientSteerVehicle.TYPE, WrapperPlayClientVehicleMove.TYPE) {
+        register(new PacketAdapter(TimberNoCheat.getInstance(), WrapperPlayClientSteerVehicle.TYPE, WrapperPlayClientVehicleMove.TYPE) {
             public void onPacketReceiving(PacketEvent event) {
-                if(!TimberNoCheat.checkmanager.isvalid_create(event.getPlayer())) return;
-                PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(event.getPlayer());
+                if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())) return;
+                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
                 if (event.getPacketType() == WrapperPlayClientSteerVehicle.TYPE) {
                     WrapperPlayClientSteerVehicle packet = new WrapperPlayClientSteerVehicle(event.getPacket());
                     if (packet.isUnmount() && pd.getVehicley() != -1) pd.setVehicley(-1);

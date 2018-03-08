@@ -18,7 +18,7 @@ public class OreNotify implements Listener {
         final Player player = event.getPlayer();
         final Material material = event.getBlock().getType();
         if(Arrays.asList(OreNotifyManager.POSSBILE_ORES).contains(material)){
-            TimberNoCheat.instance.getOreNotifyManager().notifyOre(player, material);
+            TimberNoCheat.getInstance().getOreNotifyManager().notifyOre(player, material);
         }
     }
 }

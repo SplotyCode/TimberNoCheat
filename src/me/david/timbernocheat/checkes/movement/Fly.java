@@ -1,9 +1,9 @@
 package me.david.timbernocheat.checkes.movement;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
 import me.david.timbernocheat.checktools.MaterialHelper;
@@ -34,7 +34,7 @@ public class Fly extends Check {
 
     @EventHandler
     public void kick(PlayerKickEvent e) {
-        if (!TimberNoCheat.checkmanager.isvalid_create(e.getPlayer()) || e.isCancelled()) {
+        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer()) || e.isCancelled()) {
             return;
         }
         if(vanilla && e.getReason().equals("Flying is not enabled on this server")) {
@@ -47,25 +47,25 @@ public class Fly extends Check {
         final Player p = e.getPlayer();
         final Location to = e.getTo();
         final Location from = e.getFrom();
-        if (!TimberNoCheat.checkmanager.isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        if (!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         General.GeneralValues general = pd.getGenerals();
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
-        TimberNoCheat.instance.getMoveprofiler().start("Fly ");
-        TimberNoCheat.instance.getDebugger().sendDebug(Debuggers.AIRTICKSVSMOVEVELOCITY, pd.getGenerals().getTicksInAir() + " " + p.getVelocity().getY());
+        TimberNoCheat.getInstance().getMoveprofiler().start("Fly ");
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.AIRTICKSVSMOVEVELOCITY, pd.getGenerals().getTicksInAir() + " " + p.getVelocity().getY());
         final double yDiff = to.getY()-from.getY();
         final double yDiffBlock = to.getY()-from.getBlockY();
 
         //Lets Start with Slime Blocks (And Beds for >1.12 Support)
-        
 
-        TimberNoCheat.instance.getMoveprofiler().end();
+
+        TimberNoCheat.getInstance().getMoveprofiler().end();
     }
 
 
 
     private void setBack(Player p){
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(p);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         switch (setback){
             case "cancel":
                 p.teleport(pd.getGenerals().getLastOnGround(), PlayerTeleportEvent.TeleportCause.PLUGIN);

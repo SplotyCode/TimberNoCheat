@@ -1,8 +1,8 @@
 package me.david.timbernocheat.checkes.chat;
 
-import me.david.timbernocheat.checkmanager.Category;
-import me.david.timbernocheat.checkmanager.Check;
-import me.david.timbernocheat.checkmanager.PlayerData;
+import me.david.timbernocheat.checkbase.Category;
+import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.api.utils.ArrayCollectUtil;
 import org.bukkit.entity.Player;
@@ -30,9 +30,9 @@ public class Spamming extends Check {
     public void onChat(AsyncPlayerChatEvent event){
         final Player player = event.getPlayer();
         String message = event.getMessage();
-        if(!TimberNoCheat.checkmanager.isvalid_create(player) || event.getMessage().startsWith("/"))
+        if(!TimberNoCheat.getCheckManager().isvalid_create(player) || event.getMessage().startsWith("/"))
             return;
-        PlayerData pd = TimberNoCheat.checkmanager.getPlayerdata(player);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
         if(message.length() < toshort) return;
         if(ignorecasewhitelist && ArrayCollectUtil.containsignorecase(whitelist, message)){
             return;
