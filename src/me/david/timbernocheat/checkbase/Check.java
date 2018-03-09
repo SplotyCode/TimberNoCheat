@@ -4,9 +4,11 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketListener;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.runnable.TimberScheduler;
-import me.david.timbernocheat.storage.YamlFile;
+import me.david.timbernocheat.storage.YamlComponent;
+import me.david.timbernocheat.storage.YamlSection;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +18,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.*;
 import java.util.logging.Level;
 
-public class Check extends YamlFile implements Listener {
+public class Check extends YamlSection implements Listener {
 
     private String name;
     private Category category;
@@ -68,8 +70,7 @@ public class Check extends YamlFile implements Listener {
     }
 
     private Check(String name, Category category, String path) {
-        super(TimberNoCheat.getInstance().getConfigFile());
-        setRoot(path);
+        super(TimberNoCheat.getInstance().getConfigFile().getYamlSection(path));
         this.name = name;
         this.category = category;
         this.resetafter = getBoolean("vioresetafteraction");

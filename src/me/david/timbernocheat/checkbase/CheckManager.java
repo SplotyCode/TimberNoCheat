@@ -182,7 +182,7 @@ public class CheckManager {
         TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.CHECKWATCHER, "Register: " + check.getName());
         if(disabledChecks.contains(check) || checks.contains(check))
             throw new IllegalStateException("Try to register a Plugin that is already Registered/Config Blacklisted!");
-        if(!YamlConfiguration.loadConfiguration(TimberNoCheat.getInstance().getConfigFile()).getBoolean(check.getName().toLowerCase() + ".enable")) {
+        if(!TimberNoCheat.getInstance().getConfigFile().getBoolean(check.getName().toLowerCase() + ".enable")) {
             disabledChecks.add(check);
             return;
         }

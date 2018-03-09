@@ -1,5 +1,8 @@
 package me.david.timbernocheat.record;
 
+import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.storage.YamlFile;
+import me.david.timbernocheat.storage.YamlSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -9,30 +12,25 @@ import java.io.File;
  */
 public class ConfigRecord {
 
-    private File file;
+    private final YamlSection configSection;
 
     private boolean enable;
     private int minvio;
     private int maxleanght;
 
-    ConfigRecord(File file){
-        this.file = file;
+    ConfigRecord(){
+        configSection = TimberNoCheat.getInstance().getConfigFile().getYamlSection("generel.record");
         refresh();
     }
 
     public void refresh(){
-        YamlConfiguration yml = YamlConfiguration.loadConfiguration(file);
-        enable = yml.getBoolean("generel.record.enable");
-        minvio = yml.getInt("generel.record.minvio");
-        maxleanght = yml.getInt("generel.record.maxleanght");
+        enable = configSection.getBoolean("enable");
+        minvio = configSection.getInt("minvio");
+        maxleanght = configSection.getInt("maxleanght");
     }
 
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
+    public YamlSection getConfigSection() {
+        return configSection;
     }
 
     public boolean isEnable() {

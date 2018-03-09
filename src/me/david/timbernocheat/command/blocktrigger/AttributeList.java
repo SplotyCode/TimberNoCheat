@@ -5,6 +5,7 @@ import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.storage.YamlComponent;
 import me.david.timbernocheat.storage.YamlFile;
 import me.david.api.utils.NumberUtil;
+import me.david.timbernocheat.storage.YamlSection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -103,7 +104,7 @@ public class AttributeList implements YamlComponent {
     }
 
     @Override
-    public void read(YamlFile yaml) {
+    public void read(YamlSection yaml) {
         booleans = (ArrayList<Boolean>) yaml.getBooleanList("booleans");
         doubles = (ArrayList<Double>) yaml.getDoubleList("doubles");
         floats = (ArrayList<Float>) yaml.getFloatList("floats");
@@ -116,7 +117,7 @@ public class AttributeList implements YamlComponent {
     }
 
     @Override
-    public void save(YamlFile yaml) {
+    public void save(YamlSection yaml) {
         yaml.set("booleans", booleans);
         yaml.set("doubles", doubles);
         yaml.set("floats", floats);

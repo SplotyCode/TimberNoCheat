@@ -28,7 +28,8 @@ public enum  Debuggers {
     CHECKWATCHER(""),
     SCHEDULEREXEPTION("Deactivate Cooldown"),
     BOWFORCE("FastBow"),
-    AIRTICKSVSMOVEVELOCITY("Fly");
+    AIRTICKSVSMOVEVELOCITY("Fly"),
+    NOFALL("NoFall");
 
     private final ExternalDebugger debugger;
     private final boolean external;

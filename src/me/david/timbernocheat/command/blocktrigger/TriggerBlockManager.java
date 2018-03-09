@@ -2,6 +2,7 @@ package me.david.timbernocheat.command.blocktrigger;
 
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.storage.YamlFile;
+import me.david.timbernocheat.storage.YamlSection;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,7 +35,7 @@ public class TriggerBlockManager implements Listener {
         }
         for(int i = 0;i < this.file.getInt("numbers");i++){
             TriggerBlock block = new TriggerBlock();
-            block.read(this.file.getConfigurationSection(i + ""));
+            block.read(this.file.getYamlSection(i + ""));
             triggerBlocks.add(block);
         }
     }
@@ -70,7 +71,7 @@ public class TriggerBlockManager implements Listener {
         triggerBlocks.add(block);
         player.sendMessage(TimberNoCheat.getInstance().prefix + "Added Block!");
         //save
-        block.save(file);
+        block.save(new YamlSection(file));
         file.save();
     }
 

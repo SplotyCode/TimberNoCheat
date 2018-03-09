@@ -2,6 +2,7 @@ package me.david.timbernocheat.command.blocktrigger;
 
 import me.david.timbernocheat.storage.YamlComponent;
 import me.david.timbernocheat.storage.YamlFile;
+import me.david.timbernocheat.storage.YamlSection;
 import org.bukkit.Location;
 
 import java.util.UUID;
@@ -23,20 +24,20 @@ public class TriggerBlock implements YamlComponent {
     }
 
     @Override
-    public void read(YamlFile yaml) {
+    public void read(YamlSection yaml) {
         location = yaml.getLocationBlock("location");
         action = yaml.getEnum("action", TriggerAction.class);
         creator = yaml.getUUID("uuid");
         atributes = new AttributeList();
-        atributes.read(yaml.getConfigurationSection("attributes"));
+        atributes.read(yaml.getYamlSection("attributes"));
     }
 
     @Override
-    public void save(YamlFile yaml) {
+    public void save(YamlSection yaml) {
         yaml.setBlockLocation("location", location);
         yaml.setEnum("action", action);
         yaml.setUUID("uuid", creator);
-        atributes.save(yaml.getConfigurationSection("attributes"));
+        atributes.save(yaml.getYamlSection("attributes"));
     }
 
     public Location getLocation() {

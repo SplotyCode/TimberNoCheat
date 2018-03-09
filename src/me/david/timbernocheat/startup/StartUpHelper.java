@@ -34,7 +34,7 @@ public class StartUpHelper {
     public void loadConfiguration(){
         TimberNoCheat.getInstance().setStartState(StartState.LOAD_CONFIGURATION);
         if(stopped)return;
-        if (Config.check(TimberNoCheat.getInstance().getConfigFile(), TimberNoCheat.CONFIGURATION_VERSION, TimberNoCheat.getInstance().getResource("me/david/timbernocheat/config/config.yml"))) {
+        if (Config.check(TimberNoCheat.getInstance().getConfigFile().getFile(), TimberNoCheat.CONFIGURATION_VERSION, TimberNoCheat.getInstance().getResource("me/david/timbernocheat/config/config.yml"))) {
             crash();
         }
     }

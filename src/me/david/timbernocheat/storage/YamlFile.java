@@ -4,6 +4,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -14,12 +15,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class YamlFile extends YamlConfiguration {
+public class YamlFile extends YamlConfiguration implements YamlProvider {
 
     private final File file;
 
     public YamlFile(){
         file = null;
+    }
+
+    public YamlFile(String path){
+        this(new File(path));
     }
 
     public YamlFile(File file){
@@ -31,6 +36,7 @@ public class YamlFile extends YamlConfiguration {
         }
     }
 
+    @Override
     public void setBlockLocation(String path, Location location){
         set(path,
                 location.getWorld().getName() + ":" +
@@ -39,6 +45,7 @@ public class YamlFile extends YamlConfiguration {
                 location.getBlockZ());
     }
 
+    @Override
     public void setPlayerLocation(String path, Location location){
         set(path,
                 location.getWorld().getName() + ":" +
@@ -49,6 +56,7 @@ public class YamlFile extends YamlConfiguration {
                 location.getPitch() + ":");
     }
 
+    @Override
     public Location getLocationPlayer(String path){
         if (!contains(path)) return null;
         String[] args = getString(path).split(":");
@@ -61,6 +69,7 @@ public class YamlFile extends YamlConfiguration {
         return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
     }
 
+    @Override
     public Location getLocationBlock(String path){
         if (!contains(path)) return null;
         String[] args = getString(path).split(":");
@@ -71,10 +80,12 @@ public class YamlFile extends YamlConfiguration {
         return new Location(Bukkit.getWorld(world), x, y, z);
     }
 
+    @Override
     public void setUUID(final String path, final UUID uuid){
         set(path, uuid.getMostSignificantBits() + ":" + uuid.getLeastSignificantBits());
     }
 
+    @Override
     public UUID getUUID(final String path){
         if (!contains(path)) return null;
         String[] args = getString(path).split(":");
@@ -83,36 +94,58 @@ public class YamlFile extends YamlConfiguration {
         return new UUID(most, least);
     }
 
+    @Override
+    public void setOfflinePlayer(String path, OfflinePlayer player){
+        setUUID(path, player.getUniqueId());
+    }
+
+    @Override
     public OfflinePlayer getOfflinePlayer(final String path){
         return Bukkit.getOfflinePlayer(getUUID(path));
     }
 
+    @Override
     public void setEnum(final String path, final Enum<?> source){
         set(path, source.ordinal());
     }
 
+    @Override
     public <T> T getEnum(final String path, Class<T> enumClass){
         return enumClass.getEnumConstants()[getInt(path)];
     }
 
-    protected double[] getDoubleArray(String path){
+    @Override
+    public double[] getDoubleArray(String path){
         Object[] list = getDoubleList(path).toArray();
         return ArrayUtils.toPrimitive(Arrays.copyOf(list, list.length, Double[].class));
     }
 
-    protected String[] getStringArray(String path){
+    @Override
+    public String[] getStringArray(String path){
         List<String> list = getStringList(path);
         return list.toArray(new String[list.size()]);
     }
 
-    protected long[] getLongArray(String path){
+    @Override
+    public long[] getLongArray(String path){
         Object[] list = getLongList(path).toArray();
         return ArrayUtils.toPrimitive(Arrays.copyOf(list, list.length, Long[].class));
     }
 
-    protected Long[] getLangLongArray(String path){
+    @Override
+    public Long[] getLangLongArray(String path){
         List<Long> list = getLongList(path);
         return list.toArray(new Long[list.size()]);
+    }
+
+    @Deprecated
+    @Override
+    public ConfigurationSection getConfigurationSection(String path) {
+        throw new IllegalStateException("Please do not use this Methode");
+    }
+
+    public YamlSection getYamlSection(String path){
+        return new YamlSection(super.getConfigurationSection(path));
     }
 
     public void save(){
@@ -123,23 +156,7 @@ public class YamlFile extends YamlConfiguration {
         }
     }
 
-    @Override
-    public YamlFile getConfigurationSection(String path) {
-        YamlFile yaml = new YamlFile();
-        String content = ((YamlConfiguration)super.getConfigurationSection(path)).saveToString();
-        try {
-            yaml.loadFromString(content);
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
-        return yaml;
-    }
-
-    public void setRoot(String path){
-        try {
-            loadFromString(((YamlConfiguration)super.getConfigurationSection(path)).saveToString());
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
+    public File getFile() {
+        return file;
     }
 }

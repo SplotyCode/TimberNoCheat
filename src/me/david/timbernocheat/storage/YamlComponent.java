@@ -2,7 +2,7 @@ package me.david.timbernocheat.storage;
 
 public interface YamlComponent {
 
-    void read(YamlFile yaml);
-    void save(YamlFile yaml);
+    void read(YamlSection yaml);
+    void save(YamlSection yaml);
 
 }

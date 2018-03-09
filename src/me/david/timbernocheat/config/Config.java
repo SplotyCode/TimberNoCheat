@@ -2,6 +2,7 @@ package me.david.timbernocheat.config;
 
 import com.google.common.io.ByteStreams;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.storage.YamlFile;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -35,14 +36,14 @@ public class Config {
                 e.printStackTrace();
             }
         }
-        YamlConfiguration yml = YamlConfiguration.loadConfiguration(f);
-        if(yml.getInt("generel.version") < version){
+        YamlFile yamlFile = TimberNoCheat.getInstance().getConfigFile();
+        if(yamlFile.getInt("generel.version") < version){
             TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Die Config ist auf einer alten Version! Bitte löschen!");
             TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Plugin wird disabled...");
             return true;
         }
-        if(yml.getString("generel.prefix") != null && !yml.getString("generel.prefix").equals("") && !yml.getString("generel.prefix").equals(" "))
-            TimberNoCheat.getInstance().prefix = ChatColor.translateAlternateColorCodes('&', yml.getString("generel.prefix"));
+        if(yamlFile.getString("generel.prefix") != null && !yamlFile.getString("generel.prefix").equals("") && !yamlFile.getString("generel.prefix").equals(" "))
+            TimberNoCheat.getInstance().prefix = ChatColor.translateAlternateColorCodes('&', yamlFile.getString("generel.prefix"));
         return false;
     }
 }

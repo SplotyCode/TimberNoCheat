@@ -25,6 +25,7 @@ import me.david.api.ApiPlugin;
 import me.david.timbernocheat.startup.StageHelper;
 import me.david.timbernocheat.startup.StartState;
 import me.david.timbernocheat.startup.StartUpHelper;
+import me.david.timbernocheat.storage.YamlFile;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -44,7 +45,7 @@ public class TimberNoCheat extends ApiPlugin {
     private static CheckManager checkManager;
 
     /* The Location of the TNC Config File normally plugins/TimberNoCheat/config.yml */
-    private final File config = new File(getDataFolder() + "/config.yml");
+    private final YamlFile config = new YamlFile(getDataFolder() + "/config.yml");
     private final File speedPatterns = new File(getDataFolder() + "/speed_pattern.yml");
     private final File triggerBlocks = new File(getDataFolder() + "/triggerBlocks.yml");
 
@@ -93,7 +94,7 @@ public class TimberNoCheat extends ApiPlugin {
         });
         startHelper.loadProtocolLib();
         startHelper.loadConfiguration();
-        clearPlayerData = YamlConfiguration.loadConfiguration(config).getBoolean("clearPlayerData");
+        clearPlayerData = config.getBoolean("clearPlayerData");
 
         setStartState(StartState.START_OTHER);
         /* would work but we want our special debug permission cache*/ //startpermissionchache(true, -1, true);
@@ -109,7 +110,7 @@ public class TimberNoCheat extends ApiPlugin {
         if(essentials == null) log(false, "§cEssentials konnte nicht unter dem Namen 'Essentials' gefunden werden... Ein paar Features werden nicht funktionieren...");
 
         checkManager = new CheckManager();
-        recordManager = new RecordManager(config);
+        recordManager = new RecordManager();
         triggerBlockManager = new TriggerBlockManager(this, triggerBlocks);
         oreNotifyManager = new OreNotifyManager();
 
@@ -191,7 +192,7 @@ public class TimberNoCheat extends ApiPlugin {
         else runable.accept(essentials.getUser(player));
     }
 
-    public File getConfigFile() {
+    public YamlFile getConfigFile() {
         return config;
     }
 

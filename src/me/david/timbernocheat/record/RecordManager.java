@@ -24,8 +24,8 @@ public class RecordManager implements Listener {
     private BukkitTask task;
     private final Set<Recording> recordings = (Set<Recording>)new HashSet<Recording>();
 
-    public RecordManager(File config){
-        record = new ConfigRecord(config);
+    public RecordManager(){
+        record = new ConfigRecord();
         if(record.isEnable())
             startTaskTimer();
     }

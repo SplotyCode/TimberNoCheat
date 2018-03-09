@@ -21,14 +21,14 @@ public class NoFall extends Check {
             return;
         }
         TimberNoCheat.getInstance().getMoveprofiler().start("NoFall");
-        int blocks = 0;
+        double blocks = 0;
         boolean found = false;
         while(!found){
-           if(p.getLocation().clone().subtract(0, blocks, 0).getBlock().getType() != Material.AIR)
+           if(p.getLocation().clone().subtract(0, blocks, 0).getBlock().getType().isSolid())
                found = true;
-           else blocks++;
+           else blocks += 0.1;
         }
-        if(p.getFallDistance() < blocks && blocks<2){
+        if(p.getFallDistance() < blocks && blocks<3){
             updateVio(this, p, blocks-p.getFallDistance());
             e.setCancelled(true);
         }

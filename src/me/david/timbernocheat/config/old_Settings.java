@@ -8,6 +8,8 @@ import java.util.List;
 
 @Deprecated
 public class old_Settings {
+
+    /*
     private int chat_delay_schwelle = 6;
     private double chat_delay_small = 0.0;
     private double chat_delay_big = 0.0;
@@ -204,6 +206,7 @@ public class old_Settings {
         load();
     }
 
+    @SuppressWarnings("*")
     @Deprecated
     public void load(){
         YamlConfiguration yml = YamlConfiguration.loadConfiguration(TimberNoCheat.getInstance().getConfigFile());
@@ -404,5 +407,7 @@ public class old_Settings {
         player_cheststeler_consistent_mincachesize = yml.getInt("player_cheststeler_consistent_mincachesize");
         player_cheststeler_maxping = yml.getInt("player_cheststeler_maxping");
     }
+
+    */
 
 }
