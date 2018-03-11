@@ -2,6 +2,7 @@ package me.david.timbernocheat.debug;
 
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.debug.debuggers.MotionLoop;
 import me.david.timbernocheat.debug.debuggers.MoveVelocity;
 import me.david.timbernocheat.debug.debuggers.OnGround;
 import me.david.timbernocheat.debug.debuggers.OnGroundCheckDiff;
@@ -29,7 +30,8 @@ public enum  Debuggers {
     SCHEDULEREXEPTION("Deactivate Cooldown"),
     BOWFORCE("FastBow"),
     AIRTICKSVSMOVEVELOCITY("Fly"),
-    NOFALL("NoFall");
+    NOFALL("NoFall"),
+    MOTIONLOOP(new MotionLoop());
 
     private final ExternalDebugger debugger;
     private final boolean external;
