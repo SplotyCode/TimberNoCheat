@@ -30,7 +30,7 @@ public class SchedulerProfilerGui extends Gui implements Listener {
 
     private ArrayList<Player> profilePlayer = new ArrayList<>();
 
-    public SchedulerProfilerGui(Plugin pl) {
+    public SchedulerProfilerGui() {
         super("GuiSchedulerProfiler", Permissions.PROFILER_SCHEDULER, new Sound("SchedulerProfiler", SoundCategory.INVENOTY_OPEN, org.bukkit.Sound.LEVEL_UP, TimberNoCheat.getInstance()));
         new TimberScheduler(Scheduler.SCHEDULER_PROFILER, () -> {
             TimberNoCheat.getInstance().getSchedulerProfiler().setRunning(!profilePlayer.isEmpty());
@@ -42,7 +42,7 @@ public class SchedulerProfilerGui extends Gui implements Listener {
             }
             ScoreboardUtil.sendScoreboard(ScoreboardUtil.createScoreboard("§bMove§6Profiler", profile), profilePlayer);
         }).startTimer(20);
-        Bukkit.getPluginManager().registerEvents(this, pl);
+        Bukkit.getPluginManager().registerEvents(this, TimberNoCheat.getInstance());
     }
 
     @EventHandler

@@ -22,11 +22,12 @@ public class GuiProfiler extends Gui {
     private final ItemStack ALl_SCHEDULER = ItemStackUtil.createLohre("§6All Sheduler", 1, Material.WATCH, "§6List of all Sheduler");
     private final ItemStack SCHEDULER = ItemStackUtil.createLohre("§6Sheduler", 1, Material.WATCH, "§6profile some Sheduler");
     private final ItemStack MOVE = ItemStackUtil.createLohre("§6Move", 1, Material.POTION, "§6Profile All Movement Calculations");
+    private final ItemStack EVENT = ItemStackUtil.createLohre("§6Event", 1, Material.COMMAND_MINECART, "§6Event Zeiten überprüfen!");
 
     @Override
     public Inventory build(Player p) {
         Inventory inv = Bukkit.getServer().createInventory(null, 9, "§6Profiler");
-        inv.addItem(ALl_SCHEDULER, SCHEDULER, MOVE);
+        inv.addItem(ALl_SCHEDULER, SCHEDULER, MOVE, EVENT);
         return inv;
     }
 
@@ -40,6 +41,14 @@ public class GuiProfiler extends Gui {
             case "§6Move":
                 TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
                 TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "MoveProfilerMulti");
+                break;
+            case "§6Sheduler":
+                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "ProfilerSchedulerMulti");
+                break;
+            case "§6Event":
+                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "EventProfilerMulti");
                 break;
         }
     }

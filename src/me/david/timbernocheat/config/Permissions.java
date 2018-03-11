@@ -18,6 +18,7 @@ public final class Permissions {
     public static final String PROFILER_ALLSCHEDULER = "tnc.profiler.allscheduler";
     public static final String PROFILER_SCHEDULER = "tnc.profiler.scheduler";
     public static final String PROFILER_MOVEMENT = "tnc.profiler.move";
+    public static final String PROFILER_EVENT = "tnc.profiler.event";
 
     public static final String DEBUGGER = "tnc.debugger";
 

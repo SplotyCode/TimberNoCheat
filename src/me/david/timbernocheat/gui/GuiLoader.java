@@ -10,9 +10,7 @@ import me.david.timbernocheat.gui.items.GuiItemTest;
 import me.david.timbernocheat.gui.items.GuiItemTools;
 import me.david.timbernocheat.gui.items.GuiItems;
 import me.david.timbernocheat.gui.oreNotify.OreNotifyGui;
-import me.david.timbernocheat.gui.profiler.GuiMoveProfiler;
-import me.david.timbernocheat.gui.profiler.GuiProfiler;
-import me.david.timbernocheat.gui.profiler.ProfilerAllScheduler;
+import me.david.timbernocheat.gui.profiler.*;
 import me.david.timbernocheat.gui.settings.*;
 import me.david.timbernocheat.gui.violation.GlobalViolationGui;
 import me.david.timbernocheat.gui.violation.PlayerViolationGui;
@@ -27,6 +25,9 @@ public class GuiLoader {
         pl.addGui("ProfilerMulti", Permissions.PROFILER, new GuiProfiler());
         pl.addGui("ProfilerAllSchedulerMulti", Permissions.PROFILER_ALLSCHEDULER, new ProfilerAllScheduler());
         pl.addGui("MoveProfilerMulti", Permissions.PROFILER_MOVEMENT, new GuiMoveProfiler(pl));
+        pl.addGui("EventProfilerMulti", Permissions.PROFILER_EVENT, new EventProfiler());
+        pl.addGui("PluginEventProfilerMulti", Permissions.PROFILER_EVENT, new PluginEventProfiler());
+        pl.addGui("ProfilerSchedulerMulti", Permissions.PROFILER_SCHEDULER, new SchedulerProfilerGui());
 
         pl.addGui("DebuggerMulti", Permissions.DEBUGGER, new GuiDebug());
         pl.addGui("DebugSettingMulti", Permissions.DEBUGGER, new DebugSetting());
