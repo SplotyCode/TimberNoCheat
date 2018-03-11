@@ -138,12 +138,6 @@ public class YamlFile extends YamlConfiguration implements YamlProvider {
         return list.toArray(new Long[list.size()]);
     }
 
-    @Deprecated
-    @Override
-    public ConfigurationSection getConfigurationSection(String path) {
-        throw new IllegalStateException("Please do not use this Methode");
-    }
-
     public YamlSection getYamlSection(String path){
         return new YamlSection(super.getConfigurationSection(path));
     }

@@ -30,7 +30,6 @@ public class Check extends YamlSection implements Listener {
     private HashMap<UUID, Map.Entry<Long, Long>> whitelist;
     private boolean resetafter;
     private ArrayList<Violation> vios;
-    private YamlConfiguration yml;
     private ArrayList<Integer> bukkittasks;
     private ArrayList<PacketListener> protocollistener;
     private int maxping;
@@ -85,7 +84,7 @@ public class Check extends YamlSection implements Listener {
         this.maxping = getInt("max_ping");
         this.mintps = getInt("min_tps");
         vios = new ArrayList<>();
-        ConfigurationSection confsec = yml.getConfigurationSection(name.toLowerCase() + ".vioactions");
+        ConfigurationSection confsec = getConfigurationSection(".vioactions");
         if(confsec == null) return;
         for(String cvio : confsec.getKeys(false)) {
             String[] split = getString("vioactions." + cvio).split(":");
@@ -110,18 +109,17 @@ public class Check extends YamlSection implements Listener {
 
     public ArrayList<String> getCustomSettings(){
         ArrayList<String> list = new ArrayList<>();
-        String basePath = (isChild?parent.name + ".":"") + this.name.toLowerCase();
-        for(String key : yml.getConfigurationSection(basePath).getKeys(false)){
+        for(String key : getKeys(false)){
             if(key.equals("enable") || key.equals("max_ping") || key.equals("min_tps") || key.equals("vioresetafteraction") || key.equals("viocachedelay") || key.equals("vioactions")) continue;
-            ConfigurationSection section = yml.getConfigurationSection(basePath + "." + key);
-            if(section == null) list.add(basePath + key);
-            else for(String key2 : section.getKeys(true)) list.add(basePath + key2);
+            ConfigurationSection section = getConfigurationSection(key);
+            if(section == null) list.add(key);
+            else list.addAll(section.getKeys(true));
         }
         return list;
     }
 
     public void setSetting(String name, Object value){
-        yml.set((isChild?parent.name + ".":"") + this.name.toLowerCase() + "." + name, value);
+        set(name, value);
     }
 
     public void startTasks(){}
@@ -297,14 +295,6 @@ public class Check extends YamlSection implements Listener {
 
     public void setVios(ArrayList<Violation> vios) {
         this.vios = vios;
-    }
-
-    public YamlConfiguration getYml() {
-        return yml;
-    }
-
-    public void setYml(YamlConfiguration yml) {
-        this.yml = yml;
     }
 
     public int getMaxping() {
