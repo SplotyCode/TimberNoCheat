@@ -72,7 +72,7 @@ public class DiscordManager {
         });
     }
 
-    public void sendInfo(String info){
+    public void sendInfo(String info, MessageEmbed.Field... fields){
         david.openPrivateChannel().queue((channel) -> {
             EmbedBuilder embed = new EmbedBuilder().setColor(Color.CYAN).
                     setTitle("Information").
@@ -80,11 +80,12 @@ public class DiscordManager {
                     addField(new MessageEmbed.Field("Address", getServerServer() + "(" + Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort() + ")", true)).
                     addField(new MessageEmbed.Field("Stage", TimberNoCheat.getInstance().getStartState().name() + "(" + TimberNoCheat.getInstance().getStartState().getStateType().name() + ")", true)).
                     setDescription(info);
+            for(MessageEmbed.Field field : fields) embed.addField(field);
             channel.sendMessage(embed.build()).queue();
         });
     }
 
-    public void sendWarning(String warning){
+    public void sendWarning(String warning, MessageEmbed.Field... fields){
         david.openPrivateChannel().queue((channel) -> {
             EmbedBuilder embed = new EmbedBuilder().setColor(Color.ORANGE).
                     setTitle("Wooops - A Warning").
@@ -92,6 +93,7 @@ public class DiscordManager {
                     addField(new MessageEmbed.Field("Address", getServerServer() + "(" + Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort() + ")", true)).
                     addField(new MessageEmbed.Field("Stage", TimberNoCheat.getInstance().getStartState().name() + "(" + TimberNoCheat.getInstance().getStartState().getStateType().name() + ")", true)).
                     setDescription(warning);
+            for(MessageEmbed.Field field : fields) embed.addField(field);
             channel.sendMessage(embed.build()).queue();
         });
     }

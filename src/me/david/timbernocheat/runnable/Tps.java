@@ -4,6 +4,7 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.config.Permissions;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 
 import java.util.ArrayList;
 
@@ -41,14 +42,14 @@ public class Tps implements Runnable{
                     disabledChecks.add(check);
                 }
             lowTpsMode = true;
-            TimberNoCheat.getInstance().getDiscordManager().sendWarning("LowTps mode wurde aktiviert! Tps: " + getTPS());
+            TimberNoCheat.getInstance().getDiscordManager().sendWarning("LowTps mode wurde aktiviert!" + new MessageEmbed.Field("Tps", getTPS()+"", true));
         }else if(lowTpsMode && getTPS() > 17){
             TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wieder aktiviert!");
             for(Check check : disabledChecks)
                 TimberNoCheat.getCheckManager().register(check);
             disabledChecks.clear();
             lowTpsMode = false;
-            TimberNoCheat.getInstance().getDiscordManager().sendWarning("LowTps mode wurde deaktiviert! Tps: " + getTPS());
+            TimberNoCheat.getInstance().getDiscordManager().sendWarning("LowTps mode wurde deaktiviert!", new MessageEmbed.Field("Tps", getTPS()+"", true));
         }
     }
 }
