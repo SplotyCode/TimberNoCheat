@@ -56,6 +56,7 @@ public class CheckManager {
 
     /*
      * Registering/Starting checks
+     * TODO check for errors in construktors...
      */
     public void loadchecks(){
         checks.clear();
@@ -177,7 +178,6 @@ public class CheckManager {
     }
 
     /* Registers an Check to TNC and Bukkit */
-    //TODO: Performance Load the YamlConfiguration only once
     public void register(Check check){
         TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.CHECKWATCHER, "Register: " + check.getName());
         if(disabledChecks.contains(check) || checks.contains(check))

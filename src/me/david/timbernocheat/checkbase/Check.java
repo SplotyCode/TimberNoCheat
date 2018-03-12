@@ -42,9 +42,19 @@ public class Check extends YamlSection implements Listener {
 
     public void registerChilds(Enum[] en) {
         for (Enum enu : en) {
-            Check check = new Check(enu.name(), category, true, this);
-            if(check.getBoolean("enabled")) childs.add(check);
-            else diabledsChilds.add(check);
+            Check check;
+            try {
+                check = new Check(enu.name(), category, true, this);
+            }catch (Exception ex){
+                TimberNoCheat.getInstance().reportExeption(ex, "Error loading child for '"  + name + "'(childname: '" + enu.name() + "'! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load(Skip this Child)... You will probably sea errors from this error!");
+                continue;
+            }
+            try {
+                if(check.getBoolean("enabled")) childs.add(check);
+                else diabledsChilds.add(check);
+            }catch (Exception ex){
+                TimberNoCheat.getInstance().reportExeption(ex, "Error loading config for module '"  + name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!");
+            }
         }
     }
 
@@ -57,10 +67,20 @@ public class Check extends YamlSection implements Listener {
     }
 
     public void registerChilds(String[] list) {
-        for(String str : list) {
-            Check check = new Check(str, category, true, this);
-            if(check.getBoolean("enabled")) childs.add(check);
-            else diabledsChilds.add(check);
+        for (String name : list) {
+            Check check;
+            try {
+                check = new Check(name, category, true, this);
+            }catch (Exception ex){
+                TimberNoCheat.getInstance().reportExeption(ex, "Error loading child for '"  + this.name + "'(childname: '" + name + "'! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load(Skip this Child)... You will probably sea errors from this error!");
+                continue;
+            }
+            try {
+                if(check.getBoolean("enabled")) childs.add(check);
+                else diabledsChilds.add(check);
+            }catch (Exception ex){
+                TimberNoCheat.getInstance().reportExeption(ex, "Error loading config for module '"  + this.name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!");
+            }
         }
     }
 
@@ -72,8 +92,6 @@ public class Check extends YamlSection implements Listener {
         super(TimberNoCheat.getInstance().getConfigFile().getYamlSection(path));
         this.name = name;
         this.category = category;
-        this.resetafter = getBoolean("vioresetafteraction");
-        this.viodelay = getLong("viocachedelay");
         this.vioCache = new HashMap<>();
         this.violations = new HashMap<>();
         this.counts = new HashMap<>();
@@ -81,14 +99,25 @@ public class Check extends YamlSection implements Listener {
         this.whitelist = new HashMap<>();
         this.bukkittasks = new ArrayList<>();
         this.protocollistener = new ArrayList<>();
-        this.maxping = getInt("max_ping");
-        this.mintps = getInt("min_tps");
         vios = new ArrayList<>();
-        ConfigurationSection confsec = getConfigurationSection(".vioactions");
-        if(confsec == null) return;
-        for(String cvio : confsec.getKeys(false)) {
-            String[] split = getString("vioactions." + cvio).split(":");
-            vios.add(new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:""));
+        try {
+            this.maxping = getInt("max_ping");
+            this.mintps = getInt("min_tps");
+            this.resetafter = getBoolean("vioresetafteraction");
+            this.viodelay = getLong("viocachedelay");
+            ConfigurationSection confsec = getConfigurationSection(".vioactions");
+            if(confsec == null) return;
+            for(String cvio : confsec.getKeys(false)) {
+                String[] split = getString("vioactions." + cvio).split(":");
+                vios.add(new Violation(Integer.valueOf(cvio), Violation.ViolationTypes.valueOf(split[0]), split.length>=2?split[1]:""));
+            }
+        }catch (NullPointerException ex){
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Error loading config for module '"  + name + "'! The config seems to be the newest version so this may be you error");
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "We will try to still resume the Plugin load... You will probably sea errors from this error!");
+            if(TimberNoCheat.getInstance().isDebug()){
+                TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft wird ein Stacktrace direkt in der Konsole ausgegeben! Hier biddde: ");
+                ex.printStackTrace();
+            }else TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft wird kein Stacktrace direkt in der Konsole ausgegeben!");
         }
         startTasks();
     }

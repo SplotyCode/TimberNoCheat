@@ -37,7 +37,7 @@ public class SchedulerProfilerGui extends Gui implements Listener {
             String[] profile = new String[TimberNoCheat.getInstance().getSchedulerProfiler().getTimes().size()];
             int i = 0;
             for(Map.Entry<String, Long> pr : TimberNoCheat.getInstance().getSchedulerProfiler().getTimes().entrySet()){
-                profile[i] = "§6" + pr.getKey() + ": §b" + pr.getValue();
+                profile[i] = "§6" + pr.getKey() + ": §b" + pr.getValue() + "(" + TimberNoCheat.getInstance().getSchedulerProfiler().getCalls().get(pr.getKey()) + ")";
                 i++;
             }
             ScoreboardUtil.sendScoreboard(ScoreboardUtil.createScoreboard("§bMove§6Profiler", profile), profilePlayer);

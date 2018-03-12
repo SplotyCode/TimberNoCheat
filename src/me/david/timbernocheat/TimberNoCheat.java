@@ -12,6 +12,7 @@ import me.david.timbernocheat.command.blocktrigger.TriggerBlockManager;
 import me.david.timbernocheat.command.oreNotify.OreNotifyManager;
 import me.david.timbernocheat.config.Permissions;
 import me.david.timbernocheat.debug.Debugger;
+import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.debug.MoveProfiler;
 import me.david.timbernocheat.debug.SchedulerProfiler;
 import me.david.timbernocheat.debug.obj.DebugPermissionCache;
@@ -48,10 +49,15 @@ public class TimberNoCheat extends ApiPlugin {
 
     /* Does the plugin stops Because of a crash for example old config or capability problem with ProtocolLib */
     private boolean crash = false;
+
     /* Handles Records and Replays */
     private RecordManager recordManager;
+
     /* Should we clear the PlayerData when the Player Logs out */
     private boolean clearPlayerData = true;
+
+    /* Debug mode aka Verbose */
+    private boolean debug = false;
 
     private ListenerManager listenerManager;
 
@@ -85,13 +91,15 @@ public class TimberNoCheat extends ApiPlugin {
     @Override
     public void pluginEnable() throws IOException {
         instance = this;
+        stageHelper.onPluginStart();
         StartUpHelper startHelper = new StartUpHelper(() -> {
             crash = true;
             setEnabled(false);
         });
         startHelper.loadProtocolLib();
         startHelper.loadConfiguration();
-        clearPlayerData = config.getBoolean("clearPlayerData");
+        clearPlayerData = config.getBoolean("generel.clearPlayerData");
+        debug = config.getBoolean("generel.debug");
 
         setStartState(StartState.START_OTHER);
         /* would work but we want our special debug permission cache*/ //startpermissionchache(true, -1, true);
@@ -103,10 +111,12 @@ public class TimberNoCheat extends ApiPlugin {
         debugger = new Debugger();
         schedulerProfiler = new SchedulerProfiler();
 
+        setStartState(StartState.START_CHECKS);
+        checkManager = new CheckManager();
+        setStartState(StartState.START_OTHER);
         essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         if(essentials == null) log(false, "§cEssentials konnte nicht unter dem Namen 'Essentials' gefunden werden... Ein paar Features werden nicht funktionieren...");
 
-        checkManager = new CheckManager();
         recordManager = new RecordManager();
         triggerBlockManager = new TriggerBlockManager(this, triggerBlocks);
         oreNotifyManager = new OreNotifyManager();
@@ -119,6 +129,10 @@ public class TimberNoCheat extends ApiPlugin {
         setStartState(StartState.START_GUIS);
         new GuiLoader(this);
 
+        setStartState(StartState.FINISHING);
+        Debuggers.checkDependencies();
+
+        stageHelper.validate();
         setStartState(StartState.RUNNING);
         log(false, "Es wurden " + checkManager.getChecks().size() + " module geladen mit vielen unterchecks!");
     }
@@ -132,13 +146,21 @@ public class TimberNoCheat extends ApiPlugin {
     public void pluginDisable() {
         setStartState(StartState.STOP);
         if (crash) {
-            getLogger().info("Plugin has dialled because of an planed error!");
+            getLogger().info("Plugin has disabled because of an planed error!");
             return;
         }
         getProtocolmanager().removePacketListeners(this);
-        for (Check c : checkManager.getChecks()) c.disable();
+        setStartState(StartState.DISABLE_CHECKS);
+        if(checkManager == null) getLogger().log(Level.WARNING, "Fatal Error in the CheckManager it is not possible to Sutodwn ANY check!");
+        else {
+            for (Check c : checkManager.getChecks())
+                if (c == null)
+                    getLogger().log(Level.WARNING, "Count not Shutdown a check becouse it dont even exsits! We can not tell witch check is that. (Kind of useless message)");
+                else c.disable();
+        }
         setStartState(StartState.STOP_RECORDINGS);
-        recordManager.stopAll();
+        if(recordManager == null) getLogger().log(Level.WARNING, "Fatal Error in the RecordManager it is not possible to stop ANY Record!");
+        else recordManager.stopAll();
         setStartState(StartState.STOPPED);
     }
 
@@ -150,6 +172,14 @@ public class TimberNoCheat extends ApiPlugin {
     public void notify(String message){
         permissioncache.sendAll(Permissions.NOTITY, prefix + message);
         getLogger().info(message);
+    }
+
+    public void reportExeption(Throwable ex, String message){
+        getLogger().log(Level.WARNING, "Ein Fataler Fehler in der stage '" + getStartState() + "' ist passiert! Nachicht: " + message);
+        if(TimberNoCheat.getInstance().isDebug()){
+            TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft wird ein Stacktrace direkt in der Konsole ausgegeben! Hier biddde: ");
+            ex.printStackTrace();
+        }else TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft wird kein Stacktrace direkt in der Konsole ausgegeben!");
     }
 
     public MoveProfiler getMoveprofiler() {
@@ -205,9 +235,14 @@ public class TimberNoCheat extends ApiPlugin {
         return stageHelper.getCurrentStartState();
     }
 
+    public boolean isDebug() {
+        return debug;
+    }
+
     public static void log(Level level, String message){
         TimberNoCheat.getInstance().getLogger().log(level, message);
     }
+
     public static CheckManager getCheckManager() {
         return checkManager;
     }

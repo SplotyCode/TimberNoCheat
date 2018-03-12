@@ -38,7 +38,7 @@ public class Config {
         }
         YamlFile yamlFile = TimberNoCheat.getInstance().getConfigFile();
         if(yamlFile.getInt("generel.version") < version){
-            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Die Config ist auf einer alten Version! Bitte löschen!");
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Die Config ist auf einer alten Version! Bitte löschen! (ConfigVersionInPluing=" + version + "|ConfigVersionInConfig=" + yamlFile.getInt("generel.version") + ")");
             TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Plugin wird disabled...");
             return true;
         }

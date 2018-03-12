@@ -65,4 +65,8 @@ public class SchedulerProfiler {
     public void reset(){
         times.clear();
     }
+
+    public HashMap<String, Integer> getCalls() {
+        return calls;
+    }
 }

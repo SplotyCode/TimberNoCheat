@@ -34,14 +34,16 @@ public enum  Debuggers {
     MOTIONLOOP(new MotionLoop());
 
     private final ExternalDebugger debugger;
+    private boolean disabled = false;
     private final boolean external;
-    private final Check dependecy;
+    private Check dependency;
+    private final String rawDependency;
     private HashMap<String, HashMap<UUID, Boolean>> settings = new HashMap<>();
 
-    Debuggers(String dependecy, String... settings){
+    Debuggers(String dependency, String... settings){
         debugger = null;
         external = false;
-        this.dependecy = TimberNoCheat.getCheckManager().getCheckbyString(dependecy);
+        this.rawDependency = dependency;
         for(String setting : settings)
             this.settings.put(setting, new HashMap<>());
     }
@@ -49,10 +51,22 @@ public enum  Debuggers {
     Debuggers(ExternalDebugger debugger, String... settings){
         external = true;
         this.debugger = debugger;
-        dependecy = null;
+        rawDependency = null;
         TimberNoCheat.getInstance().registerListener(debugger);
         for(String setting : settings)
             this.settings.put(setting, new HashMap<>());
+    }
+
+    public static void checkDependencies(){
+        for(Debuggers debugger : values())
+            if(!debugger.isExternal() && debugger.rawDependency != null) {
+                System.out.println(debugger + " " + debugger.rawDependency + " " + TimberNoCheat.getCheckManager());
+                debugger.dependency = TimberNoCheat.getCheckManager().getCheckbyString(debugger.rawDependency);
+                if(debugger.dependency == null){
+                    TimberNoCheat.getInstance().getLogger().info("Der Debugger '" + debugger.name() + "' wurde disabled da er kein External ist und seine Dependecy nicht geladen wurde!");
+                    debugger.disabled = true;
+                }
+            }
     }
 
     public boolean getSetting(Player player, String setting){
@@ -73,8 +87,8 @@ public enum  Debuggers {
         return external;
     }
 
-    public Check getDependecy() {
-        return dependecy;
+    public Check getDependency() {
+        return dependency;
     }
 
     public ExternalDebugger getDebugger() {

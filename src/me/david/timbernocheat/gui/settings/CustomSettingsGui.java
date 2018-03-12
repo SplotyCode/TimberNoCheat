@@ -34,7 +34,7 @@ public class CustomSettingsGui extends NoStaticListGui<String> {
     @Override
     protected ItemStack getItemStack(String obj, Player player) {
         Check check = SettingsGui.currentCheck.get(player.getUniqueId());
-        return ItemStackUtil.createLohre(obj, 1, Material.LADDER, "§6Node: §b" + obj, "§6Value: §b" + check.getYml().get(obj));
+        return ItemStackUtil.createLohre(obj, 1, Material.LADDER, "§6Node: §b" + obj, "§6Value: §b" + check.get(obj));
     }
 
     @Override
