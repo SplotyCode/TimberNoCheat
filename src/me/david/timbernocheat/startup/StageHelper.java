@@ -22,12 +22,14 @@ public class StageHelper {
     public void onPluginStart(){
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> {
             if(!hasValidate){
-                TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Es sieht so aus als währe ein Fehler beim starten von TNC bassiert...");
-                TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Normalerweise gibt es Skripte die Fehler beim starten finden und Informationen ausgeben... Keiner von denen ist angeschrungen...");
-                TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Wir sind uns trotzdem sicher das es einen Fehler gab");
-                TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Da keiner unserer Checks ausgelöst wurden können wir nur raten... Wir denken es liegd an '" + startState + "'");
-                TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Stages die nicht zuende gelaufen sind: " + startState);
-                TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Stages die garnicht erst angefangen wurden: " + StringUtil.toString(notCalledStages(), Enum::name, ", "));
+                String message = "Es sieht so aus als währe ein Fehler beim starten von TNC bassiert...\n" +
+                        "Normalerweise gibt es Skripte die Fehler beim starten finden und Informationen ausgeben... Keiner von denen ist angeschrungen...\n" +
+                        "Wir sind uns trotzdem sicher das es einen Fehler gab\n" +
+                        "Da keiner unserer Checks ausgelöst wurden können wir nur raten... Wir denken es liegd an '" + startState + "'\n" +
+                        "Stages die nicht zuende gelaufen sind: " + startState + "\n" +
+                        "Stages die garnicht erst angefangen wurden: " + StringUtil.toString(notCalledStages(), Enum::name, ", ");
+                TimberNoCheat.getInstance().getLogger().log(Level.WARNING, message);
+                TimberNoCheat.getInstance().getDiscordManager().sendWarning(message);
             }
         }, 2);
     }
@@ -57,9 +59,11 @@ public class StageHelper {
         hasValidate = true;
         //Double checking :D
         if(startState != StartState.FINISHING || notCalledStages().size() != 0){
-            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Fehler in Stage: " + startState);
-            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Eigentlich ist das Plugin fertig geladen aber ist gibt einen Fehler...");
-            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Folgende Stages wurden nicht gestartet: " + StringUtil.toString(notCalledStages(), Enum::name, ", "));
+            String message = "Fehler in Stage: " + startState + "\n" +
+                    "Eigentlich ist das Plugin fertig geladen aber ist gibt einen Fehler...\n" +
+                    "Folgende Stages wurden nicht gestartet: " + StringUtil.toString(notCalledStages(), Enum::name, ", ");
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, message);
+            TimberNoCheat.getInstance().getDiscordManager().sendWarning(message);
         }
     }
 

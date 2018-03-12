@@ -8,6 +8,7 @@ public enum StartState {
     LOAD_DEPENDENCY(StateType.LOAD),
     LOAD_CONFIGURATION(StateType.LOAD),
     START_DEBUGGING(StateType.START),
+    START_DISCORD(StateType.START),
     START_CHECKS(StateType.START),
     START_OTHER(StateType.START),
     START_LISTENER_AND_COMMANDS(StateType.START),

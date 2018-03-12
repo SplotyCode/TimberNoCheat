@@ -1,6 +1,9 @@
 package me.david.timbernocheat.debug;
 
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.discord.DiscordManager;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 
 import java.util.HashMap;
 
@@ -37,10 +40,11 @@ public class SchedulerProfiler {
         Long time = lastExeptions.get(realName);
         boolean cooldown = !(time == null || System.currentTimeMillis()-time < EXCEPTION_DELAY);
         if(!cooldown){
-            System.err.println("Whoops an Error accurs in an TimberNoCheat Scheduler! Scheduler Name: '" + realName + "'");
-            System.err.println("The error is now for " + EXCEPTION_DELAY + " under Cooldown!");
+            String str = "Whoops an Error accurs in an TimberNoCheat Scheduler! Scheduler Name: '" + realName + "\n" + "The error is now for " + EXCEPTION_DELAY + " under Cooldown!";
+            System.err.println(str);
             lastExeptions.put(realName, System.currentTimeMillis());
             throwable.printStackTrace();
+            TimberNoCheat.getInstance().getDiscordManager().sendError(str, throwable, DiscordManager.ErrorType.SCHEDULER, new MessageEmbed.Field("Cooldown", System.currentTimeMillis()-time + "", true));
             TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.SCHEDULEREXEPTION, "Scheduler " + realName + " throws Exception!", "Deactivate Cooldown");
         }
         TimberNoCheat.getInstance().getDebugger().sendDebugNotSetting(Debuggers.SCHEDULEREXEPTION, "Scheduler " + realName + " throws Exception!(spam)", "Deactivate Cooldown");

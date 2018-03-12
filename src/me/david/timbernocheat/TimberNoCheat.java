@@ -16,6 +16,7 @@ import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.debug.MoveProfiler;
 import me.david.timbernocheat.debug.SchedulerProfiler;
 import me.david.timbernocheat.debug.obj.DebugPermissionCache;
+import me.david.timbernocheat.discord.DiscordManager;
 import me.david.timbernocheat.gui.GuiLoader;
 import me.david.timbernocheat.listener.*;
 import me.david.timbernocheat.record.RecordManager;
@@ -25,6 +26,7 @@ import me.david.timbernocheat.startup.StageHelper;
 import me.david.timbernocheat.startup.StartState;
 import me.david.timbernocheat.startup.StartUpHelper;
 import me.david.timbernocheat.storage.YamlFile;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -69,6 +71,7 @@ public class TimberNoCheat extends ApiPlugin {
 
     private OreNotifyManager oreNotifyManager;
     private TriggerBlockManager triggerBlockManager;
+    private DiscordManager discordManager;
 
     private Essentials essentials;
 
@@ -111,6 +114,10 @@ public class TimberNoCheat extends ApiPlugin {
         debugger = new Debugger();
         schedulerProfiler = new SchedulerProfiler();
 
+        setStartState(StartState.START_DISCORD);
+        discordManager = new DiscordManager();
+        discordManager.sendInfo("Server wird gestartet!");
+
         setStartState(StartState.START_CHECKS);
         checkManager = new CheckManager();
         setStartState(StartState.START_OTHER);
@@ -134,6 +141,7 @@ public class TimberNoCheat extends ApiPlugin {
 
         stageHelper.validate();
         setStartState(StartState.RUNNING);
+        discordManager.sendInfo("Plugin wurde gestartet!");
         log(false, "Es wurden " + checkManager.getChecks().size() + " module geladen mit vielen unterchecks!");
     }
 
@@ -162,6 +170,7 @@ public class TimberNoCheat extends ApiPlugin {
         if(recordManager == null) getLogger().log(Level.WARNING, "Fatal Error in the RecordManager it is not possible to stop ANY Record!");
         else recordManager.stopAll();
         setStartState(StartState.STOPPED);
+        discordManager.sendInfo("Server wurde gestoppt!");
     }
 
     /*
@@ -174,12 +183,18 @@ public class TimberNoCheat extends ApiPlugin {
         getLogger().info(message);
     }
 
-    public void reportExeption(Throwable ex, String message){
+    public void reportException(Throwable ex, String message){
+        reportException(ex, message, DiscordManager.ErrorType.OTHER);
+    }
+
+    public void reportException(Throwable ex, String message, DiscordManager.ErrorType type, MessageEmbed.Field... fields){
         getLogger().log(Level.WARNING, "Ein Fataler Fehler in der stage '" + getStartState() + "' ist passiert! Nachicht: " + message);
         if(TimberNoCheat.getInstance().isDebug()){
             TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft wird ein Stacktrace direkt in der Konsole ausgegeben! Hier biddde: ");
             ex.printStackTrace();
         }else TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft wird kein Stacktrace direkt in der Konsole ausgegeben!");
+
+        discordManager.sendError(message, ex, type, fields);
     }
 
     public MoveProfiler getMoveprofiler() {
@@ -249,5 +264,9 @@ public class TimberNoCheat extends ApiPlugin {
 
     public File getSpeedPatterns() {
         return speedPatterns;
+    }
+
+    public DiscordManager getDiscordManager() {
+        return discordManager;
     }
 }

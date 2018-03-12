@@ -14,6 +14,7 @@ import me.david.timbernocheat.checkes.other.*;
 import me.david.timbernocheat.checkes.player.*;
 import me.david.timbernocheat.debug.obj.DebugPlayerDataList;
 import me.david.timbernocheat.debug.Debuggers;
+import me.david.timbernocheat.discord.DiscordManager;
 import me.david.timbernocheat.runnable.TickCountTimer;
 import me.david.timbernocheat.runnable.Tps;
 import me.david.timbernocheat.config.Permissions;
@@ -27,7 +28,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -137,7 +137,12 @@ public class CheckManager {
 
     /* Loading all Checks when this Objects gets createt (usually on the start of TNC */
     public CheckManager(){
-        loadchecks();
+        try {
+            loadchecks();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            TimberNoCheat.getInstance().reportException(ex, "Problem in loading the Modules...", DiscordManager.ErrorType.MODULE);
+        }
         new TickCountTimer();
     }
 

@@ -3,13 +3,11 @@ package me.david.timbernocheat.checkbase;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketListener;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.discord.DiscordManager;
 import me.david.timbernocheat.runnable.TimberScheduler;
-import me.david.timbernocheat.storage.YamlComponent;
 import me.david.timbernocheat.storage.YamlSection;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemorySection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,14 +44,14 @@ public class Check extends YamlSection implements Listener {
             try {
                 check = new Check(enu.name(), category, true, this);
             }catch (Exception ex){
-                TimberNoCheat.getInstance().reportExeption(ex, "Error loading child for '"  + name + "'(childname: '" + enu.name() + "'! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load(Skip this Child)... You will probably sea errors from this error!");
+                TimberNoCheat.getInstance().reportException(ex, "Error loading child for '"  + name + "'(childname: '" + enu.name() + "'! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load(Skip this Child)... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
                 continue;
             }
             try {
                 if(check.getBoolean("enabled")) childs.add(check);
                 else diabledsChilds.add(check);
             }catch (Exception ex){
-                TimberNoCheat.getInstance().reportExeption(ex, "Error loading config for module '"  + name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!");
+                TimberNoCheat.getInstance().reportException(ex, "Error loading config for module '"  + name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
             }
         }
     }
@@ -72,14 +70,14 @@ public class Check extends YamlSection implements Listener {
             try {
                 check = new Check(name, category, true, this);
             }catch (Exception ex){
-                TimberNoCheat.getInstance().reportExeption(ex, "Error loading child for '"  + this.name + "'(childname: '" + name + "'! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load(Skip this Child)... You will probably sea errors from this error!");
+                TimberNoCheat.getInstance().reportException(ex, "Error loading child for '"  + this.name + "'(childname: '" + name + "'! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load(Skip this Child)... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
                 continue;
             }
             try {
                 if(check.getBoolean("enabled")) childs.add(check);
                 else diabledsChilds.add(check);
             }catch (Exception ex){
-                TimberNoCheat.getInstance().reportExeption(ex, "Error loading config for module '"  + this.name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!");
+                TimberNoCheat.getInstance().reportException(ex, "Error loading config for module '"  + this.name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
             }
         }
     }

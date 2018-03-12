@@ -10,6 +10,6 @@ public class ResetAllViolcationAction extends OnTrigger {
     @Override
     protected void execute(AttributeList atributes, boolean state) {
         for(final Player player : getPlayersInRange(atributes.getDoubles().get(0)))
-            TNCApi.INSTANCE.clearViolcation(player);
+            TNCApi.INSTANCE.clearViolation(player);
     }
 }

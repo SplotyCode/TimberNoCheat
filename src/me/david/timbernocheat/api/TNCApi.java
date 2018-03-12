@@ -5,6 +5,7 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.runnable.Tps;
+import me.david.timbernocheat.startup.StartState;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -23,6 +24,7 @@ public enum TNCApi {
         return Tps.getTPS(ticks);
     }
     public  String getTPSColor(){
+        checkIfReady();
         return TimberNoCheat.getCheckManager().getTpsColor();
     }
 
@@ -31,16 +33,19 @@ public enum TNCApi {
      * The player may manipulate this function with a PingSpoof
      */
     public  int getPing(Player player){
+        checkIfReady();
         return TimberNoCheat.getCheckManager().getping(player);
     }
     public  String getPingColor(Player player){
+        checkIfReady();
         return TimberNoCheat.getCheckManager().getPingColor(player);
     }
 
     /*
      * Enables a Specific check!
      */
-    public  void enablecheck(@NotNull Check check){
+    public  void enableCheck(@NotNull Check check){
+        checkIfReady();
         if(check == null){
             TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may noy be null!");
             return;
@@ -55,7 +60,8 @@ public enum TNCApi {
     /*
      * Disable a Specific check!
      */
-    public  void disablecheck(@NotNull Check check){
+    public  void disableCheck(@NotNull Check check){
+        checkIfReady();
         if(check == null){
             TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check may noy be null!");
             return;
@@ -67,12 +73,14 @@ public enum TNCApi {
         TimberNoCheat.getCheckManager().unregister(check);
     }
 
-    public  void disablecheck(@NotNull String name){
-        disablecheck(TimberNoCheat.getCheckManager().getCheckbyString(name));
+    public  void disableCheck(@NotNull String name){
+        checkIfReady();
+        disableCheck(TimberNoCheat.getCheckManager().getCheckbyString(name));
     }
 
     /* Check If an Specific Check is */
     public  boolean isEnabled(@NotNull Check check){
+        checkIfReady();
         if(check == null){
             TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "[API] Wrong Api Usage: Check darf nicht null sein");
             return false;
@@ -81,17 +89,20 @@ public enum TNCApi {
     }
 
     public  boolean isEnabled(@NotNull String name){
+        checkIfReady();
         assert name != null:"Check Name might not be null";
         return TimberNoCheat.getCheckManager().getCheckbyString(name) != null;
     }
 
     /* Returns an Array with all Category's */
     public  Category[] getCategorys(){
+        checkIfReady();
         return Category.values();
     }
 
     /* Get an Check by its Name */
     public  Check getCheckbyName(String name){
+        checkIfReady();
         return TimberNoCheat.getCheckManager().getCheckbyString(name);
     }
 
@@ -100,6 +111,7 @@ public enum TNCApi {
      * Returns the total violation Level
      */
     public  double getAllViolations(@NotNull UUID uuid){
+        checkIfReady();
         assert uuid != null:"Check Name might not be null";
         double vio = 0;
         for(Check c : TimberNoCheat.getCheckManager().getChecks())
@@ -109,6 +121,7 @@ public enum TNCApi {
     }
 
     public  double getAllViolations(@NotNull Player player){
+        checkIfReady();
         return getAllViolations(player.getUniqueId());
     }
 
@@ -118,13 +131,15 @@ public enum TNCApi {
      * There will not be an ViolationUpdateEvent when the Player is whitelisted
      */
     public  void whitelist(final Check check, final Player player, final long time){
+        checkIfReady();
         check.whitelist(player, time);
     }
 
     /*
      * Clears all Violations for all Checks from a Player
      */
-    public void clearViolcation(final Player player){
+    public void clearViolation(final Player player){
+        checkIfReady();
         for(Check c : TimberNoCheat.getCheckManager().getChecks()){
             c.resetVio(player);
             for(Check child : c.getChilds())
@@ -133,6 +148,6 @@ public enum TNCApi {
     }
 
     protected void checkIfReady(){
-
+        if(TimberNoCheat.getInstance().getStartState() != StartState.RUNNING) throw new ApiNotLoadedExeption();
     }
 }

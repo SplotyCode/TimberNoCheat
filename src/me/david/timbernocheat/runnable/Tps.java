@@ -41,12 +41,14 @@ public class Tps implements Runnable{
                     disabledChecks.add(check);
                 }
             lowTpsMode = true;
+            TimberNoCheat.getInstance().getDiscordManager().sendWarning("LowTps mode wurde aktiviert! Tps: " + getTPS());
         }else if(lowTpsMode && getTPS() > 17){
             TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wieder aktiviert!");
             for(Check check : disabledChecks)
                 TimberNoCheat.getCheckManager().register(check);
             disabledChecks.clear();
             lowTpsMode = false;
+            TimberNoCheat.getInstance().getDiscordManager().sendWarning("LowTps mode wurde deaktiviert! Tps: " + getTPS());
         }
     }
 }
