@@ -14,7 +14,7 @@ public class SchedulerProfiler {
     private HashMap<String, Long> lastExeptions = new HashMap<>();;
     private boolean running;
 
-    private final long EXCEPTION_DELAY = 1000*90;
+    private final long EXCEPTION_DELAY = TimberNoCheat.getInstance().isDebug()?0:1000*90;
 
     public void start(String section){
         if(running) {
