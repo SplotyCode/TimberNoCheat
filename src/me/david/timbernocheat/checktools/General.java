@@ -3,6 +3,8 @@ package me.david.timbernocheat.checktools;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.api.utils.player.PlayerUtil;
+import me.david.timbernocheat.runnable.ExceptionRunnable;
+import me.david.timbernocheat.runnable.TimberScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,10 +18,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
 
-public class General implements Listener, Runnable  {
+public class General implements Listener, ExceptionRunnable  {
 
     public General(){
-        Bukkit.getScheduler().runTaskTimer(TimberNoCheat.getInstance(), this, 1, 1);
+        new TimberScheduler("General-PlayerData", this).startTimer(1);
     }
 
     @Override

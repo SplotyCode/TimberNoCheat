@@ -19,7 +19,7 @@ public class ConfigRecord {
     private int maxleanght;
 
     ConfigRecord(){
-        configSection = TimberNoCheat.getInstance().getConfigFile().getYamlSection("generel.record");
+        configSection = TimberNoCheat.getInstance().getConfig().getYamlSection("generel.record");
         refresh();
     }
 

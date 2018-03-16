@@ -27,7 +27,7 @@ public class AntiESP extends Check {
     public AntiESP() {
         super("AntiESP", Category.OTHER);
         items = getBoolean("items");
-        TimberNoCheat.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(TimberNoCheat.getInstance(), new Thread(() -> {
+        TimberNoCheat.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(TimberNoCheat.getInstance(), () -> {
             for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                 if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
                 List<Entity> nearbyEntities = player.getNearbyEntities(12, 255, 12);
@@ -36,7 +36,7 @@ public class AntiESP extends Check {
                     if (!(target instanceof Item) || items) check(player, target);
                 });
             }
-        })::start, 0, 2);
+        }, 0, 2);
         register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Server.ENTITY_EQUIPMENT, PacketType.Play.Server.BED, PacketType.Play.Server.ANIMATION, PacketType.Play.Server.NAMED_ENTITY_SPAWN, PacketType.Play.Server.COLLECT, PacketType.Play.Server.SPAWN_ENTITY, PacketType.Play.Server.SPAWN_ENTITY_LIVING, PacketType.Play.Server.SPAWN_ENTITY_PAINTING, PacketType.Play.Server.SPAWN_ENTITY_EXPERIENCE_ORB, PacketType.Play.Server.ENTITY_VELOCITY, PacketType.Play.Server.REL_ENTITY_MOVE, PacketType.Play.Server.ENTITY_LOOK, PacketType.Play.Server.ENTITY_TELEPORT, PacketType.Play.Server.ENTITY_HEAD_ROTATION, PacketType.Play.Server.ENTITY_STATUS, PacketType.Play.Server.ATTACH_ENTITY, PacketType.Play.Server.ENTITY_METADATA, PacketType.Play.Server.ENTITY_EFFECT, PacketType.Play.Server.REMOVE_ENTITY_EFFECT, PacketType.Play.Server.BLOCK_BREAK_ANIMATION) {
             @Override
             public void onPacketSending(PacketEvent event) {
@@ -49,10 +49,8 @@ public class AntiESP extends Check {
     }
 
     private void check(Player player, Entity entity){
-        new Thread(() -> {
             if (!player.hasLineOfSight(entity)) hideEntity(player, entity);
             else Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> showEntity(player, entity), 1);
-        }).start();
     }
 
     private void showEntity(Player observer, Entity entity) {

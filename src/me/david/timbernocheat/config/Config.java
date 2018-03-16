@@ -36,11 +36,11 @@ public class Config {
                 e.printStackTrace();
             }
         }
-        YamlFile yamlFile = TimberNoCheat.getInstance().getConfigFile();
+        TimberNoCheat.getInstance().setConfig(new YamlFile(TimberNoCheat.getInstance().getConfigFile()));
+        YamlFile yamlFile = TimberNoCheat.getInstance().getConfig();
         if(yamlFile.getInt("generel.version") < version){
-            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Die Config ist auf einer alten Version! Bitte löschen! (ConfigVersionInPluing=" + version + "|ConfigVersionInConfig=" + yamlFile.getInt("generel.version") + ")");
-            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Plugin wird disabled...");
-            return true;
+            TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Die Config ist auf einer alten Version! Wir versuchen es mit einem Merge! (ConfigVersionInPluing=" + version + "|ConfigVersionInConfig=" + yamlFile.getInt("generel.version") + ")");
+            new MergeHelper().merge();
         }
         if(yamlFile.getString("generel.prefix") != null && !yamlFile.getString("generel.prefix").equals("") && !yamlFile.getString("generel.prefix").equals(" "))
             TimberNoCheat.getInstance().prefix = ChatColor.translateAlternateColorCodes('&', yamlFile.getString("generel.prefix"));

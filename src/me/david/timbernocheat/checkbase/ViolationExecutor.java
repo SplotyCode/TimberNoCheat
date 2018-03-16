@@ -98,35 +98,32 @@ public class ViolationExecutor {
     }
 
     private void kick(final Player player, final String reason){
-        TimberNoCheat.getInstance().getListenerManager().getFreezeListener().freeze(player, 20*20*20*1000);
-        runTask(() -> playEffect(player.getLocation().clone().add(0, 1.8, 0), Effect.ENDER_SIGNAL), 4, 50);
-        final Location location = player.getEyeLocation();
-        final double pitch = Math.toRadians(location.getYaw() + 90);
-        final double yaw = Math.toRadians(location.getPitch() + 90);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> player.kickPlayer(reason), 20*10);
+        TimberNoCheat.getInstance().getListenerManager().getFreezeListener().freeze(player, 10*1000);
+        runTask(() -> player.getWorld().playEffect(player.getLocation().clone().add(0, 1.8, 0), Effect.ENDER_SIGNAL, 1), 20, 9);
+        runTask(() -> {
+            for(int i = 0;i < 50;i++){
+                final Location location = player.getEyeLocation();
+                final double pitch = Math.toRadians(location.getYaw() + 90);
+                final double yaw = Math.toRadians(location.getPitch() + 90);
 
-        final double posX = Math.sin(pitch) + Math.cos(yaw);
-        final double posZ = Math.sin(pitch) + Math.sin(yaw);
-        final double posY = Math.cos(pitch);
-        for(int i = 0;i < 50;i++){
-            final Location spawnLocation = new Location(location.getWorld(), location.getX() + i * posX,
-                                                                             location.getY() + i * posY,
-                                                                                location.getZ() + i * posZ);
-            playEffect(spawnLocation, Effect.FIREWORKS_SPARK);
-        }
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> player.kickPlayer(reason), 20*20);
+                final double posX = Math.sin(pitch) + Math.cos(yaw);
+                final double posZ = Math.sin(pitch) + Math.sin(yaw);
+                final double posY = Math.cos(pitch);
+                final Location spawnLocation = new Location(location.getWorld(), location.getX() + i * posX,
+                        location.getY() + i * posY,
+                        location.getZ() + i * posZ);
+                spawnLocation.getWorld().playEffect(spawnLocation, Effect.LAVA_POP, 1);
+            }
+        }, 40, 4);
     }
 
     private void playEffect(final Location location, final Effect effect){
         final World world = location.getWorld();
-        world.playEffect(location, effect, BlockFace.SOUTH_EAST);
         world.playEffect(location, effect, BlockFace.SOUTH);
-        world.playEffect(location, effect, BlockFace.SOUTH_WEST);
         world.playEffect(location, effect, BlockFace.EAST);
-        world.playEffect(location, effect, BlockFace.SELF);
         world.playEffect(location, effect, BlockFace.WEST);
-        world.playEffect(location, effect, BlockFace.NORTH_EAST);
         world.playEffect(location, effect, BlockFace.NORTH);
-        world.playEffect(location, effect, BlockFace.NORTH_WEST);
     }
 
     private void runTask(final Runnable runnable, final long delay, final int times){

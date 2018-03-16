@@ -5,6 +5,7 @@ import com.earth2me.essentials.User;
 import me.david.api.ApiPlugin;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
+import me.david.timbernocheat.checktools.AsyncGeneral;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
 import me.david.timbernocheat.command.TNCCommand;
@@ -45,7 +46,8 @@ public class TimberNoCheat extends ApiPlugin {
     private static CheckManager checkManager;
 
     /* The Location of the TNC Config File normally plugins/TimberNoCheat/config.yml */
-    private final YamlFile config = new YamlFile(getDataFolder() + "/config.yml");
+    private final File configFile = new File(getDataFolder() + "/config.yml");
+    private YamlFile config;
     private final File speedPatterns = new File(getDataFolder() + "/speed_pattern.yml");
     private final File triggerBlocks = new File(getDataFolder() + "/triggerBlocks.yml");
 
@@ -108,6 +110,8 @@ public class TimberNoCheat extends ApiPlugin {
         /* would work but we want our special debug permission cache*/ //startpermissionchache(true, -1, true);
         permissioncache = new DebugPermissionCache(true, -1, true);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100, 1);
+        essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+        if(essentials == null) log(false, "§cEssentials konnte nicht unter dem Namen 'Essentials' gefunden werden... Ein paar Features werden nicht funktionieren...");
 
         setStartState(StartState.START_DEBUGGING);
         moveprofiler = new MoveProfiler();
@@ -120,9 +124,6 @@ public class TimberNoCheat extends ApiPlugin {
 
         setStartState(StartState.START_CHECKS);
         checkManager = new CheckManager();
-        setStartState(StartState.START_OTHER);
-        essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-        if(essentials == null) log(false, "§cEssentials konnte nicht unter dem Namen 'Essentials' gefunden werden... Ein paar Features werden nicht funktionieren...");
 
         recordManager = new RecordManager();
         triggerBlockManager = new TriggerBlockManager(this, triggerBlocks);
@@ -131,6 +132,7 @@ public class TimberNoCheat extends ApiPlugin {
         setStartState(StartState.START_LISTENER_AND_COMMANDS);
         listenerManager = new ListenerManager(this);
         registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General(), new ChatHandler(), new OreNotify());
+        new AsyncGeneral();
         registerCommands(new TNCCommand()/*, new TestCommand()*/);
 
         setStartState(StartState.START_GUIS);
@@ -234,8 +236,13 @@ public class TimberNoCheat extends ApiPlugin {
         else runable.accept(essentials.getUser(player));
     }
 
-    public YamlFile getConfigFile() {
+    @Override
+    public YamlFile getConfig() {
         return config;
+    }
+
+    public File getConfigFile() {
+        return configFile;
     }
 
     public static TimberNoCheat getInstance() {
@@ -269,4 +276,10 @@ public class TimberNoCheat extends ApiPlugin {
     public DiscordManager getDiscordManager() {
         return discordManager;
     }
+
+    public void setConfig(YamlFile config) {
+        this.config = config;
+    }
+
+
 }

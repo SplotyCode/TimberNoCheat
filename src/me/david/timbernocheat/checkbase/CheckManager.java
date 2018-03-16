@@ -10,6 +10,7 @@ import me.david.timbernocheat.checkes.clientchanel.Other;
 import me.david.timbernocheat.checkes.clientchanel.Shematica;
 import me.david.timbernocheat.checkes.exploits.*;
 import me.david.timbernocheat.checkes.movement.*;
+import me.david.timbernocheat.checkes.movement.fly.Fly;
 import me.david.timbernocheat.checkes.other.*;
 import me.david.timbernocheat.checkes.player.*;
 import me.david.timbernocheat.debug.obj.DebugPlayerDataList;
@@ -140,7 +141,6 @@ public class CheckManager {
         try {
             loadchecks();
         }catch (Exception ex){
-            ex.printStackTrace();
             TimberNoCheat.getInstance().reportException(ex, "Problem in loading the Modules...", DiscordManager.ErrorType.MODULE);
         }
         new TickCountTimer();
@@ -165,6 +165,7 @@ public class CheckManager {
             TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PLAYERDATA_USE, "Access granted: " + p.getName());
             return false;
         }
+        if(!TimberNoCheat.getInstance().getListenerManager().getFreezeListener().isNotFreezed(p)) return false;
         if(getPlayerdata(p) == null) playerdata.add(new PlayerData(p.getUniqueId()));
         TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PLAYERDATA_USE, "Data Okay: " + p.getName());
 
@@ -187,7 +188,7 @@ public class CheckManager {
         TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.CHECKWATCHER, "Register: " + check.getName());
         if(disabledChecks.contains(check) || checks.contains(check))
             throw new IllegalStateException("Try to register a Plugin that is already Registered/Config Blacklisted!");
-        if(!TimberNoCheat.getInstance().getConfigFile().getBoolean(check.getName().toLowerCase() + ".enable")) {
+        if(!TimberNoCheat.getInstance().getConfig().getBoolean(check.getName().toLowerCase() + ".enable")) {
             disabledChecks.add(check);
             return;
         }

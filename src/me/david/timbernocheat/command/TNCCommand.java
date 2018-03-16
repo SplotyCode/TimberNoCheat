@@ -1,5 +1,6 @@
 package me.david.timbernocheat.command;
 
+import me.david.api.utils.HastebinUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
 import me.david.timbernocheat.checkes.movement.Speed;
@@ -10,6 +11,7 @@ import me.david.api.commands.CheckBuilder;
 import me.david.api.commands.Command;
 import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.runnable.Tps;
+import me.david.timbernocheat.util.PrettyPrint;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -37,7 +39,7 @@ public class TNCCommand extends Command {
                 new Object[]{"violations", true, Permissions.VIOLATIONMENU},
                 new Object[]{"resetcache", false, Permissions.PERMISSION_CACHE_CLEAR}).
                 build(), TimberNoCheat.getInstance().prefix, false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
-        setOnlyplayers(true);
+        setOnlyplayers(false);
     }
 
     @Override
@@ -107,13 +109,11 @@ public class TNCCommand extends Command {
                     return;
                 }
                 PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-                for(Field field : pd.getClass().getDeclaredFields()){
-                    try {
-                        p.sendMessage(field.getName() + "[" + field.getType().getSimpleName() + "]" + field.get(pd));
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                }
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "Playerdata for " + pd.getUuid());
+                p.sendMessage(new PrettyPrint(pd, true, TimberNoCheat.getInstance().prefix).prettyPrint(0));
+                String hastebin = HastebinUtil.paste(new PrettyPrint(pd, false, "").prettyPrint(0));
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "Finished! Now we will make a copy as Hastebin (as this data can get quite confusing in the chat :D ) ");
+                p.sendMessage(TimberNoCheat.getInstance().prefix + (hastebin == null?"§cFehler bei Hochladen":hastebin));
                 break;
             case "permissioncache":
                 p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Cache]---");

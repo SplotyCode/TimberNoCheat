@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class TickCountTimer implements Runnable {
+public class TickCountTimer implements ExceptionRunnable {
 
     public TickCountTimer(){
-        Bukkit.getScheduler().runTaskTimer(TimberNoCheat.getInstance(), this, 1, 1);
+        new TimberScheduler("TickCountDecreaser", this).startTimer(1);
     }
 
     @Override

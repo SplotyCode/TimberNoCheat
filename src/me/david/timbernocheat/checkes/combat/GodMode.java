@@ -7,6 +7,7 @@ import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.Tps;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,11 +21,11 @@ public class GodMode extends Check {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDamage(final EntityDamageEvent event) {
-        final Entity damaged = event.getEntity();
-        final Player damagedPlayer = damaged instanceof Player ? (Player) damaged : null;
-        if (damagedPlayer != null && !damaged.isDead()) {
-            if (check(damagedPlayer, event.getDamage())) {
-                damagedPlayer.setNoDamageTicks(0);
+        if(event.getEntityType() != EntityType.PLAYER || !TimberNoCheat.getCheckManager().isvalid_create((Player) event.getEntity())) return;
+        final Player player = (Player) event.getEntity();
+        if (!player.isDead()) {
+            if (check(player, event.getDamage())) {
+                player.setNoDamageTicks(0);
             }
         }
     }

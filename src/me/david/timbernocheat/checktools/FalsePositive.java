@@ -1,7 +1,9 @@
 package me.david.timbernocheat.checktools;
 
+import me.david.api.utils.ServerWorldUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.PlayerData;
+import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.timbernocheat.util.SpeedUtil;
 import me.david.api.anotations.Nullable;
 import me.david.api.utils.player.PlayerUtil;
@@ -30,11 +32,12 @@ public class FalsePositive implements Listener {
 
     public FalsePositive(){
         /* Was the Player that Tick on Ground? */
-        Bukkit.getScheduler().runTaskTimer(TimberNoCheat.getInstance(), () -> {
+        new TimberScheduler("FalsePositive-PlayerData", () -> {
             for(Player p : Bukkit.getOnlinePlayers())
                 if(TimberNoCheat.getCheckManager().isvalid_create(p))
                     TimberNoCheat.getCheckManager().getPlayerdata(p).getFalsepositives().wasOnGroundTick = false;
-        }, 1, 1);
+
+        }).startTimer(1);
     }
 
     public static class FalsePositiveChecks {
@@ -298,11 +301,11 @@ public class FalsePositive implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onDamage(EntityDamageEvent event){
-        if(event.getEntity() instanceof Player)return;
+        if(!(event.getEntity() instanceof Player))return;
         final Player player = (Player) event.getEntity();
         if(TimberNoCheat.getCheckManager().isvalid_create(player)){
             PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata((Player) event.getEntity());
-            if(event.getCause() == EntityDamageEvent.DamageCause.valueOf("HOT_FLOOR")) pd.getFalsepositives().lastMagma = System.currentTimeMillis();
+            if(ServerWorldUtil.getMinecraftVersionInt() >= 19 && event.getCause() == EntityDamageEvent.DamageCause.valueOf("HOT_FLOOR")) pd.getFalsepositives().lastMagma = System.currentTimeMillis();
         }
     }
 

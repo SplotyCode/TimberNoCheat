@@ -65,7 +65,7 @@ public class DiscordManager {
             String trace = stackTrace;
             if(stackTrace.length()+8+embed.length() > 1024){
                 String hastebin = HastebinUtil.paste(trace);
-                trace = "Trace was to big: " + (hastebin == null?"Fehler beim Hochladen":"https://hastebin.com/" + hastebin);
+                trace = "Trace was to big: " + (hastebin == null?"Fehler beim Hochladen":hastebin);
             }
             embed.addField(new MessageEmbed.Field("StackTrace", trace, false));
             channel.sendMessage(embed.build()).queue();

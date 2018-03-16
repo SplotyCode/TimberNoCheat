@@ -1,5 +1,6 @@
 package me.david.timbernocheat.checkbase;
 
+import me.david.timbernocheat.checkes.movement.fly.FlyData;
 import me.david.timbernocheat.checktools.AsyncGeneral;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
@@ -30,7 +31,7 @@ public class PlayerData {
     private ArrayList<Long> fightSpeed;
 
     /* FastPlace */private int blockplacelastsecond;
-    /* NoSwing */private boolean shoudswing;
+    /* NoSwing */private boolean armSwung;
 
     /* ServerCrasher*/
     private int itemswinginonesecond;
@@ -126,6 +127,7 @@ public class PlayerData {
     /* Criticals */ private double critHight = -1;
 
     /* Phase */ private Location lastPhaseOkay;
+    /* Fly */ private FlyData flyData;
 
 
     private FalsePositive.FalsePositiveChecks falsepositives;
@@ -140,7 +142,7 @@ public class PlayerData {
         this.interactslastsecond = 0;
         this.hitslastsecond = 0;
         this.blockplacelastsecond = 0;
-        this.shoudswing = false;
+        this.armSwung = false;
         this.itemswinginonesecond = 0;
         this.itemshwitchinonesecond = 0;
         this.lastbowshot = System.currentTimeMillis()-15000L;
@@ -205,6 +207,7 @@ public class PlayerData {
         snappyRotate = -1;
         critHight = -1;
         lastPhaseOkay = null;
+        flyData = new FlyData();
     }
 
     /**
@@ -654,12 +657,12 @@ public class PlayerData {
         this.itemshwitchinonesecond = itemshwitchinonesecond;
     }
 
-    public boolean isShoudswing() {
-        return shoudswing;
+    public boolean isArmSwung() {
+        return armSwung;
     }
 
-    public void setShoudswing(boolean shoudswing) {
-        this.shoudswing = shoudswing;
+    public void setArmSwung(boolean armSwung) {
+        this.armSwung = armSwung;
     }
 
     public int getBlockplacelastsecond() {
@@ -756,5 +759,13 @@ public class PlayerData {
 
     public void setCritHight(double critHight) {
         this.critHight = critHight;
+    }
+
+    public FlyData getFlyData() {
+        return flyData;
+    }
+
+    public void setFlyData(FlyData flyData) {
+        this.flyData = flyData;
     }
 }

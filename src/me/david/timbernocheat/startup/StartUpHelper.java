@@ -3,6 +3,7 @@ package me.david.timbernocheat.startup;
 import com.comphenix.protocol.ProtocolLibrary;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.config.Config;
+import me.david.timbernocheat.storage.YamlFile;
 
 import java.util.logging.Level;
 
@@ -34,7 +35,7 @@ public class StartUpHelper {
     public void loadConfiguration(){
         TimberNoCheat.getInstance().setStartState(StartState.LOAD_CONFIGURATION);
         if(stopped)return;
-        if (Config.check(TimberNoCheat.getInstance().getConfigFile().getFile(), TimberNoCheat.CONFIGURATION_VERSION, TimberNoCheat.getInstance().getResource("me/david/timbernocheat/config/config.yml"))) {
+        if (Config.check(TimberNoCheat.getInstance().getConfigFile(), TimberNoCheat.CONFIGURATION_VERSION, TimberNoCheat.getInstance().getResource("me/david/timbernocheat/config/config.yml"))) {
             crash();
         }
     }

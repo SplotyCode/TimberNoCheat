@@ -24,6 +24,7 @@
 #      "12:CMD:ban %player% Dein Name: %player% Deine uuid: %uuid% Deine ip: %ip% Dein ping %ping% ServerPort: %port% Dein ping %ping% Server TPS: %tps% Deine Violation: %vio%"
 #[EN]Lines:[EN]
 #[EN]1: check name[EN]
+#[EN]1: check name[EN]
 #[EN]2: shoud the plugin be enabled?(true or false)[EN]
 #[EN]3: max player ping for violation[EN]
 #[EN]4: min server tps for violation[EN]
@@ -162,7 +163,7 @@ similarity:
    viocachedelay: -1
    vioactions:
       1: "NOTIFY"
-chatbot:
+chatbots:
    enable: true
    max_ping: -1
    min_tps: -1
@@ -806,10 +807,10 @@ phase:
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
-   viocachedelay: -1
+   viocachedelay: 8000
    vioactions:
       3: "NOTIFY"
-      6: "KICK:Phase/NoClip(TNC)"
+      24: "KICK:Phase/NoClip(TNC)"
 derb:
    enable: true
    minpitch: -91
@@ -839,8 +840,14 @@ fastladder:
 #12: "KICK:FastLadder(TNC)"
 fly:
    enable: true
-   #modes
-   vanilla: true
+   vanilla:
+      enable: true
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: false
+      viocachedelay: 800000
+      vioactions:
+         1: "NOTIFY"
 
    #none = do nothink
    #cancel = set the player to the start position
@@ -970,7 +977,7 @@ damageindicator:
    vioresetafteraction: true
    viocachedelay: -1
    vioactions:
-damageindicator:
+antiesp:
    enable: true
    items: true
    max_ping: -1

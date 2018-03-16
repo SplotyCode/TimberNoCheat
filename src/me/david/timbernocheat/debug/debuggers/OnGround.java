@@ -33,7 +33,7 @@ public class OnGround extends ExternalDebugger {
                 for(double y = 0.1;y<1.1;y+=0.1) {
                     Location loc = new Location(player.getWorld(), x, player  .getLocation().getY() - y, z);
                     Block block = loc.getBlock();
-                    if(block.getType() != Material.AIR && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
+                    if(block.getType().isSolid() && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
                         onGround = true;
                 }
         return onGround;

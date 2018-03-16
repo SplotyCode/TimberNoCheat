@@ -48,7 +48,7 @@ public class Check extends YamlSection implements Listener {
                 continue;
             }
             try {
-                if(check.getBoolean("enabled")) childs.add(check);
+                if(check.getBoolean("enable")) childs.add(check);
                 else diabledsChilds.add(check);
             }catch (Exception ex){
                 TimberNoCheat.getInstance().reportException(ex, "Error loading config for module '"  + name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
@@ -56,12 +56,10 @@ public class Check extends YamlSection implements Listener {
         }
     }
 
-    public void registerChilds(Check[] checks) {
+    public void registerChilds(Check... checks) {
         for(Check check : checks)
-            if(check.getBoolean("enabled")){
-                if(check.getBoolean("enabled")) childs.add(check);
-                else diabledsChilds.add(check);
-            }
+            if(check.getBoolean("enable")) childs.add(check);
+            else diabledsChilds.add(check);
     }
 
     public void registerChilds(String[] list) {
@@ -74,7 +72,7 @@ public class Check extends YamlSection implements Listener {
                 continue;
             }
             try {
-                if(check.getBoolean("enabled")) childs.add(check);
+                if(check.getBoolean("enable")) childs.add(check);
                 else diabledsChilds.add(check);
             }catch (Exception ex){
                 TimberNoCheat.getInstance().reportException(ex, "Error loading config for module '"  + this.name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
@@ -87,7 +85,7 @@ public class Check extends YamlSection implements Listener {
     }
 
     private Check(String name, Category category, String path) {
-        super(TimberNoCheat.getInstance().getConfigFile().getYamlSection(path));
+        super(TimberNoCheat.getInstance().getConfig().getYamlSection(path));
         this.name = name;
         this.category = category;
         this.vioCache = new HashMap<>();
@@ -99,6 +97,7 @@ public class Check extends YamlSection implements Listener {
         this.protocollistener = new ArrayList<>();
         vios = new ArrayList<>();
         try {
+           //for(String s: getKeys(false)) System.out.println(name + " " + s);
             this.maxping = getInt("max_ping");
             this.mintps = getInt("min_tps");
             this.resetafter = getBoolean("vioresetafteraction");
@@ -121,7 +120,7 @@ public class Check extends YamlSection implements Listener {
     }
 
     public Check(String name, Category category, boolean child, Check parent) {
-        this(name, category, parent.name + "." + name.toLowerCase());
+        this(name, category, parent.name.toLowerCase() + "." + name.toLowerCase());
         if(parent.isChild) throw new IllegalArgumentException("Childs can not have childs :(");
         isChild = child;
         this.parent = parent;
@@ -167,15 +166,18 @@ public class Check extends YamlSection implements Listener {
 
     public Check getChildByString(String name){
         for(Check check : childs)
-            if(check.name.equalsIgnoreCase(name))
+            if (check.name.equalsIgnoreCase(name))
                 return check;
         return null;
     }
 
     public Check getChildbyEnum(Enum en){
-        for(Check check : childs)
-            if(check.name.equalsIgnoreCase(en.name()))
+        //System.out.println(this.name + " " + en.name() + " " + childs.size());
+        for(Check check : childs) {
+           // System.out.println(check.getName() + " " + en.name());
+            if (check.name.equalsIgnoreCase(en.name()))
                 return check;
+        }
         return null;
     }
 

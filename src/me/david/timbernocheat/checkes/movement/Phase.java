@@ -29,6 +29,7 @@ public class Phase extends Check {
         AABBBox playerBox = Api.getNms().getBoundingBox(player);
         int blocks = 0;
         for(Block block : BlockUtil.getBlocksAround(event.getTo(), 3)){
+            if(!block.getType().isSolid())continue;
             AABBBox boundingBox = Api.getNms().getBoundingBox(block);
             if(MaterialHelper.GATES.contains(block.getType()) && ((Gate) block).isOpen())continue;
             if(playerBox.intersectsWith(boundingBox)) blocks++;

@@ -5,6 +5,7 @@ import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.api.utils.cordinates.LocationUtil;
+import me.david.timbernocheat.runnable.TimberScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
@@ -29,11 +30,11 @@ public class Velocity extends Check {
     public Velocity() {
         super("Velocity", Category.COBMAT);
         teleport = getBoolean("teleport");
-        register(Bukkit.getScheduler().runTaskTimer(TimberNoCheat.getInstance(), () -> {
+        register(new TimberScheduler("Velocity-Check", () -> {
             for(Player p : Bukkit.getOnlinePlayers())
                 if(TimberNoCheat.getCheckManager().isvalid_create(p))
                     check(p);
-        }, 1, 1).getTaskId());
+        }).startTimer(1));
     }
 
     private HashMap<Player, Location> velocity = new HashMap<>();

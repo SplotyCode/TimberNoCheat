@@ -28,7 +28,8 @@ public class NoFall extends Check {
                found = true;
            else blocks += 0.1;
         }
-        if(p.getFallDistance() < blocks && blocks<3){
+        //TODO better setback
+        if(p.getFallDistance() < blocks && blocks>3){
             updateVio(this, p, blocks-p.getFallDistance());
             e.setCancelled(true);
         }

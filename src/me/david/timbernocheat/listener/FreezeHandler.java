@@ -1,5 +1,6 @@
 package me.david.timbernocheat.listener;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,13 +30,24 @@ public class FreezeHandler implements Listener {
         freezeTo(player.getUniqueId(), time);
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onMove(final PlayerMoveEvent event){
         final UUID uuid = event.getPlayer().getUniqueId();
-        Long time = freezePlayers.get(uuid);
-        if(time != null){
-            if(time < System.currentTimeMillis()) freezePlayers.remove(uuid);
-            else event.setCancelled(true);
+        final Location to = event.getTo();
+        final Location fr = event.getFrom();
+        if(!(to.getX() == fr.getX() && to.getY() == fr.getY() && to.getZ() == to.getZ())) {
+            if (isNotFreezed(uuid)) {
+                if(freezePlayers.containsKey(uuid)) freezePlayers.remove(uuid);
+            }else event.setCancelled(true);
         }
+    }
+
+    public boolean isNotFreezed(final UUID uuid) {
+        Long time = freezePlayers.get(uuid);
+        return time == null || time < System.currentTimeMillis();
+    }
+
+    public boolean isNotFreezed(final Player player){
+        return isNotFreezed(player.getUniqueId());
     }
 }
