@@ -25,9 +25,9 @@ public abstract class FlyCheck extends Check {
     public void onSkipMove(SkipReason skipReason){}
     public abstract void onMove(FlyData flyData, Player player, PlayerData playerData, FlyMoveData move);
     public void attack(FlyData flyData, Player player, int knockback){}
-    public void bow(FlyData flyData, Player player, int punsh){}
+    public void bow(FlyData flyData, Player player, int strength){}
     public void rod(FlyData flyData, Player player){}
-    public void explostion(FlyData flyData, Player player){}
+    public void explostion(FlyData flyData, Player player, float strength){}
 
     private void setBack(Player player){
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);

@@ -4,7 +4,9 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.PlayerData;
+import me.david.timbernocheat.checkes.movement.fly.checks.AirFall;
 import me.david.timbernocheat.checkes.movement.fly.checks.Vanilla;
+import me.david.timbernocheat.checkes.movement.fly.checks.WrongDirection;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
 import me.david.timbernocheat.checktools.MaterialHelper;
@@ -16,15 +18,16 @@ import me.david.api.utils.BlockUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class Fly extends Check {
 
@@ -33,7 +36,7 @@ public class Fly extends Check {
     public Fly(){
         super("Fly", Category.MOVEMENT);
         setback = getString("setbackmethode");
-        registerChilds(new Vanilla(this));
+        registerChilds(new Vanilla(this), new AirFall(this), new WrongDirection(this));
     }
     
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -48,7 +51,7 @@ public class Fly extends Check {
         FlyData data = pd.getFlyData();
 
         if(player.getVehicle() != null){
-            getSubChecks().forEach((check) -> check.onSkipMove(SkipReason.VEHICLE));
+            forChilds((check) -> check.onSkipMove(SkipReason.VEHICLE));
             return;
         }
         if(move.isToGround()) data.setGroundDistance(data.getGroundDistance()+move.getRawYDiff());
@@ -56,7 +59,7 @@ public class Fly extends Check {
         if(move.isToGround()) data.setFalling(false);
         else if(move.getTo().getY() < move.getFrom().getY() && !data.isFalling()) {
             data.setFalling(true);
-            getSubChecks().forEach((check) -> check.onFall(MovingUtils.groundDistance(player)));
+            forChilds((check) -> check.onFall(MovingUtils.groundDistance(player)));
         }
 
         //Slime Call
@@ -71,10 +74,10 @@ public class Fly extends Check {
         }
 
         //Main Move Call
-        if(data.getLastMove() == null) getSubChecks().forEach((check) -> check.onSkipMove(SkipReason.FIRSTMOVE));
-        else if(fp.enderpearl) getSubChecks().forEach((check) -> check.onSkipMove(SkipReason.ENDERPERL));
-        else if(fp.hasVehicle(950)) getSubChecks().forEach((check -> check.onSkipMove(SkipReason.VEHICLE_LEAVE)));
-        else getSubChecks().forEach((check) -> check.onMove(data, player, pd, move));
+        if(data.getLastMove() == null) forChilds((check) -> check.onSkipMove(SkipReason.FIRSTMOVE));
+        else if(fp.enderpearl) forChilds((check) -> check.onSkipMove(SkipReason.ENDERPERL));
+        else if(fp.hasVehicle(950)) forChilds((check -> check.onSkipMove(SkipReason.VEHICLE_LEAVE)));
+        else forChilds((check) -> check.onMove(data, player, pd, move));
 
         data.setLastMove(move);
         TimberNoCheat.getInstance().getMoveprofiler().end();
@@ -85,30 +88,82 @@ public class Fly extends Check {
         final Player player = event.getPlayer();
         if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
-        getSubChecks().forEach((check -> check.reset(ResetReason.TELEPORT, pd.getFlyData(), player)));
+        forChilds((check -> check.reset(ResetReason.TELEPORT, pd.getFlyData(), player)));
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onWorldSwitch(PlayerChangedWorldEvent event){
         final Player player = event.getPlayer();
         if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
-        getSubChecks().forEach((check -> check.reset(ResetReason.WORLDSWITCH, pd.getFlyData(), player)));
+        final PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        forChilds((check -> check.reset(ResetReason.WORLDSWITCH, pd.getFlyData(), player)));
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onEntityDamage(EntityDamageEvent event){
+    public void onDamage(final EntityDamageEvent event){
         if(event.getEntityType() != EntityType.PLAYER || !TimberNoCheat.getCheckManager().isvalid_create((Player) event.getEntity()))return;
-        FlyData data = TimberNoCheat.getCheckManager().getPlayerdata((Player) event.getEntity()).getFlyData();
+        final Player player = (Player) event.getEntity();
+        final FlyData data = TimberNoCheat.getCheckManager().getPlayerdata(player).getFlyData();
         switch (event.getCause()){
-            case BLOCK_EXPLOSION: case ENTITY_EXPLOSION:
+            case ENTITY_EXPLOSION:case BLOCK_EXPLOSION:case PROJECTILE:case WITHER:
+                data.setWaitingForVelocity(true);
+            break;
+        }
+        switch (event.getCause()){
+            case BLOCK_EXPLOSION:
+                forChilds((check) -> check.explostion(data, player, 4*2));
             break;
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onEntityDamage(final EntityDamageByEntityEvent event){
+        if(event.getEntityType() != EntityType.PLAYER || !TimberNoCheat.getCheckManager().isvalid_create((Player) event.getEntity()))return;
+        final Player player = (Player) event.getEntity();
+        final Entity entity = event.getDamager();
+        final FlyData data = TimberNoCheat.getCheckManager().getPlayerdata(player).getFlyData();
+        switch (event.getCause()){
+            case ENTITY_EXPLOSION:
+                forChilds((check) -> check.explostion(data, player, (((Creeper) entity).isPowered()?2*2:1*2)));
+            break;
+            case ENTITY_ATTACK:
+                forChilds((check) -> check.attack(data, player, CheckUtils.getKnockbag(entity)));
+            break;
+            case PROJECTILE:
+                if(entity instanceof Arrow)
+                    forChilds((check) -> check.bow(data, player, ((Arrow) entity).getKnockbackStrength()));
+            break;
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlayerHitFishingRodEvent(final PlayerFishEvent event) {
+        if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()))return;
+        final Player player = event.getPlayer();
+        final FlyData data = TimberNoCheat.getCheckManager().getPlayerdata(player).getFlyData();
+        if (event.getCaught() instanceof Player) {
+            final Player caught = (Player) event.getCaught();
+            if (player.getItemInHand().getType() == Material.FISHING_ROD) {
+                forChilds((check) -> check.rod(data, caught));
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onVelocity(PlayerVelocityEvent event){
-        System.out.println("heyyy");
+        if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()))return;
+        final Player player = event.getPlayer();
+        final FlyData data = TimberNoCheat.getCheckManager().getPlayerdata(player).getFlyData();
+        if(data.isWaitingForVelocity()){
+            data.setWaitingForVelocity(false);
+            data.setSpecialVelocity(event.getVelocity());
+            data.setSpecialVelocityCouse(data.getLastHurtCause());
+            data.setLastHurtCause(null);
+        }
+    }
+
+    private void forChilds(Consumer<? super FlyCheck> consumer){
+        getSubChecks().forEach(consumer);
     }
 
     private ArrayList<FlyCheck> getSubChecks(){

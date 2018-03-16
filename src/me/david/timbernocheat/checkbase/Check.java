@@ -48,7 +48,10 @@ public class Check extends YamlSection implements Listener {
                 continue;
             }
             try {
-                if(check.getBoolean("enable")) childs.add(check);
+                if(check.getBoolean("enable")) {
+                    childs.add(check);
+                    Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.getInstance());
+                }
                 else diabledsChilds.add(check);
             }catch (Exception ex){
                 TimberNoCheat.getInstance().reportException(ex, "Error loading config for module '"  + name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
@@ -58,7 +61,10 @@ public class Check extends YamlSection implements Listener {
 
     public void registerChilds(Check... checks) {
         for(Check check : checks)
-            if(check.getBoolean("enable")) childs.add(check);
+            if(check.getBoolean("enable")) {
+                childs.add(check);
+                Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.getInstance());
+            }
             else diabledsChilds.add(check);
     }
 
@@ -72,8 +78,10 @@ public class Check extends YamlSection implements Listener {
                 continue;
             }
             try {
-                if(check.getBoolean("enable")) childs.add(check);
-                else diabledsChilds.add(check);
+                if(check.getBoolean("enable")) {
+                    childs.add(check);
+                    Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.getInstance());
+                } else diabledsChilds.add(check);
             }catch (Exception ex){
                 TimberNoCheat.getInstance().reportException(ex, "Error loading config for module '"  + this.name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
             }

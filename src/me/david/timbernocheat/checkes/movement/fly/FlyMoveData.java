@@ -10,6 +10,7 @@ public class FlyMoveData {
     private final PlayerMoveEvent event;
     private final double yDiff, rawYDiff, distance, yDiffBlock;
     private final boolean onGround, fromGround, toGround;
+    private boolean upGoing, downGoing, straight;
     private final double yVelocity, velocityDistance;
     private final Vector velocity;
 
@@ -22,6 +23,9 @@ public class FlyMoveData {
         velocity = event.getPlayer().getVelocity();
         yVelocity = velocity.getY();
         velocityDistance = velocity.length();
+        if(yDiff == 0) straight = true;
+        else if(yDiff < 0) downGoing = true;
+        else upGoing = true;
 
         onGround = CheckUtils.onGround(event.getPlayer());
         fromGround = CheckUtils.onGround(event.getFrom());
@@ -78,5 +82,29 @@ public class FlyMoveData {
 
     public Vector getVelocity() {
         return velocity;
+    }
+
+    public boolean isUpGoing() {
+        return upGoing;
+    }
+
+    public void setUpGoing(boolean upGoing) {
+        this.upGoing = upGoing;
+    }
+
+    public boolean isDownGoing() {
+        return downGoing;
+    }
+
+    public void setDownGoing(boolean downGoing) {
+        this.downGoing = downGoing;
+    }
+
+    public boolean isStraight() {
+        return straight;
+    }
+
+    public void setStraight(boolean straight) {
+        this.straight = straight;
     }
 }

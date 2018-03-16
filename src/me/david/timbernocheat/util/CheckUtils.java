@@ -7,6 +7,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -56,5 +58,11 @@ public final class CheckUtils {
                         return true;
                 }
         return false;
+    }
+
+    public static int getKnockbag(Entity entity){
+        if(!(entity instanceof HumanEntity)) return 0;
+        ItemStack is = ((HumanEntity) entity).getItemInHand();
+        return (is == null?0:is.getEnchantmentLevel(Enchantment.KNOCKBACK));
     }
 }
