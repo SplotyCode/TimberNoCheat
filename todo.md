@@ -1,6 +1,6 @@
-Created: 04:01:2018
-Last-Refresh: 18:02:2018
-
+Created: 04:01:2018<br>
+Last-Refresh: 18:02:2018<br>
+<br>
 List:<br>
     2) Finish Fly<br>
     3) Finish Jesus<br>
@@ -17,7 +17,6 @@ List:<br>
     17) Improve Config Documentation<br>
     18) Check for Step (rod, hit, bow, slimes, jump potions etc)<br>
     19) Speed ground diff<br>
-    20) Fix GodMode Exceptions<br>
     21) Redo Scaffoldwalk<br>
     22) Add Tower Check<br>
     23) Improve Code Documentation<br>
@@ -28,7 +27,6 @@ List:<br>
     30) Remove usages of Velocity.java<br>
     34) Write configuration variables in caps<br>
     35) Make use of the Parent-Child-Check System (config change)<br>
-    36) Make Violation Reason abstract or over enums<br>
 
 Already Done (just a few) :<br>
     1) Fix equls roatations<br>
@@ -46,4 +44,7 @@ Already Done (just a few) :<br>
     31) Add Listener Manager (only for listenrs how use static) and link it up in nocheatplus to remove static in listeners<br>
     28) Add Normal Scheduler Gui<br>
     32) Maby Extends check from YamlFile? = Would clear a few listeners in check<br>
+    20) Fix GodMode Exceptions<br>
+Not used:<br>
+    36) Make Violation Reason abstract or over enums<br>
 
