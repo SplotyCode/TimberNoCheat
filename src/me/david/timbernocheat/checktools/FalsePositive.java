@@ -4,9 +4,9 @@ import me.david.api.utils.ServerWorldUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.TimberScheduler;
-import me.david.timbernocheat.util.SpeedUtil;
 import me.david.api.anotations.Nullable;
 import me.david.api.utils.player.PlayerUtil;
+import me.david.timbernocheat.util.CheckUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -144,7 +144,7 @@ public class FalsePositive implements Listener {
         long jumpBoost;
         public boolean jumpboost(Player player){
             if (System.currentTimeMillis()- jumpBoost < 100) return true;
-            boolean bool = (player.hasPotionEffect(PotionEffectType.JUMP)) && (SpeedUtil.getPotionEffectLevel(player, PotionEffectType.JUMP) < 128 || SpeedUtil.getPotionEffectLevel(player, PotionEffectType.JUMP) > 250);
+            boolean bool = (player.hasPotionEffect(PotionEffectType.JUMP)) && (CheckUtils.getPotionEffectLevel(player, PotionEffectType.JUMP) < 128 || CheckUtils.getPotionEffectLevel(player, PotionEffectType.JUMP) > 250);
             if (bool) jumpBoost = System.currentTimeMillis();
             return bool;
         }
@@ -187,7 +187,7 @@ public class FalsePositive implements Listener {
             int speed = hasSpeed()?1:0;
             float base = 1.25f;
             if (speed != 0) {
-                int j = SpeedUtil.getPotionEffectLevel(p, PotionEffectType.SPEED);
+                int j = CheckUtils.getPotionEffectLevel(p, PotionEffectType.SPEED);
                 if ((speed & (!p.hasPotionEffect(PotionEffectType.SPEED) ? 1 : 0)) != 0) {
                     j = 255;
                 }

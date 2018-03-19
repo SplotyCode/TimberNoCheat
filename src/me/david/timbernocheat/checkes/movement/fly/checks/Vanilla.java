@@ -19,7 +19,8 @@ public class Vanilla extends FlyCheck {
     @EventHandler(ignoreCancelled = true)
     public void kick(PlayerKickEvent e) {
         if(TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer()) && e.getReason().startsWith("Flying is not")) {
-            updateVio(this, e.getPlayer(), 1, " §6CHECK: §bVANILLA");
+            if(updateVio(this, e.getPlayer(), 1, " §6CHECK: §bVANILLA"))
+                setBack(e.getPlayer());
         }
     }
 

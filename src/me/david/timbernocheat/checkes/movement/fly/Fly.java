@@ -5,19 +5,14 @@ import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.fly.checks.AirFall;
+import me.david.timbernocheat.checkes.movement.fly.checks.TicksUpgoing;
 import me.david.timbernocheat.checkes.movement.fly.checks.Vanilla;
 import me.david.timbernocheat.checkes.movement.fly.checks.WrongDirection;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
-import me.david.timbernocheat.checktools.MaterialHelper;
-import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.util.CheckUtils;
 import me.david.timbernocheat.util.MovingUtils;
-import me.david.timbernocheat.util.SpeedUtil;
-import me.david.api.utils.BlockUtil;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -36,7 +31,7 @@ public class Fly extends Check {
     public Fly(){
         super("Fly", Category.MOVEMENT);
         setback = getString("setbackmethode");
-        registerChilds(new Vanilla(this), new AirFall(this), new WrongDirection(this));
+        registerChilds(new Vanilla(this), new AirFall(this), new WrongDirection(this), new TicksUpgoing(this));
     }
     
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -54,6 +49,14 @@ public class Fly extends Check {
             forChilds((check) -> check.onSkipMove(SkipReason.VEHICLE));
             return;
         }
+        if(CheckUtils.doesColidateWithMaterial(Material.LADDER, move.getTo())){
+            forChilds((check) -> check.onSkipMove(SkipReason.LADDER));
+            return;
+        }
+        if(CheckUtils.doesColidateWithMaterial(Material.WATER, move.getTo()) || CheckUtils.doesColidateWithMaterial(Material.STATIONARY_WATER, move.getTo()) || CheckUtils.doesColidateWithMaterial(Material.STATIONARY_LAVA, move.getTo()) || CheckUtils.doesColidateWithMaterial(Material.LAVA, move.getTo())){
+            forChilds((check) -> check.onSkipMove(SkipReason.LIQUID));
+            return;
+        }
         if(move.isToGround()) data.setGroundDistance(data.getGroundDistance()+move.getRawYDiff());
 
         if(move.isToGround()) data.setFalling(false);
@@ -64,9 +67,9 @@ public class Fly extends Check {
 
         //Slime Call
         if(data.getLastMove() != null) {
-            if (!data.getLastMove().isToGround() && data.getLastMove().isToGround()) {
+            if (!data.getLastMove().isToGround() && move.isToGround()) {
                 if (CheckUtils.doesColidateWithMaterial(Material.SLIME_BLOCK, player))
-                    getSubChecks().forEach((check) -> check.onSlime(data.getSlimePeek()));
+                    getSubChecks().forEach((check) -> check.onSlime(data, data.getSlimePeek()));
                 data.setSlimePeek(0);
             } else if (data.getGroundDistance() > data.getSlimePeek()) {
                 data.setSlimePeek(data.getGroundDistance());
@@ -79,6 +82,7 @@ public class Fly extends Check {
         else if(fp.hasVehicle(950)) forChilds((check -> check.onSkipMove(SkipReason.VEHICLE_LEAVE)));
         else forChilds((check) -> check.onMove(data, player, pd, move));
 
+        data.setLastData(data);
         data.setLastMove(move);
         TimberNoCheat.getInstance().getMoveprofiler().end();
     }
@@ -159,6 +163,7 @@ public class Fly extends Check {
             data.setSpecialVelocity(event.getVelocity());
             data.setSpecialVelocityCouse(data.getLastHurtCause());
             data.setLastHurtCause(null);
+            forChilds((check) -> check.velocity(data, player, event.getVelocity()));
         }
     }
 
@@ -172,10 +177,11 @@ public class Fly extends Check {
         return list;
     }
 
+    //Do we need this Methode as we use Move Velocity and TicksInAir?>?
     private double getJump(Player p) {
         double d;
         if (p.hasPotionEffect(PotionEffectType.JUMP)) {
-            int level = SpeedUtil.getPotionEffectLevel(p, PotionEffectType.JUMP);
+            int level = CheckUtils.getPotionEffectLevel(p, PotionEffectType.JUMP);
             switch (level){
                 case 1:
                     d = 1.9;

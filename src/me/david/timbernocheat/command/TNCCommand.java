@@ -1,5 +1,6 @@
 package me.david.timbernocheat.command;
 
+import me.david.api.commands.checkers.Playercheck;
 import me.david.api.utils.HastebinUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
@@ -16,6 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -23,7 +25,7 @@ import java.util.*;
 public class TNCCommand extends Command {
 
     public TNCCommand(){
-        super("timbernocheat", new CheckBuilder().addMultiPlayerPermission(
+        super("timbernocheat", new CheckBuilder().addMultiPlayerPermissionChecker(
                 new Object[]{"", false, ""},
                 new Object[]{"reload", false, Permissions.RELOAD},
                 new Object[]{"generate", true, Permissions.GENERATE},
@@ -32,7 +34,8 @@ public class TNCCommand extends Command {
                 new Object[]{"debugger", true, Permissions.DEBUGGER},
                 new Object[]{"checkmap", false, Permissions.CHECKMAP},
                 new Object[]{"settings", true, Permissions.SETTINGS},
-                new Object[]{"playerdata", false, Permissions.PLAYER_DATA},
+                new Object[]{"playerdata", false, Permissions.PLAYER_DATA, new Playercheck(true)},
+                new Object[]{"invalidate", false, Permissions.PLAYER_DAYA_INVALIDATE, new Playercheck(true)},
                 new Object[]{"permissioncache", false, Permissions.PERMISSION_CACHE},
                 new Object[]{"oreNotify", true, Permissions.ORE_NOTIFY},
                 new Object[]{"blockTriggers", true, Permissions.BLOCK_TRIGGERS},
@@ -103,19 +106,20 @@ public class TNCCommand extends Command {
             case "settings":
                 TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "SettingsMulti");
                 break;
-            case "playerdata":
-                if (!TimberNoCheat.getCheckManager().isvalid_create(p)) {
-                    p.sendMessage(TimberNoCheat.getInstance().prefix + "Es gibt keine SpielerDaten für dich :(");
+            case "playerdata": {
+                final Player target = Bukkit.getPlayer(args[0]);
+                if (!TimberNoCheat.getCheckManager().isvalid_create(target)) {
+                    p.sendMessage(TimberNoCheat.getInstance().prefix + "Es gibt keine SpielerDaten für '" + target.getName() + " :(");
                     return;
                 }
-                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(target);
                 p.sendMessage(TimberNoCheat.getInstance().prefix + "Playerdata for " + pd.getUuid());
                 p.sendMessage(new PrettyPrint(pd, true, TimberNoCheat.getInstance().prefix).prettyPrint(0));
                 String hastebin = HastebinUtil.paste(new PrettyPrint(pd, false, "").prettyPrint(0));
                 p.sendMessage(TimberNoCheat.getInstance().prefix + "Finished! Now we will make a copy as Hastebin (as this data can get quite confusing in the chat :D ) ");
-                p.sendMessage(TimberNoCheat.getInstance().prefix + (hastebin == null?"§cFehler bei Hochladen":hastebin));
+                p.sendMessage(TimberNoCheat.getInstance().prefix + (hastebin == null ? "§cFehler bei Hochladen" : hastebin));
                 break;
-            case "permissioncache":
+            }case "permissioncache":
                 p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Cache]---");
                 for(Map.Entry<UUID, HashMap<String, Boolean>> cache :  TimberNoCheat.getInstance().permissioncache.getCache().entrySet()){
                     p.sendMessage(TimberNoCheat.getInstance().prefix + Bukkit.getOfflinePlayer(cache.getKey()).getName());
@@ -136,6 +140,12 @@ public class TNCCommand extends Command {
                 break;
             case "violations":
                 TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "GlobalViolationMulti");
+                break;
+            case "invalidate":
+                Player target = Bukkit.getPlayer(args[0]);
+                PlayerData data = TimberNoCheat.getCheckManager().getPlayerdata(target);
+                if(data != null) TimberNoCheat.getCheckManager().getPlayerdata().remove(data);
+                else p.sendMessage(TimberNoCheat.getInstance().prefix + "Es gibt keine Spielerdaten für '" + target.getName() + "'!");
                 break;
         }
     }

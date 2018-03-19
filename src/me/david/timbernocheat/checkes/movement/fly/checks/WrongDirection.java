@@ -12,9 +12,10 @@ public class WrongDirection extends FlyCheck {
 
     @Override
     public void onMove(FlyData flyData, Player player, PlayerData playerData, FlyMoveData move) {
-        if(flyData.isWasFalling() && !flyData.isFalling() && !move.isToGround()){
-            if(!excused(flyData)) updateVio(this, player, 1);
-            else {
+        if(flyData.getLastData().isFalling() && !flyData.isFalling() && !move.isToGround()){
+            if(!excused(flyData)) {
+                if(updateVio(this, player, 1)) setBack(player);
+            } else {
                 flyData.setExcused(false);
                 flyData.setLastExcused(0);
             }
@@ -36,28 +37,38 @@ public class WrongDirection extends FlyCheck {
         data.setLastExcused(System.currentTimeMillis());
     }
 
+    private void excuse(FlyData data, long time){
+        data.setExcused(true);
+        data.setLastExcused(System.currentTimeMillis()+time);
+    }
+
     @Override
     public void reset(ResetReason reason, FlyData flyData, Player player) {
-        excused(flyData);
+        excuse(flyData);
+    }
+
+    @Override
+    public void onSlime(FlyData data, double fallDistance) {
+        excuse(data, (long) (fallDistance/2)*1000);
     }
 
     @Override
     public void attack(FlyData flyData, Player player, int knockback) {
-        excused(flyData);
+        excuse(flyData);
     }
 
     @Override
     public void bow(FlyData flyData, Player player, int strength) {
-        excused(flyData);
+        excuse(flyData);
     }
 
     @Override
     public void rod(FlyData flyData, Player player) {
-        super.rod(flyData, player);
+        excuse(flyData);
     }
 
     @Override
     public void explostion(FlyData flyData, Player player, float strength) {
-        excused(flyData);
+        excuse(flyData, (long) (strength+1000*15));
     }
 }

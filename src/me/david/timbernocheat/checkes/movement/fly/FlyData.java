@@ -3,10 +3,13 @@ package me.david.timbernocheat.checkes.movement.fly;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+
 public class FlyData {
 
     //General
     private FlyMoveData lastMove;
+    private FlyData lastData;
     private double slimePeek = 0;
     private double groundDistance = 0;
     private boolean isFalling = false;
@@ -14,11 +17,22 @@ public class FlyData {
     private EntityDamageEvent.DamageCause lastHurtCause;
     private Vector specialVelocity = new Vector();
     private EntityDamageEvent.DamageCause specialVelocityCouse;
-    private boolean wasFalling = false;
 
     //WrongDirection
     private boolean excused = false;
     private long lastExcused = 0L;
+
+    //TicksUpgoing
+    private int ticksUpgoing = 0;
+    private int lastCountTick = -1;
+
+    //TicksUpgoing
+    private boolean mabySlimeJump = false;
+    private double lastSlime = 0.0;
+    private int jumpPotion = 0;
+    private int jumpPotionLastTick = 0;
+    private ArrayList<Vector> velocity = new ArrayList<>();
+
 
     public FlyMoveData getLastMove() {
         return lastMove;
@@ -76,14 +90,6 @@ public class FlyData {
         this.specialVelocity = specialVelocity;
     }
 
-    public boolean isWasFalling() {
-        return wasFalling;
-    }
-
-    public void setWasFalling(boolean wasFalling) {
-        this.wasFalling = wasFalling;
-    }
-
     public void setSpecialVelocityCouse(EntityDamageEvent.DamageCause specialVelocityCouse) {
         this.specialVelocityCouse = specialVelocityCouse;
     }
@@ -106,5 +112,69 @@ public class FlyData {
 
     public boolean isExcused() {
         return excused;
+    }
+
+    public int getTicksUpgoing() {
+        return ticksUpgoing;
+    }
+
+    public void setTicksUpgoing(int ticksUpgoing) {
+        this.ticksUpgoing = ticksUpgoing;
+    }
+
+    public int getLastCountTick() {
+        return lastCountTick;
+    }
+
+    public void setLastCountTick(int lastCountTick) {
+        this.lastCountTick = lastCountTick;
+    }
+
+    public FlyData getLastData() {
+        return lastData;
+    }
+
+    public void setLastData(FlyData lastData) {
+        this.lastData = lastData;
+    }
+
+    public boolean isMabySlimeJump() {
+        return mabySlimeJump;
+    }
+
+    public void setMabySlimeJump(boolean mabySlimeJump) {
+        this.mabySlimeJump = mabySlimeJump;
+    }
+
+    public double getLastSlime() {
+        return lastSlime;
+    }
+
+    public void setLastSlime(double lastSlime) {
+        this.lastSlime = lastSlime;
+    }
+
+    public int getJumpPotion() {
+        return jumpPotion;
+    }
+
+    public void setJumpPotion(int jumpPotion) {
+        this.jumpPotion = jumpPotion;
+    }
+
+    public int getJumpPotionLastTick() {
+        return jumpPotionLastTick;
+    }
+
+    public ArrayList<Vector> getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(ArrayList<Vector> velocity) {
+        this.velocity = velocity;
+    }
+
+    public void setJumpPotionLastTick(int jumpPotionLastTick) {
+        this.jumpPotionLastTick = jumpPotionLastTick;
     }
 }

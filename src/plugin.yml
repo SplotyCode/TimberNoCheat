@@ -37,7 +37,12 @@ permissions:
       description: Allow Players to configurate the Plugin ingame
    tnc.playerdata:
       description: Allow Players to execute /tnc checkmap
-      default: true
+      children:
+         sea:
+            description: Allows Players to sea Playerdata
+            default: true
+         invalidate:
+             description: Allows Players to invalidate Playerdata
    tnc.permissioncache:
          description: Allow Players to execute /tnc permissioncache
    tnc.clearcache:

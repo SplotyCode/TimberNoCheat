@@ -10,7 +10,6 @@ import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.debug.Scheduler;
 import me.david.timbernocheat.runnable.TimberScheduler;
-import me.david.timbernocheat.util.SpeedUtil;
 import me.david.timbernocheat.runnable.Velocity;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.api.utils.BlockUtil;
@@ -18,6 +17,8 @@ import me.david.api.utils.JsonFileUtil;
 import me.david.api.utils.cordinates.LocationUtil;
 import me.david.api.utils.MathUtil;
 import me.david.api.utils.player.PlayerUtil;
+import me.david.timbernocheat.util.CheckUtils;
+import me.david.timbernocheat.util.MovingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -236,7 +237,7 @@ public class Speed extends Check {
     private SpeedPattern generateSpeedPattern(Player player, PlayerData pd){
         FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
         Material under = player.getLocation().subtract(0, 1, 0).getBlock().getType();
-        return new SpeedPattern("P-" + patterns.size(), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SPEED), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.JUMP), SpeedUtil.getPotionEffectLevel(player, PotionEffectType.SLOW), 0F, 0F, 0F, player.isInsideVehicle(), fp.hasLiquid(25), under == Material.ICE, player.isBlocking(), player.isSprinting(), player.isSneaking(), PlayerUtil.isInWeb(player), PlayerUtil.isOnLadder(player), PlayerUtil.slabsNear(player.getLocation()), PlayerUtil.stairsNear(player.getLocation()), player.getLocation().add(0, 2, 0).getBlock().getType() != Material.AIR, System.currentTimeMillis()-pd.getLastongroundtime()<5, under == Material.SOUL_SAND);
+        return new SpeedPattern("P-" + patterns.size(), CheckUtils.getPotionEffectLevel(player, PotionEffectType.SPEED), CheckUtils.getPotionEffectLevel(player, PotionEffectType.JUMP), CheckUtils.getPotionEffectLevel(player, PotionEffectType.SLOW), 0F, 0F, 0F, player.isInsideVehicle(), fp.hasLiquid(25), under == Material.ICE, player.isBlocking(), player.isSprinting(), player.isSneaking(), PlayerUtil.isInWeb(player), PlayerUtil.isOnLadder(player), PlayerUtil.slabsNear(player.getLocation()), PlayerUtil.stairsNear(player.getLocation()), player.getLocation().add(0, 2, 0).getBlock().getType() != Material.AIR, System.currentTimeMillis()-pd.getLastongroundtime()<5, under == Material.SOUL_SAND);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -343,7 +344,7 @@ public class Speed extends Check {
 
     private void check_jumping(PlayerMoveEvent e){
         if(PlayerUtil.isOnClimbable(e.getPlayer()) || e.getPlayer().getAllowFlight())return;
-        if(e.getFrom().getY() < e.getTo().getY() && e.getTo().getY()-e.getFrom().getY() > SpeedUtil.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){
+        if(e.getFrom().getY() < e.getTo().getY() && e.getTo().getY()-e.getFrom().getY() > MovingUtils.getMaxVertical(e.getPlayer(), PlayerUtil.isInLiquid(e.getPlayer()))){
             updateVio(this, e.getPlayer(), tvio, " §6MODE: §bJUMP");
         }
     }

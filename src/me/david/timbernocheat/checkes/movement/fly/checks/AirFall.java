@@ -26,6 +26,7 @@ public class AirFall extends FlyCheck {
         final Player player = (Player) event.getEntity();
         if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
         FlyData data = TimberNoCheat.getCheckManager().getPlayerdata(player).getFlyData();
-        if(!data.getLastMove().isToGround()) updateVio(this, player, 1, "Want me to believe he fall on air ^^");
+        if(!data.getLastMove().isToGround()) if(updateVio(this, player, 1, "Want me to believe he fall on air ^^"))
+            setBack(player);
     }
 }

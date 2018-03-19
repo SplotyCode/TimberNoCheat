@@ -5,6 +5,8 @@ public enum SkipReason {
     VEHICLE,
     VEHICLE_LEAVE,
     FIRSTMOVE,
-    ENDERPERL
+    ENDERPERL,
+    LIQUID,
+    LADDER
 
 }

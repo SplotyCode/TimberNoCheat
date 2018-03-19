@@ -30,7 +30,7 @@ public enum  Debuggers {
     CHECKWATCHER(""),
     SCHEDULEREXEPTION("Deactivate Cooldown"),
     BOWFORCE("FastBow"),
-    AIRTICKSVSMOVEVELOCITY("Fly"),
+    FLYDEBUG("Fly", "ticksup", "max"),
     NOFALL("NoFall"),
     MOTIONLOOP(new MotionLoop());
 
