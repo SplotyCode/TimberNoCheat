@@ -36,14 +36,14 @@ public class EventProfiler extends NoStaticListGui<Plugin> {
 
     @Override
     protected ItemStack getItemStack(Plugin obj, Player player) {
-        return ItemStackUtil.createLohre("§6" + obj.getDescription().getFullName() + "(" + obj.getName() + ") " + " v" + obj.getDescription().getVersion(),
+        return ItemStackUtil.createLohre("§6" + obj.getName() + " v" + obj.getDescription().getVersion(),
                 1, Material.COMMAND_MINECART,
                 "§6Depend: " + StringUtil.toString(obj.getDescription().getDepend(), ", "),
                 "§6SoftDepend: " + StringUtil.toString(obj.getDescription().getSoftDepend(), ", "),
                 "§6Authors: " + StringUtil.toString(obj.getDescription().getAuthors(), ", "),
                 "§6Website: " + obj.getDescription().getWebsite(),
                 "§6Description: " + obj.getDescription().getDescription(),
-                "§6Listener: " + PluginEventProfiler.getValidListener(obj) + "/" + HandlerList.getRegisteredListeners(obj).size());
+                "§6Listener: " + PluginEventProfiler.getValidListener(obj).size() + "/" + HandlerList.getRegisteredListeners(obj).size());
     }
 
     @Override

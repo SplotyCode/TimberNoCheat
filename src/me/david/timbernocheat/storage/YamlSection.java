@@ -36,6 +36,13 @@ public class YamlSection implements ConfigurationSection, YamlProvider {
         return Bukkit.getOfflinePlayer(getUUID(path));
     }
 
+    public float getFloat(String str){
+        return (float) getDouble(str);
+    }
+
+    public float getFloat(String str, float def){
+        return (float) getDouble(str, def);
+    }
 
     @Override
     public double[] getDoubleArray(String path){

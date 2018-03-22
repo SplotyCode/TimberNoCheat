@@ -107,7 +107,7 @@ public class TNCCommand extends Command {
                 TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "SettingsMulti");
                 break;
             case "playerdata": {
-                final Player target = Bukkit.getPlayer(args[0]);
+                final Player target = Bukkit.getPlayer(args[1]);
                 if (!TimberNoCheat.getCheckManager().isvalid_create(target)) {
                     p.sendMessage(TimberNoCheat.getInstance().prefix + "Es gibt keine SpielerDaten für '" + target.getName() + " :(");
                     return;

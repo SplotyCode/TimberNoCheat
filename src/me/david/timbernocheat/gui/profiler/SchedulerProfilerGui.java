@@ -53,7 +53,7 @@ public class SchedulerProfilerGui extends Gui implements Listener {
     @Override
     public Inventory build(Player p) {
         //System.out.println("b");
-        Inventory inv = Bukkit.getServer().createInventory(null, 9, "§6Move Profiler");
+        Inventory inv = Bukkit.getServer().createInventory(null, 9, "§6Scheduler Profiler");
         inv.addItem(ItemStackUtil.createColoredWool("§aStart", 1, FarbCodes.LIME.getId()), ItemStackUtil.createColoredWool("§cStop", 1, FarbCodes.RED.getId()), ItemStackUtil.createbasic("§eInfo", 1, Material.SIGN), ItemStackUtil.createbasic("§cClear", 1, Material.REDSTONE));
         return inv;
     }
