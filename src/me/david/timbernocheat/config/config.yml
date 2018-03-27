@@ -804,6 +804,7 @@ blink:
       1: "KICK:KP!(TNC)"
 phase:
    enable: true
+   maxdiff: 0.24
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
