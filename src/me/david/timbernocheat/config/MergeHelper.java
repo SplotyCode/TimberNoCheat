@@ -3,11 +3,9 @@ package me.david.timbernocheat.config;
 import com.google.common.io.ByteStreams;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.storage.YamlFile;
+import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,20 +17,37 @@ public class MergeHelper {
         //Get the 2 Files that we want to merge
         YamlFile newConfig = getNewConifg();
         YamlFile oldConfig = getOldConfig();
+
+        File changes = createFile(new File(TimberNoCheat.getInstance().getDataFolder(), "configchanges.txt"));
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(changes);
+        } catch (FileNotFoundException e) {
+            TimberNoCheat.getInstance().reportException(e, "Config change file...");
+        }
+
         //Get The result File
         YamlFile result = TimberNoCheat.getInstance().getConfig();
 
         //To the merge...
         TimberNoCheat.getInstance().log(false, "[Merge] We now start to merge '" + oldConfig.getFile().getPath() + "' with '" + newConfig.getFile().getPath() + "' to '" + TimberNoCheat.getInstance().getConfigFile().getPath() + "'!");
         boolean change = false;
-        for(String key : newConfig.getKeys(true)){
-            if(!oldConfig.contains(key)){
-                Object value = newConfig.get(key);
-                TimberNoCheat.getInstance().log(false, "[Merge] The current config does not has the Setting '" + key + "' lets set if with the defualt value '" + value + "'...");
-                result.set(key, value);
-                change = true;
+        try {
+            for(String key : newConfig.getKeys(true)){
+                if(!oldConfig.contains(key)){
+                    Object value = newConfig.get(key);
+                    TimberNoCheat.getInstance().log(false, "[Merge] The current config does not has the Setting '" + key + "' lets set if with the defualt value '" + value + "'...");
+                    os.write((key + " -> '" + value.toString() + "'").getBytes());
+                    result.set(key, value);
+                    change = true;
+                }
             }
+            os.flush();
+            IOUtils.closeQuietly(os);
+        }catch (IOException ex){
+            TimberNoCheat.getInstance().reportException(ex, "Error writing to merge info file!");
         }
+        TimberNoCheat.getInstance().log(false, "[Merge] We have made an File were you can read the changes called '" + changes.getName() + "'");
 
         //Finishing and debugging
         if(!change) {
@@ -82,6 +97,11 @@ public class MergeHelper {
         while (new File(file.getPath() + "(" + i + ")").exists())
             i++;
         file = new File(file.getPath() + "(" + i + ")");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return file;
     }
 }

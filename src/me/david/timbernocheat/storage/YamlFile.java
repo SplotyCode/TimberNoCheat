@@ -69,6 +69,14 @@ public class YamlFile extends YamlConfiguration implements YamlProvider {
         return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
     }
 
+    public float getFloat(String str){
+        return (float) getDouble(str);
+    }
+
+    public float getFloat(String str, float def){
+        return (float) getDouble(str, def);
+    }
+
     @Override
     public Location getLocationBlock(String path){
         if (!contains(path)) return null;
