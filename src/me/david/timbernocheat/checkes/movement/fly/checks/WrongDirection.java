@@ -4,7 +4,7 @@ import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.fly.*;
 import org.bukkit.entity.Player;
 
-public class WrongDirection extends FlyCheck {
+public class WrongDirection extends AbstractFlyCheck {
 
     public WrongDirection(Fly flyCheck) {
         super("WrongDirection", flyCheck);

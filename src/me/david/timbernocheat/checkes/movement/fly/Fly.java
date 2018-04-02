@@ -167,13 +167,13 @@ public class Fly extends Check {
         }
     }
 
-    private void forChilds(Consumer<? super FlyCheck> consumer){
+    private void forChilds(Consumer<? super AbstractFlyCheck> consumer){
         getSubChecks().forEach(consumer);
     }
 
-    private ArrayList<FlyCheck> getSubChecks(){
-        ArrayList<FlyCheck> list = new ArrayList<>();
-        for(Check check : getChilds()) list.add((FlyCheck) check);
+    private ArrayList<AbstractFlyCheck> getSubChecks(){
+        ArrayList<AbstractFlyCheck> list = new ArrayList<>();
+        for(Check check : getChilds()) list.add((AbstractFlyCheck) check);
         return list;
     }
 

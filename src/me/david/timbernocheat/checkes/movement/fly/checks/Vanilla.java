@@ -3,14 +3,14 @@ package me.david.timbernocheat.checkes.movement.fly.checks;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.fly.Fly;
-import me.david.timbernocheat.checkes.movement.fly.FlyCheck;
+import me.david.timbernocheat.checkes.movement.fly.AbstractFlyCheck;
 import me.david.timbernocheat.checkes.movement.fly.FlyData;
 import me.david.timbernocheat.checkes.movement.fly.FlyMoveData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerKickEvent;
 
-public class Vanilla extends FlyCheck {
+public class Vanilla extends AbstractFlyCheck {
 
     public Vanilla(Fly flyCheck) {
         super("Vanilla", flyCheck);

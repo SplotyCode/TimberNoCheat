@@ -4,9 +4,9 @@ import me.david.api.commands.checkers.Playercheck;
 import me.david.api.utils.HastebinUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
-import me.david.timbernocheat.checkes.movement.Speed;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.PlayerData;
+import me.david.timbernocheat.checkes.movement.speed.PatternCheck;
 import me.david.timbernocheat.config.Permissions;
 import me.david.api.commands.CheckBuilder;
 import me.david.api.commands.Command;
@@ -17,9 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class TNCCommand extends Command {
@@ -61,11 +59,11 @@ public class TNCCommand extends Command {
                 break;
             /* Speed check */
             case "generate":
-                if(Speed.generators.contains(p.getUniqueId())){
-                    Speed.generators.remove(p.getUniqueId());
+                if(PatternCheck.generators.contains(p.getUniqueId())){
+                    PatternCheck.generators.remove(p.getUniqueId());
                     p.sendMessage(TimberNoCheat.getInstance().prefix + "§cDas Anticheat 'trainiert' sich jetzt nicht mehr an dir!");
                 }else {
-                    Speed.generators.add(p.getUniqueId());
+                    PatternCheck.generators.add(p.getUniqueId());
                     p.sendMessage(TimberNoCheat.getInstance().prefix + "Bewege dich um das Anticheat zu 'trainieren'!");
                     p.sendMessage(TimberNoCheat.getInstance().prefix + "Du darfst jetzt keine Hacks benutzen!");
                 }

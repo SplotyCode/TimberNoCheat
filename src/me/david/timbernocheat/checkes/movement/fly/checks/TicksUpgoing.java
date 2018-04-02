@@ -2,7 +2,7 @@ package me.david.timbernocheat.checkes.movement.fly.checks;
 
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.fly.Fly;
-import me.david.timbernocheat.checkes.movement.fly.FlyCheck;
+import me.david.timbernocheat.checkes.movement.fly.AbstractFlyCheck;
 import me.david.timbernocheat.checkes.movement.fly.FlyData;
 import me.david.timbernocheat.checkes.movement.fly.FlyMoveData;
 import me.david.timbernocheat.runnable.Tps;
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-public class TicksUpgoing extends FlyCheck {
+public class TicksUpgoing extends AbstractFlyCheck {
 
     public TicksUpgoing(Fly flyCheck) {
         super("TicksUpgoing", flyCheck);

@@ -5,6 +5,8 @@ import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.api.utils.player.PlayerUtil;
 import me.david.timbernocheat.runnable.ExceptionRunnable;
 import me.david.timbernocheat.runnable.TimberScheduler;
+import me.david.timbernocheat.runnable.Tps;
+import me.david.timbernocheat.util.CheckUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -29,8 +31,9 @@ public class General implements Listener, ExceptionRunnable  {
         for(Player player : Bukkit.getServer().getOnlinePlayers()){
             if(TimberNoCheat.getCheckManager().isvalid_create(player)) {
                 GeneralValues generals = TimberNoCheat.getCheckManager().getPlayerdata(player).getGenerals();
-                if(PlayerUtil.isOnGround(player)) generals.ticksInAir = 0;
+                if(CheckUtils.onGround(player)) generals.ticksInAir = 0;
                 else generals.ticksInAir++;
+                if(player.isSprinting()) generals.lastSprintTick = Tps.tickCount;
             }
         }
     }
@@ -45,6 +48,7 @@ public class General implements Listener, ExceptionRunnable  {
         private long lastItemClick;
         private Location lastOnGround;
         private int ticksInAir;
+        private int lastSprintTick;
 
         public GeneralValues(){
             messages = new ArrayList<>();
@@ -55,6 +59,11 @@ public class General implements Listener, ExceptionRunnable  {
             lastItemClick = System.currentTimeMillis()-15000L;
             lastOnGround = null;
             ticksInAir = 0;
+            lastSprintTick = 0;
+        }
+
+        public int ticksSinceSprint(){
+            return Tps.tickCount-lastSprintTick;
         }
 
         public Location getLastOnGround() {

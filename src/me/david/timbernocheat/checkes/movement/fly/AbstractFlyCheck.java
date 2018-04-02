@@ -10,11 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
 
-public abstract class FlyCheck extends Check {
+public abstract class AbstractFlyCheck extends Check {
 
     private Fly flyCheck;
 
-    public FlyCheck(String name, Fly flyCheck) {
+    public AbstractFlyCheck(String name, Fly flyCheck) {
         super(name, Category.MOVEMENT, true, flyCheck);
         this.flyCheck = flyCheck;
     }

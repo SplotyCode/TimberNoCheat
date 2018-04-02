@@ -71,7 +71,9 @@ public class PlayerData {
     private long lastcheststealer;
     private ArrayList<Long> cheststealercon;
 
-    /* Speed */private Location lastspeedloc;
+    /* Speed */
+    private Location lastspeedloc;
+    private Location lastFlagloc;
 
     /* FastLadder */
     private double lastfastladderlongZ;
@@ -208,6 +210,7 @@ public class PlayerData {
         critHight = -1;
         lastPhaseOkay = null;
         flyData = new FlyData();
+        lastFlagloc = null;
     }
 
     /**
@@ -223,6 +226,14 @@ public class PlayerData {
     }
     public AsyncGeneral.AsyncGeneralValues getAsyncGenerals() {
         return asyncGenerals;
+    }
+
+    public Location getLastFlagloc() {
+        return lastFlagloc;
+    }
+
+    public void setLastFlagloc(Location lastFlagloc) {
+        this.lastFlagloc = lastFlagloc;
     }
 
     public double getNewstep() {
