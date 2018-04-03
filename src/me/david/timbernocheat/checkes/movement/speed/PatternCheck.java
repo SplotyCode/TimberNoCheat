@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import me.david.api.utils.JsonFileUtil;
-import me.david.api.utils.player.PlayerUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.speed.pattern.PatternRunnable;
@@ -13,10 +12,7 @@ import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
 import me.david.timbernocheat.debug.Scheduler;
 import me.david.timbernocheat.runnable.TimberScheduler;
-import me.david.timbernocheat.util.CheckUtils;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffectType;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -73,10 +69,26 @@ public class PatternCheck extends AbstractSpeed {
         register(new TimberScheduler(Scheduler.PATTERN_SPEED, new PatternRunnable(this)).runTaskLater(1));
     }
 
-    public SpeedPattern generateSpeedPattern(Player player, PlayerData pd){
-        FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
-        Material under = player.getLocation().subtract(0, 1, 0).getBlock().getType();
-        return new SpeedPattern("P-" + patterns.size(), CheckUtils.getPotionEffectLevel(player, PotionEffectType.SPEED), CheckUtils.getPotionEffectLevel(player, PotionEffectType.JUMP), CheckUtils.getPotionEffectLevel(player, PotionEffectType.SLOW), 0F, 0F, 0F, player.isInsideVehicle(), fp.hasLiquid(25), under == Material.ICE, player.isBlocking(), player.isSprinting(), player.isSneaking(), PlayerUtil.isInWeb(player), PlayerUtil.isOnLadder(player), PlayerUtil.slabsNear(player.getLocation()), PlayerUtil.stairsNear(player.getLocation()), player.getLocation().add(0, 2, 0).getBlock().getType() != Material.AIR, System.currentTimeMillis()-pd.getLastongroundtime()<5, under == Material.SOUL_SAND);
+    public SpeedPattern generateSpeedPattern(int tick, PlayerData pd){
+        General.GeneralValues general = pd.getGenerals();
+        return new SpeedPattern("P-" + patterns.size(),
+                general.speedLevelTick(tick),
+                general.jumpLevelTick(tick),
+                general.slowLevelTick(tick),
+                0F, 0F, 0F,
+                general.vehicleTick(tick),
+                general.liquidTick(tick),
+                general.iceTick(tick),
+                general.bloclTick(tick),
+                general.sprintTick(tick),
+                general.sneakTick(tick),
+                general.webTick(tick),
+                general.ladderTick(tick),
+                general.slabTick(tick),
+                general.stairTick(tick),
+                general.headCollidate(tick),
+                general.ground(tick),
+                general.soulSandTick(tick));
     }
 
     public ArrayList<SpeedPattern> getPatterns() {

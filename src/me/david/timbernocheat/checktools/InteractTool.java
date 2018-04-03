@@ -1,5 +1,6 @@
 package me.david.timbernocheat.checktools;
 
+import me.david.timbernocheat.util.CheckUtils;
 import me.david.timbernocheat.util.PotionUtil;
 import me.david.api.utils.BlockUtil;
 import me.david.api.utils.player.PlayerUtil;
@@ -308,7 +309,7 @@ public class InteractTool {
     }
 
     public static long getBreakingDuration(final Material m, final Player p) {
-        boolean ground = PlayerUtil.isOnGround(p);
+        boolean ground = CheckUtils.onGround(p);
         boolean water = PlayerUtil.getEyeLocation(p).getBlock().isLiquid();
         boolean aquaAffinity = p.getEquipment().getHelmet() != null && p.getEquipment().getHelmet().containsEnchantment(Enchantment.WATER_WORKER);
         int haste = PotionUtil.getPotionEffectAmplifier(p, PotionEffectType.FAST_DIGGING) + 1;

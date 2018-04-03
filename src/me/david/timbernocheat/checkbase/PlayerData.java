@@ -1,5 +1,6 @@
 package me.david.timbernocheat.checkbase;
 
+import javafx.util.Pair;
 import me.david.timbernocheat.checkes.movement.fly.FlyData;
 import me.david.timbernocheat.checktools.AsyncGeneral;
 import me.david.timbernocheat.checktools.FalsePositive;
@@ -59,6 +60,7 @@ public class PlayerData {
     /* Speed*/
     private ArrayList<Long> timerms;
     private int togglesneaklastsec;
+    private Pair<Location, Location> lastPattern;
 
     /* BadBackets */private int moveslastticks;
     /* Nuker */private int blockbreakslastsec;
@@ -211,6 +213,7 @@ public class PlayerData {
         lastPhaseOkay = null;
         flyData = new FlyData();
         lastFlagloc = null;
+        lastPattern = null;
     }
 
     /**
@@ -226,6 +229,15 @@ public class PlayerData {
     }
     public AsyncGeneral.AsyncGeneralValues getAsyncGenerals() {
         return asyncGenerals;
+    }
+
+
+    public Pair<Location, Location> getLastPattern() {
+        return lastPattern;
+    }
+
+    public void setLastPattern(Pair<Location, Location> lastPattern) {
+        this.lastPattern = lastPattern;
     }
 
     public Location getLastFlagloc() {

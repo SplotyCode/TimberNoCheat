@@ -36,10 +36,40 @@ public final class CheckUtils {
         return false;
     }
 
-    //TODO not 1.9 save becouse of this flyinh chestplate thingy
+    public static boolean headCollidate(final Player player){
+        AABBBox playerBox = Api.getNms().getBoundingBox(player);
+        playerBox = new AABBBox(playerBox.maxX, playerBox.maxZ, playerBox.maxY, playerBox.minX, playerBox.minZ, playerBox.maxY-1);
+        playerBox = playerBox.expand(0, 0.15, 0);
+        for(int x = player.getLocation().getBlockX()-1; x<player.getLocation().getBlockX()+3; x++)
+            for(int z = player.getLocation().getBlockZ()-1; z<player.getLocation().getBlockZ()+3; z++)
+                for(double y = 0.1;y<1.1;y+=0.1) {
+                    Location loc = new Location(player.getWorld(), x, player.getLocation().getY() - y, z);
+                    Block block = loc.getBlock();
+                    if(block.getType().isSolid() && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
+                        return true;
+                }
+        return false;
+    }
+
+    //TODO not 1.9 save because of this flying chestplate thingy
     //TODO add sneaking (Height: 1.65 Blocks Width: 0.6 Blocks)
     public static boolean onGround(final Location location){
         AABBBox playerBox = new AABBBox(location.getX()-0.3, location.getY(), location.getZ()-0.3, location.getX()+0.3, location.getY()+1.8, location.getZ()+0.3).expand(0, 0.15, 0);
+        for(int x = location.getBlockX()-1; x<location.getBlockX()+3; x++)
+            for(int z = location.getBlockZ()-1; z<location.getBlockZ()+3; z++)
+                for(double y = 0.1;y<1.1;y+=0.1) {
+                    Location loc = new Location(location.getWorld(), x, location.getY() - y, z);
+                    Block block = loc.getBlock();
+                    if(block.getType().isSolid() && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
+                        return true;
+                }
+        return false;
+    }
+
+    public static boolean headCollidate(final Location location){
+        AABBBox playerBox = new AABBBox(location.getX()-0.3, location.getY(), location.getZ()-0.3, location.getX()+0.3, location.getY()+1.8, location.getZ()+0.3);
+        playerBox = new AABBBox(playerBox.maxX, playerBox.maxZ, playerBox.maxY, playerBox.minX, playerBox.minZ, playerBox.maxY-1);
+        playerBox = playerBox.expand(0, 0.15, 0);
         for(int x = location.getBlockX()-1; x<location.getBlockX()+3; x++)
             for(int z = location.getBlockZ()-1; z<location.getBlockZ()+3; z++)
                 for(double y = 0.1;y<1.1;y+=0.1) {

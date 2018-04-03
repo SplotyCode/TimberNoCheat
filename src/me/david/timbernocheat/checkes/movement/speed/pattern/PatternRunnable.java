@@ -1,14 +1,19 @@
 package me.david.timbernocheat.checkes.movement.speed.pattern;
 
+import javafx.util.Pair;
 import me.david.api.utils.cordinates.LocationUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.speed.PatternCheck;
 import me.david.timbernocheat.checktools.FalsePositive;
+import me.david.timbernocheat.checktools.General;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.runnable.ExceptionRunnable;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class PatternRunnable implements ExceptionRunnable {
 
@@ -23,12 +28,19 @@ public class PatternRunnable implements ExceptionRunnable {
         for(Player p : Bukkit.getOnlinePlayers()){
             if(!TimberNoCheat.getCheckManager().isvalid_create(p) || p.getAllowFlight())continue;
             PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-
-            if(pd.getLastticklocation() != null)     {
+            if(pd.getLastticklocation() != null) {
                 FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
-                if (p.isSleeping() || fp.hasVehicle(40) || fp.hasExplosion(60) || fp.hasPiston(50) || fp.hasTeleport(80) || fp.hasWorld(120) || fp.hasHitorbow(40) || fp.worldboarder(p) || fp.hasRod(60) || fp.hasOtherKB(50) || fp.hasSlime(120) || fp.hasBed(80) || fp.hasChest(20)) continue;
+                General.GeneralValues generals = pd.getGenerals();
+                if (p.isSleeping() || fp.hasVehicle(8*20) || fp.hasExplosion(8*20) || fp.hasPiston(8*20) || fp.hasTeleport(8*20) || fp.hasWorld(120) || fp.hasHitorbow(8*20) || fp.worldboarder(p) || fp.hasRod(8*20) || fp.hasOtherKB(8*20) || fp.hasSlime(8*20) || fp.hasBed(8*20) || fp.hasChest(8*20)) continue;
 
-                SpeedPattern optimalpattern = check.generateSpeedPattern(p, pd), best;
+                List<Integer> moveTicks = generals.getMovingTicks();
+                if(moveTicks.size() < 2) continue;
+                Location from = generals.moveEventLoc(moveTicks.get(moveTicks.size()-3));
+                Location to = generals.firstPos(moveTicks.get(moveTicks.size()-2));
+
+                if(pd.getLastPattern() != null && pd.getLastPattern().equals(new Pair<>(from, to))) continue;
+
+                SpeedPattern optimalpattern = check.generateSpeedPattern(moveTicks.size()-3, pd), best;
                 boolean found = false;
 
                 best = getOptimalPattern(optimalpattern);
@@ -37,9 +49,9 @@ public class PatternRunnable implements ExceptionRunnable {
                     found = true;
                 }
 
-                double xzDiff = LocationUtil.getHorizontalDistance(pd.getLastticklocation(), p.getLocation());
-                double yDiffUp = p.getLocation().getY() - pd.getLastticklocation().getY();
-                double yDiffDown = pd.getLastticklocation().getY() - p.getLocation().getY();
+                double xzDiff = LocationUtil.getHorizontalDistance(from, to);
+                double yDiffUp = to.getY() - from.getY();
+                double yDiffDown = from.getY() - to.getY();
 
                 if (!found) {
                     if(PatternCheck.getGenerators().contains(p.getUniqueId())){
@@ -86,8 +98,8 @@ public class PatternRunnable implements ExceptionRunnable {
                 toomushper *= 100;
                 if (toomushper >= check.getPatternlatency()) {
                     if (check.updateVio(check, p, toomushper / 2, "§6MODE: §bPATTERN", "§6PERCENTAGE: §b" + toomushper, "§6DISTANCE: §b" + toomuch)) {
-                        if (pd.getLastticklocation() == null)
-                            p.teleport(pd.getLastticklocation());
+                        if (pd.getLastFlagloc() == null)
+                            p.teleport(from);
                         else {
                             p.teleport(pd.getLastFlagloc());
                             pd.setLastFlagloc(null);
@@ -114,4 +126,5 @@ public class PatternRunnable implements ExceptionRunnable {
                 return cPattern;
         return null;
     }
+
 }

@@ -2,8 +2,8 @@ package me.david.timbernocheat.util;
 
 import me.david.timbernocheat.checktools.MaterialHelper;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public final class MovingUtils {
@@ -23,6 +23,19 @@ public final class MovingUtils {
         if (inwater) speed = 0.3401;
         if (p.getVelocity().getY() > 0) speed = speed + (p.getVelocity().getY());
         return speed;
+    }
 
+    public static boolean touchSlabs(Location location){
+        for(Material stair : MaterialHelper.SLAPS)
+            if(CheckUtils.doesColidateWithMaterial(stair, location))
+                return true;
+        return false;
+    }
+
+    public static boolean touchStair(Location location){
+        for(Material stair : MaterialHelper.STAIRS)
+            if(CheckUtils.doesColidateWithMaterial(stair, location))
+                return true;
+        return false;
     }
 }

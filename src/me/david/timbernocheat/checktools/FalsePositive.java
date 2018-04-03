@@ -319,9 +319,9 @@ public class FalsePositive implements Listener {
         Material under = p.getLocation().subtract(0, 1, 0).getBlock().getType();
         Location to = event.getTo();
         Location fr = event.getFrom();
-        if (PlayerUtil.isOnGround(p) && under == Material.SLIME_BLOCK)
+        if (CheckUtils.onGround(p) && under == Material.SLIME_BLOCK)
             pd.getFalsepositives().slime = System.currentTimeMillis();
-        if(PlayerUtil.isOnGround(p) && (under == Material.CHEST || under == Material.ENDER_CHEST || under == Material.TRAPPED_CHEST))
+        if(CheckUtils.onGround(p) && (under == Material.CHEST || under == Material.ENDER_CHEST || under == Material.TRAPPED_CHEST))
             pd.getFalsepositives().chest = System.currentTimeMillis();
         if(PlayerUtil.isInLiquid(p))
             pd.getFalsepositives().liquid = System.currentTimeMillis();
@@ -331,7 +331,7 @@ public class FalsePositive implements Listener {
             pd.getFalsepositives().speed = System.currentTimeMillis();
         if(pd.getFalsepositives().enderpearl && (event.getTo().getWorld() != event.getFrom().getWorld()) || (event.getTo().distance(event.getFrom()) >= 2.5D))
             pd.getFalsepositives().enderpearl = false;
-        if(PlayerUtil.isOnGround(p)) pd.getFalsepositives().wasOnGroundTick = true;
+        if(CheckUtils.onGround(p)) pd.getFalsepositives().wasOnGroundTick = true;
         if(!(to.getX() == fr.getX() && to.getY() == fr.getY() && to.getZ() == to.getZ())){
 
         }
