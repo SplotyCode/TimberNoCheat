@@ -38,4 +38,6 @@ public final class Permissions {
 
     public static final String VIOLATIONMENU = "tnc.violationmenu";
 
+    public static final String TRACK_DEBUGVIOLATIONS = "tnc.trackviolations";
+
 }

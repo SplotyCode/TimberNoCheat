@@ -1,7 +1,10 @@
 package me.david.timbernocheat.command;
 
+import javafx.util.Pair;
 import me.david.api.commands.checkers.Playercheck;
+import me.david.api.commands.checkers.Stringcheck;
 import me.david.api.utils.HastebinUtil;
+import me.david.api.utils.player.PlayerUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
 import me.david.timbernocheat.checkbase.Check;
@@ -11,6 +14,7 @@ import me.david.timbernocheat.config.Permissions;
 import me.david.api.commands.CheckBuilder;
 import me.david.api.commands.Command;
 import me.david.api.utils.StringUtil;
+import me.david.timbernocheat.debug.log.DebugEntry;
 import me.david.timbernocheat.runnable.Tps;
 import me.david.timbernocheat.util.PrettyPrint;
 import org.bukkit.Bukkit;
@@ -18,9 +22,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TNCCommand extends Command {
+
+    private SimpleDateFormat format = new SimpleDateFormat("kk:mm:ss | dd/MM/yy");
+
 
     public TNCCommand(){
         super("timbernocheat", new CheckBuilder().addMultiPlayerPermissionChecker(
@@ -38,7 +46,10 @@ public class TNCCommand extends Command {
                 new Object[]{"oreNotify", true, Permissions.ORE_NOTIFY},
                 new Object[]{"blockTriggers", true, Permissions.BLOCK_TRIGGERS},
                 new Object[]{"violations", true, Permissions.VIOLATIONMENU},
-                new Object[]{"resetcache", false, Permissions.PERMISSION_CACHE_CLEAR}).
+                new Object[]{"resetcache", false, Permissions.PERMISSION_CACHE_CLEAR},
+                new Object[]{"playerdebugids", false, Permissions.TRACK_DEBUGVIOLATIONS, new Playercheck(false)},
+                new Object[]{"debugid", false, Permissions.TRACK_DEBUGVIOLATIONS, new Stringcheck(14)},
+                new Object[]{"listdebugids", false, Permissions.TRACK_DEBUGVIOLATIONS}).
                 build(), TimberNoCheat.getInstance().prefix, false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
         setOnlyplayers(false);
     }
@@ -144,6 +155,41 @@ public class TNCCommand extends Command {
                 PlayerData data = TimberNoCheat.getCheckManager().getPlayerdata(target);
                 if(data != null) TimberNoCheat.getCheckManager().getPlayerdata().remove(data);
                 else p.sendMessage(TimberNoCheat.getInstance().prefix + "Es gibt keine Spielerdaten für '" + target.getName() + "'!");
+                break;
+            case "listdebugids":
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Debug-Ids]---");
+                if(TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().isEmpty())
+                    p.sendMessage(TimberNoCheat.getInstance().prefix + "§cKeine Debug Ids");
+                for(Map.Entry<String, Pair<UUID, ArrayList<DebugEntry>>> entry : TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().entrySet())
+                    p.sendMessage(TimberNoCheat.getInstance().prefix + entry.getKey() + " -> " + Bukkit.getOfflinePlayer(entry.getValue().getKey()).getName());
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Debug-Ids]---");
+                break;
+            case "playerdebugids":
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Debug-Ids]---");
+                UUID uuid = Bukkit.getOfflinePlayer(args[1]).getUniqueId();
+
+                for(Map.Entry<String, Pair<UUID, ArrayList<DebugEntry>>> entry : TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().entrySet())
+                    if(entry.getValue().getKey().equals(uuid))
+                        p.sendMessage(TimberNoCheat.getInstance().prefix + entry.getKey() + " -> " + format.format(new Date(entry.getValue().getValue().get(0).getTime())) + " - " + format.format(new Date(entry.getValue().getValue().get(entry.getValue().getValue().size()-1).getTime())));
+                p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Debug-Ids]---");
+                break;
+            case "debugid":
+                Pair<UUID, ArrayList<DebugEntry>> pair = TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().get(args[1]);
+                if(pair == null) p.sendMessage(TimberNoCheat.getInstance().prefix + "§cDie id konnte nicht gefunden werden");
+                else {
+                    p.sendMessage(TimberNoCheat.getInstance().prefix + "Spieler: " + Bukkit.getOfflinePlayer(pair.getKey()).getName());
+                    p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Timeline]---");
+                    for(DebugEntry entry : pair.getValue()) {
+                        double delay = entry.getNewVio()-entry.getOldVio();
+                        p.sendMessage(TimberNoCheat.getInstance().prefix + format.format(new Date(entry.getTime())) + " +=+ " +
+                                entry.getCheck() + " *=* " +
+                                (entry.getExecutions().length==0?"Keine Bestafungen":StringUtil.toString(entry.getExecutions(), ", ")) + " *=* " +
+                                StringUtil.bool(delay > 0, true) + delay + " §6(New=" + entry.getNewVio() + "Old=" + entry.getOldVio() + ")" +
+                                (entry.isCancel()?" *=* (§cCanceled§6)":"")
+                        );
+                    }
+                    p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Timeline]---");
+                }
                 break;
         }
     }

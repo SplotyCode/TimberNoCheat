@@ -109,4 +109,12 @@ public class DebugLogManager implements Listener, BinaryComponent {
         savedEntries.put(id, new Pair<>(player.getUniqueId(), entries));
         return id;
     }
+
+    public HashMap<String, Pair<UUID, ArrayList<DebugEntry>>> getSavedEntries() {
+        return savedEntries;
+    }
+
+    public File getFile() {
+        return file;
+    }
 }
