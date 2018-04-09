@@ -1,19 +1,18 @@
 package me.david.timbernocheat.command;
 
 import javafx.util.Pair;
+import me.david.api.commands.CheckBuilder;
+import me.david.api.commands.Command;
 import me.david.api.commands.checkers.Playercheck;
 import me.david.api.commands.checkers.Stringcheck;
 import me.david.api.utils.HastebinUtil;
-import me.david.api.utils.player.PlayerUtil;
+import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.speed.PatternCheck;
 import me.david.timbernocheat.config.Permissions;
-import me.david.api.commands.CheckBuilder;
-import me.david.api.commands.Command;
-import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.debug.log.DebugEntry;
 import me.david.timbernocheat.runnable.Tps;
 import me.david.timbernocheat.util.PrettyPrint;
