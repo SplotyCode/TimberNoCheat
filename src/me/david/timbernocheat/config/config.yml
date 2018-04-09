@@ -75,7 +75,7 @@
 #[DE-EN]--------------[DE-EN]
 generel:
    #[DE-EN]config version[DE-EN]
-   version: 201
+   version: 202
    #[DE]globaler plugin prefix[DE]
    #[EN]global plugin prefix[EN]
    prefix: "&7[&9T&cN&eC&7] &6"
@@ -789,6 +789,16 @@ bedleave:
    vioactions:
       1: "NOTIFY"
       1: "KICK:KP!(TNC)"
+combine:
+   enable: true
+   maxrange: 10
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      1: "NOTIFY"
+      1: "KICK:Combined Multiple Actions"
 #[EN]Old check its acually not a blink check :D but it detects some longjumps[EN]
 #[DE]Alter Check es ist eingentlich kein blink check :D Aber es erkennt ein paar longjumps[DE]
 blink:
@@ -908,61 +918,39 @@ rotate:
       7: "KICK:Illegal Rotations!"
 speed:
    enable: true
-   normal:
+   xzlimit:
       enable: true
-      #basevalues
-      base: 0.4
-      baseground: 0.33
-      baseice: 0.75
-      baseicesolid: 1
-      #modifiers
-      stairs: 0.45
-      slabs: 0.05
-      solid: 0.69
-      #speedpotionmodifier
-      speed: 0.02
-      speedground: 0.06
-      viomodi: 2.3
-   sneaksprint:
-      enable: true
-      viomodi: 10
-   sprintfood:
-      enable: true
-      foodlevel: 6
-      viomodi: 10
-   blocksprint:
-      enable: true
-      viomodi: 10
-   timer:
-     enable: true
-     viomodi: 2
-     checksize: 20
-     #normal average
-     maxaverage: 48
-   sprintspam:
-     enable: true
-     viomodi: 40
-     maxpersecond: 12
-   jump: true
-   grounddiff:
-      enable: true
-      vio: 0.2
-      whitelist: [0.41999998688697815, 0.33319999363422426, 0.1568672884460831, 0.4044491418477924, 0.4044449141847757, 0.40444491418477746, 0.24813599859094637, 0.1647732812606676, 0.24006865856430082, 0.20000004768370516, 0.19123230896968835, 0.10900766491188207, 0.20000004768371227, 0.40444491418477924, 0.0030162615090425504, 0.05999999821186108, 0.05199999886751172, 0.06159999881982792, 0.06927999889612124, 0.07542399904870933, 0.07532994414328797, 0.08033919924402255, 0.5, 0.08427135945886555, 0.340000110268593, 0.30000001192092896, 0.3955758986732967, 0.019999999105930755, 0.21560001587867816, 0.13283301814746876, 0.05193025879327907, 0.1875, 0.375, 0.08307781780646728, 0.125, 0.25, 0.0625, 0.20000004768371582, 0.4044448882341385, 0.40444491418477835]
-   fakeground:
-      enable: true
-      vio: 2
-   unusualy:
-      enable: true
-      vio: 2
-   blocks:
-      enable: true
-      vio: 2
+      groundBase: 5
+      hopingBase: 5
+      iceBase: 5
+      iceBaseTop: 5
+      groundBaseSprint: 5
+      hopingBaseSprint: 5
+      iceBaseSprint: 5
+      iceBaseTopSprint: 5
+      topModi: 5
+      slabModi: 5
+      stairModi: 5
+      speedModiGround: 5
+      speedModiHoping: 5
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: true
+      viocachedelay: 8000
+      vioactions:
+         1: "NOTIFY"
    pattern:
       enable: true
-      viomulti: 1.8
-      disabledpatterns: []
-      latency: 6.5
-      cancel: true
+      disabled: []
+      #In percentage
+      latency: 6
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: true
+      viocachedelay: -1
+      vioactions:
+         1: "NOTIFY"
+         1: "KICK:STEP!"
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true

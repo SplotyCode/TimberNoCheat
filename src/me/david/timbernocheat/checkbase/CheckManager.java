@@ -11,6 +11,7 @@ import me.david.timbernocheat.checkes.clientchanel.Shematica;
 import me.david.timbernocheat.checkes.exploits.*;
 import me.david.timbernocheat.checkes.movement.*;
 import me.david.timbernocheat.checkes.movement.fly.Fly;
+import me.david.timbernocheat.checkes.movement.speed.Speed;
 import me.david.timbernocheat.checkes.other.*;
 import me.david.timbernocheat.checkes.player.*;
 import me.david.timbernocheat.debug.obj.DebugPlayerDataList;
@@ -134,6 +135,7 @@ public class CheckManager {
         register(new Velocity());
         register(new GodMode());
         register(new Elytra());
+        register(new Combine());
     }
 
     /* Loading all Checks when this Objects gets createt (usually on the start of TNC */

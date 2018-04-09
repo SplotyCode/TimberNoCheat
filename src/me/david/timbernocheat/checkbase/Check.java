@@ -189,6 +189,10 @@ public class Check extends YamlSection implements Listener {
         return null;
     }
 
+    public String displayName(){
+        return parent != null?parent.getName() + "_":"" + name;
+    }
+
     public void updatevioChild(String c, Player p, double vio, String... other){
         updateVio(getChildByString(c), p, vio, other);
     }

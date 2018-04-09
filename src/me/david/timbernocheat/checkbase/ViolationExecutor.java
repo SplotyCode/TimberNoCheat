@@ -62,7 +62,7 @@ public class ViolationExecutor {
                     new TimberScheduler("ViolationExecutor(Message)", () -> player.sendMessage(TimberNoCheat.getInstance().prefix + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
                     break;
                 case KICK:
-                    new TimberScheduler("ViolationExecutor(Kick)", () -> kick(player, TimberNoCheat.getInstance().prefix + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
+                    new TimberScheduler("ViolationExecutor(Kick)", () -> kick(player, replaceMarker(ctrig.getRest(), player, check), check)).runNextTick();
                     canReset = true;
                     break;
                 case NOTIFY:
@@ -97,8 +97,11 @@ public class ViolationExecutor {
         return setBack;
     }
 
-    private void kick(final Player player, final String reason){
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> player.kickPlayer(reason), 20*10);
+    private void kick(final Player player, final String reason, final Check check){
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> player.kickPlayer("§f--------§b[§9T§cN§eC§7§b]§f--------\n\n\n" +
+                                                                                                "§9Timber§cNo§eCheat§7\n\n" +
+                                                                                                "§bCheck: §f" + check.displayName() + "\n\n§bGrund: §f" + reason + "\n\n\n" +
+                                                                                                "§f--------§b[§9T§cN§eC§7§b]§f--------"), 20*10);
         TimberNoCheat.getInstance().getListenerManager().getFreezeListener().freeze(player, 10*1000);
         runTask(() -> player.getWorld().playEffect(player.getLocation().clone().add(0, 1.8, 0), Effect.ENDER_SIGNAL, 1), 20, 9);
         runTask(() -> {

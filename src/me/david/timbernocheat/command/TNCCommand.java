@@ -130,10 +130,10 @@ public class TNCCommand extends Command {
                 TimberNoCheat.getInstance().permissioncache.clearAll();
                 p.sendMessage(TimberNoCheat.getInstance().prefix + "Fertig!");
                 break;
-            case "oreNotify":
+            case "orenotify":
                 TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "OreNotifyMulti");
                 break;
-            case "blockTriggers":
+            case "blocktriggers":
                 TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "TriggerBlockManageMulti");
                 break;
             case "violations":

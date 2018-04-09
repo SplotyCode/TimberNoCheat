@@ -56,8 +56,8 @@ public class TriggerBlockManager implements Listener {
         final UUID uuid = event.getPlayer().getUniqueId();
         final Player player = event.getPlayer();
         final TriggerAction action = pending.get(uuid);
-        pending.remove(uuid);
         if(action == null)return;
+        pending.remove(uuid);
         final String[] arguments = event.getMessage().split(", ");
         final Location location = player.getTargetBlock((Set<Material>) null, 5).getLocation();
         final AttributeList atributes = new AttributeList(arguments, action.getClasses());
