@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public interface BinaryComponent {
 
-    void read(BinarySerilizer serializer) throws IOException;
-    void write(BinarySerilizer serializer) throws IOException;
+    void read(BinarySerializer serializer) throws IOException;
+    void write(BinarySerializer serializer) throws IOException;
 
 }

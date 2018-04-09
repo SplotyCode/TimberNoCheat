@@ -1,7 +1,9 @@
 package me.david.timbernocheat.checkbase;
 
+import me.david.api.Api;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.ViolationUpdateEvent;
+import me.david.timbernocheat.debug.log.DebugEntry;
 import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.timbernocheat.runnable.Tps;
 import org.bukkit.*;
@@ -55,6 +57,11 @@ public class ViolationExecutor {
                 triggert.add(cvio);
         boolean canReset = false;
         boolean setBack = false;
+        ArrayList<String> violationExecutionNames = new ArrayList<>();
+        triggert.forEach(violation1 -> violationExecutionNames.add(violation1.getType().name()));
+        DebugEntry entry = TimberNoCheat.getInstance().getDebugLogManager().getLast(player);
+        if(entry != null) entry.setExecutions(violationExecutionNames.toArray(new String[violationExecutionNames.size()]));
+        final String id = triggert.isEmpty()?null:TimberNoCheat.getInstance().getDebugLogManager().generadeDebugId(player);
         for(Violation ctrig : triggert) {
             /* Definition for the Types can be read in Vialation.ViolationTypes */
             switch (ctrig.getType()) {
@@ -62,7 +69,13 @@ public class ViolationExecutor {
                     new TimberScheduler("ViolationExecutor(Message)", () -> player.sendMessage(TimberNoCheat.getInstance().prefix + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
                     break;
                 case KICK:
-                    new TimberScheduler("ViolationExecutor(Kick)", () -> kick(player, replaceMarker(ctrig.getRest(), player, check), check)).runNextTick();
+                    new TimberScheduler("ViolationExecutor(Kick)", () -> {
+                        if(TimberNoCheat.getInstance().getDebugConfig().isAntikick()) {
+                            Api.getNms().sendMainTitle(player, TimberNoCheat.getInstance().prefix + "You would be kicked now!", 1, 1, 4);
+                            Api.getNms().sendMainTitle(player, TimberNoCheat.getInstance().prefix + "Id: " + id, 1, 1, 4);
+                            player.sendMessage(TimberNoCheat.getInstance().prefix + "You would be kicked now! Id: " + id);
+                        }else kick(player, replaceMarker(ctrig.getRest(), player, check), check, id);
+                    }).runNextTick();
                     canReset = true;
                     break;
                 case NOTIFY:
@@ -76,9 +89,19 @@ public class ViolationExecutor {
                     canReset = true;
                     break;
                 case DAMAGE:
-                    new TimberScheduler("ViolationExecutor(Damage)", () -> player.damage(Double.parseDouble(ctrig.getRest()))).runNextTick();
+                    new TimberScheduler("ViolationExecutor(Damage)", () -> {
+                        if (TimberNoCheat.getInstance().getDebugConfig().isWarunsetbacks())
+                            player.sendMessage(TimberNoCheat.getInstance().prefix + "Du wurdest gerade von TNC 'gedamaged' weil es vermutet das du einen Hack Client benutzt! " +
+                                    "Falls das nicht der Fall ist kannst du es gerne reporten mit dieser Id: '" + id + "'");
+                        else player.damage(Double.parseDouble(ctrig.getRest()));
+                    }).runNextTick();
                     break;
                 case SETBACK:
+                    new TimberScheduler("ViolationExecutor(SetBack)", () -> {
+                        if (TimberNoCheat.getInstance().getDebugConfig().isWarunsetbacks())
+                            player.sendMessage(TimberNoCheat.getInstance().prefix + "Du wurdest gerade von TNC 'geflagdt' weil es vermutet das du einen Hack Client benutzt! " +
+                                    "Falls das nicht der Fall ist kannst du es gerne reporten mit dieser Id: '" + id + "'");
+                    }).runNextTick();
                     setBack = true;
                     break;
                 default:
@@ -86,6 +109,7 @@ public class ViolationExecutor {
                     break;
             }
         }
+
         if(check.isResetafter() && canReset) {
             ViolationUpdateEvent e1 = new ViolationUpdateEvent(player, 0, check.getViolations().get(uuid), check);
             Bukkit.getServer().getPluginManager().callEvent(e1);
@@ -97,10 +121,10 @@ public class ViolationExecutor {
         return setBack;
     }
 
-    private void kick(final Player player, final String reason, final Check check){
+    private void kick(final Player player, final String reason, final Check check, final String id){
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> player.kickPlayer("§f--------§b[§9T§cN§eC§7§b]§f--------\n\n\n" +
                                                                                                 "§9Timber§cNo§eCheat§7\n\n" +
-                                                                                                "§bCheck: §f" + check.displayName() + "\n\n§bGrund: §f" + reason + "\n\n\n" +
+                                                                                                "§bCheck: §f" + check.displayName() + "\n\n§bGrund: §f" + reason + "\n\n§bDebug-Id: §f" + id + "\n\n\n" +
                                                                                                 "§f--------§b[§9T§cN§eC§7§b]§f--------"), 20*10);
         TimberNoCheat.getInstance().getListenerManager().getFreezeListener().freeze(player, 10*1000);
         runTask(() -> player.getWorld().playEffect(player.getLocation().clone().add(0, 1.8, 0), Effect.ENDER_SIGNAL, 1), 20, 9);

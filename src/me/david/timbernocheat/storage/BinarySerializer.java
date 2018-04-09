@@ -8,11 +8,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
-public class BinarySerilizer {
+public class BinarySerializer {
 
     private ArrayList<Byte> bytes = new ArrayList<>();
     private int index = -1;
@@ -65,7 +67,7 @@ public class BinarySerilizer {
         this.writeVarInt(source.ordinal());
     }
 
-    public BinarySerilizer readFile(File file) {
+    public BinarySerializer readFile(File file) {
         try {
             FileInputStream fis = new FileInputStream(file);
             bytes = new ArrayList<>(Arrays.asList(ArrayUtils.toObject(IOUtils.toByteArray(fis))));
@@ -145,6 +147,29 @@ public class BinarySerilizer {
 
     public void writeBoolean(boolean bool){
         bytes.add((byte) (bool?1:0));
+    }
+
+    public void writeDouble(double value) {
+        byte[] bytes = new byte[8];
+        ByteBuffer.wrap(bytes).putDouble(value);
+        this.bytes.addAll(Arrays.asList(bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]));
+    }
+
+    public double readDouble() {
+        return ByteBuffer.wrap(getNextBytes(8)).getDouble();
+    }
+
+    public void writeArray(String[] array){
+        writeVarInt(array.length);
+        for(String str : array) writeString(str);
+    }
+
+    public String[] readStringArray(){
+        int max = readVarInt();
+        String[] array = new String[max];
+        for(int i = 0;i < max;i++)
+            array[i] = readString();
+        return array;
     }
 
 }

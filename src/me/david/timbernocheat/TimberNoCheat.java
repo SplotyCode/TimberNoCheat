@@ -11,13 +11,16 @@ import me.david.timbernocheat.checktools.General;
 import me.david.timbernocheat.command.TNCCommand;
 import me.david.timbernocheat.command.blocktrigger.TriggerBlockManager;
 import me.david.timbernocheat.command.oreNotify.OreNotifyManager;
+import me.david.timbernocheat.config.DebugConfig;
 import me.david.timbernocheat.config.Permissions;
 import me.david.timbernocheat.debug.Debugger;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.debug.MoveProfiler;
 import me.david.timbernocheat.debug.SchedulerProfiler;
+import me.david.timbernocheat.debug.log.DebugLogManager;
 import me.david.timbernocheat.debug.obj.DebugPermissionCache;
 import me.david.timbernocheat.discord.DiscordManager;
+import me.david.timbernocheat.event.internal.ShutdownEvent;
 import me.david.timbernocheat.gui.GuiLoader;
 import me.david.timbernocheat.listener.*;
 import me.david.timbernocheat.record.RecordManager;
@@ -46,10 +49,10 @@ public class TimberNoCheat extends ApiPlugin {
     private static CheckManager checkManager;
 
     /* The Location of the TNC Config File normally plugins/TimberNoCheat/config.yml */
-    private final File configFile = new File(getDataFolder() + "/config.yml");
+    private final File configFile = new File(getDataFolder(), "config.yml");
     private YamlFile config;
-    private final File speedPatterns = new File(getDataFolder() + "/speed_pattern.yml");
-    private final File triggerBlocks = new File(getDataFolder() + "/triggerBlocks.yml");
+    private final File speedPatterns = new File(getDataFolder(), "speed_pattern.yml");
+    private final File triggerBlocks = new File(getDataFolder(), "/triggerBlocks.yml");
 
     /* Does the plugin stops Because of a crash for example old config or capability problem with ProtocolLib */
     private boolean crash = false;
@@ -62,6 +65,7 @@ public class TimberNoCheat extends ApiPlugin {
 
     /* Debug mode aka Verbose */
     private boolean debug = false;
+    private DebugConfig debugConfig;
 
     private ListenerManager listenerManager;
 
@@ -69,6 +73,7 @@ public class TimberNoCheat extends ApiPlugin {
     private MoveProfiler moveprofiler;
     private Debugger debugger;
     private SchedulerProfiler schedulerProfiler;
+    private DebugLogManager debugLogManager;
 
 
     private OreNotifyManager oreNotifyManager;
@@ -105,6 +110,7 @@ public class TimberNoCheat extends ApiPlugin {
         startHelper.loadConfiguration();
         clearPlayerData = config.getBoolean("generel.clearPlayerData");
         debug = config.getBoolean("generel.debug");
+        debugConfig = new DebugConfig(configFile, debug);
 
         setStartState(StartState.START_OTHER);
         /* would work but we want our special debug permission cache*/ //startpermissionchache(true, -1, true);
@@ -117,6 +123,7 @@ public class TimberNoCheat extends ApiPlugin {
         moveprofiler = new MoveProfiler();
         debugger = new Debugger();
         schedulerProfiler = new SchedulerProfiler();
+        debugLogManager = new DebugLogManager();
 
         setStartState(StartState.START_DISCORD);
         discordManager = new DiscordManager();
@@ -159,6 +166,8 @@ public class TimberNoCheat extends ApiPlugin {
             getLogger().info("Plugin has disabled because of an planed error!");
             return;
         }
+        setStartState(StartState.STOP_OTHERS);
+        Bukkit.getPluginManager().callEvent(new ShutdownEvent());
         getProtocolmanager().removePacketListeners(this);
         setStartState(StartState.DISABLE_CHECKS);
         if(checkManager == null) getLogger().log(Level.WARNING, "Fatal Error in the CheckManager it is not possible to Sutodwn ANY check!");
@@ -281,5 +290,11 @@ public class TimberNoCheat extends ApiPlugin {
         this.config = config;
     }
 
+    public DebugLogManager getDebugLogManager() {
+        return debugLogManager;
+    }
 
+    public DebugConfig getDebugConfig() {
+        return debugConfig;
+    }
 }

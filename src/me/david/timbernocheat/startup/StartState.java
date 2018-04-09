@@ -16,6 +16,7 @@ public enum StartState {
     FINISHING(StateType.START),
     RUNNING(StateType.RUN),
     STOP(StateType.STOP),
+    STOP_OTHERS(StateType.STOP),
     DISABLE_CHECKS(StateType.STOP),
     STOP_RECORDINGS(StateType.STOP),
     STOPPED(StateType.STOPPED);

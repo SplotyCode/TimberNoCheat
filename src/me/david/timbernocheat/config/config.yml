@@ -99,6 +99,10 @@ generel:
       #[EN]Maximum Leanght of a single Record. in Ticks[EN]
       #[DE]DIe Maximale Lägne einer Aufname. In Ticks[DE]
       maxleanght: 20000
+debugsettings:
+   discord: true
+   antikick: true
+   warunsetbacks: true
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]Chat Checks[DE-EN]

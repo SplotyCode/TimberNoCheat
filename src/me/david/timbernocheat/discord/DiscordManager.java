@@ -41,6 +41,7 @@ public class DiscordManager {
     private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("kk:mm:ss | dd/MM/yy");
 
     public void sendError(String message, Throwable ex, ErrorType type, MessageEmbed.Field... fields){
+        if(!TimberNoCheat.getInstance().getDebugConfig().isDiscord())return;
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         ex.printStackTrace(pw);
@@ -73,6 +74,7 @@ public class DiscordManager {
     }
 
     public void sendInfo(String info, MessageEmbed.Field... fields){
+        if(!TimberNoCheat.getInstance().getDebugConfig().isDiscord())return;
         david.openPrivateChannel().queue((channel) -> {
             EmbedBuilder embed = new EmbedBuilder().setColor(Color.CYAN).
                     setTitle("Information").
@@ -86,6 +88,7 @@ public class DiscordManager {
     }
 
     public void sendWarning(String warning, MessageEmbed.Field... fields){
+        if(!TimberNoCheat.getInstance().getDebugConfig().isDiscord())return;
         david.openPrivateChannel().queue((channel) -> {
             EmbedBuilder embed = new EmbedBuilder().setColor(Color.ORANGE).
                     setTitle("Wooops - A Warning").
