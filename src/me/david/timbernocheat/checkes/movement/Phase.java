@@ -17,11 +17,16 @@ import org.bukkit.material.Gate;
 
 public class Phase extends Check {
 
-    private final float MAX_DIFF;
+    //private final float MAX_DIFF;
+    private final float BLOCK_XZ, BLOCK_Y, PLAYER_Y, PLAYER_ZX;
 
     public Phase(){
         super("Phase", Category.MOVEMENT);
-        MAX_DIFF = getFloat("maxdiff");
+      //  MAX_DIFF = getFloat("maxdiff");
+        BLOCK_XZ = getFloat("blockxz");
+        BLOCK_Y = getFloat("blocky");
+        PLAYER_ZX = getFloat("playerxz");
+        PLAYER_Y = getFloat("playery");
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
@@ -30,20 +35,32 @@ public class Phase extends Check {
         if(!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
         TimberNoCheat.getInstance().getMoveprofiler().start("Phase");
         AABBBox playerBox = Api.getNms().getBoundingBox(player);
-        double diff = 0;
+        playerBox = playerBox.expand(PLAYER_ZX, PLAYER_Y, PLAYER_ZX);
+        boolean diff = false;
         for(Block block : BlockUtil.getBlocksAround(event.getTo(), 3)){
             if(block == null || !block.getType().isSolid())continue;
             AABBBox boundingBox = Api.getNms().getBoundingBox(block);
+            boundingBox = boundingBox.expand(BLOCK_XZ, BLOCK_Y, BLOCK_XZ);
             if(boundingBox == null)continue;
             if(MaterialHelper.GATES.contains(block.getType()) && ((Gate) block).isOpen())continue;
-            diff+=diff(playerBox, boundingBox);
+            if(playerBox.intersectsWith(boundingBox)) diff = true;
+            break;
         }
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
-        if(diff == 0) pd.setLastPhaseOkay(event.getTo());
-        if(diff > MAX_DIFF) if(updateVio(this, player, diff*1.2)) player.teleport(pd.getLastPhaseOkay());
+        if(!diff) pd.setLastPhaseOkay(event.getTo());
+        else
+            if(updateVio(this, player, 1.2, " §6Diff: §b" + diff   )) {
+                if(pd.getLastPhaseOkay() == null)
+                    event.setCancelled(true);
+                else {
+                    player.teleport(pd.getLastPhaseOkay());
+                    pd.setLastPhaseOkay(null);
+                }
+            }
         TimberNoCheat.getInstance().getMoveprofiler().end();
     }
 
+    //TODO: currently not working
     private double diff(AABBBox first, AABBBox second){
         double diff = 0;
         double[] values = new double[]{

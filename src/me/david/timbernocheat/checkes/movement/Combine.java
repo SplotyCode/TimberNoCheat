@@ -17,7 +17,7 @@ public class Combine extends Check {
     private int maxSneakToggles;
 
     public Combine() {
-        super("Combind", Category.MOVEMENT);
+        super("Combine", Category.MOVEMENT);
         maxSneakToggles = getInt("maxsneaktoggles");
     }
 

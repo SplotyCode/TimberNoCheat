@@ -8,6 +8,7 @@ import me.david.timbernocheat.api.ViolationUpdateEvent;
 import me.david.timbernocheat.event.internal.ShutdownEvent;
 import me.david.timbernocheat.storage.BinaryComponent;
 import me.david.timbernocheat.storage.BinarySerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,6 +26,7 @@ public class DebugLogManager implements Listener, BinaryComponent {
     private File file = new File(TimberNoCheat.getInstance().getDataFolder(), "savedids.rawbinary");
 
     public DebugLogManager(){
+        Bukkit.getPluginManager().registerEvents(this, TimberNoCheat.getInstance());
         if(!FileUtil.create(file)) {
             BinarySerializer serializer = new BinarySerializer();
             serializer.readFile(file);
@@ -39,7 +41,7 @@ public class DebugLogManager implements Listener, BinaryComponent {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onViolation(final ViolationUpdateEvent event) {
         DebugEntry entry = new DebugEntry(System.currentTimeMillis(), event.getCheck().displayName(),
-                event.getPlayer().getUniqueId(), event.getNewViolation(), event.getOldViolation(),
+                event.getPlayer().getUniqueId(), event.getOldViolation(), event.getNewViolation(),
                 null, event.isCancelled());
         if (debugEntries.containsKey(entry.getPlayer()))
             debugEntries.get(entry.getPlayer()).add(entry);

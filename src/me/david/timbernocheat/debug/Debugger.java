@@ -44,6 +44,7 @@ public class Debugger {
     public void toggleDebugger(UUID uuid, String debugger){
         if (isDebugging(uuid, debugger)) removeDebugger(uuid, debugger);
         else addDebugg(uuid, debugger);
+        TimberNoCheat.getInstance().getListenerManager().getInteractHandler().updateItems();
     }
 
     public void sendDebug(Debuggers debug, String message, Object... data){

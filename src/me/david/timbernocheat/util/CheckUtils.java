@@ -102,7 +102,8 @@ public final class CheckUtils {
                 for(double y = 0.1;y<1.1;y+=0.1) {
                     Location loc = new Location(location.getWorld(), x, location.getY() - y, z);
                     Block block = loc.getBlock();
-                    if(block.getType() == material && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
+                    AABBBox blockBox = Api.getNms().getBoundingBox(block);
+                    if(blockBox != null && block.getType() == material && playerBox.intersectsWith(blockBox))
                         return true;
                 }
         return false;

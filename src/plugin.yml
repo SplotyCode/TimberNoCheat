@@ -6,6 +6,10 @@ main: me.david.timbernocheat.TimberNoCheat
 depend: [ProtocolLib, Api]
 softdepend: [Essentials]
 load: STARTUP
+commands:
+   tncinternal:
+      usage: No not use this command manually
+      description: No not use this command manually
 permissions:
    tnc.notcheck:
       description: Allow Players to bypass all checks

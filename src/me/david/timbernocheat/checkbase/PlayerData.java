@@ -68,6 +68,8 @@ public class PlayerData {
 
     private float lastpitch;
     private float lastyaw;
+    private long lastTeleport = 0;
+    private boolean teleportUsed = true;
 
     /* ChestStealer */
     private long lastcheststealer;
@@ -231,6 +233,23 @@ public class PlayerData {
         return asyncGenerals;
     }
 
+
+
+    public long getLastTeleport() {
+        return lastTeleport;
+    }
+
+    public void setLastTeleport(long lastTeleport) {
+        this.lastTeleport = lastTeleport;
+    }
+
+    public boolean isTeleportUsed() {
+        return teleportUsed;
+    }
+
+    public void setTeleportUsed(boolean teleportUsed) {
+        this.teleportUsed = teleportUsed;
+    }
 
     public Pair<Location, Location> getLastPattern() {
         return lastPattern;

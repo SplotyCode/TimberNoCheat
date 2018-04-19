@@ -82,7 +82,8 @@ public class Fly extends Check {
         else if(fp.hasVehicle(950)) forChilds((check -> check.onSkipMove(SkipReason.VEHICLE_LEAVE)));
         else forChilds((check) -> check.onMove(data, player, pd, move));
 
-        data.setLastData(data);
+        data.setLastData(null);
+        data.setLastData(data.clone());
         data.setLastMove(move);
         TimberNoCheat.getInstance().getMoveprofiler().end();
     }

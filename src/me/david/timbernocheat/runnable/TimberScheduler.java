@@ -2,9 +2,7 @@ package me.david.timbernocheat.runnable;
 
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.debug.Scheduler;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 public class TimberScheduler extends BukkitRunnable {
 

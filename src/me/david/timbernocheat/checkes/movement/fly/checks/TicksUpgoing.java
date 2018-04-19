@@ -27,12 +27,12 @@ public class TicksUpgoing extends AbstractFlyCheck {
                 debug("Change Ticksup for " + player.getName() + " to " + flyData.getTicksUpgoing(), "ticksup");
                 newTick = true;
             }
-            int max = Math.min(
-                        Math.max(NORMAL_JUMPTIME, getVelocityTime(flyData)),
-                        Math.min(
-                            Math.max(NORMAL_JUMPTIME, getJumpPotionTime(flyData)),
-                            Math.max(NORMAL_JUMPTIME, getSlimeBlocksTime(flyData))
-                        )
+            int max = Math.max(
+                NORMAL_JUMPTIME,
+                Math.max(
+                    getJumpPotionTime(flyData),
+                    getSlimeBlocksTime(flyData)
+                )
             );
             debug("Max upgoingticks is " + max + " for " + player.getName(), "max");
             if(flyData.getTicksUpgoing() > max)

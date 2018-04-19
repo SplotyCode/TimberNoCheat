@@ -160,6 +160,10 @@ public class BinarySerializer {
     }
 
     public void writeArray(String[] array){
+        if(array == null) {
+            writeVarInt(0);
+            return;
+        }
         writeVarInt(array.length);
         for(String str : array) writeString(str);
     }

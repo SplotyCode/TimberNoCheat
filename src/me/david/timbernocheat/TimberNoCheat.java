@@ -9,6 +9,7 @@ import me.david.timbernocheat.checktools.AsyncGeneral;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
 import me.david.timbernocheat.command.TNCCommand;
+import me.david.timbernocheat.command.TNCInternal;
 import me.david.timbernocheat.command.blocktrigger.TriggerBlockManager;
 import me.david.timbernocheat.command.oreNotify.OreNotifyManager;
 import me.david.timbernocheat.config.DebugConfig;
@@ -26,6 +27,7 @@ import me.david.timbernocheat.listener.*;
 import me.david.timbernocheat.record.RecordManager;
 import me.david.timbernocheat.runnable.Tps;
 import me.david.timbernocheat.runnable.Velocity;
+import me.david.timbernocheat.runnable.countdown.CountdownManager;
 import me.david.timbernocheat.startup.StageHelper;
 import me.david.timbernocheat.startup.StartState;
 import me.david.timbernocheat.startup.StartUpHelper;
@@ -68,6 +70,7 @@ public class TimberNoCheat extends ApiPlugin {
     private DebugConfig debugConfig;
 
     private ListenerManager listenerManager;
+    private CountdownManager countdownManager;
 
     /* Debug stuff */
     private MoveProfiler moveprofiler;
@@ -137,9 +140,11 @@ public class TimberNoCheat extends ApiPlugin {
         oreNotifyManager = new OreNotifyManager();
 
         setStartState(StartState.START_LISTENER_AND_COMMANDS);
+        countdownManager = new CountdownManager();
         listenerManager = new ListenerManager(this);
         registerListener(new JoinLeave(), new Velocity(this), new FalsePositive(), new TNCHandler(), new General(), new ChatHandler(), new OreNotify());
         new AsyncGeneral();
+        getCommand("tncinternal").setExecutor(TNCInternal.getInstance());
         registerCommands(new TNCCommand()/*, new TestCommand()*/);
 
         setStartState(StartState.START_GUIS);
@@ -168,6 +173,7 @@ public class TimberNoCheat extends ApiPlugin {
         }
         setStartState(StartState.STOP_OTHERS);
         Bukkit.getPluginManager().callEvent(new ShutdownEvent());
+        debugLogManager.onStop(null);
         getProtocolmanager().removePacketListeners(this);
         setStartState(StartState.DISABLE_CHECKS);
         if(checkManager == null) getLogger().log(Level.WARNING, "Fatal Error in the CheckManager it is not possible to Sutodwn ANY check!");
@@ -296,5 +302,9 @@ public class TimberNoCheat extends ApiPlugin {
 
     public DebugConfig getDebugConfig() {
         return debugConfig;
+    }
+
+    public CountdownManager getCountdownManager() {
+        return countdownManager;
     }
 }

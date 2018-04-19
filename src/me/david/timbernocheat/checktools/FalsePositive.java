@@ -305,7 +305,7 @@ public class FalsePositive implements Listener {
         final Player player = (Player) event.getEntity();
         if(TimberNoCheat.getCheckManager().isvalid_create(player)){
             PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata((Player) event.getEntity());
-            if(ServerWorldUtil.getMinecraftVersionInt() >= 19 && event.getCause() == EntityDamageEvent.DamageCause.valueOf("HOT_FLOOR")) pd.getFalsepositives().lastMagma = System.currentTimeMillis();
+            if(ServerWorldUtil.getMinecraftVersionInt() >= 190 && event.getCause() == EntityDamageEvent.DamageCause.valueOf("HOT_FLOOR")) pd.getFalsepositives().lastMagma = System.currentTimeMillis();
         }
     }
 

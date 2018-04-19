@@ -17,7 +17,7 @@ public class SchedulerProfiler {
     private HashMap<String, Long> lastExeptions = new HashMap<>();;
     private boolean running;
 
-    private final long EXCEPTION_DELAY = TimberNoCheat.getInstance().isDebug()?0:   1000*90;
+    private final long EXCEPTION_DELAY = TimberNoCheat.getInstance().isDebug()?0:1000*90;
 
     public void start(String section){
         if(running) {
@@ -40,11 +40,12 @@ public class SchedulerProfiler {
         Long time = lastExeptions.get(realName);
         boolean cooldown = !(time == null || System.currentTimeMillis()-time < EXCEPTION_DELAY);
         if(!cooldown){
-            String str = "Whoops an Error accurs in an TimberNoCheat Scheduler! Scheduler Name: '" + realName + "\n" + "The error is now for " + EXCEPTION_DELAY + " under Cooldown!";
+            String str = "Whoops an Error accurs in an TimberNoCheat Scheduler! Scheduler Name: '" + realName + "\n" + "The error is now for " + EXCEPTION_DELAY/1000 + "s under Cooldown!";
             System.err.println(str);
             lastExeptions.put(realName, System.currentTimeMillis());
             throwable.printStackTrace();
-            TimberNoCheat.getInstance().getDiscordManager().sendError(str, throwable, DiscordManager.ErrorType.SCHEDULER, new MessageEmbed.Field("Cooldown", System.currentTimeMillis()-time + "", true));
+
+            TimberNoCheat.getInstance().getDiscordManager().sendError(str, throwable, DiscordManager.ErrorType.SCHEDULER, new MessageEmbed.Field("Cooldown", EXCEPTION_DELAY/1000+"", true));
             TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.SCHEDULEREXEPTION, "Scheduler " + realName + " throws Exception!", "Deactivate Cooldown");
         }
         TimberNoCheat.getInstance().getDebugger().sendDebugNotSetting(Debuggers.SCHEDULEREXEPTION, "Scheduler " + realName + " throws Exception!(spam)", "Deactivate Cooldown");

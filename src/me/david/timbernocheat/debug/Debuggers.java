@@ -25,10 +25,10 @@ public enum  Debuggers {
     ONGROUNDCHECKDIF(new OnGroundCheckDiff()),
     PLAYERDATA_USE(""),
     PLAYERDATA_MANAGE(""),
-    PERMISSIONCACHE("Messages", "PermissionCheck"),
-    FASTLADDER("Add"),
+    PERMISSIONCACHE("", "Messages", "PermissionCheck"),
+    FASTLADDER("FastLadder", "Add"),
     CHECKWATCHER(""),
-    SCHEDULEREXEPTION("Deactivate Cooldown"),
+    SCHEDULEREXEPTION("", "Deactivate Cooldown"),
     BOWFORCE("FastBow"),
     FLYDEBUG("Fly", "ticksup", "max"),
     NOFALL("NoFall"),
@@ -80,6 +80,7 @@ public enum  Debuggers {
         settings.get(setting).put(player.getUniqueId(), value);
     }
 
+
     public HashMap<String, HashMap<UUID, Boolean>> getSettings() {
         return settings;
     }
@@ -90,6 +91,10 @@ public enum  Debuggers {
 
     public Check getDependency() {
         return dependency;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
     }
 
     public ExternalDebugger getDebugger() {

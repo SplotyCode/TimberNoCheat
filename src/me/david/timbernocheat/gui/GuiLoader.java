@@ -5,7 +5,7 @@ import me.david.timbernocheat.config.Permissions;
 import me.david.timbernocheat.gui.blocktrigger.TriggerBlockGui;
 import me.david.timbernocheat.gui.blocktrigger.TriggerBlockManageGui;
 import me.david.timbernocheat.gui.debug.DebugSetting;
-import me.david.timbernocheat.gui.debug.GuiDebug;
+import me.david.timbernocheat.gui.debug.DebugGui;
 import me.david.timbernocheat.gui.items.GuiItemTest;
 import me.david.timbernocheat.gui.items.GuiItemTools;
 import me.david.timbernocheat.gui.items.GuiItems;
@@ -29,7 +29,7 @@ public class GuiLoader {
         pl.addGui("PluginEventProfilerMulti", Permissions.PROFILER_EVENT, new PluginEventProfiler());
         pl.addGui("ProfilerSchedulerMulti", Permissions.PROFILER_SCHEDULER, new SchedulerProfilerGui());
 
-        pl.addGui("DebuggerMulti", Permissions.DEBUGGER, new GuiDebug());
+        pl.addGui("DebuggerMulti", Permissions.DEBUGGER, new DebugGui());
         pl.addGui("DebugSettingMulti", Permissions.DEBUGGER, new DebugSetting());
 
         pl.addGui("SettingsMulti", Permissions.SETTINGS, new SettingsGui());

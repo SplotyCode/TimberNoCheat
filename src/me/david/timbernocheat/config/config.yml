@@ -795,7 +795,7 @@ bedleave:
       1: "KICK:KP!(TNC)"
 combine:
    enable: true
-   maxrange: 10
+   maxsneaktoggles: 14
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -818,7 +818,12 @@ blink:
       1: "KICK:KP!(TNC)"
 phase:
    enable: true
-   maxdiff: 0.24
+   #currently not supported
+   #maxdiff: 0.24
+   blockxz: -0.12
+   blocky: -0.12
+   playerxz: 0
+   playery: -0.15
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
@@ -955,6 +960,14 @@ speed:
       vioactions:
          1: "NOTIFY"
          1: "KICK:STEP!"
+   unusualy:
+      enable: true
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: true
+      viocachedelay: -1
+      vioactions:
+         1: "NOTIFY"
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true

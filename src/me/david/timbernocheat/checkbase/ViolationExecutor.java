@@ -6,6 +6,8 @@ import me.david.timbernocheat.api.ViolationUpdateEvent;
 import me.david.timbernocheat.debug.log.DebugEntry;
 import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.timbernocheat.runnable.Tps;
+import me.david.timbernocheat.runnable.countdown.Countdowns;
+import me.david.timbernocheat.util.Maths;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -18,6 +20,7 @@ import java.util.logging.Level;
 /*
  * This Class is for Punishing a Player
  * The File Parser for the Violation can be found in the Check Constructor
+ * TODO: Use Complex Countdowns to only trigger countdows for the same think(check etc..)
  */
 public class ViolationExecutor {
 
@@ -71,15 +74,15 @@ public class ViolationExecutor {
                 case KICK:
                     new TimberScheduler("ViolationExecutor(Kick)", () -> {
                         if(TimberNoCheat.getInstance().getDebugConfig().isAntikick()) {
-                            Api.getNms().sendMainTitle(player, TimberNoCheat.getInstance().prefix + "You would be kicked now!", 1, 1, 4);
-                            Api.getNms().sendMainTitle(player, TimberNoCheat.getInstance().prefix + "Id: " + id, 1, 1, 4);
+                            Api.getNms().sendMainTitle(player, "§cYou would be kicked now!", -1, -1, -1);
+                            Api.getNms().sendSubTitle(player, "§eId: " + id, -1, -1, -1);
                             player.sendMessage(TimberNoCheat.getInstance().prefix + "You would be kicked now! Id: " + id);
                         }else kick(player, replaceMarker(ctrig.getRest(), player, check), check, id);
                     }).runNextTick();
                     canReset = true;
                     break;
                 case NOTIFY:
-                    new TimberScheduler("ViolationExecutor(Notify)", () -> TimberNoCheat.getCheckManager().notify(check, " §6LEVEL: §b" + check.getViolations().get(uuid), player, other)).runNextTick();
+                    new TimberScheduler("ViolationExecutor(Notify)", () -> TimberNoCheat.getCheckManager().notify(check, " §6LEVEL: §b" + Maths.round(check.getViolations().get(uuid), 2), player, other)).runNextTick();
                     break;
                 case CMD:
                     new TimberScheduler("ViolationExecutor(Command)", () -> {
@@ -90,17 +93,19 @@ public class ViolationExecutor {
                     break;
                 case DAMAGE:
                     new TimberScheduler("ViolationExecutor(Damage)", () -> {
-                        if (TimberNoCheat.getInstance().getDebugConfig().isWarunsetbacks())
+                        if (TimberNoCheat.getInstance().getDebugConfig().isWarunsetbacks() && TimberNoCheat.getInstance().getCountdownManager().isFinished(Countdowns.MESSAGE_HEALTH.name(), player))
                             player.sendMessage(TimberNoCheat.getInstance().prefix + "Du wurdest gerade von TNC 'gedamaged' weil es vermutet das du einen Hack Client benutzt! " +
                                     "Falls das nicht der Fall ist kannst du es gerne reporten mit dieser Id: '" + id + "'");
-                        else player.damage(Double.parseDouble(ctrig.getRest()));
+                        player.damage(Double.parseDouble(ctrig.getRest()));
+                        TimberNoCheat.getInstance().getCountdownManager().setCountdown(Countdowns.MESSAGE_HEALTH.name(), 20*60*2, player, true);
                     }).runNextTick();
                     break;
                 case SETBACK:
                     new TimberScheduler("ViolationExecutor(SetBack)", () -> {
-                        if (TimberNoCheat.getInstance().getDebugConfig().isWarunsetbacks())
+                        if (TimberNoCheat.getInstance().getDebugConfig().isWarunsetbacks() && TimberNoCheat.getInstance().getCountdownManager().isFinished(Countdowns.MESSAGE_SETBACK.name(), player))
                             player.sendMessage(TimberNoCheat.getInstance().prefix + "Du wurdest gerade von TNC 'geflagdt' weil es vermutet das du einen Hack Client benutzt! " +
                                     "Falls das nicht der Fall ist kannst du es gerne reporten mit dieser Id: '" + id + "'");
+                        TimberNoCheat.getInstance().getCountdownManager().setCountdown(Countdowns.MESSAGE_SETBACK.name(), 20*60*2, player, true);
                     }).runNextTick();
                     setBack = true;
                     break;

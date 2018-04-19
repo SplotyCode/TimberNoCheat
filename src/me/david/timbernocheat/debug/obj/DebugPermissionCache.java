@@ -34,9 +34,9 @@ public class DebugPermissionCache extends PermissionCache{
     }
 
     @Override
-    public void clearPlayer(Player p) {
-        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PERMISSIONCACHE, "Clear permission cache for '" + p.getName() + "'");
-        super.clearPlayer(p);
+    public void clearPlayer(Player player) {
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PERMISSIONCACHE, "Clear permission cache for '" + player.getName() + "'");
+        super.clearPlayer(player);
     }
 
     @Override

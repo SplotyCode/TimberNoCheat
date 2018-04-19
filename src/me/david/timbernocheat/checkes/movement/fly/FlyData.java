@@ -5,7 +5,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 
-public class FlyData {
+public class FlyData implements Cloneable {
 
     //General
     private FlyMoveData lastMove;
@@ -33,6 +33,32 @@ public class FlyData {
     private int jumpPotionLastTick = 0;
     private ArrayList<Vector> velocity = new ArrayList<>();
 
+    @Override
+    public FlyData clone() {
+        FlyData flyData = new FlyData();
+        flyData.setLastMove(lastMove);
+        flyData.setLastData(lastData);
+        flyData.setLastSlime(slimePeek);
+        flyData.setGroundDistance(groundDistance);
+        flyData.setFalling(isFalling);
+        flyData.setWaitingForVelocity(waitingForVelocity);
+        flyData.setLastHurtCause(lastHurtCause);
+        flyData.setSpecialVelocity(specialVelocity);
+        flyData.setSpecialVelocityCouse(specialVelocityCouse);
+
+        flyData.setExcused(excused);
+        flyData.setLastExcused(lastExcused);
+
+        flyData.setTicksUpgoing(ticksUpgoing);
+        flyData.setLastCountTick(lastCountTick);
+
+        flyData.setMabySlimeJump(mabySlimeJump);
+        flyData.setLastSlime(lastSlime);
+        flyData.setJumpPotion(jumpPotion);
+        flyData.setJumpPotionLastTick(jumpPotionLastTick);
+        flyData.setVelocity(velocity);
+        return flyData;
+    }
 
     public FlyMoveData getLastMove() {
         return lastMove;
