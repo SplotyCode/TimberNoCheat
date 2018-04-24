@@ -5,57 +5,58 @@ import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.debug.Debuggers;
+import me.david.timbernocheat.util.CheckUtils;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class FastLadder extends Check {
 
     private final long msperblock;
-    private final double cancel_vl;
     private final int shortmulti;
 
     public FastLadder(){
         super("FastLadder", Category.MOVEMENT);
         msperblock = getLong("msperblock");
-        cancel_vl = getDouble("cancel_vl");
         shortmulti = getInt("shortmulti");
     }
 
-    @EventHandler
-    public void onMove(PlayerMoveEvent e){
-        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer()) || e.isCancelled() || !e.getTo().getWorld().getName().equals(e.getFrom().getWorld().getName())) {
+    @EventHandler (ignoreCancelled = true)
+    public void onMove(PlayerMoveEvent event){
+        final Player player = event.getPlayer();
+        if (!TimberNoCheat.getCheckManager().isvalid_create(player) ||
+                !event.getTo().getWorld().getName().equals(event.getFrom().getWorld().getName())) {
             return;
         }
+
         TimberNoCheat.getInstance().getMoveprofiler().start("FastLadder");
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(e.getPlayer());
-        double zdis = e.getTo().getZ()-e.getFrom().getZ();
-        if(zdis <= 0)return;
-        if((e.getTo().getBlock().getType() == Material.LADDER && e.getFrom().getBlock().getType() == Material.LADDER) || e.getTo().getBlock().getType() == Material.LADDER){
-            if(pd.getLastfastladderlongZ() == -1){
-                pd.setLastfastladderlongZ(zdis);
+        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
+        double yDis = event.getTo().getZ()-event.getFrom().getZ();
+        if(yDis <= 0) return;
+        if (CheckUtils.doesColidateWithMaterial(Material.LADDER, event.getTo()) && CheckUtils.doesColidateWithMaterial(Material.LADDER, event.getFrom())){
+            if(pd.getLastfastladderlongY() == -1){
+                pd.setLastfastladderlongY(yDis);
                 pd.setFastladderlongstart(System.currentTimeMillis());
-                pd.setFastladderstart(e.getFrom());
+                pd.setFastladderstart(event.getFrom());
                 return;
             }
-            pd.setLastfastladderlongZ(pd.getLastfastladderlongZ()+zdis);
-            TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.FASTLADDER, "[ADD] " + zdis);
-            if(pd.getLastfastladderlongZ() > 1.8 && zdis > 0.118)
-                updateVio(this, e.getPlayer(), (zdis-0.118)*shortmulti, " §6MODE: §bSHORT");
+            pd.setLastfastladderlongY(pd.getLastfastladderlongY()+yDis);
+            TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.FASTLADDER, "[ADD] " + yDis);
+            if(pd.getLastfastladderlongY() > 1.8 && yDis > 0.118)
+                updateVio(this, event.getPlayer(), (yDis-0.118)*shortmulti, " §6MODE: §bSHORT");
             return;
         }
-        double shoud = pd.getLastfastladderlongZ()*msperblock;
-        double does = System.currentTimeMillis()-pd.getFastladderlongstart();
+        double shoud = pd.getLastfastladderlongY() * msperblock;
+        double does = System.currentTimeMillis() - pd.getFastladderlongstart();
         if(shoud<0)return;
-        if(pd.getLastfastladderlongZ() != -1 && shoud>does){
+        if(pd.getLastfastladderlongY() != -1 && shoud>does){
             TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.FASTLADDER, " shoud=" + shoud + " actual=" + does);
-            updateVio(this, e.getPlayer(), (int)(does-shoud), " §6MODE: §bLONGTIME", " §6BLOCKS: §b" + pd.getLastfastladderlongZ(), " §6NEDEDSECONDS: §b" + (does/1000), " §6SHOUDNEDEDSECONDS: §b" + (shoud/1000));
-            e.getPlayer().teleport(pd.getFastladderstart());
-            pd.setLastfastladderlongZ(-1);
+            if (updateVio(this, player, (int)(does-shoud), " §6MODE: §bLONGTIME", " §6BLOCKS: §b" + pd.getLastfastladderlongY(), " §6NEDEDSECONDS: §b" + (does/1000), " §6SHOUDNEDEDSECONDS: §b" + (shoud/1000)))
+                player.teleport(pd.getFastladderstart());
+            pd.setLastfastladderlongY(-1);
             pd.setFastladderstart(null);
         }
-        if(getViolations().containsKey(e.getPlayer()) && getViolations().get(e.getPlayer()) >= cancel_vl && pd.getFastladderstart() != null)e.getPlayer().teleport(pd.getLastspeedloc());
-        pd.setLastfastladderlongZ(-1);
         TimberNoCheat.getInstance().getMoveprofiler().end();
     }
 }

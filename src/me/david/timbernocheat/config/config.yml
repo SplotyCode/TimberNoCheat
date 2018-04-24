@@ -75,7 +75,7 @@
 #[DE-EN]--------------[DE-EN]
 generel:
    #[DE-EN]config version[DE-EN]
-   version: 202
+   version: 203
    #[DE]globaler plugin prefix[DE]
    #[EN]global plugin prefix[EN]
    prefix: "&7[&9T&cN&eC&7] &6"
@@ -847,8 +847,6 @@ fastladder:
    #(100/42)*1000(https://minecraft-de.gamepedia.com/Leiter)
    msperblock: 420
    shortmulti: 3
-   #teleport
-   cancel_vl: 0.1
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true

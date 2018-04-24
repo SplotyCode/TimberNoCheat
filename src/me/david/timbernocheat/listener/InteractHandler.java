@@ -49,7 +49,7 @@ public class InteractHandler implements Listener {
     }
 
 
-    @EventHandler()
+    @EventHandler
     public void onPickUp(final PlayerPickupItemEvent event){
         final Player player = event.getPlayer();
         final ItemStack itemStack = event.getItem().getItemStack();

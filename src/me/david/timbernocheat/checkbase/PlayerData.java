@@ -80,7 +80,7 @@ public class PlayerData {
     private Location lastFlagloc;
 
     /* FastLadder */
-    private double lastfastladderlongZ;
+    private double lastfastladderlongY;
     private long fastladderlongstart;
     private Location fastladderstart;
 
@@ -169,7 +169,7 @@ public class PlayerData {
         this.lastcheststealer = System.currentTimeMillis()-15000L;
         this.cheststealercon = new ArrayList<>();
         this.lastspeedloc = null;
-        this.lastfastladderlongZ = -1;
+        this.lastfastladderlongY = -1;
         this.fastladderlongstart = System.currentTimeMillis()-15000L;
         this.fastladderstart = null;
         this.lastdead = System.currentTimeMillis()-15000L;
@@ -523,12 +523,12 @@ public class PlayerData {
         this.fastladderstart = fastladderstart;
     }
 
-    public double getLastfastladderlongZ() {
-        return lastfastladderlongZ;
+    public double getLastfastladderlongY() {
+        return lastfastladderlongY;
     }
 
-    public void setLastfastladderlongZ(double lastfastladderlongZ) {
-        this.lastfastladderlongZ = lastfastladderlongZ;
+    public void setLastfastladderlongY(double lastfastladderlongY) {
+        this.lastfastladderlongY = lastfastladderlongY;
     }
 
     public long getFastladderlongstart() {

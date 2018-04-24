@@ -1,3 +1,4 @@
+
 package me.david.timbernocheat.util;
 
 import org.bukkit.Location;
