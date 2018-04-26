@@ -2,14 +2,13 @@ package me.david.timbernocheat.checktools;
 
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.PlayerData;
-import me.david.api.utils.player.PlayerUtil;
 import me.david.timbernocheat.runnable.ExceptionRunnable;
 import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.timbernocheat.runnable.Tps;
 import me.david.timbernocheat.util.CheckUtils;
 import me.david.timbernocheat.util.LimitedList;
 import me.david.timbernocheat.util.LimitedMap;
-import me.david.timbernocheat.util.MovingUtils;
+import me.david.timbernocheat.util.MoveingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -298,11 +297,11 @@ public class General implements Listener, ExceptionRunnable  {
             if(gen.ladderTicks.get(Tps.tickCount) == null) gen.ladderTicks.put(Tps.tickCount, ladder);
             else if(ladder) gen.ladderTicks.put(Tps.tickCount, true);
 
-            boolean stair = MovingUtils.touchStair(to) || MovingUtils.touchStair(fr);
+            boolean stair = MoveingUtils.touchStair(to) || MoveingUtils.touchStair(fr);
             if(gen.stairTicks.get(Tps.tickCount) == null) gen.stairTicks.put(Tps.tickCount, stair);
             else if(stair) gen.stairTicks.put(Tps.tickCount, true);
 
-            boolean slab = MovingUtils.touchSlabs(to) || MovingUtils.touchSlabs(fr);
+            boolean slab = MoveingUtils.touchSlabs(to) || MoveingUtils.touchSlabs(fr);
             if(gen.slabsTicks.get(Tps.tickCount) == null) gen.slabsTicks.put(Tps.tickCount, slab);
             else if(slab) gen.slabsTicks.put(Tps.tickCount, true);
 

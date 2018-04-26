@@ -1,6 +1,7 @@
 package me.david.timbernocheat.checkes.movement.fly;
 
 import me.david.timbernocheat.util.CheckUtils;
+import me.david.timbernocheat.util.MoveingUtils;
 import org.bukkit.Location;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
@@ -13,6 +14,7 @@ public class FlyMoveData {
     private boolean upGoing, downGoing, straight;
     private final double yVelocity, velocityDistance;
     private final Vector velocity;
+    private final double toGroundDistance, fromGroundDistance;
 
     public FlyMoveData(PlayerMoveEvent event) {
         this.event = event;
@@ -30,6 +32,9 @@ public class FlyMoveData {
         onGround = CheckUtils.onGround(event.getPlayer());
         fromGround = CheckUtils.onGround(event.getFrom());
         toGround = CheckUtils.onGround(event.getTo());
+
+        toGroundDistance = MoveingUtils.groundDistance(event.getTo());
+        fromGroundDistance = MoveingUtils.groundDistance(event.getFrom());
     }
 
     public Location getTo(){
@@ -52,6 +57,7 @@ public class FlyMoveData {
         return rawYDiff;
     }
 
+    @Deprecated
     public boolean isOnGround() {
         return onGround;
     }
@@ -106,5 +112,13 @@ public class FlyMoveData {
 
     public void setStraight(boolean straight) {
         this.straight = straight;
+    }
+
+    public double getToGroundDistance() {
+        return toGroundDistance;
+    }
+
+    public double getFromGroundDistance() {
+        return fromGroundDistance;
     }
 }

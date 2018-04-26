@@ -28,10 +28,18 @@ public class FlyData implements Cloneable {
 
     //TicksUpgoing
     private boolean mabySlimeJump = false;
-    private double lastSlime = 0.0;
+    private double lastSlime = 0;
     private int jumpPotion = 0;
     private int jumpPotionLastTick = 0;
     private ArrayList<Vector> velocity = new ArrayList<>();
+
+    /* Wrong Damage */
+    private double highestDis = 0, nextDamageDistance = 0;
+    private boolean needFall = false, stillOkay;
+    private int hitGroundTick = 0;
+    private boolean moveSince = false;
+    private int movesSince = 0;
+
 
     @Override
     public FlyData clone() {
@@ -70,6 +78,62 @@ public class FlyData implements Cloneable {
 
     public double getSlimePeek() {
         return slimePeek;
+    }
+
+    public boolean isStillOkay() {
+        return stillOkay;
+    }
+
+    public void setStillOkay(boolean stillOkay) {
+        this.stillOkay = stillOkay;
+    }
+
+    public double getNextDamageDistance() {
+        return nextDamageDistance;
+    }
+
+    public void setMoveSince(boolean moveSince) {
+        this.moveSince = moveSince;
+    }
+
+    public boolean isMoveSince() {
+        return moveSince;
+    }
+
+    public int getMovesSince() {
+        return movesSince;
+    }
+
+    public void setMovesSince(int movesSince) {
+        this.movesSince = movesSince;
+    }
+
+    public void setNextDamageDistance(double nextDamageDistance) {
+        this.nextDamageDistance = nextDamageDistance;
+    }
+
+    public int getHitGroundTick() {
+        return hitGroundTick;
+    }
+
+    public void setHitGroundTick(int hitGroundTick) {
+        this.hitGroundTick = hitGroundTick;
+    }
+
+    public double getHighestDis() {
+        return highestDis;
+    }
+
+    public void setHighestDis(double highestDis) {
+        this.highestDis = highestDis;
+    }
+
+    public boolean isNeedFall() {
+        return needFall;
+    }
+
+    public void setNeedFall(boolean needFall) {
+        this.needFall = needFall;
     }
 
     public void setGroundDistance(double groundDistance) {

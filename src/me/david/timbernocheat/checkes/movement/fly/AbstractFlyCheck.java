@@ -5,8 +5,9 @@ import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.debug.Debuggers;
-import me.david.timbernocheat.util.MovingUtils;
+import me.david.timbernocheat.util.MoveingUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
 
@@ -19,18 +20,19 @@ public abstract class AbstractFlyCheck extends Check {
         this.flyCheck = flyCheck;
     }
 
-    public void onSlime(FlyData data, double fallDistance){}
-    public void onFall(double calculatedDistance){}
+    public void onSlime(FlyData data, double fallDistance) {}
+    public void onFall(double calculatedDistance) {}
 
     //Teleports, Worldswitch
-    public void reset(ResetReason reason, FlyData flyData, Player player){}
-    public void onSkipMove(SkipReason skipReason){}
+    public void reset(ResetReason reason, FlyData flyData, Player player) {}
+    public void onSkipMove(SkipReason skipReason) {}
     public abstract void onMove(FlyData flyData, Player player, PlayerData playerData, FlyMoveData move);
-    public void attack(FlyData flyData, Player player, int knockback){}
-    public void bow(FlyData flyData, Player player, int strength){}
-    public void rod(FlyData flyData, Player player){}
-    public void explostion(FlyData flyData, Player player, float strength){}
-    public void velocity(FlyData flyData, Player player, Vector velocity){}
+    public void attack(FlyData flyData, Player player, int knockback) {}
+    public void bow(FlyData flyData, Player player, int strength) {}
+    public void rod(FlyData flyData, Player player) {}
+    public void explostion(FlyData flyData, Player player, float strength) {}
+    public void velocity(FlyData flyData, Player player, Vector velocity) {}
+    public void damage(FlyData flyData, Player player, EntityDamageEvent.DamageCause couse, double mcDamage, double pluginDamage) {}
 
     public void debug(String msg){
         TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.FLYDEBUG, msg);
@@ -49,7 +51,7 @@ public abstract class AbstractFlyCheck extends Check {
                 player.teleport(pd.getGenerals().getLastOnGround(), PlayerTeleportEvent.TeleportCause.PLUGIN);
                 break;
             case "down":
-                player.teleport(player.getLocation().subtract(0, Math.min(3, MovingUtils.groundDistance(player)), 0));
+                player.teleport(player.getLocation().subtract(0, Math.min(3, MoveingUtils.groundDistance(player)), 0));
                 break;
         }
 

@@ -4,14 +4,11 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.PlayerData;
-import me.david.timbernocheat.checkes.movement.fly.checks.AirFall;
-import me.david.timbernocheat.checkes.movement.fly.checks.TicksUpgoing;
-import me.david.timbernocheat.checkes.movement.fly.checks.Vanilla;
-import me.david.timbernocheat.checkes.movement.fly.checks.WrongDirection;
+import me.david.timbernocheat.checkes.movement.fly.checks.*;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
 import me.david.timbernocheat.util.CheckUtils;
-import me.david.timbernocheat.util.MovingUtils;
+import me.david.timbernocheat.util.MoveingUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -31,7 +28,9 @@ public class Fly extends Check {
     public Fly(){
         super("Fly", Category.MOVEMENT);
         setback = getString("setbackmethode");
-        registerChilds(new Vanilla(this), new AirFall(this), new WrongDirection(this), new TicksUpgoing(this));
+        registerChilds(new Vanilla(this), new AirFall(this),
+                new WrongDirection(this), new TicksUpgoing(this),
+                new WrongDamage(this));
     }
     
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -62,7 +61,7 @@ public class Fly extends Check {
         if(move.isToGround()) data.setFalling(false);
         else if(move.getTo().getY() < move.getFrom().getY() && !data.isFalling()) {
             data.setFalling(true);
-            forChilds((check) -> check.onFall(MovingUtils.groundDistance(player)));
+            forChilds((check) -> check.onFall(MoveingUtils.groundDistance(player)));
         }
 
         //Slime Call
@@ -119,6 +118,7 @@ public class Fly extends Check {
                 forChilds((check) -> check.explostion(data, player, 4*2));
             break;
         }
+        forChilds(check -> check.damage(data, player, event.getCause(), event.getOriginalDamage(EntityDamageEvent.DamageModifier.BASE), event.getDamage()));
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)

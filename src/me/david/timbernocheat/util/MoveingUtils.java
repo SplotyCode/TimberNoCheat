@@ -6,13 +6,16 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
-public final class MovingUtils {
+public final class MoveingUtils {
 
-    public static double groundDistance(Player player){
-        Location location = player.getLocation().clone();
+    public static double groundDistance(Player player) {
+        return groundDistance(player.getLocation().clone());
+    }
+
+    public static double groundDistance(Location location) {
         while (!location.getBlock().getType().isSolid() && !MaterialHelper.LIQUID.contains(location.getBlock().getType()))
             location.subtract(0, 0.1, 0);
-        return player.getLocation().getY()-location.getY();
+        return location.getY()-location.getY();
     }
 
     /* Get the maximum y axis */

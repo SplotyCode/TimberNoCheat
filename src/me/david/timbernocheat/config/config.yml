@@ -890,6 +890,14 @@ fly:
       viocachedelay: 800000
       vioactions:
           1: "NOTIFY"
+   wrongdamage:
+         enable: true
+         max_ping: -1
+         min_tps: -1
+         vioresetafteraction: false
+         viocachedelay: 8000
+         vioactions:
+             1: "NOTIFY"
    #none = do nothink
    #cancel = set the player to the start position
    #down = teleoprts the player down
