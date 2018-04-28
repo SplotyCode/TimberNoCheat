@@ -153,7 +153,7 @@ public class TNCCommand extends Command {
             case "invalidate":
                 Player target = Bukkit.getPlayer(args[0]);
                 PlayerData data = TimberNoCheat.getCheckManager().getPlayerdata(target);
-                if(data != null) TimberNoCheat.getCheckManager().getPlayerdata().remove(data);
+                if(data != null) TimberNoCheat.getCheckManager().getPlayerData().remove(data);
                 else sender.sendMessage(TimberNoCheat.getInstance().prefix + "Es gibt keine Spielerdaten für '" + target.getName() + "'!");
                 break;
             case "listdebugids":

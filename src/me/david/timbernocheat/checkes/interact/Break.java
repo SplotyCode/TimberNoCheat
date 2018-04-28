@@ -48,20 +48,20 @@ public class Break extends Check {
         final Player p = e.getPlayer();
         if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        pd.setStartbreak(e.getBlock());
-        pd.setStartbreaktime(System.currentTimeMillis());
+        pd.setStartBreak(e.getBlock());
+        pd.setStartBreakTime(System.currentTimeMillis());
     }
     @EventHandler
     public void onbreak(BlockBreakEvent e){
         final Player p = e.getPlayer();
         if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        if(nsenable && pd.getStartbreak() == null){
+        if(nsenable && pd.getStartBreak() == null){
             e.setCancelled(true);
             updateVio(this, p, nsvio, " §6CHECK: §bNOTSTART");
             return;
         }
-        if(neenable && !pd.getStartbreak().getLocation().equals(e.getBlock().getLocation())){
+        if(neenable && !pd.getStartBreak().getLocation().equals(e.getBlock().getLocation())){
             e.setCancelled(true);
             updateVio(this, p, nevio, " §6CHECK: §bNOTEQULS");
             return;
@@ -70,17 +70,17 @@ public class Break extends Check {
             if(raycancel) e.setCancelled(true);
             updateVio(this, p, rayvio, " §6CHECK: §bWRONG BLOCK");
         }
-        if(tenable && (e.getBlock().getType() == Material.OBSIDIAN && System.currentTimeMillis()-pd.getStartbreaktime() > 260000) || (e.getBlock().getType() != Material.OBSIDIAN && System.currentTimeMillis()-pd.getStartbreaktime() > 22000)){
+        if(tenable && (e.getBlock().getType() == Material.OBSIDIAN && System.currentTimeMillis()-pd.getStartBreakTime() > 260000) || (e.getBlock().getType() != Material.OBSIDIAN && System.currentTimeMillis()-pd.getStartBreakTime() > 22000)){
             e.setCancelled(true);
             updateVio(this, p, tvio, " §6CHECK: §bTOSLOW(TIME)");
             return;
         }
-        if(tenable && InteractTool.getBreakingDuration(e.getBlock().getType(), p) > System.currentTimeMillis()-pd.getStartbreaktime()){
+        if(tenable && InteractTool.getBreakingDuration(e.getBlock().getType(), p) > System.currentTimeMillis()-pd.getStartBreakTime()){
             e.setCancelled(true);
             updateVio(this, p, tvio, " §6CHECK: §bFAST");
             return;
         }
-        pd.setStartbreaktime(0);
-        pd.setStartbreak(null);
+        pd.setStartBreakTime(0);
+        pd.setStartBreak(null);
     }
 }

@@ -24,12 +24,12 @@ public class Nuker extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        pd.setBlockbreakslastsec(pd.getBlockbreakslastsec()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setBlockbreakslastsec(pd.getBlockbreakslastsec()-1), 20);
-        if(pd.getBlockbreakslastsec() > maxblockpersec){
-            //TimberNoCheat.getCheckManager().notify(this, e.getPlayer(), " §6BLOCKBREAKS: §b" + pd.getBlockbreakslastsec());
-            updateVio(this, p, pd.getBlockbreakslastsec()-maxblockpersec*2, " §6BLOCKBREAKS: §b" + pd.getBlockbreakslastsec());
-            //pd.setBlockbreakslastsec(0);
+        pd.setBlockBreaksLastSec(pd.getBlockBreaksLastSec()+1);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setBlockBreaksLastSec(pd.getBlockBreaksLastSec()-1), 20);
+        if(pd.getBlockBreaksLastSec() > maxblockpersec){
+            //TimberNoCheat.getCheckManager().notify(this, e.getPlayer(), " §6BLOCKBREAKS: §b" + pd.getBlockBreaksLastSec());
+            updateVio(this, p, pd.getBlockBreaksLastSec()-maxblockpersec*2, " §6BLOCKBREAKS: §b" + pd.getBlockBreaksLastSec());
+            //pd.setBlockBreaksLastSec(0);
         }
 
     }

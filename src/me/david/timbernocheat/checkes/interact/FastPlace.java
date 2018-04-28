@@ -23,12 +23,12 @@ public class FastPlace extends Check {
         final Player p = e.getPlayer();
         if(e.isCancelled() || !TimberNoCheat.getCheckManager().isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        pd.setBlockplacelastsecond(pd.getBlockplacelastsecond()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setBlockplacelastsecond(pd.getBlockplacelastsecond()-1), 20);
-        if(pd.getBlockplacelastsecond() > persecond){
+        pd.setBlockPlacesLastSecond(pd.getBlockPlacesLastSecond()+1);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setBlockPlacesLastSecond(pd.getBlockPlacesLastSecond()-1), 20);
+        if(pd.getBlockPlacesLastSecond() > persecond){
             e.setCancelled(true);
-            pd.setBlockplacelastsecond(0);
-            updateVio(this, p, pd.getBlockplacelastsecond()-persecond, " §6BLOCKPLACEPERSECOND: §b" + pd.getBlockplacelastsecond());
+            pd.setBlockPlacesLastSecond(0);
+            updateVio(this, p, pd.getBlockPlacesLastSecond()-persecond, " §6BLOCKPLACEPERSECOND: §b" + pd.getBlockPlacesLastSecond());
         }
     }
 }

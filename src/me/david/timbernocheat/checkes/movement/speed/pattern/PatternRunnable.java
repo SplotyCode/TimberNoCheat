@@ -28,8 +28,8 @@ public class PatternRunnable implements ExceptionRunnable {
         for(Player p : Bukkit.getOnlinePlayers()){
             if(!TimberNoCheat.getCheckManager().isvalid_create(p) || p.getAllowFlight())continue;
             PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-            if(pd.getLastticklocation() != null) {
-                FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
+            if(pd.getLastTickLocation() != null) {
+                FalsePositive.FalsePositiveChecks fp = pd.getFalsePositives();
                 General.GeneralValues generals = pd.getGenerals();
                 if (p.isSleeping() || fp.hasVehicle(8*20) || fp.hasExplosion(8*20) || fp.hasPiston(8*20) || fp.hasTeleport(8*20) || fp.hasWorld(120) || fp.hasHitorbow(8*20) || fp.worldboarder(p) || fp.hasRod(8*20) || fp.hasOtherKB(8*20) || fp.hasSlime(8*20) || fp.hasBed(8*20) || fp.hasChest(8*20)) continue;
 
@@ -98,16 +98,16 @@ public class PatternRunnable implements ExceptionRunnable {
                 toomushper *= 100;
                 if (toomushper >= check.getPatternlatency()) {
                     if (check.updateVio(check, p, toomushper / 2, "§6MODE: §bPATTERN", "§6PERCENTAGE: §b" + toomushper, "§6DISTANCE: §b" + toomuch)) {
-                        if (pd.getLastFlagloc() == null)
+                        if (pd.getLastFlagLoc() == null)
                             p.teleport(from);
                         else {
-                            p.teleport(pd.getLastFlagloc());
-                            pd.setLastFlagloc(null);
+                            p.teleport(pd.getLastFlagLoc());
+                            pd.setLastFlagLoc(null);
                         }
                     }
-                } else if(toomushper > 0 && pd.getLastFlagloc() == null) pd.setLastFlagloc(pd.getLastticklocation());
+                } else if(toomushper > 0 && pd.getLastFlagLoc() == null) pd.setLastFlagLoc(pd.getLastTickLocation());
             }
-            pd.setLastticklocation(p.getLocation());
+            pd.setLastTickLocation(p.getLocation());
         }
     }
 

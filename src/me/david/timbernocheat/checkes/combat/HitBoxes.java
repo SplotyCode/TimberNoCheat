@@ -35,7 +35,7 @@ public class HitBoxes extends Check {
             public void onPacketReceiving(PacketEvent event) {
                 if(TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())){
                     PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
-                    pd.setHitboxyaw(Math.abs(event.getPacket().getFloat().read(0)-pd.getLastyaw()));
+                    pd.setHitBoxYaw(Math.abs(event.getPacket().getFloat().read(0)-pd.getLastYaw()));
                 }
             }
         });
@@ -76,10 +76,10 @@ public class HitBoxes extends Check {
     }
 
     private float normal(PlayerData pd, Player player, Player attacked){
-        Player lastPlayer = pd.getLastattaked()==null?attacked:pd.getLastattaked();
+        Player lastPlayer = pd.getLastAttaked()==null?attacked:pd.getLastAttaked();
 
         if (lastPlayer != attacked) {
-            pd.setLastattaked(attacked);
+            pd.setLastAttaked(attacked);
             return 0;
         }
 
@@ -88,7 +88,7 @@ public class HitBoxes extends Check {
         double distance = Math.abs(player.getLocation().getY()-attacked.getLocation().getY());
         limit += distance * 57;
         limit += (attacked.getVelocity().length() + player.getVelocity().length()) * 64;
-        limit += pd.getHitboxyaw() * 6;
+        limit += pd.getHitBoxYaw() * 6;
 
         if (offset > limit) return (float) (offset - limit);
         return 0;

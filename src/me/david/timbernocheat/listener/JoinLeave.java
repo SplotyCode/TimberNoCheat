@@ -18,7 +18,7 @@ public class JoinLeave implements Listener{
             Velocity.velocity.remove(player.getUniqueId());
         PlayerData data = TimberNoCheat.getCheckManager().getPlayerdata(player);
         if(TimberNoCheat.getInstance().isClearPlayerData() && data != null)
-            TimberNoCheat.getCheckManager().getPlayerdata().remove(data);
+            TimberNoCheat.getCheckManager().getPlayerData().remove(data);
 
         //Normally the cache shut automatically clear itself this is not the case...
         TimberNoCheat.getInstance().permissioncache.clearAll();

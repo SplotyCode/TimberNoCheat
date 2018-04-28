@@ -5,7 +5,6 @@ import me.david.timbernocheat.checkes.movement.fly.FlyData;
 import me.david.timbernocheat.checktools.AsyncGeneral;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
-import me.david.timbernocheat.util.LimitedList;
 import me.david.timbernocheat.util.LimitedMap;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import org.bukkit.Location;
@@ -23,25 +22,25 @@ public class PlayerData {
     private final UUID uuid;
 
     /* Chat */
-    private long lastchat;
-    private long lastcommand;
+    private long lastChat;
+    private long lastCommand;
 
-    /* NBT Packet Flood */private long lastnbtpacket;
+    /* NBT Packet Flood */private long lastNBTPacket;
 
-    /* Fightspeed */
-    private int interactslastsecond;
-    private int hitslastsecond;
+    /* FightSpeed */
+    private int interactsLastSecond;
+    private int hitsLastSecond;
     private ArrayList<Long> fightSpeed;
 
-    /* FastPlace */private int blockplacelastsecond;
-    /* NoSwing */private boolean armSwung;
+    /* FastPlace */ private int blockPlacesLastSecond;
+    /* NoSwing */ private boolean armSwung;
 
     /* ServerCrasher*/
-    private int itemswinginonesecond;
-    private int itemshwitchinonesecond;
+    private int itemSwungInOneSecond;
+    private int itemSwitchesInOneSecond;
 
-    /* FastBow */private long lastbowshot;
-    /* FastEat */private long lasteat;
+    /* FastBow */private long lastBowShot;
+    /* FastEat */private long lastEat;
 
     /* Regen */
     private long lastRegen;
@@ -49,89 +48,89 @@ public class PlayerData {
     private long lastRegenMagic;
 
     /* Killaura (multi) */
-    private int lasthitentity;
-    private long lasthitmutli;
+    private int lastHitEntity;
+    private long lastHitMutli;
     private HashMap<Integer, Long> hittetEntitys;
 
     /* MorePackets */
-    private long lastpacket;
-    private boolean morepacketblacklist;
-    private boolean morepacketsblacklist2;
+    private long lastPacket;
+    private boolean morePacketBlacklist;
+    private boolean morePacketBlacklist2;
     private Map.Entry<Integer, Long> morepackets;
 
     /* Speed */
-    private int togglesneaklastsec;
+    private int toggleSneakLastSec;
     private Pair<Location, Location> lastPattern;
 
-    /* BadBackets */private LimitedMap<Integer, Pair<Double, Integer>> movePackets;
-    /* Nuker */private int blockbreakslastsec;
-    /* Fastswitch */private long lastitemwsitch;
+    /* BadPackets */private LimitedMap<Integer, Pair<Double, Integer>> movePackets;
+    /* Nuker */private int blockBreaksLastSec;
+    /* FastSwitch */private long lastItemSwitch;
 
-    private float lastpitch;
-    private float lastyaw;
+    private float lastPitch;
+    private float lastYaw;
     private long lastTeleport = 0;
     private boolean teleportUsed = true;
 
     /* ChestStealer */
-    private long lastcheststealer;
-    private ArrayList<Long> cheststealercon;
+    private long lastChestStealer;
+    private ArrayList<Long> chestStealerCon;
 
     /* Speed */
-    private Location lastspeedloc;
-    private Location lastFlagloc;
+    private Location lastSpeedLoc;
+    private Location lastFlagLoc;
 
     /* FastLadder */
-    private double lastfastladderlongY;
-    private long fastladderlongstart;
-    private Location fastladderstart;
+    private double lastFastLadderLongY;
+    private long fastLadderLongStart;
+    private Location fastLadderStart;
 
-    /* FastRespawn */private long lastdead;
+    /* FastRespawn */ private long lastDead;
 
     private int commands10sec;
     private int chats10sec;
 
-    private Block startbreak;
-    private long startbreaktime;
+    private Block startBreak;
+    private long startBreakTime;
 
-    private int ticksonground;
+    private int ticksOnGround;
 
-    private long lastrightclick;
-    private double stepjump;
-    private int stepjump2;
-    private Location laststep;
+    private long lastRightClick;
+    private double stepJump;
+    private int stepJump2;
+    private Location lastStep;
 
     private HashMap<Long, Boolean> accuracy;
-    /* Glide */private long glide;
-    /* Step */private double newstep;
+    /* Glide */ private long glide;
+    /* Step */ private double newStep;
 
     /* VehicleMove*/
-    private double vehicley;
-    private int vehicledif;
+    private double vehicleY;
+    private int vehicleDiff;
 
-    private long lastachivementopeninv;
-    private float hitboxyaw;
-    private Player lastattaked;
-    /* Killaura(bot) */private EntityPlayer bot;
+    private long lastAchivementOpenInv;
+    private float hitBoxYaw;
+    private Player lastAttaked;
+    /* Killaura(Bot) */ private EntityPlayer bot;
 
     /* Killaura(hit miss radio) */
-    private int packethit;
-    private int packetswing;
+    private int packetHit;
+    private int packetSwing;
 
-    private Location aimborloc;
-    private double aimbotdiff;
-    private Location lastticklocation;
-    private long lastongroundtime;
+    private Location aimBotLoc;
+    private double aimBotDiff;
+    private Location lastTickLocation;
+    private long lastOnGroundTime;
 
     /* GodMode Variables */
-    private int godlastDamageTick;
-    private int godlastNoDamageTicks;
+    private int godLastDamageTick;
+    private int godLastNoDamageTicks;
     private int godAcc;
-    private double godhealth;
-    private int godhealthtick;
+    private double godHealth;
+    private int godHealthTick;
 
     /* Rotate */ private int snappyRotate;
 
-    /* Criticals */ private double critHight = -1;
+    /* Criticals */ private double critHeight = -1;
 
     /* Phase */ private Location lastPhaseOkay;
     /* Fly */ private FlyData flyData;
@@ -142,84 +141,84 @@ public class PlayerData {
     private int zeroDelayBlocked;
 
 
-    private FalsePositive.FalsePositiveChecks falsepositives;
+    private FalsePositive.FalsePositiveChecks falsePositives;
     private General.GeneralValues generals;
     private AsyncGeneral.AsyncGeneralValues asyncGenerals;
 
     public PlayerData(UUID uuid) {
         this.uuid = uuid;
-        this.lastchat = System.currentTimeMillis()-15000L;
-        this.lastcommand = System.currentTimeMillis()-15000L;
-        this.lastnbtpacket = System.currentTimeMillis()-15000L;
-        this.interactslastsecond = 0;
-        this.hitslastsecond = 0;
-        this.blockplacelastsecond = 0;
+        this.lastChat = System.currentTimeMillis()-15000L;
+        this.lastCommand = System.currentTimeMillis()-15000L;
+        this.lastNBTPacket = System.currentTimeMillis()-15000L;
+        this.interactsLastSecond = 0;
+        this.hitsLastSecond = 0;
+        this.blockPlacesLastSecond = 0;
         this.armSwung = false;
-        this.itemswinginonesecond = 0;
-        this.itemshwitchinonesecond = 0;
-        this.lastbowshot = System.currentTimeMillis()-15000L;
-        this.lasteat = System.currentTimeMillis()-15000L;
-        this.lasthitentity = 0;
-        this.lasthitmutli = System.currentTimeMillis()-15000L;
-        this.morepacketblacklist = false;
-        this.lastpacket = 0;
+        this.itemSwungInOneSecond = 0;
+        this.itemSwitchesInOneSecond = 0;
+        this.lastBowShot = System.currentTimeMillis()-15000L;
+        this.lastEat = System.currentTimeMillis()-15000L;
+        this.lastHitEntity = 0;
+        this.lastHitMutli = System.currentTimeMillis()-15000L;
+        this.morePacketBlacklist = false;
+        this.lastPacket = 0;
         this.morepackets = new AbstractMap.SimpleEntry<>(0, System.currentTimeMillis());
-        this.togglesneaklastsec = 0;
-        this.morepacketsblacklist2 = false;
+        this.toggleSneakLastSec = 0;
+        this.morePacketBlacklist2 = false;
         this.movePackets = new LimitedMap<>(450);
-        this.blockbreakslastsec = 0;
-        this.lastitemwsitch = System.currentTimeMillis()-15000L;
-        this.lastyaw = 1000;
-        this.lastpitch = 1000;
-        this.lastcheststealer = System.currentTimeMillis()-15000L;
-        this.cheststealercon = new ArrayList<>();
-        this.lastspeedloc = null;
-        this.lastfastladderlongY = -1;
-        this.fastladderlongstart = System.currentTimeMillis()-15000L;
-        this.fastladderstart = null;
-        this.lastdead = System.currentTimeMillis()-15000L;
+        this.blockBreaksLastSec = 0;
+        this.lastItemSwitch = System.currentTimeMillis()-15000L;
+        this.lastYaw = 1000;
+        this.lastPitch = 1000;
+        this.lastChestStealer = System.currentTimeMillis()-15000L;
+        this.chestStealerCon = new ArrayList<>();
+        this.lastSpeedLoc = null;
+        this.lastFastLadderLongY = -1;
+        this.fastLadderLongStart = System.currentTimeMillis()-15000L;
+        this.fastLadderStart = null;
+        this.lastDead = System.currentTimeMillis()-15000L;
         this.chats10sec = 0;
         this.commands10sec = 0;
-        this.startbreak = null;
-        this.startbreaktime = 0;
-        this.ticksonground = 0;
-        this.lastrightclick = System.currentTimeMillis()-15000L;
-        this.falsepositives = new FalsePositive.FalsePositiveChecks();
-        this.stepjump = 0;
-        this.stepjump2 = -1;
-        this.laststep = null;
+        this.startBreak = null;
+        this.startBreakTime = 0;
+        this.ticksOnGround = 0;
+        this.lastRightClick = System.currentTimeMillis()-15000L;
+        this.falsePositives = new FalsePositive.FalsePositiveChecks();
+        this.stepJump = 0;
+        this.stepJump2 = -1;
+        this.lastStep = null;
         this.accuracy = new HashMap<>();
         this.glide = -1;
-        this.vehicledif = -1;
-        this.vehicley = -1;
-        this.lastachivementopeninv = System.currentTimeMillis()-15000L;
-        this.hitboxyaw = 0;
-        this.lastattaked = null;
+        this.vehicleDiff = -1;
+        this.vehicleY = -1;
+        this.lastAchivementOpenInv = System.currentTimeMillis()-15000L;
+        this.hitBoxYaw = 0;
+        this.lastAttaked = null;
         this.bot = null;
-        this.packethit = 0;
-        this.packetswing = 0;
+        this.packetHit = 0;
+        this.packetSwing = 0;
         this.fightSpeed = new ArrayList<>();
-        this.aimborloc = null;
-        this.aimbotdiff = -1;
-        this.lastticklocation = null;
-        this.lastongroundtime = System.currentTimeMillis()-15000L;
+        this.aimBotLoc = null;
+        this.aimBotDiff = -1;
+        this.lastTickLocation = null;
+        this.lastOnGroundTime = System.currentTimeMillis()-15000L;
         this.godAcc = 0;
-        this.godlastDamageTick = 0;
-        this.godlastNoDamageTicks = 0;
-        this.godhealth = 0;
-        this.godhealthtick = 0;
+        this.godLastDamageTick = 0;
+        this.godLastNoDamageTicks = 0;
+        this.godHealth = 0;
+        this.godHealthTick = 0;
         generals = new General.GeneralValues();
         asyncGenerals = new AsyncGeneral.AsyncGeneralValues();
-        newstep = 0;
+        newStep = 0;
         hittetEntitys = new HashMap<>();
         lastRegen = -1;
         lastRegenMagic = -1;
         lastRegenPeaceful = -1;
         snappyRotate = -1;
-        critHight = -1;
+        critHeight = -1;
         lastPhaseOkay = null;
         flyData = new FlyData();
-        lastFlagloc = null;
+        lastFlagLoc = null;
         lastPattern = null;
         zeroDelayLocation = null;
         zeroDelayTime = System.currentTimeMillis()-15000L;
@@ -227,12 +226,12 @@ public class PlayerData {
     }
 
     /**
-     * Getter for falsepositives
+     * Getter for falsePositives
      *
-     * @return value of falsepositives
+     * @return value of falsePositives
      */
-    public FalsePositive.FalsePositiveChecks getFalsepositives() {
-        return falsepositives;
+    public FalsePositive.FalsePositiveChecks getFalsePositives() {
+        return falsePositives;
     }
     public General.GeneralValues getGenerals() {
         return generals;
@@ -267,52 +266,52 @@ public class PlayerData {
         this.lastPattern = lastPattern;
     }
 
-    public Location getLastFlagloc() {
-        return lastFlagloc;
+    public Location getLastFlagLoc() {
+        return lastFlagLoc;
     }
 
-    public void setLastFlagloc(Location lastFlagloc) {
-        this.lastFlagloc = lastFlagloc;
+    public void setLastFlagLoc(Location lastFlagLoc) {
+        this.lastFlagLoc = lastFlagLoc;
     }
 
-    public double getNewstep() {
-        return newstep;
+    public double getNewStep() {
+        return newStep;
     }
 
-    public void setNewstep(double newstep) {
-        this.newstep = newstep;
+    public void setNewStep(double newStep) {
+        this.newStep = newStep;
     }
 
-    public double getGodhealth() {
-        return godhealth;
+    public double getGodHealth() {
+        return godHealth;
     }
 
-    public void setGodhealth(double godhealth) {
-        this.godhealth = godhealth;
+    public void setGodHealth(double godHealth) {
+        this.godHealth = godHealth;
     }
 
     public int getGodhealthtick() {
-        return godhealthtick;
+        return godHealthTick;
     }
 
     public void setGodhealthtick(int godhealthtick) {
-        this.godhealthtick = godhealthtick;
+        this.godHealthTick = godhealthtick;
     }
 
-    public int getGodlastDamageTick() {
-        return godlastDamageTick;
+    public int getGodLastDamageTick() {
+        return godLastDamageTick;
     }
 
-    public void setGodlastDamageTick(int godlastDamageTick) {
-        this.godlastDamageTick = godlastDamageTick;
+    public void setGodLastDamageTick(int godLastDamageTick) {
+        this.godLastDamageTick = godLastDamageTick;
     }
 
-    public int getGodlastNoDamageTicks() {
-        return godlastNoDamageTicks;
+    public int getGodLastNoDamageTicks() {
+        return godLastNoDamageTicks;
     }
 
-    public void setGodlastNoDamageTicks(int godlastNoDamageTicks) {
-        this.godlastNoDamageTicks = godlastNoDamageTicks;
+    public void setGodLastNoDamageTicks(int godLastNoDamageTicks) {
+        this.godLastNoDamageTicks = godLastNoDamageTicks;
     }
 
     public int getGodAcc() {
@@ -331,56 +330,56 @@ public class PlayerData {
         this.godAcc = godAcc;
     }
 
-    public long getLastongroundtime() {
-        return lastongroundtime;
+    public long getLastOnGroundTime() {
+        return lastOnGroundTime;
     }
 
-    public void setLastongroundtime(long lastongroundtime) {
-        this.lastongroundtime = lastongroundtime;
+    public void setLastOnGroundTime(long lastOnGroundTime) {
+        this.lastOnGroundTime = lastOnGroundTime;
     }
 
-    public Location getLastticklocation() {
-        return lastticklocation;
+    public Location getLastTickLocation() {
+        return lastTickLocation;
     }
 
-    public void setLastticklocation(Location lastticklocation) {
-        this.lastticklocation = lastticklocation;
+    public void setLastTickLocation(Location lastTickLocation) {
+        this.lastTickLocation = lastTickLocation;
     }
 
-    public Location getAimborloc() {
-        return aimborloc;
+    public Location getAimBotLoc() {
+        return aimBotLoc;
     }
 
-    public void setAimborloc(Location aimborloc) {
-        this.aimborloc = aimborloc;
+    public void setAimBotLoc(Location aimBotLoc) {
+        this.aimBotLoc = aimBotLoc;
     }
 
-    public double getAimbotdiff() {
-        return aimbotdiff;
+    public double getAimBotDiff() {
+        return aimBotDiff;
     }
 
-    public void setAimbotdiff(double aimbotdiff) {
-        this.aimbotdiff = aimbotdiff;
+    public void setAimBotDiff(double aimBotDiff) {
+        this.aimBotDiff = aimBotDiff;
     }
 
     public ArrayList<Long> getFightSpeed() {
         return fightSpeed;
     }
 
-    public int getPackethit() {
-        return packethit;
+    public int getPacketHit() {
+        return packetHit;
     }
 
-    public void setPackethit(int packethit) {
-        this.packethit = packethit;
+    public void setPacketHit(int packetHit) {
+        this.packetHit = packetHit;
     }
 
-    public int getPacketswing() {
-        return packetswing;
+    public int getPacketSwing() {
+        return packetSwing;
     }
 
-    public void setPacketswing(int packetswing) {
-        this.packetswing = packetswing;
+    public void setPacketSwing(int packetSwing) {
+        this.packetSwing = packetSwing;
     }
 
     public EntityPlayer getBot() {
@@ -415,44 +414,44 @@ public class PlayerData {
         this.zeroDelayTime = zeroDelayTime;
     }
 
-    public Player getLastattaked() {
-        return lastattaked;
+    public Player getLastAttaked() {
+        return lastAttaked;
     }
 
-    public void setLastattaked(Player lastattaked) {
-        this.lastattaked = lastattaked;
+    public void setLastAttaked(Player lastAttaked) {
+        this.lastAttaked = lastAttaked;
     }
 
-    public float getHitboxyaw() {
-        return hitboxyaw;
+    public float getHitBoxYaw() {
+        return hitBoxYaw;
     }
 
-    public void setHitboxyaw(float hitboxyaw) {
-        this.hitboxyaw = hitboxyaw;
+    public void setHitBoxYaw(float hitBoxYaw) {
+        this.hitBoxYaw = hitBoxYaw;
     }
 
-    public long getLastachivementopeninv() {
-        return lastachivementopeninv;
+    public long getLastAchivementOpenInv() {
+        return lastAchivementOpenInv;
     }
 
-    public void setLastachivementopeninv(long lastachivementopeninv) {
-        this.lastachivementopeninv = lastachivementopeninv;
+    public void setLastAchivementOpenInv(long lastAchivementOpenInv) {
+        this.lastAchivementOpenInv = lastAchivementOpenInv;
     }
 
-    public double getVehicley() {
-        return vehicley;
+    public double getVehicleY() {
+        return vehicleY;
     }
 
-    public void setVehicley(double vehicley) {
-        this.vehicley = vehicley;
+    public void setVehicleY(double vehicleY) {
+        this.vehicleY = vehicleY;
     }
 
-    public int getVehicledif() {
-        return vehicledif;
+    public int getVehicleDiff() {
+        return vehicleDiff;
     }
 
-    public void setVehicledif(int vehicledif) {
-        this.vehicledif = vehicledif;
+    public void setVehicleDiff(int vehicleDiff) {
+        this.vehicleDiff = vehicleDiff;
     }
 
     public long getGlide() {
@@ -467,60 +466,60 @@ public class PlayerData {
         return accuracy;
     }
 
-    public Location getLaststep() {
-        return laststep;
+    public Location getLastStep() {
+        return lastStep;
     }
 
-    public void setLaststep(Location laststep) {
-        this.laststep = laststep;
+    public void setLastStep(Location lastStep) {
+        this.lastStep = lastStep;
     }
 
-    public int getStepjump2() {
-        return stepjump2;
+    public int getStepJump2() {
+        return stepJump2;
     }
 
-    public void setStepjump2(int stepjump2) {
-        this.stepjump2 = stepjump2;
+    public void setStepJump2(int stepJump2) {
+        this.stepJump2 = stepJump2;
     }
 
-    public double getStepjump() {
-        return stepjump;
+    public double getStepJump() {
+        return stepJump;
     }
 
-    public void setStepjump(double stepjump) {
-        this.stepjump = stepjump;
+    public void setStepJump(double stepJump) {
+        this.stepJump = stepJump;
     }
 
-    public long getLastrightclick() {
-        return lastrightclick;
+    public long getLastRightClick() {
+        return lastRightClick;
     }
 
-    public void setLastrightclick(long lastrightclick) {
-        this.lastrightclick = lastrightclick;
+    public void setLastRightClick(long lastRightClick) {
+        this.lastRightClick = lastRightClick;
     }
 
-    public int getTicksonground() {
-        return ticksonground;
+    public int getTicksOnGround() {
+        return ticksOnGround;
     }
 
-    public void setTicksonground(int ticksonground) {
-        this.ticksonground = ticksonground;
+    public void setTicksOnGround(int ticksOnGround) {
+        this.ticksOnGround = ticksOnGround;
     }
 
-    public Block getStartbreak() {
-        return startbreak;
+    public Block getStartBreak() {
+        return startBreak;
     }
 
-    public void setStartbreak(Block startbreak) {
-        this.startbreak = startbreak;
+    public void setStartBreak(Block startBreak) {
+        this.startBreak = startBreak;
     }
 
-    public long getStartbreaktime() {
-        return startbreaktime;
+    public long getStartBreakTime() {
+        return startBreakTime;
     }
 
-    public void setStartbreaktime(long startbreaktime) {
-        this.startbreaktime = startbreaktime;
+    public void setStartBreakTime(long startBreakTime) {
+        this.startBreakTime = startBreakTime;
     }
 
     public int getCommands10sec() {
@@ -539,116 +538,116 @@ public class PlayerData {
         this.chats10sec = chats10sec;
     }
 
-    public long getLastdead() {
-        return lastdead;
+    public long getLastDead() {
+        return lastDead;
     }
 
-    public void setLastdead(long lastdead) {
-        this.lastdead = lastdead;
+    public void setLastDead(long lastDead) {
+        this.lastDead = lastDead;
     }
 
-    public Location getFastladderstart() {
-        return fastladderstart;
+    public Location getFastLadderStart() {
+        return fastLadderStart;
     }
 
-    public void setFastladderstart(Location fastladderstart) {
-        this.fastladderstart = fastladderstart;
+    public void setFastLadderStart(Location fastLadderStart) {
+        this.fastLadderStart = fastLadderStart;
     }
 
-    public double getLastfastladderlongY() {
-        return lastfastladderlongY;
+    public double getLastFastLadderLongY() {
+        return lastFastLadderLongY;
     }
 
-    public void setLastfastladderlongY(double lastfastladderlongY) {
-        this.lastfastladderlongY = lastfastladderlongY;
+    public void setLastFastLadderLongY(double lastFastLadderLongY) {
+        this.lastFastLadderLongY = lastFastLadderLongY;
     }
 
-    public long getFastladderlongstart() {
-        return fastladderlongstart;
+    public long getFastLadderLongStart() {
+        return fastLadderLongStart;
     }
 
-    public void setFastladderlongstart(long fastladderlongstart) {
-        this.fastladderlongstart = fastladderlongstart;
+    public void setFastLadderLongStart(long fastLadderLongStart) {
+        this.fastLadderLongStart = fastLadderLongStart;
     }
 
-    public Location getLastspeedloc() {
-        return lastspeedloc;
+    public Location getLastSpeedLoc() {
+        return lastSpeedLoc;
     }
 
-    public void setLastspeedloc(Location lastspeedloc) {
-        this.lastspeedloc = lastspeedloc;
+    public void setLastSpeedLoc(Location lastSpeedLoc) {
+        this.lastSpeedLoc = lastSpeedLoc;
     }
 
     public ArrayList<Long> getCheststealercon() {
-        return cheststealercon;
+        return chestStealerCon;
     }
 
     public void setCheststealercon(ArrayList<Long> cheststealercon) {
-        this.cheststealercon = cheststealercon;
+        this.chestStealerCon = cheststealercon;
     }
 
-    public long getLastcheststealer() {
-        return lastcheststealer;
+    public long getLastChestStealer() {
+        return lastChestStealer;
     }
 
-    public void setLastcheststealer(long lastcheststealer) {
-        this.lastcheststealer = lastcheststealer;
+    public void setLastChestStealer(long lastChestStealer) {
+        this.lastChestStealer = lastChestStealer;
     }
 
-    public float getLastpitch() {
-        return lastpitch;
+    public float getLastPitch() {
+        return lastPitch;
     }
 
-    public void setLastpitch(float lastpitch) {
-        this.lastpitch = lastpitch;
+    public void setLastPitch(float lastPitch) {
+        this.lastPitch = lastPitch;
     }
 
-    public float getLastyaw() {
-        return lastyaw;
+    public float getLastYaw() {
+        return lastYaw;
     }
 
-    public void setLastyaw(float lastyaw) {
-        this.lastyaw = lastyaw;
+    public void setLastYaw(float lastYaw) {
+        this.lastYaw = lastYaw;
     }
 
-    public long getLastitemwsitch() {
-        return lastitemwsitch;
+    public long getLastItemwSitch() {
+        return lastItemSwitch;
     }
 
-    public void setLastitemwsitch(long lastitemwsitch) {
-        this.lastitemwsitch = lastitemwsitch;
+    public void setLastItemwSitch(long lastItemwSitch) {
+        this.lastItemSwitch = lastItemwSitch;
     }
 
-    public int getBlockbreakslastsec() {
-        return blockbreakslastsec;
+    public int getBlockBreaksLastSec() {
+        return blockBreaksLastSec;
     }
 
-    public void setBlockbreakslastsec(int blockbreakslastsec) {
-        this.blockbreakslastsec = blockbreakslastsec;
+    public void setBlockBreaksLastSec(int blockBreaksLastSec) {
+        this.blockBreaksLastSec = blockBreaksLastSec;
     }
 
-    public boolean isMorepacketsblacklist2() {
-        return morepacketsblacklist2;
+    public boolean isMorePacketBlacklist2() {
+        return morePacketBlacklist2;
     }
 
-    public void setMorepacketsblacklist2(boolean morepacketsblacklist2) {
-        this.morepacketsblacklist2 = morepacketsblacklist2;
+    public void setMorePacketBlacklist2(boolean morePacketBlacklist2) {
+        this.morePacketBlacklist2 = morePacketBlacklist2;
     }
 
-    public int getTogglesneaklastsec() {
-        return togglesneaklastsec;
+    public int getToggleSneakLastSec() {
+        return toggleSneakLastSec;
     }
 
-    public void setTogglesneaklastsec(int togglesneaklastsec) {
-        this.togglesneaklastsec = togglesneaklastsec;
+    public void setToggleSneakLastSec(int toggleSneakLastSec) {
+        this.toggleSneakLastSec = toggleSneakLastSec;
     }
 
-    public boolean isMorepacketblacklist() {
-        return morepacketblacklist;
+    public boolean isMorePacketBlacklist() {
+        return morePacketBlacklist;
     }
 
-    public void setMorepacketblacklist(boolean morepacketblacklist) {
-        this.morepacketblacklist = morepacketblacklist;
+    public void setMorePacketBlacklist(boolean morePacketBlacklist) {
+        this.morePacketBlacklist = morePacketBlacklist;
     }
 
     public Map.Entry<Integer, Long> getMorepackets() {
@@ -659,60 +658,60 @@ public class PlayerData {
         this.morepackets = morepackets;
     }
 
-    public long getLastpacket() {
-        return lastpacket;
+    public long getLastPacket() {
+        return lastPacket;
     }
 
-    public void setLastpacket(long lastpacket) {
-        this.lastpacket = lastpacket;
+    public void setLastPacket(long lastPacket) {
+        this.lastPacket = lastPacket;
     }
 
-    public int getLasthitentity() {
-        return lasthitentity;
+    public int getLastHitEntity() {
+        return lastHitEntity;
     }
 
-    public void setLasthitentity(int lasthitentity) {
-        this.lasthitentity = lasthitentity;
+    public void setLastHitEntity(int lastHitEntity) {
+        this.lastHitEntity = lastHitEntity;
     }
 
-    public long getLasthitmutli() {
-        return lasthitmutli;
+    public long getLastHitMutli() {
+        return lastHitMutli;
     }
 
-    public void setLasthitmutli(long lasthitmutli) {
-        this.lasthitmutli = lasthitmutli;
+    public void setLastHitMutli(long lastHitMutli) {
+        this.lastHitMutli = lastHitMutli;
     }
 
-    public long getLasteat() {
-        return lasteat;
+    public long getLastEat() {
+        return lastEat;
     }
 
-    public void setLasteat(long lasteat) {
-        this.lasteat = lasteat;
+    public void setLastEat(long lastEat) {
+        this.lastEat = lastEat;
     }
 
-    public long getLastbowshot() {
-        return lastbowshot;
+    public long getLastBowShot() {
+        return lastBowShot;
     }
 
-    public void setLastbowshot(long lastbowshot) {
-        this.lastbowshot = lastbowshot;
+    public void setLastBowShot(long lastBowShot) {
+        this.lastBowShot = lastBowShot;
     }
 
-    public int getItemswinginonesecond() {
-        return itemswinginonesecond;
+    public int getItemSwungInOneSecond() {
+        return itemSwungInOneSecond;
     }
 
-    public void setItemswinginonesecond(int itemswinginonesecond) {
-        this.itemswinginonesecond = itemswinginonesecond;
+    public void setItemSwungInOneSecond(int itemSwungInOneSecond) {
+        this.itemSwungInOneSecond = itemSwungInOneSecond;
     }
 
-    public int getItemshwitchinonesecond() {
-        return itemshwitchinonesecond;
+    public int getItemSwitchesInOneSecond() {
+        return itemSwitchesInOneSecond;
     }
 
-    public void setItemshwitchinonesecond(int itemshwitchinonesecond) {
-        this.itemshwitchinonesecond = itemshwitchinonesecond;
+    public void setItemSwitchesInOneSecond(int itemSwitchesInOneSecond) {
+        this.itemSwitchesInOneSecond = itemSwitchesInOneSecond;
     }
 
     public boolean isArmSwung() {
@@ -723,56 +722,56 @@ public class PlayerData {
         this.armSwung = armSwung;
     }
 
-    public int getBlockplacelastsecond() {
-        return blockplacelastsecond;
+    public int getBlockPlacesLastSecond() {
+        return blockPlacesLastSecond;
     }
 
-    public void setBlockplacelastsecond(int blockplacelastsecond) {
-        this.blockplacelastsecond = blockplacelastsecond;
+    public void setBlockPlacesLastSecond(int blockPlacesLastSecond) {
+        this.blockPlacesLastSecond = blockPlacesLastSecond;
     }
 
-    public int getInteractslastsecond() {
-        return interactslastsecond;
+    public int getInteractsLastSecond() {
+        return interactsLastSecond;
     }
 
-    public void setInteractslastsecond(int interactslastsecond) {
-        this.interactslastsecond = interactslastsecond;
+    public void setInteractsLastSecond(int interactsLastSecond) {
+        this.interactsLastSecond = interactsLastSecond;
     }
 
-    public int getHitslastsecond() {
-        return hitslastsecond;
+    public int getHitsLastSecond() {
+        return hitsLastSecond;
     }
 
-    public void setHitslastsecond(int hitslastsecond) {
-        this.hitslastsecond = hitslastsecond;
+    public void setHitsLastSecond(int hitsLastSecond) {
+        this.hitsLastSecond = hitsLastSecond;
     }
 
     public UUID getUuid() {
         return uuid;
     }
 
-    public long getLastchat() {
-        return lastchat;
+    public long getLastChat() {
+        return lastChat;
     }
 
-    public void setLastchat(long lastchat) {
-        this.lastchat = lastchat;
+    public void setLastChat(long lastChat) {
+        this.lastChat = lastChat;
     }
 
-    public long getLastcommand() {
-        return lastcommand;
+    public long getLastCommand() {
+        return lastCommand;
     }
 
-    public void setLastcommand(long lastcommand) {
-        this.lastcommand = lastcommand;
+    public void setLastCommand(long lastCommand) {
+        this.lastCommand = lastCommand;
     }
 
-    public long getLastnbtpacket() {
-        return lastnbtpacket;
+    public long getLastNBTPacket() {
+        return lastNBTPacket;
     }
 
-    public void setLastnbtpacket(long lastnbtpacket) {
-        this.lastnbtpacket = lastnbtpacket;
+    public void setLastNBTPacket(long lastNBTPacket) {
+        this.lastNBTPacket = lastNBTPacket;
     }
 
     public HashMap<Integer, Long> getHittetEntitys() {
@@ -811,12 +810,12 @@ public class PlayerData {
         this.snappyRotate = snappyRotate;
     }
 
-    public double getCritHight() {
-        return critHight;
+    public double getCritHeight() {
+        return critHeight;
     }
 
-    public void setCritHight(double critHight) {
-        this.critHight = critHight;
+    public void setCritHeight(double critHeight) {
+        this.critHeight = critHeight;
     }
 
     public FlyData getFlyData() {

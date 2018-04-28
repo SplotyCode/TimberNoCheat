@@ -51,7 +51,7 @@ public class CheckManager {
      * TNC Never write PlayerData to Disk
      * When a Player Disconnects TNC Will delete his PlayerData
      */
-    private ArrayList<PlayerData> playerdata = new DebugPlayerDataList();
+    private ArrayList<PlayerData> playerData = new DebugPlayerDataList();
 
     private ViolationExecutor executor = new ViolationExecutor();
 
@@ -169,7 +169,7 @@ public class CheckManager {
             return false;
         }
         if(!TimberNoCheat.getInstance().getListenerManager().getFreezeListener().isNotFreezed(p)) return false;
-        if(getPlayerdata(p) == null) playerdata.add(new PlayerData(p.getUniqueId()));
+        if(getPlayerdata(p) == null) playerData.add(new PlayerData(p.getUniqueId()));
         TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PLAYERDATA_USE, "Data Okay: " + p.getName());
 
         return true;
@@ -180,7 +180,7 @@ public class CheckManager {
      * If there is no PlayerData bind to that Player return null
      */
     public @Nullable PlayerData getPlayerdata(@NotNull Player p){
-        for(PlayerData playerdata : (ArrayList<PlayerData>)playerdata.clone())
+        for(PlayerData playerdata : new ArrayList<>(playerData))
             if(playerdata.getUuid().equals(p.getUniqueId()))
                 return playerdata;
         return null;
@@ -234,7 +234,7 @@ public class CheckManager {
         TimberNoCheat.getInstance().getLogger().log(Level.INFO, message.replace("§", "&"));
     }
 
-    public void notify(Player p, String message){
+    public void notify(Player player, String message){
         TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, message);
         TimberNoCheat.getInstance().getLogger().log(Level.INFO, message);
     }
@@ -265,7 +265,7 @@ public class CheckManager {
      * Returns the Check from the Check Name
      * If there is no Check with that Name return null
      */
-    public @Nullable Check getCheckbyName(String name){
+    public @Nullable Check getCheckByName(String name){
         for(Check c : checks)
             if(c.getName().equals(name))
                 return c;
@@ -280,20 +280,20 @@ public class CheckManager {
         return disabledChecks;
     }
 
-    public ArrayList<PlayerData> getPlayerdata() {
-        return playerdata;
+    public ArrayList<PlayerData> getPlayerData() {
+        return playerData;
     }
 
     public ArrayList<Check> getAllChecks(){
-        ArrayList<Check> list = ((ArrayList<Check>) TimberNoCheat.getCheckManager().getChecks().clone());
+        ArrayList<Check> list = new ArrayList<>(TimberNoCheat.getCheckManager().getChecks());
         list.addAll(TimberNoCheat.getCheckManager().getDisabledChecks());
         return list;
     }
 
-    public Check getCheckbyString(String name){
+    public Check getCheckByString(String name){
         boolean child = name.contains("_");
         String[] split = name.split("_");
-        Check mother = getCheckbyName(split[0]);
+        Check mother = getCheckByName(split[0]);
         return child?mother.getChildByString(split[1]):mother;
     }
 

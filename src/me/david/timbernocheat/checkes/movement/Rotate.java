@@ -11,7 +11,6 @@ import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.Tps;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -47,10 +46,10 @@ public class Rotate extends Check {
                      yaw = wrapper.getYaw();
                      pitch = wrapper.getPitch();
                  }
-                 if(pd.getLastyaw() == yaw && pd.getLastpitch() == pitch)
+                 if(pd.getLastYaw() == yaw && pd.getLastPitch() == pitch)
                      Rotate.this.updateVio(Rotate.this, p, 1, " §6MODE: §bEQULAS");
-                 pd.setLastyaw(yaw);
-                 pd.setLastpitch(pitch);
+                 pd.setLastYaw(yaw);
+                 pd.setLastPitch(pitch);
              }
         });
     }

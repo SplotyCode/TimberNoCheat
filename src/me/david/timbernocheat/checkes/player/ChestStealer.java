@@ -36,7 +36,7 @@ public class ChestStealer extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        long delay = System.currentTimeMillis()-pd.getLastcheststealer();
+        long delay = System.currentTimeMillis()-pd.getLastChestStealer();
         if(delay < this.delay){
             e.setCancelled(true);
             updateVio(this, p, 2, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
@@ -80,7 +80,7 @@ public class ChestStealer extends Check {
             }
         }
         pd.getCheststealercon().add(System.currentTimeMillis());
-        pd.setLastcheststealer(System.currentTimeMillis());
+        pd.setLastChestStealer(System.currentTimeMillis());
     }
 
 }

@@ -42,7 +42,7 @@ public class Delay extends Check {
             event.setCancelled(true);
         }
 
-        long delay = System.currentTimeMillis() - pd.getLastchat();
+        long delay = System.currentTimeMillis() - pd.getLastChat();
         if(message.length() >= DELAYSCHWELLE){
             if(delay <= BIGDELAY){
                 if(updateVio(this, player, 1, " §6MODE: §bBIG", " §6DELAY: §b" + delay, " §6LENGtH: §b" + message.length()))
@@ -53,6 +53,6 @@ public class Delay extends Check {
             if(updateVio(this, player, 1, " §6MODE: §bSMALL", " §6DELAY: §b" + delay, " §6LENGtH: §b" + message.length()))
                 event.setCancelled(true);
         }
-        pd.setLastchat(System.currentTimeMillis());
+        pd.setLastChat(System.currentTimeMillis());
     }
 }

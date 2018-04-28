@@ -23,7 +23,7 @@ public class Speed extends Check {
         if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
         final PlayerData playerData = TimberNoCheat.getCheckManager().getPlayerdata(player);
         final SpeedMoveData move = new SpeedMoveData(event);
-        final FalsePositive.FalsePositiveChecks falsePositive = playerData.getFalsepositives();
+        final FalsePositive.FalsePositiveChecks falsePositive = playerData.getFalsePositives();
         final General.GeneralValues generals = playerData.getGenerals();
 
         if(player.getAllowFlight() || falsePositive.hasVehicle(60)) return;

@@ -30,7 +30,7 @@ public class Jesus extends Check {
         if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
         TimberNoCheat.getInstance().getMoveprofiler().start("Jesus");
         PlayerData playerData = TimberNoCheat.getCheckManager().getPlayerdata(player);
-        final FalsePositive.FalsePositiveChecks falsePositive = playerData.getFalsepositives();
+        final FalsePositive.FalsePositiveChecks falsePositive = playerData.getFalsePositives();
         final General.GeneralValues generals = playerData.getGenerals();
         if(player.getAllowFlight() || falsePositive.hasVehicle(45))return;
         final Location to = event.getTo();

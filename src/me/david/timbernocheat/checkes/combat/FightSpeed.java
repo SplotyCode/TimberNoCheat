@@ -38,10 +38,10 @@ public class FightSpeed extends Check {
         final Player p = e.getPlayer();
         if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        pd.setInteractslastsecond(pd.getInteractslastsecond()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setInteractslastsecond(pd.getInteractslastsecond()-1), 20);
-        if(pd.getInteractslastsecond() > interactspersecond){
-            updateVio(this, p , pd.getInteractslastsecond()-interactspersecond," §6CHECK: §bINTERACTS", " §6INTERACTLASTSECOND: §b" + pd.getInteractslastsecond());
+        pd.setInteractsLastSecond(pd.getInteractsLastSecond()+1);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setInteractsLastSecond(pd.getInteractsLastSecond()-1), 20);
+        if(pd.getInteractsLastSecond() > interactspersecond){
+            updateVio(this, p , pd.getInteractsLastSecond()-interactspersecond," §6CHECK: §bINTERACTS", " §6INTERACTLASTSECOND: §b" + pd.getInteractsLastSecond());
             e.setCancelled(true);
         }
     }
@@ -52,10 +52,10 @@ public class FightSpeed extends Check {
         final Player p = (Player) e.getDamager();
         if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        pd.setHitslastsecond(pd.getHitslastsecond()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setHitslastsecond(pd.getHitslastsecond()-1), 20);
-        if(pd.getHitslastsecond() > hitspersecond){
-            updateVio(this, p , pd.getHitslastsecond()-hitspersecond, " §6CHECK: §bHITS", " §6HITSTSECOND: §b" + pd.getHitslastsecond());
+        pd.setHitsLastSecond(pd.getHitsLastSecond()+1);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setHitsLastSecond(pd.getHitsLastSecond()-1), 20);
+        if(pd.getHitsLastSecond() > hitspersecond){
+            updateVio(this, p , pd.getHitsLastSecond()-hitspersecond, " §6CHECK: §bHITS", " §6HITSTSECOND: §b" + pd.getHitsLastSecond());
             e.setCancelled(true);
         }
         //Consistency

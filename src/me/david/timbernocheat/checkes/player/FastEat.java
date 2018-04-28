@@ -50,13 +50,13 @@ public class FastEat extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(e.getPlayer());
-        long delay = System.currentTimeMillis()-pd.getLasteat();
+        long delay = System.currentTimeMillis()-pd.getLastEat();
         if(delay < this.delay){
             e.setCancelled(true);
             updateVio(this, e.getPlayer(), 1, " §6DELAY: §b" + delay);
             //TimberNoCheat.getCheckManager().notify(this, e.getPlayer(), " §6DELAY: §b" + delay);
             return;
         }
-        pd.setLasteat(System.currentTimeMillis());
+        pd.setLastEat(System.currentTimeMillis());
     }
 }

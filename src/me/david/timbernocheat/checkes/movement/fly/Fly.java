@@ -39,7 +39,7 @@ public class Fly extends Check {
         if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
         General.GeneralValues general = pd.getGenerals();
-        FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
+        FalsePositive.FalsePositiveChecks fp = pd.getFalsePositives();
         TimberNoCheat.getInstance().getMoveprofiler().start("Fly ");
         FlyMoveData move = new FlyMoveData(event);
         FlyData data = pd.getFlyData();

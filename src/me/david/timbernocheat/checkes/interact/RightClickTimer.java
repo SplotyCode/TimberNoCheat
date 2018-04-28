@@ -25,11 +25,11 @@ public class RightClickTimer extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        long delay = System.currentTimeMillis() - pd.getLastrightclick();
+        long delay = System.currentTimeMillis() - pd.getLastRightClick();
         if(delay < max_delay){
             e.setCancelled(true);
             updateVio(this, p, 2);
         }
-        pd.setLastrightclick(System.currentTimeMillis());
+        pd.setLastRightClick(System.currentTimeMillis());
     }
 }

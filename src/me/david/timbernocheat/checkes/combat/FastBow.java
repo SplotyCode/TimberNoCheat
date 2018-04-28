@@ -26,12 +26,12 @@ public class FastBow extends Check {
         TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.BOWFORCE, "Force: " + event.getEntity());
         if(!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
-        long delay = System.currentTimeMillis() - pd.getLastbowshot();
+        long delay = System.currentTimeMillis() - pd.getLastBowShot();
         if(event.getForce() <= mimimumforce) return;
         if(delay < this.delay){
             if(updateVio(this, player, (this.delay-delay),  " §6DELAY: §b" + delay, " §6FORCE: §b" + event.getForce()))
                 event.setCancelled(true);
         }
-        pd.setLastbowshot(System.currentTimeMillis());
+        pd.setLastBowShot(System.currentTimeMillis());
     }
 }

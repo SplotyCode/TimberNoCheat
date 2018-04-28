@@ -23,13 +23,13 @@ public class FastSwitch extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        long delay = System.currentTimeMillis()-pd.getLastitemwsitch();
+        long delay = System.currentTimeMillis()-pd.getLastItemwSitch();
         if(delay < this.delay){
             updateVio(this, p, 1, " §6DELAY: §b" + delay);
             //TimberNoCheat.getCheckManager().notify(this, p, " §6DELAY: §b" + delay);
-            //pd.setLastitemwsitch(System.currentTimeMillis()-15000L);
+            //pd.setLastItemwSitch(System.currentTimeMillis()-15000L);
             e.setCancelled(true);
         }
-        pd.setLastitemwsitch(System.currentTimeMillis());
+        pd.setLastItemwSitch(System.currentTimeMillis());
     }
 }

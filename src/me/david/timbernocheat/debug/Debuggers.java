@@ -62,7 +62,7 @@ public enum  Debuggers {
         for(Debuggers debugger : values())
             if(!debugger.isExternal() && StringUtil.isNotEmpty(debugger.rawDependency)) {
                // System.out.println(debugger + " " + debugger.rawDependency + " " + TimberNoCheat.getCheckManager());
-                debugger.dependency = TimberNoCheat.getCheckManager().getCheckbyString(debugger.rawDependency);
+                debugger.dependency = TimberNoCheat.getCheckManager().getCheckByString(debugger.rawDependency);
                 if(debugger.dependency == null){
                     TimberNoCheat.getInstance().getLogger().info("Der Debugger '" + debugger.name() + "' wurde disabled da er kein External ist und seine Dependecy(" + debugger.rawDependency + ") nicht geladen wurde!");
                     debugger.disabled = true;

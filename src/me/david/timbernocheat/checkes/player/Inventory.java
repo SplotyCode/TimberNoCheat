@@ -60,8 +60,8 @@ public class Inventory extends Check {
         if(!TimberNoCheat.getCheckManager().isvalid_create(p))return;
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         if(itemcursor && p.getItemOnCursor().getType() != Material.AIR) updateVio(this, p, 1, " §6CHECK: §bCURSOR");
-        long delay = System.currentTimeMillis() - pd.getLastachivementopeninv();
-        FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
+        long delay = System.currentTimeMillis() - pd.getLastAchivementOpenInv();
+        FalsePositive.FalsePositiveChecks fp = pd.getFalsePositives();
         if(delay < 550 && !fp.jumpboost(p) && !fp.enderpearl && !fp.hasVehicle(60) && !fp.hasSlime(80) && !fp.hasPiston(60) && !fp.hasLiquid(60) && !fp.hasHitorbow(80) && !fp.hasRod(60) && !fp.hasExplosion(80) && !fp.hasExplosion(120) && !fp.hasOtherKB(60) && !fp.hasTeleport(60) && !fp.hasWorld(35) && p.getFallDistance() == 0F) updateVio(this, p, (delay-550)/2, " §6CHECK: §bACHIVEMENT");
     }
 
@@ -72,7 +72,7 @@ public class Inventory extends Check {
             event.setCancelled(true);
             if(achivementportal && p.getLocation().getBlock().getType() == Material.PORTAL || p.getLocation().add(0, p.getEyeHeight(), 0).getBlock().getType() == Material.PORTAL)
                 updateVio(this, p, 1, " §6CHECK: §bPORTAL_ACHIVEMENT");
-            if(achivement) TimberNoCheat.getCheckManager().getPlayerdata(p).setLastachivementopeninv(System.currentTimeMillis());
+            if(achivement) TimberNoCheat.getCheckManager().getPlayerdata(p).setLastAchivementOpenInv(System.currentTimeMillis());
         }
     }
 
@@ -89,7 +89,7 @@ public class Inventory extends Check {
         }
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         long delay = System.currentTimeMillis() - pd.getGenerals().getLastRealMove();
-        FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
+        FalsePositive.FalsePositiveChecks fp = pd.getFalsePositives();
         if(delay < move_delay && !fp.jumpboost(p) && !fp.enderpearl && !fp.hasVehicle(60) && !fp.hasSlime(80) && !fp.hasPiston(60) && !fp.hasLiquid(60) && !fp.hasHitorbow(80) && !fp.hasRod(60) && !fp.hasExplosion(80) && !fp.hasExplosion(120) && !fp.hasOtherKB(60) && !fp.hasTeleport(60) && !fp.hasWorld(35) && p.getFallDistance() == 0F){
             e.setCancelled(true);
             updateVio(this, p, 1, " §6CHECK: §bMOVE", " §6DELAY: §b" + delay);

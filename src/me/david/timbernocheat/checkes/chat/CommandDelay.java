@@ -28,7 +28,7 @@ public class CommandDelay extends Check {
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
         pd.setCommands10sec(pd.getCommands10sec()+1);
         Bukkit.getScheduler().runTaskLaterAsynchronously(TimberNoCheat.getInstance(), () -> pd.setCommands10sec(pd.getCommands10sec()-1), 200);
-        long delay = System.currentTimeMillis() - pd.getLastcommand();
+        long delay = System.currentTimeMillis() - pd.getLastCommand();
         if(delay < this.DELAY){
             if(updateVio(this, p, 1, " §6MODE: §bDELAY", " §6DELAY: §b" + delay))
                 e.setCancelled(true);
@@ -37,6 +37,6 @@ public class CommandDelay extends Check {
             if(updateVio(this, p, 1, " §6MODE: §bSPAM", " §6COMMANDSLASTSECOND: §b" + pd.getCommands10sec()))
                 e.setCancelled(true);
         }
-        pd.setLastcommand(System.currentTimeMillis());
+        pd.setLastCommand(System.currentTimeMillis());
     }
 }

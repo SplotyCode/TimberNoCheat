@@ -30,7 +30,7 @@ public class VehicleMove extends Check {
                 PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
                 if (event.getPacketType() == WrapperPlayClientSteerVehicle.TYPE) {
                     WrapperPlayClientSteerVehicle packet = new WrapperPlayClientSteerVehicle(event.getPacket());
-                    if (packet.isUnmount() && pd.getVehicley() != -1) pd.setVehicley(-1);
+                    if (packet.isUnmount() && pd.getVehicleY() != -1) pd.setVehicleY(-1);
                 }
                 if (event.getPacketType() == WrapperPlayClientVehicleMove.TYPE) {
                     WrapperPlayClientVehicleMove packet = new WrapperPlayClientVehicleMove(event.getPacket());
@@ -40,15 +40,15 @@ public class VehicleMove extends Check {
                         EntityType type = vehicle.getType();
                         if ((type == EntityType.BOAT && !boat) || (type == EntityType.HORSE && !horse) || (type != EntityType.BOAT && type != EntityType.HORSE)) return;
                         double y = packet.getY();
-                        double lastYPos = pd.getVehicley() != -1?pd.getVehicley():y;
+                        double lastYPos = pd.getVehicleY() != -1?pd.getVehicleY():y;
                         double yDiff = y - lastYPos;
                         if (yDiff > 0.005D) {
                             if ((((isOnWater(p, -1.0D) ? 0 : 1) & (isOnWater(p, 0.0D) ? 0 : 1)) != 0) && isOnWater(p, -0.5D)) {
-                                pd.setVehicledif(pd.getVehicledif()==-1?1:pd.getVehicledif()+1);
-                                if (pd.getVehicledif() / (type == EntityType.BOAT ? 4 : 8) > 0) updateVio(VehicleMove.this, p, 1);
-                            } else pd.setVehicledif(-1);
-                        } else pd.setVehicledif(-1);
-                        pd.setVehicley(y);
+                                pd.setVehicleDiff(pd.getVehicleDiff()==-1?1:pd.getVehicleDiff()+1);
+                                if (pd.getVehicleDiff() / (type == EntityType.BOAT ? 4 : 8) > 0) updateVio(VehicleMove.this, p, 1);
+                            } else pd.setVehicleDiff(-1);
+                        } else pd.setVehicleDiff(-1);
+                        pd.setVehicleY(y);
                     }
                 }
             }

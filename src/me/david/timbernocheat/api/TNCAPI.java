@@ -72,7 +72,7 @@ public final class TNCAPI {
 
     @Deprecated
     public static void disablecheck(@NotNull String name){
-        disablecheck(TimberNoCheat.getCheckManager().getCheckbyString(name));
+        disablecheck(TimberNoCheat.getCheckManager().getCheckByString(name));
     }
 
     /* Check If an Specific Check is */
@@ -88,7 +88,7 @@ public final class TNCAPI {
     @Deprecated
     public static boolean isEnabled(@NotNull String name){
         assert name != null:"Check Name might not be null";
-        return TimberNoCheat.getCheckManager().getCheckbyString(name) != null;
+        return TimberNoCheat.getCheckManager().getCheckByString(name) != null;
     }
 
     /* Returns an Array with all Category's */
@@ -100,7 +100,7 @@ public final class TNCAPI {
     /* Get an Check by its Name */
     @Deprecated
     public static Check getCheckbyName(String name){
-        return TimberNoCheat.getCheckManager().getCheckbyString(name);
+        return TimberNoCheat.getCheckManager().getCheckByString(name);
     }
 
 

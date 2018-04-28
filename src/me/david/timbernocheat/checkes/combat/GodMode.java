@@ -6,7 +6,6 @@ import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.Tps;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,28 +37,28 @@ public class GodMode extends Check {
 
         boolean legit = false, set = false, resetAcc = false;
 
-        final int dTick = tick - pd.getGodlastDamageTick();
-        final int dNDT = pd.getGodlastNoDamageTicks() - noDamageTicks;
+        final int dTick = tick - pd.getGodLastDamageTick();
+        final int dNDT = pd.getGodLastNoDamageTicks() - noDamageTicks;
         final int delta = dTick - dNDT;
 
-        if (pd.getGodhealth() > player.getHealth()){
+        if (pd.getGodHealth() > player.getHealth()){
             pd.setGodhealthtick(tick);
             legit = set = resetAcc = true;
         }
-        if (invulnerabilityTicks != Integer.MAX_VALUE && invulnerabilityTicks > 0 || tick < pd.getGodlastDamageTick())
+        if (invulnerabilityTicks != Integer.MAX_VALUE && invulnerabilityTicks > 0 || tick < pd.getGodLastDamageTick())
             legit = set = resetAcc = true;
         if (20 + pd.getGodAcc() < dTick || dTick > 40){
             legit = resetAcc = true;
             set = true;
         }
-        if (delta <= 0  || pd.getGodlastNoDamageTicks() <= player.getMaximumNoDamageTicks() / 2 || dTick > pd.getGodlastNoDamageTicks() || damage > player.getLastDamage() || damage == 0) legit = set = true;
+        if (delta <= 0  || pd.getGodLastNoDamageTicks() <= player.getMaximumNoDamageTicks() / 2 || dTick > pd.getGodLastNoDamageTicks() || damage > player.getLastDamage() || damage == 0) legit = set = true;
         if (dTick == 1 && noDamageTicks < 19) set = true;
         if (delta == 1) legit = true;
-        pd.setGodhealth(player.getHealth());
+        pd.setGodHealth(player.getHealth());
         if (resetAcc) pd.setGodAcc(0);
         if (set){
-            pd.setGodlastNoDamageTicks(noDamageTicks);
-            pd.setGodlastDamageTick(tick);
+            pd.setGodLastNoDamageTicks(noDamageTicks);
+            pd.setGodLastDamageTick(tick);
             return false;
         } else if (legit) return false;
 
@@ -69,8 +68,8 @@ public class GodMode extends Check {
         if (pd.getGodAcc() > 2 && updateVio(this, player, delta)){
             cancel = true;
         }
-        pd.setGodlastNoDamageTicks(noDamageTicks);
-        pd.setGodlastDamageTick(tick);
+        pd.setGodLastNoDamageTicks(noDamageTicks);
+        pd.setGodLastDamageTick(tick);
         return cancel;
     }
 }

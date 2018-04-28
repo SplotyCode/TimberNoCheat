@@ -22,10 +22,10 @@ public class Respawn extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(e.getPlayer());
-        long delay = System.currentTimeMillis()-pd.getLastdead();
+        long delay = System.currentTimeMillis()-pd.getLastDead();
         //message nicht vergessen :D wenn neie config
         if(mdelay > delay){
-            pd.setLastdead(System.currentTimeMillis()-15000L);
+            pd.setLastDead(System.currentTimeMillis()-15000L);
             updateVio(this, e.getPlayer(), delay-mdelay, " §6DELAY: §b" + delay, " §6MAXDELAY: §b" + mdelay);
             //TimberNoCheat.getCheckManager().notify(this, e.getPlayer(), " §6DELAY: §b" + delay, " §6MAXDELAY: §b" + mdelay);
         }
@@ -35,6 +35,6 @@ public class Respawn extends Check {
         if (!TimberNoCheat.getCheckManager().isvalid_create(e.getEntity())) {
             return;
         }
-        TimberNoCheat.getCheckManager().getPlayerdata(e.getEntity()).setLastdead(System.currentTimeMillis());
+        TimberNoCheat.getCheckManager().getPlayerdata(e.getEntity()).setLastDead(System.currentTimeMillis());
     }
 }

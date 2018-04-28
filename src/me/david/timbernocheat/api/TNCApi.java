@@ -75,7 +75,7 @@ public enum TNCApi {
 
     public  void disableCheck(@NotNull String name){
         checkIfReady();
-        disableCheck(TimberNoCheat.getCheckManager().getCheckbyString(name));
+        disableCheck(TimberNoCheat.getCheckManager().getCheckByString(name));
     }
 
     /* Check If an Specific Check is */
@@ -91,7 +91,7 @@ public enum TNCApi {
     public  boolean isEnabled(@NotNull String name){
         checkIfReady();
         assert name != null:"Check Name might not be null";
-        return TimberNoCheat.getCheckManager().getCheckbyString(name) != null;
+        return TimberNoCheat.getCheckManager().getCheckByString(name) != null;
     }
 
     /* Returns an Array with all Category's */
@@ -103,7 +103,7 @@ public enum TNCApi {
     /* Get an Check by its Name */
     public  Check getCheckbyName(String name){
         checkIfReady();
-        return TimberNoCheat.getCheckManager().getCheckbyString(name);
+        return TimberNoCheat.getCheckManager().getCheckByString(name);
     }
 
 

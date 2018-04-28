@@ -32,7 +32,7 @@ public class Step extends Check {
         double yDis = to.getY() - from.getY();
         double yDisblock = to.getY() - to.getBlockY();
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        FalsePositive.FalsePositiveChecks fp = pd.getFalsepositives();
+        FalsePositive.FalsePositiveChecks fp = pd.getFalsePositives();
         double maxshoud = 0.601D;
 
         if (fp.hasExplosion(80 * 5)) {

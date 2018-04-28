@@ -60,11 +60,11 @@ public class Combine extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
-        pd.setTogglesneaklastsec(pd.getTogglesneaklastsec()+1);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setTogglesneaklastsec(pd.getTogglesneaklastsec()-1), 20);
-        if(pd.getTogglesneaklastsec() > maxSneakToggles){
+        pd.setToggleSneakLastSec(pd.getToggleSneakLastSec()+1);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setToggleSneakLastSec(pd.getToggleSneakLastSec()-1), 20);
+        if(pd.getToggleSneakLastSec() > maxSneakToggles){
             event.setCancelled(true);
-            updateVio(this, event.getPlayer(), 1, " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getTogglesneaklastsec());
+            updateVio(this, event.getPlayer(), 1, " §6MODE: §bSNEAKSPAM", " §6TOGGLESLASTSEC: §b" + pd.getToggleSneakLastSec());
         }
         if(event.isSneaking() && event.getPlayer().isSprinting()){
             event.setCancelled(true);

@@ -86,9 +86,9 @@ public class MorePackets extends Check {
             return;
         }
         PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
-        pd.setMorepacketblacklist(true);
-        pd.setMorepacketsblacklist2(true);
-        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setMorepacketsblacklist2(false), worlddownloadingdelayinticks);
+        pd.setMorePacketBlacklist(true);
+        pd.setMorePacketBlacklist2(true);
+        Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setMorePacketBlacklist2(false), worlddownloadingdelayinticks);
     }
     private boolean check(Player p){
         if(!TimberNoCheat.getCheckManager().isvalid_create(p)){
@@ -101,24 +101,24 @@ public class MorePackets extends Check {
         int count = pd.getMorepackets().getKey();
         long time = pd.getMorepackets().getValue();
 
-        if(pd.getLastpacket() != 0){
-            long delay = System.currentTimeMillis() - pd.getLastpacket();
+        if(pd.getLastPacket() != 0){
+            long delay = System.currentTimeMillis() - pd.getLastPacket();
             if(delay >= blacklistadd) {
-                pd.setMorepacketblacklist(true);
+                pd.setMorePacketBlacklist(true);
             } else if(delay > blacklistremove) {
-                pd.setMorepacketblacklist(false);
+                pd.setMorePacketBlacklist(false);
             }
         }
 
-        if(!pd.isMorepacketblacklist() && !pd.isMorepacketsblacklist2()) {
+        if(!pd.isMorePacketBlacklist() && !pd.isMorePacketBlacklist2()) {
             ++count;
-            if(pd.getLastpacket() != 0 && DateTimeUtil.elapsed(time, elapsed)) {
+            if(pd.getLastPacket() != 0 && DateTimeUtil.elapsed(time, elapsed)) {
                 if(count > maxpackets) {
                     //flag
                     updateVio(this, p, maxpackets-count, " §6PACKETS: §b" + count);
                     //TimberNoCheat.getCheckManager().notify(this, p, " §6PACKETS: §b" + count);
                     pd.setMorepackets(new AbstractMap.SimpleEntry<Integer, Long>(0, System.currentTimeMillis()));
-                    pd.setLastpacket(System.currentTimeMillis());
+                    pd.setLastPacket(System.currentTimeMillis());
                     return true;
                 }
                 count = 0;
@@ -127,7 +127,7 @@ public class MorePackets extends Check {
         }
 
         pd.setMorepackets(new AbstractMap.SimpleEntry<Integer, Long>(count, time));
-        pd.setLastpacket(System.currentTimeMillis());
+        pd.setLastPacket(System.currentTimeMillis());
         return false;
     }
 }

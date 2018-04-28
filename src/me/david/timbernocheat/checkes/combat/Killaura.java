@@ -70,7 +70,7 @@ public class Killaura extends Check {
                 }
                 if (TimberNoCheat.getCheckManager().isvalid_create(player)) {
                     PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
-                    pd.setPackethit(pd.getPackethit()+1);
+                    pd.setPacketHit(pd.getPacketHit()+1);
                 }
             }
         });
@@ -83,7 +83,7 @@ public class Killaura extends Check {
                 }
                 if (TimberNoCheat.getCheckManager().isvalid_create(player)) {
                     PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
-                    pd.setPacketswing(pd.getPacketswing()+1);
+                    pd.setPacketSwing(pd.getPacketSwing()+1);
                 }
             }
         });
@@ -105,9 +105,9 @@ public class Killaura extends Check {
             for(Player player : Bukkit.getOnlinePlayers())
                 if (TimberNoCheat.getCheckManager().isvalid_create(player)){
                     PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
-                    if(pd.getPackethit() < pd.getPacketswing()) updateVio(Killaura.this, player, pd.getPacketswing()-pd.getPackethit());
-                    pd.setPackethit(0);
-                    pd.setPacketswing(0);
+                    if(pd.getPacketHit() < pd.getPacketSwing()) updateVio(Killaura.this, player, pd.getPacketSwing()-pd.getPacketHit());
+                    pd.setPacketHit(0);
+                    pd.setPacketSwing(0);
                 }
         }).startTimer(20));
     }
@@ -130,8 +130,8 @@ public class Killaura extends Check {
     }
 
     private void check_multi(EntityDamageByEntityEvent event, PlayerData pd){
-        if(pd.getLasthitentity() == 0){
-            pd.setLasthitentity(event.getEntity().getEntityId());
+        if(pd.getLastHitEntity() == 0){
+            pd.setLastHitEntity(event.getEntity().getEntityId());
         }
         pd.getHittetEntitys().put(event.getEntity().getEntityId(), System.currentTimeMillis());
         for(Map.Entry<Integer, Long> pair : ((HashMap<Integer, Long>)pd.getHittetEntitys().clone()).entrySet())
@@ -140,21 +140,21 @@ public class Killaura extends Check {
         if(pd.getHittetEntitys().size() > max_targets){
             if(updateVio(getChildbyEnum(Types.MULTITARGET), (Player) event.getDamager(), pd.getHittetEntitys().size()-max_targets*6, " §6TARGETS: §b" + pd.getHittetEntitys().size())) event.setCancelled(true);
         }
-        long delay = System.currentTimeMillis()-pd.getLasthitmutli();
-        if(pd.getLasthitentity() != event.getEntity().getEntityId() && delay < multi_delay){
+        long delay = System.currentTimeMillis()-pd.getLastHitMutli();
+        if(pd.getLastHitEntity() != event.getEntity().getEntityId() && delay < multi_delay){
             if(updateVio(getChildbyEnum(Types.MULTIDELAY), (Player) event.getDamager(), multi_delay-delay*1.6, " §6DELAY: §b" + delay)) event.setCancelled(true);
         }
-        pd.setLasthitmutli(System.currentTimeMillis());
-        pd.setLasthitentity(event.getEntity().getEntityId());
+        pd.setLastHitMutli(System.currentTimeMillis());
+        pd.setLastHitEntity(event.getEntity().getEntityId());
     }
 
     private void check_aimbot(EntityDamageByEntityEvent event, PlayerData pd){
         Player damager = (Player) event.getDamager();
         if (damager.getAllowFlight() || !((event.getEntity()) instanceof Player)) return;
-        Location from = pd.getAimborloc();
+        Location from = pd.getAimBotLoc();
         Location to = damager.getLocation();
-        pd.setAimborloc(damager.getLocation());
-        double LastDifference = pd.getAimbotdiff()==-1?-111111.0:pd.getAimbotdiff();
+        pd.setAimBotLoc(damager.getLocation());
+        double LastDifference = pd.getAimBotDiff()==-1?-111111.0:pd.getAimBotDiff();
         if (from == null || (to.getX() == from.getX() && to.getZ() == from.getZ())) return;
         double diffnow = Math.abs(to.getYaw() - from.getYaw());
         if (diffnow == 0.0) return;
@@ -168,7 +168,7 @@ public class Killaura extends Check {
                 else resetCount(damager, "aimbot");
             }
         }
-        pd.setAimbotdiff(diffnow);
+        pd.setAimBotDiff(diffnow);
         if (hasReached(damager, "aimbot", 3)) {
             resetCount(damager, "aimbot");
             if(updateVio(getChildbyEnum(Types.AIMBOT), damager, 6))

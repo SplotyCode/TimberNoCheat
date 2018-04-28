@@ -155,7 +155,7 @@ public class Velocity extends Check {
         if (LocationUtil.distance(event.getFrom(), event.getTo()) == 0) return;
         Player p = event.getPlayer();
         if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
-        FalsePositive.FalsePositiveChecks fp = TimberNoCheat.getCheckManager().getPlayerdata(p).getFalsepositives();
+        FalsePositive.FalsePositiveChecks fp = TimberNoCheat.getCheckManager().getPlayerdata(p).getFalsePositives();
         if (!checke(p) || walk(p) != 0.0F || (fp.jumpboost(p)) ||
         (fp.hasKnockbag(80) || countTickexsits(p, "scheduler") || countTickexsits(p, "knockback"))){
             resetCount(p, "cache");
@@ -180,7 +180,7 @@ public class Velocity extends Check {
     }
 
     private static boolean checke(Player p){
-        FalsePositive.FalsePositiveChecks fp = TimberNoCheat.getCheckManager().getPlayerdata(p).getFalsepositives();
+        FalsePositive.FalsePositiveChecks fp = TimberNoCheat.getCheckManager().getPlayerdata(p).getFalsePositives();
         return !fp.hasVehicle(80) && !fp.hasClimp(60) && !p.isFlying() && !fp.worldboarder(p);
     }
 
