@@ -2,6 +2,7 @@ package me.david.timbernocheat.command.blocktrigger;
 
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.storage.YamlComponent;
 import me.david.api.utils.NumberUtil;
 import me.david.timbernocheat.storage.YamlSection;
@@ -63,7 +64,7 @@ public class AttributeList implements YamlComponent {
             }else if(clazz == String.class){
                 strings.add(object);
             }else if(clazz == Check.class){
-                Check check  = TimberNoCheat.getCheckManager().getCheckByName(object);
+                Check check = CheckManager.getInstance().getCheckByName(object);
                 if(check == null){
                     errors.add(AtributeParseErrors.CHECKNOTEXSITS);
                     continue;
@@ -112,7 +113,7 @@ public class AttributeList implements YamlComponent {
         strings = (ArrayList<String>) yaml.getStringList("strings");
         realArguments = (ArrayList<String>) yaml.getStringList("realArguments");
         for(String check : yaml.getStringList("checks"))
-            checks.add(TimberNoCheat.getCheckManager().getCheckByName(check));
+            checks.add(CheckManager.getInstance().getCheckByName(check));
     }
 
     @Override

@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.movement.fly;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.fly.checks.*;
 import me.david.timbernocheat.checktools.FalsePositive;
@@ -36,8 +37,8 @@ public class Fly extends Check {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void playerMove(PlayerMoveEvent event){
         final Player player = event.getPlayer();
-        if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        if (!CheckManager.getInstance().isvalid_create(player)) return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         General.GeneralValues general = pd.getGenerals();
         FalsePositive.FalsePositiveChecks fp = pd.getFalsePositives();
         TimberNoCheat.getInstance().getMoveprofiler().start("Fly ");
@@ -90,24 +91,24 @@ public class Fly extends Check {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onTeleport(PlayerTeleportEvent event){
         final Player player = event.getPlayer();
-        if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        if (!CheckManager.getInstance().isvalid_create(player)) return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         forChilds((check -> check.reset(ResetReason.TELEPORT, pd.getFlyData(), player)));
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onWorldSwitch(PlayerChangedWorldEvent event){
         final Player player = event.getPlayer();
-        if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
-        final PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        if (!CheckManager.getInstance().isvalid_create(player)) return;
+        final PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         forChilds((check -> check.reset(ResetReason.WORLDSWITCH, pd.getFlyData(), player)));
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onDamage(final EntityDamageEvent event){
-        if(event.getEntityType() != EntityType.PLAYER || !TimberNoCheat.getCheckManager().isvalid_create((Player) event.getEntity()))return;
+        if(event.getEntityType() != EntityType.PLAYER || !CheckManager.getInstance().isvalid_create((Player) event.getEntity()))return;
         final Player player = (Player) event.getEntity();
-        final FlyData data = TimberNoCheat.getCheckManager().getPlayerdata(player).getFlyData();
+        final FlyData data = CheckManager.getInstance().getPlayerdata(player).getFlyData();
         switch (event.getCause()){
             case ENTITY_EXPLOSION:case BLOCK_EXPLOSION:case PROJECTILE:case WITHER:
                 data.setWaitingForVelocity(true);
@@ -123,10 +124,10 @@ public class Fly extends Check {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onEntityDamage(final EntityDamageByEntityEvent event){
-        if(event.getEntityType() != EntityType.PLAYER || !TimberNoCheat.getCheckManager().isvalid_create((Player) event.getEntity()))return;
+        if(event.getEntityType() != EntityType.PLAYER || !CheckManager.getInstance().isvalid_create((Player) event.getEntity()))return;
         final Player player = (Player) event.getEntity();
         final Entity entity = event.getDamager();
-        final FlyData data = TimberNoCheat.getCheckManager().getPlayerdata(player).getFlyData();
+        final FlyData data = CheckManager.getInstance().getPlayerdata(player).getFlyData();
         switch (event.getCause()){
             case ENTITY_EXPLOSION:
                 forChilds((check) -> check.explostion(data, player, (((Creeper) entity).isPowered()?2*2:1*2)));
@@ -143,9 +144,9 @@ public class Fly extends Check {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerHitFishingRodEvent(final PlayerFishEvent event) {
-        if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()))return;
+        if(!CheckManager.getInstance().isvalid_create(event.getPlayer()))return;
         final Player player = event.getPlayer();
-        final FlyData data = TimberNoCheat.getCheckManager().getPlayerdata(player).getFlyData();
+        final FlyData data = CheckManager.getInstance().getPlayerdata(player).getFlyData();
         if (event.getCaught() instanceof Player) {
             final Player caught = (Player) event.getCaught();
             if (player.getItemInHand().getType() == Material.FISHING_ROD) {
@@ -156,9 +157,9 @@ public class Fly extends Check {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onVelocity(PlayerVelocityEvent event){
-        if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()))return;
+        if(!CheckManager.getInstance().isvalid_create(event.getPlayer()))return;
         final Player player = event.getPlayer();
-        final FlyData data = TimberNoCheat.getCheckManager().getPlayerdata(player).getFlyData();
+        final FlyData data = CheckManager.getInstance().getPlayerdata(player).getFlyData();
         if(data.isWaitingForVelocity()){
             data.setWaitingForVelocity(false);
             data.setSpecialVelocity(event.getVelocity());

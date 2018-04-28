@@ -9,6 +9,7 @@ import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -25,7 +26,7 @@ public class DamageIndicator extends Check {
         register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Server.ENTITY_METADATA) {
             @Override
             public void onPacketSending(PacketEvent event) {
-                if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())){
+                if(!CheckManager.getInstance().isvalid_create(event.getPlayer())){
                     return;
                 }
                 check(event);

@@ -2,6 +2,7 @@ package me.david.timbernocheat.runnable;
 
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class TickCountTimer implements ExceptionRunnable {
 
     @Override
     public void run() {
-        for(Check check : TimberNoCheat.getCheckManager().getChecks()){
+        for(Check check : CheckManager.getInstance().getChecks()){
             for(Map.Entry<UUID, HashMap<String, Double>> list : check.tickCounts.entrySet())
                 for(Map.Entry<String, Double> values : list.getValue().entrySet())
                     check.tickCounts.get(list.getKey()).put(values.getKey(), values.getValue()-1 <= 0?0:values.getValue()-1);

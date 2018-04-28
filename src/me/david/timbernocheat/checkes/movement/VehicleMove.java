@@ -7,6 +7,7 @@ import comphenix.packetwrapper.WrapperPlayClientVehicleMove;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.api.utils.player.PlayerUtil;
 import org.bukkit.Location;
@@ -26,8 +27,8 @@ public class VehicleMove extends Check {
         horse = getBoolean("horse");
         register(new PacketAdapter(TimberNoCheat.getInstance(), WrapperPlayClientSteerVehicle.TYPE, WrapperPlayClientVehicleMove.TYPE) {
             public void onPacketReceiving(PacketEvent event) {
-                if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())) return;
-                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
+                if(!CheckManager.getInstance().isvalid_create(event.getPlayer())) return;
+                PlayerData pd = CheckManager.getInstance().getPlayerdata(event.getPlayer());
                 if (event.getPacketType() == WrapperPlayClientSteerVehicle.TYPE) {
                     WrapperPlayClientSteerVehicle packet = new WrapperPlayClientSteerVehicle(event.getPacket());
                     if (packet.isUnmount() && pd.getVehicleY() != -1) pd.setVehicleY(-1);

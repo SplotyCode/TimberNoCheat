@@ -1,6 +1,7 @@
 package me.david.timbernocheat.checkes.movement.fly.checks;
 
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.fly.Fly;
 import me.david.timbernocheat.checkes.movement.fly.AbstractFlyCheck;
@@ -17,10 +18,10 @@ public class Vanilla extends AbstractFlyCheck {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void kick(PlayerKickEvent e) {
-        if(TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer()) && e.getReason().startsWith("Flying is not")) {
-            if(updateVio(this, e.getPlayer(), 1))
-                setBack(e.getPlayer());
+    public void kick(PlayerKickEvent event) {
+        if(CheckManager.getInstance().isvalid_create(event.getPlayer()) && event.getReason().startsWith("Flying is not")) {
+            if(updateVio(this, event.getPlayer(), 1))
+                setBack(event.getPlayer());
         }
     }
 

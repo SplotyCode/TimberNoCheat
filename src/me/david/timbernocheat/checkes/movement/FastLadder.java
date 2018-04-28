@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.movement;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.util.CheckUtils;
@@ -25,13 +26,13 @@ public class FastLadder extends Check {
     @EventHandler (ignoreCancelled = true)
     public void onMove(PlayerMoveEvent event){
         final Player player = event.getPlayer();
-        if (!TimberNoCheat.getCheckManager().isvalid_create(player) ||
+        if (!CheckManager.getInstance().isvalid_create(player) ||
                 !event.getTo().getWorld().getName().equals(event.getFrom().getWorld().getName())) {
             return;
         }
 
         TimberNoCheat.getInstance().getMoveprofiler().start("FastLadder");
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(event.getPlayer());
         double yDis = event.getTo().getZ()-event.getFrom().getZ();
         if(yDis <= 0) return;
         if (CheckUtils.doesColidateWithMaterial(Material.LADDER, event.getTo()) && CheckUtils.doesColidateWithMaterial(Material.LADDER, event.getFrom())){

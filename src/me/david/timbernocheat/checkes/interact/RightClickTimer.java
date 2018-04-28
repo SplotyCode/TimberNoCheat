@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.interact;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,10 +22,10 @@ public class RightClickTimer extends Check {
     @EventHandler
     public void onInteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p) || (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)){
+        if(!CheckManager.getInstance().isvalid_create(p) || (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)){
             return;
         }
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
         long delay = System.currentTimeMillis() - pd.getLastRightClick();
         if(delay < max_delay){
             e.setCancelled(true);

@@ -4,6 +4,7 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
 import me.david.timbernocheat.api.ViolationUpdateEvent;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -62,7 +63,7 @@ public class RecordManager implements Listener {
     @EventHandler
     public void onVio(ViolationUpdateEvent event){
         double vio = 0;
-        for(Check check : TimberNoCheat.getCheckManager().getChecks())
+        for(Check check : CheckManager.getInstance().getChecks())
             vio += check.getViolation(event.getPlayer());
         if(vio >= getRecord().getMinvio() && getRecoardingbyMain(event.getPlayer()) == null){
             try {

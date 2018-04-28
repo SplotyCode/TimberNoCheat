@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.interact;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.InteractTool;
 import me.david.api.utils.BlockUtil;
@@ -44,18 +45,19 @@ public class Break extends Check {
     }
 
     @EventHandler
-    public void onbreakstart(BlockDamageEvent e){
+    public void onBreakStart(BlockDamageEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+        if(!CheckManager.getInstance().isvalid_create(p)) return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
         pd.setStartBreak(e.getBlock());
         pd.setStartBreakTime(System.currentTimeMillis());
     }
+
     @EventHandler
-    public void onbreak(BlockBreakEvent e){
+    public void onBreak(BlockBreakEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+        if(!CheckManager.getInstance().isvalid_create(p)) return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
         if(nsenable && pd.getStartBreak() == null){
             e.setCancelled(true);
             updateVio(this, p, nsvio, " §6CHECK: §bNOTSTART");

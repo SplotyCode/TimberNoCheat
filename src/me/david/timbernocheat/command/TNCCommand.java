@@ -10,6 +10,7 @@ import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.speed.PatternCheck;
 import me.david.timbernocheat.config.Permissions;
@@ -90,7 +91,7 @@ public class TNCCommand extends Command {
                 break;
             case "checkmap":
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[CheckMap]---");
-                for(Check check : TimberNoCheat.getCheckManager().getChecks()){
+                for(Check check : CheckManager.getInstance().getChecks()){
                     sender.sendMessage(TimberNoCheat.getInstance().prefix + StringUtil.colorbyBool(true) + check.getName());
                     for(Check child : check.getChilds())
                         sender.sendMessage(TimberNoCheat.getInstance().prefix + "    ->" + StringUtil.colorbyBool(true) + child.getName());
@@ -98,7 +99,7 @@ public class TNCCommand extends Command {
                         sender.sendMessage(TimberNoCheat.getInstance().prefix + "    ->" + StringUtil.colorbyBool(false) + child.getName());
 
                 }
-                for(Check check : TimberNoCheat.getCheckManager().getDisabledChecks()){
+                for(Check check : CheckManager.getInstance().getDisabledChecks()){
                     sender.sendMessage(TimberNoCheat.getInstance().prefix + StringUtil.colorbyBool(false) + check.getName());
                     for(Check child : check.getChilds())
                         sender.sendMessage(TimberNoCheat.getInstance().prefix + "    ->" + StringUtil.colorbyBool(true) + child.getName());
@@ -117,11 +118,11 @@ public class TNCCommand extends Command {
                 break;
             case "playerdata": {
                 final Player target = Bukkit.getPlayer(args[1]);
-                if (!TimberNoCheat.getCheckManager().isvalid_create(target)) {
+                if (!CheckManager.getInstance().isvalid_create(target)) {
                     sender.sendMessage(TimberNoCheat.getInstance().prefix + "Es gibt keine SpielerDaten für '" + target.getName() + " :(");
                     return;
                 }
-                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(target);
+                PlayerData pd = CheckManager.getInstance().getPlayerdata(target);
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + "Playerdata for " + pd.getUuid());
                 sender.sendMessage(new PrettyPrint(pd, true, TimberNoCheat.getInstance().prefix).prettyPrint(0));
                 String hastebin = HastebinUtil.paste(new PrettyPrint(pd, false, "").prettyPrint(0));
@@ -152,8 +153,8 @@ public class TNCCommand extends Command {
                 break;
             case "invalidate":
                 Player target = Bukkit.getPlayer(args[0]);
-                PlayerData data = TimberNoCheat.getCheckManager().getPlayerdata(target);
-                if(data != null) TimberNoCheat.getCheckManager().getPlayerData().remove(data);
+                PlayerData data = CheckManager.getInstance().getPlayerdata(target);
+                if(data != null) CheckManager.getInstance().getPlayerData().remove(data);
                 else sender.sendMessage(TimberNoCheat.getInstance().prefix + "Es gibt keine Spielerdaten für '" + target.getName() + "'!");
                 break;
             case "listdebugids":

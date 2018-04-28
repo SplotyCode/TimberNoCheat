@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.movement.speed.pattern;
 import javafx.util.Pair;
 import me.david.api.utils.cordinates.LocationUtil;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.speed.PatternCheck;
 import me.david.timbernocheat.checktools.FalsePositive;
@@ -26,8 +27,8 @@ public class PatternRunnable implements ExceptionRunnable {
     @Override
     public void run() throws Exception {
         for(Player p : Bukkit.getOnlinePlayers()){
-            if(!TimberNoCheat.getCheckManager().isvalid_create(p) || p.getAllowFlight())continue;
-            PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+            if(!CheckManager.getInstance().isvalid_create(p) || p.getAllowFlight())continue;
+            PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
             if(pd.getLastTickLocation() != null) {
                 FalsePositive.FalsePositiveChecks fp = pd.getFalsePositives();
                 General.GeneralValues generals = pd.getGenerals();

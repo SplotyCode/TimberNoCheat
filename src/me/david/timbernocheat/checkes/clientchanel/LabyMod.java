@@ -5,6 +5,7 @@ import io.netty.buffer.Unpooled;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import net.minecraft.server.v1_8_R3.PacketDataSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutCustomPayload;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -50,7 +51,7 @@ public class LabyMod extends Check {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(final PlayerJoinEvent event){
         final Player player = event.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()))
+        if(!CheckManager.getInstance().isvalid_create(event.getPlayer()))
             return;
         try {
             HashMap<String, Boolean> list = new HashMap<String, Boolean>();

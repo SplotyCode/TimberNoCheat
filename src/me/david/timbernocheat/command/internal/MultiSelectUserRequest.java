@@ -32,9 +32,7 @@ public class MultiSelectUserRequest extends UserRequest<String> {
     }
 
     private void register(){
-        id = TNCInternal.getInstance().addHandler((player, value) -> {
-            getListeners().forEach((listener -> listener.onEvent(player, value)));
-        });
+        id = TNCInternal.getInstance().addHandler((player, value) -> getListeners().forEach((listener -> listener.onEvent(player, value))));
     }
 
     @Override

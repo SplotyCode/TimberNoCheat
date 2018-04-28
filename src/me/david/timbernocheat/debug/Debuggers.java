@@ -3,6 +3,7 @@ package me.david.timbernocheat.debug;
 import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.debug.debuggers.MotionLoop;
 import me.david.timbernocheat.debug.debuggers.MoveVelocity;
 import me.david.timbernocheat.debug.debuggers.OnGround;
@@ -61,8 +62,8 @@ public enum  Debuggers {
     public static void checkDependencies(){
         for(Debuggers debugger : values())
             if(!debugger.isExternal() && StringUtil.isNotEmpty(debugger.rawDependency)) {
-               // System.out.println(debugger + " " + debugger.rawDependency + " " + TimberNoCheat.getCheckManager());
-                debugger.dependency = TimberNoCheat.getCheckManager().getCheckByString(debugger.rawDependency);
+               // System.out.println(debugger + " " + debugger.rawDependency + " " + CheckManager.getInstance());
+                debugger.dependency = CheckManager.getInstance().getCheckByString(debugger.rawDependency);
                 if(debugger.dependency == null){
                     TimberNoCheat.getInstance().getLogger().info("Der Debugger '" + debugger.name() + "' wurde disabled da er kein External ist und seine Dependecy(" + debugger.rawDependency + ") nicht geladen wurde!");
                     debugger.disabled = true;

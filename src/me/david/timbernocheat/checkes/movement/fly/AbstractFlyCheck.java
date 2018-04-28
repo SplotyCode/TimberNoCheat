@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.movement.fly;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.util.MoveingUtils;
@@ -45,7 +46,7 @@ public abstract class AbstractFlyCheck extends Check {
 
 
     public void setBack(Player player){
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         switch (flyCheck.getSetback()){
             case "cancel":
                 player.teleport(pd.getGenerals().getLastOnGround(), PlayerTeleportEvent.TeleportCause.PLUGIN);

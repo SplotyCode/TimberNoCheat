@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.player;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -18,23 +19,23 @@ public class Respawn extends Check {
 
     @EventHandler
     public void onRespwan(PlayerRespawnEvent e){
-        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())) {
+        if (!CheckManager.getInstance().isvalid_create(e.getPlayer())) {
             return;
         }
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(e.getPlayer());
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(e.getPlayer());
         long delay = System.currentTimeMillis()-pd.getLastDead();
         //message nicht vergessen :D wenn neie config
         if(mdelay > delay){
             pd.setLastDead(System.currentTimeMillis()-15000L);
             updateVio(this, e.getPlayer(), delay-mdelay, " §6DELAY: §b" + delay, " §6MAXDELAY: §b" + mdelay);
-            //TimberNoCheat.getCheckManager().notify(this, e.getPlayer(), " §6DELAY: §b" + delay, " §6MAXDELAY: §b" + mdelay);
+            //CheckManager.getInstance().notify(this, e.getPlayer(), " §6DELAY: §b" + delay, " §6MAXDELAY: §b" + mdelay);
         }
     }
     @EventHandler
     public void onDead(PlayerDeathEvent e){
-        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getEntity())) {
+        if (!CheckManager.getInstance().isvalid_create(e.getEntity())) {
             return;
         }
-        TimberNoCheat.getCheckManager().getPlayerdata(e.getEntity()).setLastDead(System.currentTimeMillis());
+        CheckManager.getInstance().getPlayerdata(e.getEntity()).setLastDead(System.currentTimeMillis());
     }
 }

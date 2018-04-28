@@ -8,6 +8,7 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.NumberUtil;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,8 +40,8 @@ public class PingSpoof extends Check {
             register(new PacketAdapter(TimberNoCheat.getInstance(), ListenerPriority.NORMAL, PacketType.Play.Client.KEEP_ALIVE) {
                 public void onPacketReceiving(PacketEvent event) {
                     Player p = event.getPlayer();
-                    if (!TimberNoCheat.getCheckManager().isvalid_create(p) || local(p.getAddress().getAddress())) return;
-                    if (TimberNoCheat.getCheckManager().getping(p) == 0) {
+                    if (!CheckManager.getInstance().isvalid_create(p) || local(p.getAddress().getAddress())) return;
+                    if (CheckManager.getInstance().getping(p) == 0) {
                         addCount(p, "keepalive");
                         if (getCount(p, "keepalive") / 5 > 0)
                             updateVio(PingSpoof.this, p, getCount(p, "keepalive") * 1.4, " §6MODE: §bKEEK_ALIVE");
@@ -52,7 +53,7 @@ public class PingSpoof extends Check {
 
     @EventHandler
     public void onMove(PlayerMoveEvent e){
-        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())){
+        if(!CheckManager.getInstance().isvalid_create(e.getPlayer())){
             return;
         }
         if(NumberUtil.randInt(0, movespeed) == 1){
@@ -62,7 +63,7 @@ public class PingSpoof extends Check {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e){
-        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())){
+        if(!CheckManager.getInstance().isvalid_create(e.getPlayer())){
             return;
         }
         if(NumberUtil.randInt(0, interactspeed) == 1){
@@ -86,7 +87,7 @@ public class PingSpoof extends Check {
             }
             if(ping>realping){
                 updateVio(this, p, realping-ping, " §6MODE: §bNORMAL", " §6PING: §b" + ping, " §6REALPING: §b" + realping);
-                //TimberNoCheat.getCheckManager().notify(this, e.getPlayer(), " §6PING: §b" + ping, " §6REALPING: §b" + realping);
+                //CheckManager.getInstance().notify(this, e.getPlayer(), " §6PING: §b" + ping, " §6REALPING: §b" + realping);
             }
         }catch (IOException | InterruptedException ex){
             ex.printStackTrace();

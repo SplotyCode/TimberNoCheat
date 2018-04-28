@@ -2,6 +2,7 @@ package me.david.timbernocheat.checkes.chat;
 
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.TimberNoCheat;
 import org.bukkit.Bukkit;
@@ -24,8 +25,8 @@ public class CommandDelay extends Check {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onCommand(final PlayerCommandPreprocessEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+        if(!CheckManager.getInstance().isvalid_create(p)) return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
         pd.setCommands10sec(pd.getCommands10sec()+1);
         Bukkit.getScheduler().runTaskLaterAsynchronously(TimberNoCheat.getInstance(), () -> pd.setCommands10sec(pd.getCommands10sec()-1), 200);
         long delay = System.currentTimeMillis() - pd.getLastCommand();

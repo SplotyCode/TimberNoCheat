@@ -8,6 +8,7 @@ import comphenix.packetwrapper.WrapperPlayClientBlockDig;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.Tps;
 import org.bukkit.Location;
@@ -26,8 +27,8 @@ public class ZeroDelay extends Check {
                 long time = System.currentTimeMillis();
                 PacketContainer packet = event.getPacket();
                 Player player = event.getPlayer();
-                if (player == null || !TimberNoCheat.getCheckManager().isvalid_create(player)) return;
-                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+                if (player == null || !CheckManager.getInstance().isvalid_create(player)) return;
+                PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
 
                 Location blockLocation = new WrapperPlayClientBlockDig(packet).getBlockLocation(player);
                 if (blockLocation.equals(pd.getZeroDelayLocation())) {
@@ -44,9 +45,9 @@ public class ZeroDelay extends Check {
     public void onHit(final EntityDamageByEntityEvent event) {
         if (event.getDamager().getType() != EntityType.PLAYER) return;
         final Player player = (Player) event.getDamager();
-        if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
+        if (!CheckManager.getInstance().isvalid_create(player)) return;
 
-        if (Tps.tickCount - TimberNoCheat.getCheckManager().getPlayerdata(player).getZeroDelayBlocked() < 45) {
+        if (Tps.tickCount - CheckManager.getInstance().getPlayerdata(player).getZeroDelayBlocked() < 45) {
             event.setCancelled(true);
         }
 

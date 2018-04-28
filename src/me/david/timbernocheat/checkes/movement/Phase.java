@@ -6,6 +6,7 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.BlockUtil;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.MaterialHelper;
 import org.bukkit.block.Block;
@@ -32,21 +33,25 @@ public class Phase extends Check {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onMove(PlayerMoveEvent event) {
         final Player player = event.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
+        if(!CheckManager.getInstance().isvalid_create(player)) return;
         TimberNoCheat.getInstance().getMoveprofiler().start("Phase");
+
         AABBBox playerBox = Api.getNms().getBoundingBox(player);
         playerBox = playerBox.expand(PLAYER_ZX, PLAYER_Y, PLAYER_ZX);
+
         boolean diff = false;
         for(Block block : BlockUtil.getBlocksAround(event.getTo(), 3)){
             if(block == null || !block.getType().isSolid())continue;
             AABBBox boundingBox = Api.getNms().getBoundingBox(block);
             boundingBox = boundingBox.expand(BLOCK_XZ, BLOCK_Y, BLOCK_XZ);
             if(boundingBox == null)continue;
+
             if(MaterialHelper.GATES.contains(block.getType()) && ((Gate) block).isOpen())continue;
             if(playerBox.intersectsWith(boundingBox)) diff = true;
             break;
         }
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         if(!diff) pd.setLastPhaseOkay(event.getTo());
         else
             if(updateVio(this, player, 1.2, " §6Diff: §b" + diff   )) {

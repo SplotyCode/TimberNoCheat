@@ -2,6 +2,7 @@ package me.david.timbernocheat.gui.settings;
 
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.config.Permissions;
 import me.david.api.guis.CloseReason;
 import me.david.api.guis.Gui;
@@ -26,7 +27,7 @@ public class CheckGui extends Gui {
     public Inventory build(Player p) {
         Check check = SettingsGui.currentCheck.get(p.getUniqueId());
         Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.DISPENSER, "§6" + check.getName());
-        boolean enabled = TimberNoCheat.getCheckManager().getChecks().contains(check);
+        boolean enabled = CheckManager.getInstance().getChecks().contains(check);
         inv.addItem(ItemStackUtil.createbasic((enabled?"§An":"§cAus"), 1, (enabled? Material.REDSTONE_TORCH_ON:Material.REDSTONE_TORCH_OFF)));
         inv.addItem(ItemStackUtil.createbasic("§7Custom Settings", 1, Material.STONE_PICKAXE));
         inv.addItem(ItemStackUtil.createbasic("§bViolations", 1, Material.COMMAND));

@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.movement;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
@@ -27,9 +28,9 @@ public class Jesus extends Check {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onMove(final PlayerMoveEvent event) {
         final Player player = event.getPlayer();
-        if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
+        if (!CheckManager.getInstance().isvalid_create(player)) return;
         TimberNoCheat.getInstance().getMoveprofiler().start("Jesus");
-        PlayerData playerData = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        PlayerData playerData = CheckManager.getInstance().getPlayerdata(player);
         final FalsePositive.FalsePositiveChecks falsePositive = playerData.getFalsePositives();
         final General.GeneralValues generals = playerData.getGenerals();
         if(player.getAllowFlight() || falsePositive.hasVehicle(45))return;

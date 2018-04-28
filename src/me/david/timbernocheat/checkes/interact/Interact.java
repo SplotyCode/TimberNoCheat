@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.interact;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checktools.MaterialHelper;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.api.Api;
@@ -49,7 +50,7 @@ public class Interact extends Check {
     public void onhitinteract(EntityDamageByEntityEvent e){
         if(!(e.getDamager() instanceof Player)) return;
         final Player p = (Player)e.getDamager();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p)){
+        if(!CheckManager.getInstance().isvalid_create(p)){
             return;
         }
         if(e.getEntity() instanceof Player && !p.canSee((Player) e.getEntity()) && visible){
@@ -63,67 +64,67 @@ public class Interact extends Check {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e){
-        final Player p = e.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
-        if(e.getClickedBlock() != null && e.getClickedBlock().isLiquid() && liquids){
-            e.setCancelled(true);
-            updateVio(this, p, 1, " §6CHECK: §bLIQUIDS");
+    public void onInteract(PlayerInteractEvent event){
+        final Player player = event.getPlayer();
+        if(!CheckManager.getInstance().isvalid_create(player)) return;
+        if(event.getClickedBlock() != null && event.getClickedBlock().isLiquid() && liquids){
+            event.setCancelled(true);
+            updateVio(this, player, 1, " §6CHECK: §bLIQUIDS");
         }
-        if(p.isDead() && dead){
-            e.setCancelled(true);
-            updateVio(this, p, 1, " §6CHECK: §bDEAD");
+        if(player.isDead() && dead){
+            event.setCancelled(true);
+            updateVio(this, player, 1, " §6CHECK: §bDEAD");
         }
-        if(e.getAction() == Action.PHYSICAL){
+        if(event.getAction() == Action.PHYSICAL){
             return;
         }
-        if(p.getItemOnCursor().getType() != Material.AIR && itemcursor){
-            //System.out.println(p.getItemOnCursor().getType().name());
-            e.setCancelled(true);
-            updateVio(this, p, 1, " §6CHECK: §bITEMCURSOR");
+        if(player.getItemOnCursor().getType() != Material.AIR && itemcursor){
+            //System.out.println(player.getItemOnCursor().getType().name());
+            event.setCancelled(true);
+            updateVio(this, player, 1, " §6CHECK: §bITEMCURSOR");
         }
-        if(p.isSleeping() && sleep){
-            e.setCancelled(true);
-            updateVio(this, p, 1, " §6CHECK: §bSLEEP");
+        if(player.isSleeping() && sleep){
+            event.setCancelled(true);
+            updateVio(this, player, 1, " §6CHECK: §bSLEEP");
         }
-        if(p.isBlocking() && block){
-            e.setCancelled(true);
-            updateVio(this, p, 1, " §6CHECK: §bBLOCK");
+        if(player.isBlocking() && block){
+            event.setCancelled(true);
+            updateVio(this, player, 1, " §6CHECK: §bBLOCK");
         }
-        if(PlayerUtil.hasInventoryOpen(p) && openinv){
-            e.setCancelled(true);
-            //System.out.println(p.getOpenInventory().getType());
-            updateVio(this, p, 1, " §6CHECK: §bOPENINV");
+        if(PlayerUtil.hasInventoryOpen(player) && openinv){
+            event.setCancelled(true);
+            //System.out.println(player.getOpenInventory().getType());
+            updateVio(this, player, 1, " §6CHECK: §bOPENINV");
         }
         if(raycast){
-            if(e.getClickedBlock() != null) {
-                Location pLoc = p.getLocation();
-                Location bLoc = e.getClickedBlock().getLocation();
-                RayTraceResult rayTrace = Api.getNms().rayTrace(new Vector(pLoc.getX(), pLoc.getY() + p.getEyeHeight(), pLoc.getZ()), new Vector(bLoc.getX(), bLoc.getY(), bLoc.getZ()), false, true, false, p.getWorld());
+            if(event.getClickedBlock() != null) {
+                Location pLoc = player.getLocation();
+                Location bLoc = event.getClickedBlock().getLocation();
+                RayTraceResult rayTrace = Api.getNms().rayTrace(new Vector(pLoc.getX(), pLoc.getY() + player.getEyeHeight(), pLoc.getZ()), new Vector(bLoc.getX(), bLoc.getY(), bLoc.getZ()), false, true, false, player.getWorld());
                 if(rayTrace.getType() != RayTraceResult.Type.BLOCK){
-                    updateVio(this, p, 1, " §6CHECK: §bRAYTRACE");
+                    updateVio(this, player, 1, " §6CHECK: §bRAYTRACE");
                 }
 
-                //TODO: Validate e.getBlockFace() or the player facing(by yaw and pitch) with the facing from raytrace?!
-                TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.RAY_TRACE, " calc=" + rayTrace.getFaing().name() + " packet=" + e.getBlockFace().name());
+                //TODO: Validate event.getBlockFace() or the player facing(by yaw and pitch) with the facing from raytrace?!
+                TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.RAY_TRACE, " calc=" + rayTrace.getFaing().name() + " packet=" + event.getBlockFace().name());
 
             }
         }
-        if(e.getClickedBlock() == null || !ghost)
+        if(event.getClickedBlock() == null || !ghost)
             return;
-        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK) && ((MaterialHelper.checkmat(e.getClickedBlock().getLocation())) || (p.getInventory().getItemInHand().getType() == Material.MONSTER_EGG))) {
-            if (MaterialHelper.checkb(p, e.getClickedBlock().getLocation()) != null) {
-                updateVio(this, p, 1, " §6CHECK: §bGHOST");
-                e.setCancelled(true);
+        if ((event.getAction() == Action.RIGHT_CLICK_BLOCK) && ((MaterialHelper.checkmat(event.getClickedBlock().getLocation())) || (player.getInventory().getItemInHand().getType() == Material.MONSTER_EGG))) {
+            if (MaterialHelper.checkb(player, event.getClickedBlock().getLocation()) != null) {
+                updateVio(this, player, 1, " §6CHECK: §bGHOST");
+                event.setCancelled(true);
             }
         }
-        //if(p.getTargetBlock((Set<Material>) null, 6) != e.getClickedBlock() && !BlockUtil.getSurrounding(p.getTargetBlock((Set<Material>) null, 6), false).contains(e.getClickedBlock())){
-        //    e.setCancelled(true);
-        //    updateVio(this, p, 1, " §6CHECK: §bGHOST");
+        //if(player.getTargetBlock((Set<Material>) null, 6) != event.getClickedBlock() && !BlockUtil.getSurrounding(player.getTargetBlock((Set<Material>) null, 6), false).contains(event.getClickedBlock())){
+        //    event.setCancelled(true);
+        //    updateVio(this, player, 1, " §6CHECK: §bGHOST");
         //}
-        /*if(e.getClickedBlock() != null && !.contains(e.getClickedBlock())){
-            e.setCancelled(true);
-            TimberNoCheat.getCheckManager().notify(this, p, " §6CHECK: §bGHOST");
+        /*if(event.getClickedBlock() != null && !.contains(event.getClickedBlock())){
+            event.setCancelled(true);
+            CheckManager.getInstance().notify(this, player, " §6CHECK: §bGHOST");
             return;
         }*/
 

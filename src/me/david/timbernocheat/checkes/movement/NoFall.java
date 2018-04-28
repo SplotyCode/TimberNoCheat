@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.movement;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,7 @@ public class NoFall extends Check {
     @EventHandler
     public void onMode(PlayerMoveEvent e){
         final Player p = e.getPlayer();
-        if (!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled()) {
+        if (!CheckManager.getInstance().isvalid_create(p) || e.isCancelled()) {
             return;
         }
         TimberNoCheat.getInstance().getMoveprofiler().start("NoFall");
@@ -30,8 +31,8 @@ public class NoFall extends Check {
         }
         //TODO better setback
         if(p.getFallDistance() < blocks && blocks>3){
-            updateVio(this, p, blocks-p.getFallDistance());
-            e.setCancelled(true);
+            if (updateVio(this, p, blocks-p.getFallDistance()))
+                e.setCancelled(true);
         }
         TimberNoCheat.getInstance().getMoveprofiler().end();
     }

@@ -5,6 +5,7 @@ import me.david.api.guis.standart.NoStaticListGui;
 import me.david.api.utils.ItemStackUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.TNCApi;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.config.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -26,7 +27,7 @@ public class GlobalViolationGui extends NoStaticListGui<OfflinePlayer> {
     @Override
     protected List<OfflinePlayer> getList(Player player) {
         ArrayList<OfflinePlayer> list = new ArrayList<>();
-        HashMap<UUID, Double> violations = TimberNoCheat.getCheckManager().getViolations();
+        HashMap<UUID, Double> violations = CheckManager.getInstance().getViolations();
         violations.keySet().forEach((player1) -> list.add(Bukkit.getOfflinePlayer(player1)));
         list.sort(Comparator.comparingDouble(player1 -> violations.get(player1.getUniqueId())));
         return list;

@@ -1,9 +1,9 @@
 package me.david.timbernocheat.checkes.interact;
 
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.BlockUtil;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -16,27 +16,27 @@ public class BreakCovered extends Check {
     }
 
     @EventHandler
-    public void onBreak(BlockBreakEvent e) {
-        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())) return;
-        if (isbed(e.getBlock())) {
-            if (checkbed(e.getBlock())) {
-                e.setCancelled(true);
-                updateVio(this, e.getPlayer(), 1, " §6BED: §bTRUE");
+    public void onBreak(BlockBreakEvent event) {
+        if (!CheckManager.getInstance().isvalid_create(event.getPlayer())) return;
+        if (isbed(event.getBlock())) {
+            if (checkBed(event.getBlock())) {
+                event.setCancelled(true);
+                updateVio(this, event.getPlayer(), 1, " §6BED: §bTRUE");
             }
-        } else if (check(e.getBlock())) {
-            e.setCancelled(true);
-            updateVio(this, e.getPlayer(), 1, " §6BED: §bFALSE");
+        } else if (check(event.getBlock())) {
+            event.setCancelled(true);
+            updateVio(this, event.getPlayer(), 1, " §6BED: §bFALSE");
         }
     }
 
-    private boolean checkbed(Block b) {
-        return getbedblockface(b) != null && check(getbedblockface(b)) && check(b);
+    private boolean checkBed(Block block) {
+        return getBedBlockFace(block) != null && check(getBedBlockFace(block)) && check(block);
     }
 
-    private Block getbedblockface(Block b) {
+    private Block getBedBlockFace(Block block) {
         int i = 0;
         Block b1 = null;
-        for (Block blocks : BlockUtil.getSurrounding(b, false))
+        for (Block blocks : BlockUtil.getSurrounding(block, false))
             if (isbed(blocks)) {
                 i++;
                 b1 = blocks;

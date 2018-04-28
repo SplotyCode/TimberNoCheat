@@ -3,6 +3,7 @@ package me.david.timbernocheat.runnable;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.config.Permissions;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 
@@ -36,9 +37,9 @@ public class Tps implements Runnable{
         tickCount++;
         if(!lowTpsMode && getTPS() < 16){
             TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wegen der geringen Tps deaktiviert!");
-            for(Check check : (ArrayList<Check>)TimberNoCheat.getCheckManager().getChecks().clone())
+            for(Check check : new ArrayList<>(CheckManager.getInstance().getChecks()))
                 if(check.getCategory() == Category.MOVEMENT) {
-                    TimberNoCheat.getCheckManager().unregister(check);
+                    CheckManager.getInstance().unregister(check);
                     disabledChecks.add(check);
                 }
             lowTpsMode = true;
@@ -46,7 +47,7 @@ public class Tps implements Runnable{
         }else if(lowTpsMode && getTPS() > 17){
             TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wieder aktiviert!");
             for(Check check : disabledChecks)
-                TimberNoCheat.getCheckManager().register(check);
+                CheckManager.getInstance().register(check);
             disabledChecks.clear();
             lowTpsMode = false;
             TimberNoCheat.getInstance().getDiscordManager().sendWarning("LowTps mode wurde deaktiviert!", new MessageEmbed.Field("Tps", getTPS()+"", true));

@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.player;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,17 +31,17 @@ public class ChestStealer extends Check {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onitem(InventoryClickEvent e){
-        final Player p = (Player) e.getWhoClicked();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled() || e.getAction() != InventoryAction.MOVE_TO_OTHER_INVENTORY){
+    public void onItem(InventoryClickEvent event){
+        final Player player = (Player) event.getWhoClicked();
+        if(!CheckManager.getInstance().isvalid_create(player) || event.isCancelled() || event.getAction() != InventoryAction.MOVE_TO_OTHER_INVENTORY){
             return;
         }
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         long delay = System.currentTimeMillis()-pd.getLastChestStealer();
         if(delay < this.delay){
-            e.setCancelled(true);
-            updateVio(this, p, 2, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
-            //TimberNoCheat.getCheckManager().notify(this, p, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
+            event.setCancelled(true);
+            updateVio(this, player, 2, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
+            //CheckManager.getInstance().notify(this, player, " §6MODE: §bNORMAL", " §6DELAY: §b" + delay);
             pd.getCheststealercon().clear();
         }
         if(!enable)return;
@@ -74,8 +75,8 @@ public class ChestStealer extends Check {
                 last = bet;
             }
             if(consisdent){
-                updateVio(this, p, 8, " §6MODE: §bCONSISDEND");
-                //TimberNoCheat.getCheckManager().notify(this, p, " §6MODE: §bCONSISDEND");
+                updateVio(this, player, 8, " §6MODE: §bCONSISDEND");
+                //CheckManager.getInstance().notify(this, player, " §6MODE: §bCONSISDEND");
                 pd.getCheststealercon().clear();
             }
         }

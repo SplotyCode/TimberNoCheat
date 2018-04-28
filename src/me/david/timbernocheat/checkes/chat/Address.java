@@ -4,6 +4,7 @@ import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.api.utils.UrlUtil;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,7 +23,7 @@ public class Address extends Check{
     public void onChat(final AsyncPlayerChatEvent event){
         final Player player = event.getPlayer();
         final String message = event.getMessage();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(player) || message.startsWith("/")) return;
+        if(!CheckManager.getInstance().isvalid_create(player) || message.startsWith("/")) return;
         if(!UrlUtil.blockURL(message).equals(message)){
             if(updateVio(this, player, 1, " §6MESSAGE: §b" + message))
                 event.setCancelled(true);

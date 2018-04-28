@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.other;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -14,17 +15,17 @@ public class Grifing extends Check {
         super("Grifing", Category.OTHER);
     }
     @EventHandler
-    public void onInteract(PlayerInteractEvent e) {
-        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())){
+    public void onInteract(PlayerInteractEvent event) {
+        if(!CheckManager.getInstance().isvalid_create(event.getPlayer())){
             return;
         }
-        if (e.getItem() == null || e.getItem().getType() == Material.AIR || (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+        if (event.getItem() == null || event.getItem().getType() == Material.AIR || (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
             return;
         }
-        if (e.getItem().getType() == Material.EXPLOSIVE_MINECART) {
-            e.setCancelled(true);
-            updateVio(this, e.getPlayer(), 1, " §6CHECK: §bTntMineCard");
-           // TimberNoCheat.getCheckManager().notify(this, e.getPlayer(), " §6CHECK: §bTntMineCard");
+        if (event.getItem().getType() == Material.EXPLOSIVE_MINECART) {
+            event.setCancelled(true);
+            updateVio(this, event.getPlayer(), 1, " §6CHECK: §bTntMineCard");
+           // CheckManager.getInstance().notify(this, event.getPlayer(), " §6CHECK: §bTntMineCard");
         }
     }
 }

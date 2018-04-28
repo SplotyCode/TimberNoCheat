@@ -7,6 +7,7 @@ import me.david.api.objects.Pair;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.debug.Scheduler;
 import me.david.timbernocheat.runnable.TimberScheduler;
@@ -21,8 +22,8 @@ public class BadPackets extends Check {
     public BadPackets(){
         super("BadPackets", Category.PLAYER);
         register(new TimberScheduler(Scheduler.BADPACKETS, () -> Bukkit.getOnlinePlayers().stream().filter(player ->
-            TimberNoCheat.getCheckManager().isvalid_create(player)).forEach(player -> {
-                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+            CheckManager.getInstance().isvalid_create(player)).forEach(player -> {
+                PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
                 int tick = Tps.tickCount-3;
                 Pair<Double, Integer> data = pd.getMovePackets().get(tick);
                 if (data != null && data.getTwo() > 1) {
@@ -44,8 +45,8 @@ public class BadPackets extends Check {
             @Override
             public void onPacketReceiving(PacketEvent event) {
                 final Player player = event.getPlayer();
-                if(!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
-                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+                if(!CheckManager.getInstance().isvalid_create(player)) return;
+                PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
                 Pair<Double, Integer> data = pd.getMovePackets().get(Tps.tickCount);
                 if (data == null)
                     pd.getMovePackets().put(Tps.tickCount, new Pair<>(Tps.getTPS(5), 1));

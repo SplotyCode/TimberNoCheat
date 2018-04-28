@@ -4,6 +4,7 @@ import me.david.api.Api;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
@@ -49,17 +50,17 @@ public class Shematica extends Check implements PluginMessageListener {
     }
 
     @EventHandler
-    public void onlogin(PlayerLoginEvent e){
-        final Player p = e.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
-        Api.getNms().sendPluingMessage(p, getPayload(), channel, TimberNoCheat.getInstance());
-        p.sendPluginMessage(TimberNoCheat.getInstance(), channel, getPayload());
+    public void onLogin(PlayerLoginEvent event){
+        final Player player = event.getPlayer();
+        if(!CheckManager.getInstance().isvalid_create(player)) return;
+        Api.getNms().sendPluingMessage(player, getPayload(), channel, TimberNoCheat.getInstance());
+        player.sendPluginMessage(TimberNoCheat.getInstance(), channel, getPayload());
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         final Player player = event.getPlayer();
-        if(BLOCK && TimberNoCheat.getCheckManager().isvalid_create(player)){
+        if(BLOCK && CheckManager.getInstance().isvalid_create(player)){
             String json = "{\"text\":\"\",\"extra\":[{\"text\":\"\u00a70\u00a72\u00a70\u00a70\u00a7e\u00a7f\"},{\"text\":\"\u00a70\u00a72\u00a71\u00a70\u00a7e\u00a7f\"},{\"text\":\"\u00a70\u00a72\u00a71\u00a71\u00a7e\u00a7f\"}]}";
             IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a(json);
             PacketPlayOutChat chat = new PacketPlayOutChat(icbc, BigInteger.valueOf(0).toByteArray()[0]);

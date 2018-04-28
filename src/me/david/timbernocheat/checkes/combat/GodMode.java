@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.combat;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.Tps;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -20,7 +21,7 @@ public class GodMode extends Check {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDamage(final EntityDamageEvent event) {
-        if(event.getEntityType() != EntityType.PLAYER || !TimberNoCheat.getCheckManager().isvalid_create((Player) event.getEntity())) return;
+        if(event.getEntityType() != EntityType.PLAYER || !CheckManager.getInstance().isvalid_create((Player) event.getEntity())) return;
         final Player player = (Player) event.getEntity();
         if (!player.isDead()) {
             if (check(player, event.getDamage())) {
@@ -31,7 +32,7 @@ public class GodMode extends Check {
 
     private boolean check(final Player player, final double damage){
         final int tick = Tps.tickCount;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         final int noDamageTicks = Math.max(0, player.getNoDamageTicks());
         final int invulnerabilityTicks = ((CraftPlayer) player).getHandle().invulnerableTicks;
 

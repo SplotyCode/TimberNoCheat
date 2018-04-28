@@ -2,6 +2,7 @@ package me.david.timbernocheat.checktools;
 
 import me.david.api.utils.ServerWorldUtil;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.api.anotations.Nullable;
@@ -34,8 +35,8 @@ public class FalsePositive implements Listener {
         /* Was the Player that Tick on Ground? */
         new TimberScheduler("FalsePositive-PlayerData", () -> {
             for(Player p : Bukkit.getOnlinePlayers())
-                if(TimberNoCheat.getCheckManager().isvalid_create(p))
-                    TimberNoCheat.getCheckManager().getPlayerdata(p).getFalsePositives().wasOnGroundTick = false;
+                if(CheckManager.getInstance().isvalid_create(p))
+                    CheckManager.getInstance().getPlayerdata(p).getFalsePositives().wasOnGroundTick = false;
 
         }).startTimer(1);
     }
@@ -265,29 +266,29 @@ public class FalsePositive implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     private void onRod(PlayerFishEvent event) {
-        if (!event.isCancelled() && event.getCaught() != null && event.getCaught() instanceof Player && TimberNoCheat.getCheckManager().isvalid_create((Player) event.getCaught()))
-            TimberNoCheat.getCheckManager().getPlayerdata((Player) event.getCaught()).getFalsePositives().rod = System.currentTimeMillis();
+        if (!event.isCancelled() && event.getCaught() != null && event.getCaught() instanceof Player && CheckManager.getInstance().isvalid_create((Player) event.getCaught()))
+            CheckManager.getInstance().getPlayerdata((Player) event.getCaught()).getFalsePositives().rod = System.currentTimeMillis();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     private void onVehicle(VehicleExitEvent event) {
-        if (event.getExited() instanceof Player && TimberNoCheat.getCheckManager().isvalid_create((Player) event.getExited()) && !event.isCancelled())
-            TimberNoCheat.getCheckManager().getPlayerdata((Player) event.getExited()).getFalsePositives().vehicle = System.currentTimeMillis();
+        if (event.getExited() instanceof Player && CheckManager.getInstance().isvalid_create((Player) event.getExited()) && !event.isCancelled())
+            CheckManager.getInstance().getPlayerdata((Player) event.getExited()).getFalsePositives().vehicle = System.currentTimeMillis();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     private void onVelocity(PlayerVelocityEvent event){
-        if(TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()))
-            TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer()).getFalsePositives().knockbag = System.currentTimeMillis();
+        if(CheckManager.getInstance().isvalid_create(event.getPlayer()))
+            CheckManager.getInstance().getPlayerdata(event.getPlayer()).getFalsePositives().knockbag = System.currentTimeMillis();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     private void onHitorBow(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player) {
-            if(!TimberNoCheat.getCheckManager().isvalid_create((Player) event.getEntity())){
+            if(!CheckManager.getInstance().isvalid_create((Player) event.getEntity())){
                 return;
             }
-            PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata((Player) event.getEntity());
+            PlayerData pd = CheckManager.getInstance().getPlayerdata((Player) event.getEntity());
             if(event.getDamager() instanceof Firework && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)
                 pd.getFalsePositives().lastFirework = System.currentTimeMillis();
             if ((event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE))
@@ -303,19 +304,19 @@ public class FalsePositive implements Listener {
     public void onDamage(EntityDamageEvent event){
         if(!(event.getEntity() instanceof Player))return;
         final Player player = (Player) event.getEntity();
-        if(TimberNoCheat.getCheckManager().isvalid_create(player)){
-            PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata((Player) event.getEntity());
+        if(CheckManager.getInstance().isvalid_create(player)){
+            PlayerData pd = CheckManager.getInstance().getPlayerdata((Player) event.getEntity());
             if(ServerWorldUtil.getMinecraftVersionInt() >= 190 && event.getCause() == EntityDamageEvent.DamageCause.valueOf("HOT_FLOOR")) pd.getFalsePositives().lastMagma = System.currentTimeMillis();
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     private void onMove(PlayerMoveEvent event) {
-        if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())){
+        if(!CheckManager.getInstance().isvalid_create(event.getPlayer())){
             return;
         }
         Player p = event.getPlayer();
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
         Material under = p.getLocation().subtract(0, 1, 0).getBlock().getType();
         Location to = event.getTo();
         Location fr = event.getFrom();
@@ -339,10 +340,10 @@ public class FalsePositive implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     private void onTeleport(PlayerTeleportEvent event) {
-        if(event.isCancelled() || !TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())){
+        if(event.isCancelled() || !CheckManager.getInstance().isvalid_create(event.getPlayer())){
             return;
         }
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(event.getPlayer());
         pd.getFalsePositives().teleport = System.currentTimeMillis();
         if (event.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL)
             pd.getFalsePositives().enderpearl = true;
@@ -350,22 +351,22 @@ public class FalsePositive implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     private void onbed(PlayerBedLeaveEvent event) {
-        if(TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())) TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer()).getFalsePositives().bed = System.currentTimeMillis();
+        if(CheckManager.getInstance().isvalid_create(event.getPlayer())) CheckManager.getInstance().getPlayerdata(event.getPlayer()).getFalsePositives().bed = System.currentTimeMillis();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     private void onworld(PlayerChangedWorldEvent event) {
-        if(TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())) TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer()).getFalsePositives().world = System.currentTimeMillis();
+        if(CheckManager.getInstance().isvalid_create(event.getPlayer())) CheckManager.getInstance().getPlayerdata(event.getPlayer()).getFalsePositives().world = System.currentTimeMillis();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void death(PlayerDeathEvent event){
-        if(TimberNoCheat.getCheckManager().isvalid_create(event.getEntity())) TimberNoCheat.getCheckManager().getPlayerdata(event.getEntity()).getFalsePositives().deathorrespawn = System.currentTimeMillis();
+        if(CheckManager.getInstance().isvalid_create(event.getEntity())) CheckManager.getInstance().getPlayerdata(event.getEntity()).getFalsePositives().deathorrespawn = System.currentTimeMillis();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void respawn(PlayerRespawnEvent event){
-        if(TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())) TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer()).getFalsePositives().deathorrespawn = System.currentTimeMillis();
+        if(CheckManager.getInstance().isvalid_create(event.getPlayer())) CheckManager.getInstance().getPlayerdata(event.getPlayer()).getFalsePositives().deathorrespawn = System.currentTimeMillis();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -374,8 +375,8 @@ public class FalsePositive implements Listener {
         if(event.isCancelled()) return;
         Location localLocation2;
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if(!TimberNoCheat.getCheckManager().isvalid_create(player)) continue;
-            PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+            if(!CheckManager.getInstance().isvalid_create(player)) continue;
+            PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
             localLocation2 = player.getLocation();
             if (getDistance(localLocation2, loc) <= 3.5 || getDistance(localLocation2.clone().add(0, 1, 0), loc) <= 3.5D) {
                 pd.getFalsePositives().piston = System.currentTimeMillis();

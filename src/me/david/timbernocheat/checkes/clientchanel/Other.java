@@ -6,6 +6,7 @@ import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.StringUtil;
+import me.david.timbernocheat.checkbase.CheckManager;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
@@ -45,7 +46,7 @@ public class Other extends Check implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String chanel, Player player, byte[] bytes) {
-        if(!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
+        if(!CheckManager.getInstance().isvalid_create(player)) return;
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         if(chanel.equals(chanelZIG)){
             if(zig5_kick){
@@ -120,7 +121,7 @@ public class Other extends Check implements PluginMessageListener {
     @EventHandler
     public void onJoin(final PlayerJoinEvent event){
         final Player player = event.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(player)){
+        if(!CheckManager.getInstance().isvalid_create(player)){
             return;
         }
         for(String json : jsons){

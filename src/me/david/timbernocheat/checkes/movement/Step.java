@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.movement;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.MaterialHelper;
@@ -21,24 +22,24 @@ public class Step extends Check {
 
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onMove(PlayerMoveEvent e) {
-        final Player p = e.getPlayer();
-        if (!TimberNoCheat.getCheckManager().isvalid_create(p) || p.getAllowFlight()) {
+    public void onMove(PlayerMoveEvent event) {
+        final Player player = event.getPlayer();
+        if (!CheckManager.getInstance().isvalid_create(player) || player.getAllowFlight()) {
             return;
         }
         TimberNoCheat.getInstance().getMoveprofiler().start("Step");
-        Location to = e.getTo();
-        Location from = e.getFrom();
+        Location to = event.getTo();
+        Location from = event.getFrom();
         double yDis = to.getY() - from.getY();
         double yDisblock = to.getY() - to.getBlockY();
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         FalsePositive.FalsePositiveChecks fp = pd.getFalsePositives();
         double maxshoud = 0.601D;
 
         if (fp.hasExplosion(80 * 5)) {
             maxshoud = 5.0D;
         /* slime, bed  */
-        } else if ((fp.hasBed(60 * 5) || fp.hasSlime(60 * 5)) || ((MaterialHelper.slime(p, 3)) &&
+        } else if ((fp.hasBed(60 * 5) || fp.hasSlime(60 * 5)) || ((MaterialHelper.slime(player, 3)) &&
                 (yDis <= -1.0D))) {
             maxshoud = 3.6D;
         /* GETS THINKS WITH A ROD*/
@@ -54,33 +55,33 @@ public class Step extends Check {
         } else if (fp.hasHitorbow(60 * 5)) {
             maxshoud = 1.3D;
             //SNOW or carpet to step
-        } else if (MaterialHelper.slime(p, 1)) {
+        } else if (MaterialHelper.slime(player, 1)) {
             maxshoud = 1.1D;
             //BED to step
-        } else if (MaterialHelper.bed(p, 1)) {
+        } else if (MaterialHelper.bed(player, 1)) {
             maxshoud = 0.7D;
         }
         if (yDis >= maxshoud) {
-            updateVio(this, p, yDis * 4, " §6MODE: §bHIGHT", " §6HIGHT: §b" + yDis, " §6MAX: §b" + maxshoud);
+            updateVio(this, player, yDis * 4, " §6MODE: §bHIGHT", " §6HIGHT: §b" + yDis, " §6MAX: §b" + maxshoud);
         } else if (yDis == 0.25D && maxshoud == 0.601 && !fp.hasLiquid(20 * 5) && !fp.hasHitorbow(60 * 5) && !a(yDis) && !(fp.hasBed(60 * 5) || fp.hasSlime(60 * 5)) && !fp.hasClimp(30 * 5) && !fp.enderpearl && !fp.hasOtherKB(30 * 5) &&
-                MaterialHelper.checksouroundpos3(p, 1, 0, 1) && !MaterialHelper.CHESTS.contains(p.getLocation().add(0.0D, -1.0D, 0).getBlock().getType()))
-            updateVio(this, p, 1, " §6MODE: §bLOW");
+                MaterialHelper.checksouroundpos3(player, 1, 0, 1) && !MaterialHelper.CHESTS.contains(player.getLocation().add(0.0D, -1.0D, 0).getBlock().getType()))
+            updateVio(this, player, 1, " §6MODE: §bLOW");
         else if (!fp.hasPiston(30 * 5)) {
-            double d5 = e.getFrom().getY() - e.getFrom().getBlockY();
-            if (!fp.hasHitorbow(80) && (yDis >= 0.34D) && !(fp.hasBed(60) || fp.hasSlime(60)) && (yDisblock != 0.5D) && !a(yDis) &&  !fp.jumpboost(p) && !fp.hasLiquid(140)){
+            double d5 = event.getFrom().getY() - event.getFrom().getBlockY();
+            if (!fp.hasHitorbow(80) && (yDis >= 0.34D) && !(fp.hasBed(60) || fp.hasSlime(60)) && (yDisblock != 0.5D) && !a(yDis) &&  !fp.jumpboost(player) && !fp.hasLiquid(140)){
                 for (int j = -1; j <= 1; j++)
-                    if (!checkall2(p, 1.0D, j))
+                    if (!checkall2(player, 1.0D, j))
                         return;
                 double d6 = Math.abs(yDis - d5);
                 double d8 = Math.abs(yDisblock - d6);
                 if ((d6 != yDis) && (yDisblock != d5) && (d8 >= 0.35D)) {
-                    updateVio(this, p, 5, " §6MODE: §bDIFF", " §6HIGHT: §bJUMPING" + yDis);
+                    updateVio(this, player, 5, " §6MODE: §bDIFF", " §6HIGHT: §bJUMPING" + yDis);
                 }
             }
         }
         if (from.getY() + 1.0 == to.getY()) {
-            updateVio(this, p, 15, " §6MODE: §b EXTREMLY BASIC");
-            p.teleport(pd.getGenerals().getLastOnGround());
+            updateVio(this, player, 15, " §6MODE: §b EXTREMLY BASIC");
+            player.teleport(pd.getGenerals().getLastOnGround());
         }
         TimberNoCheat.getInstance().getMoveprofiler().end();
     }

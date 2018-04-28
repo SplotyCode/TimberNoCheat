@@ -1,9 +1,8 @@
 package me.david.timbernocheat.checkes.combat;
 
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
-import me.david.api.utils.player.PlayerUtil;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.util.CheckUtils;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -12,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 //TODO
 public class Criticals extends Check {
+
     public Criticals() {
         super("Criticals", Category.COBMAT);
     }
@@ -20,7 +20,7 @@ public class Criticals extends Check {
     public void onDamage(final EntityDamageByEntityEvent event){
         if(!(event.getDamager() instanceof Player))return;
         final Player player = (Player) event.getDamager();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
+        if(!CheckManager.getInstance().isvalid_create(player)) return;
         if (!CheckUtils.onGround(player) && !player.getAllowFlight() && player.getLocation().getY() % 1 == 0 && player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().isSolid()) {
             if(updateVio(this, player, 1))
                 event.setCancelled(true);

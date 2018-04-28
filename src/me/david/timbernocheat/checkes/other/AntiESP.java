@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -29,7 +30,7 @@ public class AntiESP extends Check {
         items = getBoolean("items");
         TimberNoCheat.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(TimberNoCheat.getInstance(), () -> {
             for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                if (!TimberNoCheat.getCheckManager().isvalid_create(player)) return;
+                if (!CheckManager.getInstance().isvalid_create(player)) return;
                 List<Entity> nearbyEntities = player.getNearbyEntities(12, 255, 12);
                 nearbyEntities.remove(player);
                 nearbyEntities.forEach(target -> {

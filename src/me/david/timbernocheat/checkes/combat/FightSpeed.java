@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.combat;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -36,8 +37,8 @@ public class FightSpeed extends Check {
     @EventHandler
     public void oninteract(PlayerInteractEvent e){
         final Player p = e.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+        if(!CheckManager.getInstance().isvalid_create(p)) return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
         pd.setInteractsLastSecond(pd.getInteractsLastSecond()+1);
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setInteractsLastSecond(pd.getInteractsLastSecond()-1), 20);
         if(pd.getInteractsLastSecond() > interactspersecond){
@@ -50,8 +51,8 @@ public class FightSpeed extends Check {
     public void onHit(EntityDamageByEntityEvent e){
         if(!(e.getDamager() instanceof  Player) || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;
         final Player p = (Player) e.getDamager();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+        if(!CheckManager.getInstance().isvalid_create(p)) return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
         pd.setHitsLastSecond(pd.getHitsLastSecond()+1);
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setHitsLastSecond(pd.getHitsLastSecond()-1), 20);
         if(pd.getHitsLastSecond() > hitspersecond){

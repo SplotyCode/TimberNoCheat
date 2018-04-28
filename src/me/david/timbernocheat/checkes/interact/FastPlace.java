@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.interact;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,16 +20,16 @@ public class FastPlace extends Check {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlace(BlockPlaceEvent e){
-        final Player p = e.getPlayer();
-        if(e.isCancelled() || !TimberNoCheat.getCheckManager().isvalid_create(p)) return;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+    public void onPlace(BlockPlaceEvent event){
+        final Player player = event.getPlayer();
+        if(event.isCancelled() || !CheckManager.getInstance().isvalid_create(player)) return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         pd.setBlockPlacesLastSecond(pd.getBlockPlacesLastSecond()+1);
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setBlockPlacesLastSecond(pd.getBlockPlacesLastSecond()-1), 20);
         if(pd.getBlockPlacesLastSecond() > persecond){
-            e.setCancelled(true);
+            event.setCancelled(true);
             pd.setBlockPlacesLastSecond(0);
-            updateVio(this, p, pd.getBlockPlacesLastSecond()-persecond, " §6BLOCKPLACEPERSECOND: §b" + pd.getBlockPlacesLastSecond());
+            updateVio(this, player, pd.getBlockPlacesLastSecond()-persecond, " §6BLOCKPLACEPERSECOND: §b" + pd.getBlockPlacesLastSecond());
         }
     }
 }

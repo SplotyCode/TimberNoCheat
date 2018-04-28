@@ -1,9 +1,9 @@
 package me.david.timbernocheat.checkes.interact;
 
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.api.utils.BlockUtil;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,18 +21,18 @@ public class Scaffold extends Check {
     }
 
     @EventHandler
-    public void onPlace(BlockPlaceEvent e){
-        final Player p = e.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p)){
+    public void onPlace(final BlockPlaceEvent event){
+        final Player player = event.getPlayer();
+        if(!CheckManager.getInstance().isvalid_create(player)){
             return;
         }
-        if((p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR ) && illegalblocks(p.getLocation()).contains(e.getBlockPlaced().getLocation())){
-            updateVio(this, p, 1);
-            e.setCancelled(true);
+        if((player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR ) && illegalBlocks(player.getLocation()).contains(event.getBlockPlaced().getLocation())){
+            updateVio(this, player, 1);
+            event.setCancelled(true);
         }
     }
 
-    private ArrayList<Location> illegalblocks(Location loc){
+    private ArrayList<Location> illegalBlocks(Location loc){
         ArrayList<Location> locs = new ArrayList<Location>();
         loc = loc.subtract(0, 1, 0);
         locs.add(loc.clone().add(2, 0, 0));

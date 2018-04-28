@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.api.utils.cordinates.RotationUtil;
@@ -33,8 +34,8 @@ public class HitBoxes extends Check {
         normal = getBoolean("normal");
         register(new PacketAdapter(TimberNoCheat.getInstance(), ListenerPriority.HIGH, PacketType.Play.Client.POSITION_LOOK) {
             public void onPacketReceiving(PacketEvent event) {
-                if(TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())){
-                    PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
+                if(CheckManager.getInstance().isvalid_create(event.getPlayer())){
+                    PlayerData pd = CheckManager.getInstance().getPlayerdata(event.getPlayer());
                     pd.setHitBoxYaw(Math.abs(event.getPacket().getFloat().read(0)-pd.getLastYaw()));
                 }
             }
@@ -46,8 +47,8 @@ public class HitBoxes extends Check {
         if (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;
         if (!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player)) return;
         Player player = (Player) event.getDamager();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(player))return;
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        if(!CheckManager.getInstance().isvalid_create(player))return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         Player attacked = (Player) event.getEntity();
         float nomral = normal(pd, player, attacked);
         if(normal && nomral != 0) if(updateVio(this, player, nomral<1?1:nomral, " §6MODE: §bNORMAL")) event.setCancelled(true);

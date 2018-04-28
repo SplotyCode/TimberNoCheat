@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.movement;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -19,7 +20,7 @@ public class Blink extends Check {
 
     @EventHandler
     public void onMove(PlayerMoveEvent e){
-        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())){
+        if(!CheckManager.getInstance().isvalid_create(e.getPlayer())){
             return;
         }
         TimberNoCheat.getInstance().getMoveprofiler().start("Blink");
@@ -33,7 +34,7 @@ public class Blink extends Check {
 
     @EventHandler
     public void onTeleport(PlayerTeleportEvent e){
-        if(!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())){
+        if(!CheckManager.getInstance().isvalid_create(e.getPlayer())){
             return;
         }
         double dis = e.getTo().distance(e.getFrom());

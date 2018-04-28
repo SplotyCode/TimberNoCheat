@@ -198,7 +198,7 @@ public class Check extends YamlSection implements Listener {
     }
 
     public boolean updateVio(Check check, Player player, double vio, String... other){
-        return TimberNoCheat.getCheckManager().getExecutor().execute(player, check, vio, other);
+        return CheckManager.getInstance().getExecutor().execute(player, check, vio, other);
     }
 
     public double getCount(Player player, String count){

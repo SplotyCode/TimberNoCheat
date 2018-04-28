@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.movement;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -39,27 +40,27 @@ public class Combine extends Check {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onSprint(PlayerToggleSprintEvent e){
-        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer())) return;
-        if(e.isSprinting() && e.getPlayer().isSneaking()){
-            e.setCancelled(true);
-            updateVio(this, e.getPlayer(), 1, " §6MODE: §bSPRINTSNEAK(2)");
+    public void onSprint(PlayerToggleSprintEvent event){
+        if (!CheckManager.getInstance().isvalid_create(event.getPlayer())) return;
+        if(event.isSprinting() && event.getPlayer().isSneaking()){
+            event.setCancelled(true);
+            updateVio(this, event.getPlayer(), 1, " §6MODE: §bSPRINTSNEAK(2)");
         }
-        if(e.isSprinting() && e.getPlayer().getFoodLevel() <= 7){
-            e.setCancelled(true);
-            updateVio(this, e.getPlayer(), 1, " §6MODE: §bSPRINTFOOD(2)");
+        if(event.isSprinting() && event.getPlayer().getFoodLevel() <= 7){
+            event.setCancelled(true);
+            updateVio(this, event.getPlayer(), 1, " §6MODE: §bSPRINTFOOD(2)");
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onSneak(PlayerToggleSneakEvent event){
-        if (!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer())) {
+        if (!CheckManager.getInstance().isvalid_create(event.getPlayer())) {
             return;
         }
         if((event.getPlayer().isSneaking() && event.isSneaking()) || (!event.getPlayer().isSneaking() && !event.isSneaking())){
             return;
         }
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(event.getPlayer());
         pd.setToggleSneakLastSec(pd.getToggleSneakLastSec()+1);
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> pd.setToggleSneakLastSec(pd.getToggleSneakLastSec()-1), 20);
         if(pd.getToggleSneakLastSec() > maxSneakToggles){

@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.player;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,14 +18,15 @@ public class FreeCam extends Check {
     public FreeCam(){
         super("FreeCam", Category.PLAYER);
     }
+
     @EventHandler
-    public void onInteract(PlayerInteractEvent e){
-        final Player p = e.getPlayer();
-        if(!TimberNoCheat.getCheckManager().isvalid_create(p) || e.isCancelled()){
+    public void onInteract(PlayerInteractEvent event){
+        final Player player = event.getPlayer();
+        if(!CheckManager.getInstance().isvalid_create(player) || event.isCancelled()){
             return;
         }
         boolean isValid = false;
-        final Location scanLocation = e.getClickedBlock().getRelative(e.getBlockFace()).getLocation();
+        final Location scanLocation = event.getClickedBlock().getRelative(event.getBlockFace()).getLocation();
         final double x = scanLocation.getX();
         final double y = scanLocation.getY();
         final double z = scanLocation.getZ();
@@ -32,7 +34,7 @@ public class FreeCam extends Check {
             for (double sY = y; sY < y + 2.0; sY += 1.0) {
                 for (double sZ = z; sZ < z + 2.0; sZ += 1.0) {
                     Location relative = new Location(scanLocation.getWorld(), sX, sY, sZ);
-                    List<Location> blocks = getrayTrace(p.getLocation(), relative);
+                    List<Location> blocks = getrayTrace(player.getLocation(), relative);
                     boolean valid = true;
                     for (Location l : blocks)
                         if (!checksolid(l.getBlock().getType()))
@@ -42,9 +44,9 @@ public class FreeCam extends Check {
                 }
             }
         }
-        if (!isValid && p.getItemInHand().getType() != Material.ENDER_PEARL) {
-            e.setCancelled(true);
-            updateVio(this, p, 1);
+        if (!isValid && player.getItemInHand().getType() != Material.ENDER_PEARL) {
+            event.setCancelled(true);
+            updateVio(this, player, 1);
         }
     }
     private List<Location> getrayTrace(Location f, Location t) {

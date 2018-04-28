@@ -2,6 +2,7 @@ package me.david.timbernocheat.checkes.chat;
 
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.TimberNoCheat;
 import org.bukkit.Bukkit;
@@ -30,9 +31,9 @@ public class Delay extends Check {
         final Player player = event.getPlayer();
         final String message = event.getMessage();
 
-        if(!TimberNoCheat.getCheckManager().isvalid_create(player) || message.startsWith("/")) return;
+        if(!CheckManager.getInstance().isvalid_create(player) || message.startsWith("/")) return;
 
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
 
 
         pd.setChats10sec(pd.getChats10sec()+1);

@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.chat;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.api.utils.StringUtil;
 import org.bukkit.ChatColor;
@@ -30,14 +31,14 @@ public class Similarity extends Check {
         final Player player = event.getPlayer();
         String message = event.getMessage();
 
-        if (!TimberNoCheat.getCheckManager().isvalid_create(player) || message.startsWith("/")) return;
+        if (!CheckManager.getInstance().isvalid_create(player) || message.startsWith("/")) return;
         if(STRIP_COLORS) message = message.replaceAll("[^a-zA-Z0-9\\s]", "");
         if(STRIP_DUPLICATES){
             message = message.replaceAll("(.)(?=\\1\\1+)", "");
             message = message.replaceAll("(..)(?=\\1\\1+)", "");
             message = message.replaceAll("(...)(?=\\1\\1+)", "");
         }
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
         message = ChatColor.stripColor(message);
         int similarityPercentage = StringUtil.similarity(message, pd.getGenerals().getMessages().get(pd.getGenerals().getMessages().size()-1));
         if(similarityPercentage >= SIMILARITY && event.getMessage().length() > MINLENGTH)

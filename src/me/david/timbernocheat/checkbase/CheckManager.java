@@ -40,12 +40,17 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 
+/* Handles Checks, PlayerData and the Violation Message Output */
 public class CheckManager {
+
+    private static CheckManager instance = new CheckManager();
 
     /* List of active all Checks */
     private ArrayList<Check> checks = new ArrayList<Check>();
+
     /* List of disabled Checks (only via config) */
     private ArrayList<Check> disabledChecks = new ArrayList<>();
+
     /*
      * List of all PlayerDate
      * TNC Never write PlayerData to Disk
@@ -58,9 +63,9 @@ public class CheckManager {
 
     /*
      * Registering/Starting checks
-     * TODO check for errors in construktors...
+     * TODO check for errors in constructors...
      */
-    public void loadchecks(){
+    public void loadChecks(){
         checks.clear();
         disabledChecks.clear();
         register(new Address());
@@ -139,10 +144,12 @@ public class CheckManager {
         register(new ZeroDelay());
     }
 
+    private CheckManager(){}
+
     /* Loading all Checks when this Objects gets createt (usually on the start of TNC */
-    public CheckManager(){
+    public void enableChecks() {
         try {
-            loadchecks();
+            loadChecks();
         }catch (Exception ex){
             TimberNoCheat.getInstance().reportException(ex, "Problem in loading the Modules...", DiscordManager.ErrorType.MODULE);
         }
@@ -285,8 +292,8 @@ public class CheckManager {
     }
 
     public ArrayList<Check> getAllChecks(){
-        ArrayList<Check> list = new ArrayList<>(TimberNoCheat.getCheckManager().getChecks());
-        list.addAll(TimberNoCheat.getCheckManager().getDisabledChecks());
+        ArrayList<Check> list = new ArrayList<>(CheckManager.getInstance().getChecks());
+        list.addAll(CheckManager.getInstance().getDisabledChecks());
         return list;
     }
 
@@ -310,5 +317,9 @@ public class CheckManager {
 
     public ViolationExecutor getExecutor() {
         return executor;
+    }
+
+    public static CheckManager getInstance() {
+        return instance;
     }
 }

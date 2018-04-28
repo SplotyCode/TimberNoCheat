@@ -29,7 +29,7 @@ public class ViolationExecutor {
         final UUID uuid = player.getUniqueId();
         if(check.getWhitelist().containsKey(uuid) && System.currentTimeMillis()-check.getWhitelist().get(uuid).getKey()<check.getWhitelist().get(uuid).getValue()) return false;
         boolean down = vio < 0;
-        if(((check.getMaxping() > 0 && TimberNoCheat.getCheckManager().getping(player) >= check.getMaxping()) || (check.getMintps() > 0 && check.getMintps() <= Tps.getTPS()))) return false;
+        if(((check.getMaxping() > 0 && CheckManager.getInstance().getping(player) >= check.getMaxping()) || (check.getMintps() > 0 && check.getMintps() <= Tps.getTPS()))) return false;
         if(check.getViodelay() > 0 && check.getVioCache().containsKey(uuid) && check.getViolations().containsKey(uuid))
             for(Map.Entry<Long, Double> v : check.getVioCache().get(uuid).entrySet()){
                 long delay = System.currentTimeMillis()-v.getKey();
@@ -82,7 +82,7 @@ public class ViolationExecutor {
                     canReset = true;
                     break;
                 case NOTIFY:
-                    new TimberScheduler("ViolationExecutor(Notify)", () -> TimberNoCheat.getCheckManager().notify(check, " §6LEVEL: §b" + Maths.round(check.getViolations().get(uuid), 2), player, other)).runNextTick();
+                    new TimberScheduler("ViolationExecutor(Notify)", () -> CheckManager.getInstance().notify(check, " §6LEVEL: §b" + Maths.round(check.getViolations().get(uuid), 2), player, other)).runNextTick();
                     break;
                 case CMD:
                     new TimberScheduler("ViolationExecutor(Command)", () -> {
@@ -168,13 +168,13 @@ public class ViolationExecutor {
         s = s.replaceAll("%player%", p.getName());
         s = s.replaceAll("%uuid%", p.getUniqueId().toString());
         s = s.replaceAll("%ip%", p.getAddress().getAddress().getHostAddress());
-        s = s.replaceAll("%ping%", String.valueOf(TimberNoCheat.getCheckManager().getping(p)));
-        s = s.replaceAll("%pingcolor%", String.valueOf(TimberNoCheat.getCheckManager().getPingColor(p)));
+        s = s.replaceAll("%ping%", String.valueOf(CheckManager.getInstance().getping(p)));
+        s = s.replaceAll("%pingcolor%", String.valueOf(CheckManager.getInstance().getPingColor(p)));
         s = s.replaceAll("%display%", p.getDisplayName());
         s = s.replaceAll("%tapname%", p.getPlayerListName());
         s = s.replaceAll("%vio%", String.valueOf(check.getViolations().getOrDefault(p.getUniqueId(), 0D)));
         s = s.replaceAll("%tps%", String.valueOf(Tps.getTPS()));
-        s = s.replaceAll("%tpscolor%", TimberNoCheat.getCheckManager().getTpsColor());
+        s = s.replaceAll("%tpscolor%", CheckManager.getInstance().getTpsColor());
         return s.replaceAll("%port%", String.valueOf(Bukkit.getPort()));
     }
 }

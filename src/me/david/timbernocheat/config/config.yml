@@ -75,7 +75,7 @@
 #[DE-EN]--------------[DE-EN]
 generel:
    #[DE-EN]config version[DE-EN]
-   version: 203
+   version: 204
    #[DE]globaler plugin prefix[DE]
    #[EN]global plugin prefix[EN]
    prefix: "&7[&9T&cN&eC&7] &6"

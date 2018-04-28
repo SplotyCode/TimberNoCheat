@@ -6,6 +6,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.debug.Scheduler;
 import me.david.timbernocheat.runnable.TimberScheduler;
@@ -68,8 +69,8 @@ public class Killaura extends Check {
                 if (player == null) {
                     return;
                 }
-                if (TimberNoCheat.getCheckManager().isvalid_create(player)) {
-                    PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+                if (CheckManager.getInstance().isvalid_create(player)) {
+                    PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
                     pd.setPacketHit(pd.getPacketHit()+1);
                 }
             }
@@ -81,8 +82,8 @@ public class Killaura extends Check {
                 if (player == null) {
                     return;
                 }
-                if (TimberNoCheat.getCheckManager().isvalid_create(player)) {
-                    PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+                if (CheckManager.getInstance().isvalid_create(player)) {
+                    PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
                     pd.setPacketSwing(pd.getPacketSwing()+1);
                 }
             }
@@ -103,8 +104,8 @@ public class Killaura extends Check {
     public void startTasks() {
         register(new TimberScheduler(Scheduler.KILLAURA, () -> {
             for(Player player : Bukkit.getOnlinePlayers())
-                if (TimberNoCheat.getCheckManager().isvalid_create(player)){
-                    PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+                if (CheckManager.getInstance().isvalid_create(player)){
+                    PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
                     if(pd.getPacketHit() < pd.getPacketSwing()) updateVio(Killaura.this, player, pd.getPacketSwing()-pd.getPacketHit());
                     pd.setPacketHit(0);
                     pd.setPacketSwing(0);
@@ -118,10 +119,10 @@ public class Killaura extends Check {
             return;
         }
         final Player p = (Player) e.getDamager();
-        if (!TimberNoCheat.getCheckManager().isvalid_create(p) || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || e.isCancelled()) {
+        if (!CheckManager.getInstance().isvalid_create(p) || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || e.isCancelled()) {
             return;
         }
-        PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(p);
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
         if(e.getEntity() instanceof Player && !((Player)e.getEntity()).getAllowFlight() && !p.getAllowFlight()){
             check_range(e, pd);
         }
@@ -231,7 +232,7 @@ public class Killaura extends Check {
 
                 int level = (int)Math.round(b < 0.0D?0.00000000001D:b / a < 0.0D?0.00000000001D:a * 100);
                 pd.getReaches().clear();
-                TimberNoCheat.getCheckManager().notify(this, damager, " §6TYPE: §bREACH", " §6WAHRSCHEINLICHKEIT: §b" + level +"%", " §6Reach: §b" + reach, " §6CalculatetMacReach: §b" + maxreach);
+                CheckManager.getInstance().notify(this, damager, " §6TYPE: §bREACH", " §6WAHRSCHEINLICHKEIT: §b" + level +"%", " §6Reach: §b" + reach, " §6CalculatetMacReach: §b" + maxreach);
             }
             */
         }

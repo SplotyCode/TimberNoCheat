@@ -43,12 +43,9 @@ import java.util.logging.Level;
 
 public class TimberNoCheat extends ApiPlugin {
 
-    public static final int CONFIGURATION_VERSION = 201;
+    public static final int CONFIGURATION_VERSION = 204;
 
     private static TimberNoCheat instance;
-
-    /* Handles Checks, PlayerData and the Violation Message Output */
-    private static CheckManager checkManager;
 
     /* The Location of the TNC Config File normally plugins/TimberNoCheat/config.yml */
     private final File configFile = new File(getDataFolder(), "config.yml");
@@ -133,7 +130,7 @@ public class TimberNoCheat extends ApiPlugin {
         discordManager.sendInfo("Server wird gestartet!");
 
         setStartState(StartState.START_CHECKS);
-        checkManager = new CheckManager();
+        CheckManager.getInstance().enableChecks();
 
         recordManager = new RecordManager();
         triggerBlockManager = new TriggerBlockManager(this, triggerBlocks);
@@ -156,7 +153,7 @@ public class TimberNoCheat extends ApiPlugin {
         stageHelper.validate();
         setStartState(StartState.RUNNING);
         discordManager.sendInfo("Plugin wurde gestartet!");
-        log(false, "Es wurden " + checkManager.getChecks().size() + " module geladen mit vielen unterchecks!");
+        log(false, "Es wurden " + CheckManager.getInstance().getChecks().size() + " module geladen mit vielen unterchecks!");
     }
 
     /*
@@ -176,9 +173,9 @@ public class TimberNoCheat extends ApiPlugin {
         debugLogManager.onStop(null);
         getProtocolmanager().removePacketListeners(this);
         setStartState(StartState.DISABLE_CHECKS);
-        if(checkManager == null) getLogger().log(Level.WARNING, "Fatal Error in the CheckManager it is not possible to Sutodwn ANY check!");
+        if(CheckManager.getInstance().getChecks() == null) getLogger().log(Level.WARNING, "Fatal Error in the CheckManager it is not possible to Shutdown ANY check!");
         else {
-            for (Check c : checkManager.getChecks())
+            for (Check c : CheckManager.getInstance().getChecks())
                 if (c == null)
                     getLogger().log(Level.WARNING, "Count not Shutdown a check becouse it dont even exsits! We can not tell witch check is that. (Kind of useless message)");
                 else c.disable();
@@ -278,10 +275,6 @@ public class TimberNoCheat extends ApiPlugin {
 
     public static void log(Level level, String message){
         TimberNoCheat.getInstance().getLogger().log(level, message);
-    }
-
-    public static CheckManager getCheckManager() {
-        return checkManager;
     }
 
     public File getSpeedPatterns() {

@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.other;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -31,14 +32,14 @@ public class VanillaBug extends Check {
         fences.add(Material.SPRUCE_FENCE_GATE);
     }
     @EventHandler
-    public void onInteract(PlayerInteractEvent e){
-        //System.out.println(!fences.contains(e.getClickedBlock().getType()));
-        if (!TimberNoCheat.getCheckManager().isvalid_create(e.getPlayer()) || e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getItem() == null || !fences.contains(e.getClickedBlock().getType()) || !e.getItem().getType().isBlock()) {
+    public void onInteract(PlayerInteractEvent event){
+        //System.out.println(!fences.contains(event.getClickedBlock().getType()));
+        if (!CheckManager.getInstance().isvalid_create(event.getPlayer()) || event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getItem() == null || !fences.contains(event.getClickedBlock().getType()) || !event.getItem().getType().isBlock()) {
             return;
         }
-        e.setCancelled(true);
-        updateVio(this, e.getPlayer(), 1);
-        //TimberNoCheat.getInstance().getLogger().log(Level.INFO, "[VanillaBug] " + e.getPlayer().getDisplayName() + " versucht den VanillaFenceBug zu nutzen! Die Aktion wurde gestoppt!");
-        //e.getPlayer().sendMessage(TimberNoCheat.getInstance().prefix + "Durch einen Bug in Minecraft darfst du nur mit blöcken auf ein " + e.getClickedBlock().getType().name() + " Rechts klicken!");
+        event.setCancelled(true);
+        updateVio(this, event.getPlayer(), 1);
+        //TimberNoCheat.getInstance().getLogger().log(Level.INFO, "[VanillaBug] " + event.getPlayer().getDisplayName() + " versucht den VanillaFenceBug zu nutzen! Die Aktion wurde gestoppt!");
+        //event.getPlayer().sendMessage(TimberNoCheat.getInstance().prefix + "Durch einen Bug in Minecraft darfst du nur mit blöcken auf ein " + event.getClickedBlock().getType().name() + " Rechts klicken!");
     }
 }

@@ -8,6 +8,7 @@ import comphenix.packetwrapper.WrapperPlayClientLook;
 import comphenix.packetwrapper.WrapperPlayClientPosition;
 import comphenix.packetwrapper.WrapperPlayClientPositionLook;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import org.bukkit.Location;
 
@@ -18,8 +19,8 @@ public class AsyncGeneral {
             @Override
             public void onPacketReceiving(PacketEvent event) {
                 PacketType type = event.getPacket().getType();
-                if(!TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()))return;
-                PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer());
+                if(!CheckManager.getInstance().isvalid_create(event.getPlayer()))return;
+                PlayerData pd = CheckManager.getInstance().getPlayerdata(event.getPlayer());
                 Location loc = pd.getAsyncGenerals().getLastLoc();
                 if(loc == null) loc = event.getPlayer().getLocation();
                 if (type == WrapperPlayClientLook.TYPE){

@@ -1,6 +1,7 @@
 package me.david.timbernocheat.checktools;
 
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.ExceptionRunnable;
 import me.david.timbernocheat.runnable.TimberScheduler;
@@ -34,8 +35,8 @@ public class General implements Listener, ExceptionRunnable  {
     @Override
     public void run() {
         for(Player player : Bukkit.getServer().getOnlinePlayers()){
-            if(TimberNoCheat.getCheckManager().isvalid_create(player)) {
-                GeneralValues generals = TimberNoCheat.getCheckManager().getPlayerdata(player).getGenerals();
+            if(CheckManager.getInstance().isvalid_create(player)) {
+                GeneralValues generals = CheckManager.getInstance().getPlayerdata(player).getGenerals();
                 if(CheckUtils.onGround(player)) generals.ticksInAir = 0;
                 else generals.ticksInAir++;
                 if(player.isSprinting()) generals.lastSprintTick = Tps.tickCount;
@@ -233,21 +234,21 @@ public class General implements Listener, ExceptionRunnable  {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void message(AsyncPlayerChatEvent event){
-        if(!event.isCancelled() && TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()))
-            TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer()).getGenerals().messages.add(event.getMessage());
+        if(!event.isCancelled() && CheckManager.getInstance().isvalid_create(event.getPlayer()))
+            CheckManager.getInstance().getPlayerdata(event.getPlayer()).getGenerals().messages.add(event.getMessage());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent event){
-        if(TimberNoCheat.getCheckManager().isvalid_create(event.getPlayer()))
-            TimberNoCheat.getCheckManager().getPlayerdata(event.getPlayer()).getGenerals().loginLocation = event.getPlayer().getLocation();
+        if(CheckManager.getInstance().isvalid_create(event.getPlayer()))
+            CheckManager.getInstance().getPlayerdata(event.getPlayer()).getGenerals().loginLocation = event.getPlayer().getLocation();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMove(PlayerMoveEvent event){
         final Player player = event.getPlayer();
-        if(TimberNoCheat.getCheckManager().isvalid_create(player)){
-            PlayerData pd = TimberNoCheat.getCheckManager().getPlayerdata(player);
+        if(CheckManager.getInstance().isvalid_create(player)){
+            PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
             GeneralValues gen = pd.getGenerals();
 
             if(CheckUtils.onGround(event.getTo())){
@@ -324,8 +325,8 @@ public class General implements Listener, ExceptionRunnable  {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onItemClick(final InventoryClickEvent event){
         final Player player = (Player) event.getWhoClicked();
-        if(TimberNoCheat.getCheckManager().isvalid_create(player))
-            TimberNoCheat.getCheckManager().getPlayerdata(player).getGenerals().lastItemClick = System.currentTimeMillis();
+        if(CheckManager.getInstance().isvalid_create(player))
+            CheckManager.getInstance().getPlayerdata(player).getGenerals().lastItemClick = System.currentTimeMillis();
     }
 
     private boolean liquid(Location location){
