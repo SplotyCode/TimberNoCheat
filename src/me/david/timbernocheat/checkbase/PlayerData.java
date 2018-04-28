@@ -1,10 +1,12 @@
 package me.david.timbernocheat.checkbase;
 
-import javafx.util.Pair;
+import me.david.api.objects.Pair;
 import me.david.timbernocheat.checkes.movement.fly.FlyData;
 import me.david.timbernocheat.checktools.AsyncGeneral;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
+import me.david.timbernocheat.util.LimitedList;
+import me.david.timbernocheat.util.LimitedMap;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -57,12 +59,11 @@ public class PlayerData {
     private boolean morepacketsblacklist2;
     private Map.Entry<Integer, Long> morepackets;
 
-    /* Speed*/
-    private ArrayList<Long> timerms;
+    /* Speed */
     private int togglesneaklastsec;
     private Pair<Location, Location> lastPattern;
 
-    /* BadBackets */private int moveslastticks;
+    /* BadBackets */private LimitedMap<Integer, Pair<Double, Integer>> movePackets;
     /* Nuker */private int blockbreakslastsec;
     /* Fastswitch */private long lastitemwsitch;
 
@@ -158,10 +159,9 @@ public class PlayerData {
         this.morepacketblacklist = false;
         this.lastpacket = 0;
         this.morepackets = new AbstractMap.SimpleEntry<>(0, System.currentTimeMillis());
-        this.timerms = new ArrayList<>();
         this.togglesneaklastsec = 0;
         this.morepacketsblacklist2 = false;
-        this.moveslastticks = 0;
+        this.movePackets = new LimitedMap<>(450);
         this.blockbreakslastsec = 0;
         this.lastitemwsitch = System.currentTimeMillis()-15000L;
         this.lastyaw = 1000;
@@ -595,14 +595,6 @@ public class PlayerData {
         this.blockbreakslastsec = blockbreakslastsec;
     }
 
-    public int getMoveslastticks() {
-        return moveslastticks;
-    }
-
-    public void setMoveslastticks(int moveslastticks) {
-        this.moveslastticks = moveslastticks;
-    }
-
     public boolean isMorepacketsblacklist2() {
         return morepacketsblacklist2;
     }
@@ -617,14 +609,6 @@ public class PlayerData {
 
     public void setTogglesneaklastsec(int togglesneaklastsec) {
         this.togglesneaklastsec = togglesneaklastsec;
-    }
-
-    public ArrayList<Long> getTimerms() {
-        return timerms;
-    }
-
-    public void setTimerms(ArrayList<Long> timerms) {
-        this.timerms = timerms;
     }
 
     public boolean isMorepacketblacklist() {
@@ -809,5 +793,13 @@ public class PlayerData {
 
     public void setFlyData(FlyData flyData) {
         this.flyData = flyData;
+    }
+
+    public LimitedMap<Integer, Pair<Double, Integer>> getMovePackets() {
+        return movePackets;
+    }
+
+    public void setMovePackets(LimitedMap<Integer, Pair<Double, Integer>> movePackets) {
+        this.movePackets = movePackets;
     }
 }

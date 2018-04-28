@@ -7,6 +7,7 @@ public class Violation {
 
     /* Types of Violation */
     public enum ViolationTypes{
+
         /* Notify Staff */
         NOTIFY,
         /* Execute a Command (over the console) */

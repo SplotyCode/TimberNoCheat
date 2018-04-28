@@ -1,6 +1,6 @@
 package me.david.timbernocheat.util;
 
-import javafx.util.Pair;
+import me.david.api.objects.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class LimitedMap<K, V> {
         if(maxSize == size()){
             Map.Entry<K, Pair<Long, V>> longest = null;
             for(Map.Entry<K, Pair<Long, V>> entry : map.entrySet())
-                if(longest == null || entry.getValue().getKey() < longest.getValue().getKey())
+                if(longest == null || entry.getValue().getOne() < longest.getValue().getOne())
                     longest = entry;
             if(longest == null) throw new IllegalStateException();
             map.remove(longest.getKey());
@@ -31,7 +31,7 @@ public class LimitedMap<K, V> {
     public V get(K key){
         Pair<Long, V> value = map.get(key);
         if(value == null) return null;
-        return value.getValue();
+        return value.getTwo();
     }
 
     public int size(){

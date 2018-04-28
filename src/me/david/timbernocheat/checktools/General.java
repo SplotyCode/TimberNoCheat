@@ -218,6 +218,10 @@ public class General implements Listener, ExceptionRunnable  {
             return loginLocation;
         }
 
+        public Location getLastLocations(int tick) {
+            return lastLocs.get(tick);
+        }
+
         public long getLastItemClick() {
             return lastItemClick;
         }

@@ -4,6 +4,7 @@ public enum Scheduler {
 
     KILLAURA("Killaura"),
     PATTERN_SPEED("Speed (Pattern)"),
+    BADPACKETS("Pad Packets Calculations"),
     MOVE_PROFILER("Move Profiler"),
     SCHEDULER_PROFILER("Scheduler Profiler");
     private final String name;
