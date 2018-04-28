@@ -1,6 +1,5 @@
 package me.david.timbernocheat.checkes.movement.fly.checks;
 
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.fly.Fly;

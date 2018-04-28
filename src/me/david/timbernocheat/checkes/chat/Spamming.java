@@ -4,7 +4,6 @@ import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.api.utils.ArrayCollectUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

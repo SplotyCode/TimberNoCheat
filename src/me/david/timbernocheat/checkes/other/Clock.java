@@ -10,12 +10,12 @@ import java.util.HashMap;
 
 public class Clock extends Check {
 
-    private HashMap<Location, Data> values = new HashMap<Location, Data>();
+    private HashMap<Location, Data> values = new HashMap<>();
 
     private final int maxtoggles;
     private final boolean notify;
     private final boolean cancel;
-    private HashMap<Location, Long> blacklist = new HashMap<Location, Long>();
+    private HashMap<Location, Long> blacklist = new HashMap<>();
 
     public Clock() {
         super("Clock", Category.OTHER);

@@ -42,7 +42,7 @@ public class Other extends Check implements PluginMessageListener {
     private final boolean fml_kick;
     private final boolean liteloader_kick;
 
-    private final ArrayList<String>jsons = new ArrayList<String>();
+    private final ArrayList<String>jsons = new ArrayList<>();
 
     @Override
     public void onPluginMessageReceived(String chanel, Player player, byte[] bytes) {

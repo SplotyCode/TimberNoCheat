@@ -1,6 +1,5 @@
 package me.david.timbernocheat.checkes.player;
 
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
@@ -51,8 +50,8 @@ public class FreeCam extends Check {
     }
     private List<Location> getrayTrace(Location f, Location t) {
         if (f.getWorld() != t.getWorld() || f.distance(t) > 10.0)
-            return new ArrayList<Location>();
-        ArrayList<Location> list = new ArrayList<Location>();
+            return new ArrayList<>();
+        ArrayList<Location> list = new ArrayList<>();
         double x = f.getX();
         double y = f.getY() + 1.62;
         double z = f.getZ();

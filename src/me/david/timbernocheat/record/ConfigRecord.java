@@ -1,11 +1,7 @@
 package me.david.timbernocheat.record;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.storage.YamlFile;
 import me.david.timbernocheat.storage.YamlSection;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.File;
 
 /*
  * Configuration about Recording

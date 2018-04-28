@@ -1,6 +1,5 @@
 package me.david.timbernocheat.checkes.player;
 
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
@@ -16,7 +15,7 @@ public class FastEat extends Check {
 
     private final long delay;
 
-    private static final ArrayList<Material> food = new ArrayList<Material>();
+    private static final ArrayList<Material> food = new ArrayList<>();
     public FastEat(){
         super("FastEat", Category.PLAYER);
         delay = getLong("delay");

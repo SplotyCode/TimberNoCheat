@@ -1,7 +1,6 @@
 package me.david.timbernocheat.command.blocktrigger;
 
 import me.david.timbernocheat.storage.YamlComponent;
-import me.david.timbernocheat.storage.YamlFile;
 import me.david.timbernocheat.storage.YamlSection;
 import org.bukkit.Location;
 

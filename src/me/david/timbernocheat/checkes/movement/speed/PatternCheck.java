@@ -36,7 +36,7 @@ public class PatternCheck extends AbstractSpeed {
 
     @Override public void move(SpeedMoveData move, Player player, PlayerData data, FalsePositive.FalsePositiveChecks falsePositive, General.GeneralValues general) {}
 
-    private ArrayList<SpeedPattern> patterns = new ArrayList<SpeedPattern>();
+    private ArrayList<SpeedPattern> patterns = new ArrayList<>();
     public static ArrayList<UUID> generators = new ArrayList<>();
 
     private void loadpatterns(){

@@ -130,7 +130,7 @@ public class Fly extends Check {
         final FlyData data = CheckManager.getInstance().getPlayerdata(player).getFlyData();
         switch (event.getCause()){
             case ENTITY_EXPLOSION:
-                forChilds((check) -> check.explostion(data, player, (((Creeper) entity).isPowered()?2*2:1*2)));
+                forChilds((check) -> check.explostion(data, player, (((Creeper) entity).isPowered()?2*2: 2)));
             break;
             case ENTITY_ATTACK:
                 forChilds((check) -> check.attack(data, player, CheckUtils.getKnockbag(entity)));

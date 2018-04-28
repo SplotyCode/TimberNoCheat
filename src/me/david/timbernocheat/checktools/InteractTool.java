@@ -16,7 +16,7 @@ public class InteractTool {
 
     private static final double LIQUID_HEIGHT_LOWERED = 80000002;
     private static final int maxBlocks = 4096;
-    public static final ArrayList<Tool> tools = new ArrayList<Tool>();
+    public static final ArrayList<Tool> tools = new ArrayList<>();
     public static final Block[] blocks = new Block[maxBlocks];
     public static final Tool noTool = new Tool(null, ToolType.NONE, ToolMaterial.NONE);
     public static final long[] instantTimes = secToMs(0);

@@ -11,22 +11,22 @@ import java.util.Set;
 /* Helping to World with Materials */
 public class MaterialHelper {
 
-    public static final ArrayList<Material> a = new ArrayList<Material>();
-    public static final ArrayList<Material> b = new ArrayList<Material>();
-    public static final ArrayList<Material> c = new ArrayList<Material>();
-    public static final ArrayList<Material> d = new ArrayList<Material>();
-    public static final ArrayList<Material> CHESTS = new ArrayList<Material>();
-    public static final ArrayList<Material> PLATES = new ArrayList<Material>();
-    public static final ArrayList<Material> ICE = new ArrayList<Material>();
-    public static final ArrayList<Material> GLASSPANE = new ArrayList<Material>();
-    public static final ArrayList<Material> SLAPS = new ArrayList<Material>();
-    public static final ArrayList<Material> CLIMP = new ArrayList<Material>();
-    public static final ArrayList<Material> DOOR = new ArrayList<Material>();
-    public static final ArrayList<Material> FALLING = new ArrayList<Material>();
-    public static final ArrayList<Material> TRAPDOOR = new ArrayList<Material>();
-    public static final ArrayList<Material> LIQUID = new ArrayList<Material>();
-    public static final ArrayList<Material> STAIRS = new ArrayList<Material>();
-    public static final ArrayList<Material> FENCES = new ArrayList<Material>();
+    public static final ArrayList<Material> a = new ArrayList<>();
+    public static final ArrayList<Material> b = new ArrayList<>();
+    public static final ArrayList<Material> c = new ArrayList<>();
+    public static final ArrayList<Material> d = new ArrayList<>();
+    public static final ArrayList<Material> CHESTS = new ArrayList<>();
+    public static final ArrayList<Material> PLATES = new ArrayList<>();
+    public static final ArrayList<Material> ICE = new ArrayList<>();
+    public static final ArrayList<Material> GLASSPANE = new ArrayList<>();
+    public static final ArrayList<Material> SLAPS = new ArrayList<>();
+    public static final ArrayList<Material> CLIMP = new ArrayList<>();
+    public static final ArrayList<Material> DOOR = new ArrayList<>();
+    public static final ArrayList<Material> FALLING = new ArrayList<>();
+    public static final ArrayList<Material> TRAPDOOR = new ArrayList<>();
+    public static final ArrayList<Material> LIQUID = new ArrayList<>();
+    public static final ArrayList<Material> STAIRS = new ArrayList<>();
+    public static final ArrayList<Material> FENCES = new ArrayList<>();
     public static final ArrayList<Material> GATES = new ArrayList<>();
 
     static {

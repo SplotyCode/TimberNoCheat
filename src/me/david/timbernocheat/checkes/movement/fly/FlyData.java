@@ -43,7 +43,7 @@ public class FlyData implements Cloneable {
 
     @Override
     public FlyData clone() {
-        FlyData flyData = new FlyData();
+        /*FlyData flyData = new FlyData();
         flyData.setLastMove(lastMove);
         flyData.setLastData(lastData);
         flyData.setLastSlime(slimePeek);
@@ -65,7 +65,12 @@ public class FlyData implements Cloneable {
         flyData.setJumpPotion(jumpPotion);
         flyData.setJumpPotionLastTick(jumpPotionLastTick);
         flyData.setVelocity(velocity);
-        return flyData;
+        return flyData;*/
+        try {
+            return (FlyData) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            return null;
+        }
     }
 
     public FlyMoveData getLastMove() {

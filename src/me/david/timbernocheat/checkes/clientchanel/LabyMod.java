@@ -2,7 +2,6 @@ package me.david.timbernocheat.checkes.clientchanel;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
@@ -54,7 +53,7 @@ public class LabyMod extends Check {
         if(!CheckManager.getInstance().isvalid_create(event.getPlayer()))
             return;
         try {
-            HashMap<String, Boolean> list = new HashMap<String, Boolean>();
+            HashMap<String, Boolean> list = new HashMap<>();
             list.put("ARMOR", ARMOR);
             list.put("ANIMATIONS", ANMIMATION);
             list.put("BLOCKBUILD", BLOCKBUILD);

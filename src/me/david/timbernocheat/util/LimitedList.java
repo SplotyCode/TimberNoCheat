@@ -16,7 +16,7 @@ public class LimitedList<T> {
         this.maxSize = maxSize;
     }
 
-    public void ádd(T value){
+    public void add(T value){
         if(maxSize == list.size()){
             Pair<Long, T> longest = null;
             for(Pair<Long, T> entry : list)

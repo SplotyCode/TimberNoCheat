@@ -46,7 +46,7 @@ public class CheckManager {
     private static CheckManager instance = new CheckManager();
 
     /* List of active all Checks */
-    private ArrayList<Check> checks = new ArrayList<Check>();
+    private ArrayList<Check> checks = new ArrayList<>();
 
     /* List of disabled Checks (only via config) */
     private ArrayList<Check> disabledChecks = new ArrayList<>();

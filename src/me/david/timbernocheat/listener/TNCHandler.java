@@ -1,6 +1,5 @@
 package me.david.timbernocheat.listener;
 
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;

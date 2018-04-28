@@ -33,7 +33,7 @@ public class Scaffold extends Check {
     }
 
     private ArrayList<Location> illegalBlocks(Location loc){
-        ArrayList<Location> locs = new ArrayList<Location>();
+        ArrayList<Location> locs = new ArrayList<>();
         loc = loc.subtract(0, 1, 0);
         locs.add(loc.clone().add(2, 0, 0));
         locs.add(loc.clone().add(-2, 0, 0));

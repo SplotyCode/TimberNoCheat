@@ -24,6 +24,7 @@ public class MergeHelper {
             os = new FileOutputStream(changes);
         } catch (FileNotFoundException e) {
             TimberNoCheat.getInstance().reportException(e, "Config change file...");
+            return;
         }
 
         //Get The result File

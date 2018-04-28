@@ -12,7 +12,6 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class BinarySerializer {
 
@@ -101,7 +100,7 @@ public class BinarySerializer {
 
     public ArrayList<String> readStringList(){
         int i = readVarInt();
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         while(i != 0) {
             list.add(readString());
             i--;
@@ -111,7 +110,7 @@ public class BinarySerializer {
 
     public ArrayList<Integer> readIntList(){
         int i = readVarInt();
-        ArrayList<Integer> list = new ArrayList<Integer>();
+        ArrayList<Integer> list = new ArrayList<>();
         while(i != 0) {
             list.add(readVarInt());
             i--;

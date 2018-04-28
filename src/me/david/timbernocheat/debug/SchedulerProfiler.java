@@ -2,7 +2,6 @@ package me.david.timbernocheat.debug;
 
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.discord.DiscordManager;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 
 import java.util.HashMap;

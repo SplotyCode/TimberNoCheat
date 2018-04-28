@@ -123,7 +123,9 @@ public class MCLeaks extends Check {
                     }
 
                     final SecretKey secretKey = CryptoUtil.decryptSharedKey(serverKey.getPrivate(), packet.getSharedSecret());
-                    final String serverId = (new BigInteger(CryptoUtil.getServerIdHash("", serverKey.getPublic(), secretKey))).toString(16);
+                    final byte[] hash = CryptoUtil.getServerIdHash("", serverKey.getPublic(), secretKey);
+                    if (hash == null) return;
+                    final String serverId = (new BigInteger(hash)).toString(16);
 
                     this.plugin.getServer().getScheduler().runTaskLaterAsynchronously(this.plugin, () -> task(name, serverId, address.getAddress()), 60);
                 }

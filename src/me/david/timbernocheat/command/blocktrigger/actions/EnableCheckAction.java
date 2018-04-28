@@ -1,6 +1,5 @@
 package me.david.timbernocheat.command.blocktrigger.actions;
 
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.command.blocktrigger.AttributeList;

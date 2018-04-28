@@ -21,7 +21,7 @@ import java.util.*;
 
 public class AntiESP extends Check {
 
-    private HashMap<String, Set<Integer>> hidden = new HashMap<String, Set<Integer>>();
+    private HashMap<String, Set<Integer>> hidden = new HashMap<>();
 
     private final boolean items;
 

@@ -1,9 +1,7 @@
 package me.david.timbernocheat.runnable;
 
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
-import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;

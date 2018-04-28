@@ -18,11 +18,11 @@ import java.util.UUID;
 public class Velocity implements Listener{
 
     @Deprecated
-    public static HashMap<UUID, Map.Entry<Long, Vector>> velocity = new HashMap<UUID, Map.Entry<Long, Vector>>();
+    public static HashMap<UUID, Map.Entry<Long, Vector>> velocity = new HashMap<>();
 
     @EventHandler
     public void onVelocity(PlayerVelocityEvent event) {
-        velocity.put(event.getPlayer().getUniqueId(), new AbstractMap.SimpleEntry<Long, Vector>(System.currentTimeMillis(), event.getVelocity()));
+        velocity.put(event.getPlayer().getUniqueId(), new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), event.getVelocity()));
     }
 
     @Deprecated

@@ -3,7 +3,6 @@ package me.david.timbernocheat.startup;
 import com.comphenix.protocol.ProtocolLibrary;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.config.Config;
-import me.david.timbernocheat.storage.YamlFile;
 
 import java.util.logging.Level;
 

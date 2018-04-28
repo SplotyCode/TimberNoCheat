@@ -1,6 +1,5 @@
 package me.david.timbernocheat.checkes.other;
 
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 
 public class VanillaBug extends Check {
 
-    private final ArrayList<Material> fences = new ArrayList<Material>();
+    private final ArrayList<Material> fences = new ArrayList<>();
     public VanillaBug(){
         super("VanillaBug", Category.OTHER);
         fences.add(Material.FENCE);

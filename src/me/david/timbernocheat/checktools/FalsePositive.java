@@ -1,7 +1,6 @@
 package me.david.timbernocheat.checktools;
 
 import me.david.api.utils.ServerWorldUtil;
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.runnable.TimberScheduler;

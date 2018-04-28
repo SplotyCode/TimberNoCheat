@@ -2,7 +2,6 @@ package me.david.timbernocheat.listener;
 
 import javafx.util.Pair;
 import me.david.api.events.anvil.AnvilEvent;
-import me.david.api.objects.listener.PlayerListener;
 import me.david.api.utils.InteractUtil;
 import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;

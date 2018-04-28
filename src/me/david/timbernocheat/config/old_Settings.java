@@ -1,11 +1,5 @@
 package me.david.timbernocheat.config;
 
-import me.david.timbernocheat.TimberNoCheat;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.util.ArrayList;
-import java.util.List;
-
 @Deprecated
 public class old_Settings {
 

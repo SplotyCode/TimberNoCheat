@@ -2,7 +2,6 @@ package me.david.timbernocheat.checkes.chat;
 
 import me.david.timbernocheat.checkbase.Category;
 import me.david.timbernocheat.checkbase.Check;
-import me.david.timbernocheat.TimberNoCheat;
 import me.david.api.utils.UrlUtil;
 import me.david.timbernocheat.checkbase.CheckManager;
 import org.bukkit.entity.Player;

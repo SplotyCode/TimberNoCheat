@@ -4,7 +4,6 @@ import com.google.common.io.ByteStreams;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.storage.YamlFile;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.util.logging.Level;

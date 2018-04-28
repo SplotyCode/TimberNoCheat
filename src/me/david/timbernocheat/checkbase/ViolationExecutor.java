@@ -54,7 +54,7 @@ public class ViolationExecutor {
         if(check.isChild()) check.getParent().updateVio(check.getParent(), player, vio, other);
         if(down)return false;
         double violation = check.getViolations().get(uuid);
-        ArrayList<Violation> triggert = new ArrayList<Violation>();
+        ArrayList<Violation> triggert = new ArrayList<>();
         for(Violation cvio : check.getVios())
             if(cvio.getLevel() <= violation)
                 triggert.add(cvio);

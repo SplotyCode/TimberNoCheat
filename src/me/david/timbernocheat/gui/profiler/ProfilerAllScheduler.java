@@ -4,7 +4,6 @@ import me.david.timbernocheat.config.Permissions;
 import me.david.api.guis.Gui;
 import me.david.api.utils.ItemStackUtil;
 import me.david.api.utils.OLD_Sounds;
-import me.david.timbernocheat.runnable.TimberScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.scheduler.CraftScheduler;

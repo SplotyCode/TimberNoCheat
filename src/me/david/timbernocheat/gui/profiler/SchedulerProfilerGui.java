@@ -21,7 +21,6 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Map;
