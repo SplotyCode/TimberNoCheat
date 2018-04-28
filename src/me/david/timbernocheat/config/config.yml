@@ -102,7 +102,7 @@ generel:
 debugsettings:
    discord: true
    antikick: true
-   warunsetbacks: true
+   warnonsetback: true
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]Chat Checks[DE-EN]
@@ -753,7 +753,6 @@ break:
    raypick:
       enable: true
       vio: 30
-      cancel: true
    time:
       enable: true
       vio: 10

@@ -25,7 +25,6 @@ public class Break extends Check {
     private final long tobsidian;
     private final long tnormal;
     private final boolean rayenable;
-    private final boolean raycancel;
     private final double rayvio;
 
     public Break(){
@@ -39,48 +38,51 @@ public class Break extends Check {
         tobsidian = getLong("time.timeobsidian");
         tnormal = getLong("time.timenormal");
         rayenable = getBoolean("raypick.enable");
-        raycancel = getBoolean("raypick.cancel");
         rayvio = getDouble("raypick.vio");
     }
 
     @EventHandler
-    public void onBreakStart(BlockDamageEvent e){
-        final Player p = e.getPlayer();
-        if(!CheckManager.getInstance().isvalid_create(p)) return;
-        PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
-        pd.setStartBreak(e.getBlock());
+    public void onBreakStart(final BlockDamageEvent event){
+        final Player player = event.getPlayer();
+        if(!CheckManager.getInstance().isvalid_create(player)) return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
+
+        pd.setStartBreak(event.getBlock());
         pd.setStartBreakTime(System.currentTimeMillis());
     }
 
     @EventHandler
-    public void onBreak(BlockBreakEvent e){
-        final Player p = e.getPlayer();
-        if(!CheckManager.getInstance().isvalid_create(p)) return;
-        PlayerData pd = CheckManager.getInstance().getPlayerdata(p);
+    public void onBreak(final BlockBreakEvent event){
+        final Player player = event.getPlayer();
+        if(!CheckManager.getInstance().isvalid_create(player)) return;
+        PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
+        final Material mat = event.getBlock().getType();
+
         if(nsenable && pd.getStartBreak() == null){
-            e.setCancelled(true);
-            updateVio(this, p, nsvio, " §6CHECK: §bNOTSTART");
-            return;
+            event.setCancelled(true);
+            if (updateVio(this, player, nsvio, " §6CHECK: §bNOTSTART"))
+                event.setCancelled(true);
         }
-        if(neenable && !pd.getStartBreak().getLocation().equals(e.getBlock().getLocation())){
-            e.setCancelled(true);
-            updateVio(this, p, nevio, " §6CHECK: §bNOTEQULS");
-            return;
+
+        if(neenable && !pd.getStartBreak().getLocation().equals(event.getBlock().getLocation())){
+            event.setCancelled(true);
+            if (updateVio(this, player, nevio, " §6CHECK: §bNOTEQULS"))
+                event.setCancelled(true);
         }
-        if(rayenable && !BlockUtil.HOLLOW_MATERIALS.contains(p.getTargetBlock((Set)null, 5).getType()) && !e.getBlock().getLocation().equals(p.getTargetBlock((Set)null, 5))){
-            if(raycancel) e.setCancelled(true);
-            updateVio(this, p, rayvio, " §6CHECK: §bWRONG BLOCK");
+
+        if(rayenable && !BlockUtil.HOLLOW_MATERIALS.contains(player.getTargetBlock((Set)null, 5).getType()) && !event.getBlock().getLocation().equals(player.getTargetBlock((Set)null, 5))){
+            if (updateVio(this, player, rayvio, " §6CHECK: §bWRONG BLOCK"))
+                event.setCancelled(true);
         }
-        if(tenable && (e.getBlock().getType() == Material.OBSIDIAN && System.currentTimeMillis()-pd.getStartBreakTime() > 260000) || (e.getBlock().getType() != Material.OBSIDIAN && System.currentTimeMillis()-pd.getStartBreakTime() > 22000)){
-            e.setCancelled(true);
-            updateVio(this, p, tvio, " §6CHECK: §bTOSLOW(TIME)");
-            return;
+
+        long delay = System.currentTimeMillis()-pd.getStartBreakTime();
+        if (tenable &&
+                (mat == Material.OBSIDIAN && delay > tobsidian) ||
+                (mat != Material.OBSIDIAN && delay > tnormal)) {
+            if (updateVio(this, player, tvio, " §6CHECK: §bTOSLOW(TIME)"))
+                event.setCancelled(true);
         }
-        if(tenable && InteractTool.getBreakingDuration(e.getBlock().getType(), p) > System.currentTimeMillis()-pd.getStartBreakTime()){
-            e.setCancelled(true);
-            updateVio(this, p, tvio, " §6CHECK: §bFAST");
-            return;
-        }
+
         pd.setStartBreakTime(0);
         pd.setStartBreak(null);
     }

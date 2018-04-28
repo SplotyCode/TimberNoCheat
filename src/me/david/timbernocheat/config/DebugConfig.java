@@ -10,7 +10,7 @@ import java.io.File;
 
 public class DebugConfig implements Listener {
 
-    private boolean discord, antikick, warunsetbacks;
+    private boolean discord, antiKick, warnOnSetBacks;
     private File file;
 
     public DebugConfig(File file, boolean debug) {
@@ -22,19 +22,19 @@ public class DebugConfig implements Listener {
     public void onReaload(RefreshEvent event){
         YamlSection section = new YamlFile(file).getYamlSection("debugsettings");
         discord = section.getBoolean("discord");
-        antikick = section.getBoolean("antikick");
-        warunsetbacks = section.getBoolean("warunsetbacks");
+        antiKick = section.getBoolean("antikick");
+        warnOnSetBacks = section.getBoolean("warnonsetback");
     }
 
     public boolean isDiscord() {
         return discord;
     }
 
-    public boolean isAntikick() {
-        return antikick;
+    public boolean isAntiKick() {
+        return antiKick;
     }
 
-    public boolean isWarunsetbacks() {
-        return warunsetbacks;
+    public boolean isWarnOnSetBacks() {
+        return warnOnSetBacks;
     }
 }
