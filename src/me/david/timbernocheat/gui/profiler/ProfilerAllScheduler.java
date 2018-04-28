@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ProfilerAllScheduler extends Gui {
+
     public ProfilerAllScheduler() {
         super("ProfilerAllScheduler", OLD_Sounds.LEVELUP, Permissions.PROFILER_ALLSCHEDULER);
     }

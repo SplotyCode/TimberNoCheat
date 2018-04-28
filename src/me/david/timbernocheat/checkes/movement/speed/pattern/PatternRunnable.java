@@ -1,6 +1,6 @@
 package me.david.timbernocheat.checkes.movement.speed.pattern;
 
-import javafx.util.Pair;
+import me.david.api.objects.Pair;
 import me.david.api.utils.cordinates.LocationUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.CheckManager;

@@ -1,6 +1,6 @@
 package me.david.timbernocheat.gui.debug;
 
-import javafx.util.Pair;
+import me.david.api.objects.Pair;
 import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.config.Permissions;

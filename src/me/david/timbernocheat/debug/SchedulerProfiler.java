@@ -13,7 +13,7 @@ public class SchedulerProfiler {
     private long startSection;
     private HashMap<String, Long> times = new HashMap<>();
     private HashMap<String, Integer> calls = new HashMap<>();
-    private HashMap<String, Long> lastExeptions = new HashMap<>();;
+    private HashMap<String, Long> lastExceptions = new HashMap<>();
     private boolean running;
 
     private final long EXCEPTION_DELAY = TimberNoCheat.getInstance().isDebug()?0:1000*90;
@@ -36,12 +36,12 @@ public class SchedulerProfiler {
     }
 
     public void handleError(Throwable throwable, String realName){
-        Long time = lastExeptions.get(realName);
+        Long time = lastExceptions.get(realName);
         boolean cooldown = !(time == null || System.currentTimeMillis()-time < EXCEPTION_DELAY);
         if(!cooldown){
             String str = "Whoops an Error accurs in an TimberNoCheat Scheduler! Scheduler Name: '" + realName + "\n" + "The error is now for " + EXCEPTION_DELAY/1000 + "s under Cooldown!";
             System.err.println(str);
-            lastExeptions.put(realName, System.currentTimeMillis());
+            lastExceptions.put(realName, System.currentTimeMillis());
             throwable.printStackTrace();
 
             TimberNoCheat.getInstance().getDiscordManager().sendError(str, throwable, DiscordManager.ErrorType.SCHEDULER, new MessageEmbed.Field("Cooldown", EXCEPTION_DELAY/1000+"", true));

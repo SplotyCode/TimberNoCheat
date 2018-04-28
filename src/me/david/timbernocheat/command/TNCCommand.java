@@ -1,10 +1,10 @@
 package me.david.timbernocheat.command;
 
-import javafx.util.Pair;
 import me.david.api.commands.CheckBuilder;
 import me.david.api.commands.Command;
 import me.david.api.commands.checkers.Playercheck;
 import me.david.api.commands.checkers.Stringcheck;
+import me.david.api.objects.Pair;
 import me.david.api.utils.HastebinUtil;
 import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
@@ -162,7 +162,7 @@ public class TNCCommand extends Command {
                 if(TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().isEmpty())
                     sender.sendMessage(TimberNoCheat.getInstance().prefix + "§cKeine Debug Ids");
                 for(Map.Entry<String, Pair<UUID, ArrayList<DebugEntry>>> entry : TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().entrySet())
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + entry.getKey() + " -> " + Bukkit.getOfflinePlayer(entry.getValue().getKey()).getName());
+                    sender.sendMessage(TimberNoCheat.getInstance().prefix + entry.getKey() + " -> " + Bukkit.getOfflinePlayer(entry.getValue().getOne()).getName());
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Debug-Ids]---");
                 break;
             case "playerdebugids": {
@@ -170,8 +170,8 @@ public class TNCCommand extends Command {
                 UUID uuid = Bukkit.getOfflinePlayer(args[1]).getUniqueId();
 
                 for (Map.Entry<String, Pair<UUID, ArrayList<DebugEntry>>> entry : TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().entrySet())
-                    if (entry.getValue().getKey().equals(uuid))
-                        sender.sendMessage(TimberNoCheat.getInstance().prefix + entry.getKey() + " -> " + format.format(new Date(entry.getValue().getValue().get(0).getTime())) + " <-> " + format.format(new Date(entry.getValue().getValue().get(entry.getValue().getValue().size() - 1).getTime())));
+                    if (entry.getValue().getOne().equals(uuid))
+                        sender.sendMessage(TimberNoCheat.getInstance().prefix + entry.getKey() + " -> " + format.format(new Date(entry.getValue().getTwo().get(0).getTime())) + " <-> " + format.format(new Date(entry.getValue().getTwo().get(entry.getValue().getTwo().size() - 1).getTime())));
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Debug-Ids]---");
                 break;
             }case "debugid":
@@ -179,9 +179,9 @@ public class TNCCommand extends Command {
                 if (pair == null)
                     sender.sendMessage(TimberNoCheat.getInstance().prefix + "§cDie id konnte nicht gefunden werden");
                 else {
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "Spieler: " + Bukkit.getOfflinePlayer(pair.getKey()).getName());
+                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "Spieler: " + Bukkit.getOfflinePlayer(pair.getOne()).getName());
                     sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Timeline]---");
-                    for (DebugEntry entry : pair.getValue()) {
+                    for (DebugEntry entry : pair.getTwo()) {
                         double delay = entry.getNewVio() - entry.getOldVio();
                         sender.sendMessage(TimberNoCheat.getInstance().prefix + format.format(new Date(entry.getTime())) + " +=+ " +
                                 entry.getCheck() + " *=* " +

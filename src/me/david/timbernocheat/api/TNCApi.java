@@ -96,13 +96,13 @@ public enum TNCApi {
     }
 
     /* Returns an Array with all Category's */
-    public  Category[] getCategorys(){
+    public  Category[] getCategories(){
         checkIfReady();
         return Category.values();
     }
 
     /* Get an Check by its Name */
-    public  Check getCheckbyName(String name){
+    public  Check getCheckByName(String name){
         checkIfReady();
         return CheckManager.getInstance().getCheckByString(name);
     }
@@ -127,7 +127,7 @@ public enum TNCApi {
     }
 
     /*
-     * Whitelist a Player for a check for a specific amount of Time(in Milicseconds)
+     * Whitelist a Player for a check for a specific amount of Time(in Milliseconds)
      * TimberNoCheat will cancel all Violations for the Player in this check
      * There will not be an ViolationUpdateEvent when the Player is whitelisted
      */

@@ -1,6 +1,6 @@
 package me.david.timbernocheat.debug.log;
 
-import javafx.util.Pair;
+import me.david.api.objects.Pair;
 import me.david.api.utils.FileUtil;
 import me.david.api.utils.RandomUtil;
 import me.david.timbernocheat.TimberNoCheat;
@@ -93,11 +93,11 @@ public class DebugLogManager implements Listener, BinaryComponent {
         serializer.writeVarInt(savedEntries.size());
         for(Map.Entry<String, Pair<UUID, ArrayList<DebugEntry>>> entry : savedEntries.entrySet()){
             serializer.writeString(entry.getKey());
-            serializer.writeLong(entry.getValue().getKey().getMostSignificantBits());
-            serializer.writeLong(entry.getValue().getKey().getLeastSignificantBits());
+            serializer.writeLong(entry.getValue().getOne().getMostSignificantBits());
+            serializer.writeLong(entry.getValue().getOne().getLeastSignificantBits());
 
-            serializer.writeVarInt(entry.getValue().getValue().size());
-            for(DebugEntry debugEntry : entry.getValue().getValue())
+            serializer.writeVarInt(entry.getValue().getTwo().size());
+            for(DebugEntry debugEntry : entry.getValue().getTwo())
                 debugEntry.write(serializer);
         }
     }

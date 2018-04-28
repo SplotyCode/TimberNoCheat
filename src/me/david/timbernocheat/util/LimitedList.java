@@ -1,6 +1,6 @@
 package me.david.timbernocheat.util;
 
-import javafx.util.Pair;
+import me.david.api.objects.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class LimitedList<T> {
         if(maxSize == list.size()){
             Pair<Long, T> longest = null;
             for(Pair<Long, T> entry : list)
-                if(longest == null || entry.getKey() < longest.getKey())
+                if(longest == null || entry.getOne() < longest.getOne())
                     longest = entry;
             if(longest == null) throw new IllegalStateException();
             list.remove(longest);
@@ -32,7 +32,7 @@ public class LimitedList<T> {
     public List<T> getValues(){
         List<T> values = new ArrayList<>();
         for(Pair<Long, T> entry : list)
-            values.add(entry.getValue());
+            values.add(entry.getTwo());
         return values;
     }
 

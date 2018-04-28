@@ -1,7 +1,7 @@
 package me.david.timbernocheat.listener;
 
-import javafx.util.Pair;
 import me.david.api.events.anvil.AnvilEvent;
+import me.david.api.objects.Pair;
 import me.david.api.utils.InteractUtil;
 import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
@@ -25,7 +25,7 @@ public class InteractHandler implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onRename(final AnvilEvent event){
         /*
-         * TODO: Make debug items not renamable
+         * TODO: Make debug items not renameable
          * Requires to finish the api Anvil Event
         */
     }
@@ -54,7 +54,7 @@ public class InteractHandler implements Listener {
         final ItemStack itemStack = event.getItem().getItemStack();
         final Pair<Player, Boolean> options = getDebugItem(itemStack);
         if(options != null){
-            Player owner = options.getKey();
+            Player owner = options.getOne();
             if(owner.getEntityId() != player.getEntityId()){
                 event.setCancelled(true);
                 BoolUserRequest pickupRequest = new BoolUserRequest(player.getName() + " versucht dein Debug Item aufzusammeln darf er das?",
@@ -74,11 +74,11 @@ public class InteractHandler implements Listener {
             ItemMeta itemMeta = debugItem.getKey().getItemMeta();
             String displayName = itemMeta.getDisplayName();
             String[] split = displayName.split(" ");
-            boolean toogled = TimberNoCheat.getInstance().getDebugger().isDebugging(debugItem.getValue().getKey(), split[0].substring(2));
+            boolean toogled = TimberNoCheat.getInstance().getDebugger().isDebugging(debugItem.getValue().getOne(), split[0].substring(2));
             displayName = split[0] + " §7[" + StringUtil.colorbyBool(toogled) + (toogled?"An":"Aus") + "§7]";
             itemMeta.setDisplayName(displayName);
             debugItem.getKey().setItemMeta(itemMeta);
-            debugItem.getValue().getKey().updateInventory();
+            debugItem.getValue().getOne().updateInventory();
         }
     }
 
