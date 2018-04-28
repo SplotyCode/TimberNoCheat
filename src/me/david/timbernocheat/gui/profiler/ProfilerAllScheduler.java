@@ -1,9 +1,9 @@
 package me.david.timbernocheat.gui.profiler;
 
+import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.config.Permissions;
 import me.david.api.guis.Gui;
 import me.david.api.utils.ItemStackUtil;
-import me.david.api.utils.OLD_Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.scheduler.CraftScheduler;
@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ProfilerAllScheduler extends Gui {
 
     public ProfilerAllScheduler() {
-        super("ProfilerAllScheduler", OLD_Sounds.LEVELUP, Permissions.PROFILER_ALLSCHEDULER);
+        super("ProfilerAllScheduler", Permissions.PROFILER_ALLSCHEDULER, TimberNoCheat.getInstance());
     }
 
     @Override
