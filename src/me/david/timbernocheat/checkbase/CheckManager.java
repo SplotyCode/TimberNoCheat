@@ -142,6 +142,7 @@ public class CheckManager {
         register(new Elytra());
         register(new Combine());
         register(new ZeroDelay());
+        register(new MotionLoop());
     }
 
     private CheckManager(){}
@@ -186,9 +187,9 @@ public class CheckManager {
      * Returns the PlayerData of an Player
      * If there is no PlayerData bind to that Player return null
      */
-    public @Nullable PlayerData getPlayerdata(@NotNull Player p){
+    public @Nullable PlayerData getPlayerdata(@NotNull Player player){
         for(PlayerData playerdata : new ArrayList<>(playerData))
-            if(playerdata.getUuid().equals(p.getUniqueId()))
+            if(playerdata.getUuid().equals(player.getUniqueId()))
                 return playerdata;
         return null;
     }
@@ -198,6 +199,7 @@ public class CheckManager {
         TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.CHECKWATCHER, "Register: " + check.getName());
         if(disabledChecks.contains(check) || checks.contains(check))
             throw new IllegalStateException("Try to register a Plugin that is already Registered/Config Blacklisted!");
+
         if(!TimberNoCheat.getInstance().getConfig().getBoolean(check.getName().toLowerCase() + ".enable")) {
             disabledChecks.add(check);
             return;
@@ -214,6 +216,7 @@ public class CheckManager {
         HandlerList.unregisterAll(check);
         check.disableListeners();
         check.disableTasks();
+
         for(Check child : check.getChilds()){
             child.disable();
             HandlerList.unregisterAll(child);

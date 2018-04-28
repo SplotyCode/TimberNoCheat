@@ -140,6 +140,12 @@ public class PlayerData {
     private long zeroDelayTime;
     private int zeroDelayBlocked;
 
+    /* MotionLoop */
+    private double lastYMotion;
+    private int motionLoopRepeat;
+    private Location firstRepeat;
+
+
 
     private FalsePositive.FalsePositiveChecks falsePositives;
     private General.GeneralValues generals;
@@ -223,6 +229,9 @@ public class PlayerData {
         zeroDelayLocation = null;
         zeroDelayTime = System.currentTimeMillis()-15000L;
         zeroDelayBlocked = 0;
+        firstRepeat = null;
+        motionLoopRepeat = 0;
+        lastYMotion = Double.MIN_VALUE;
     }
 
     /**
@@ -344,6 +353,30 @@ public class PlayerData {
 
     public void setLastTickLocation(Location lastTickLocation) {
         this.lastTickLocation = lastTickLocation;
+    }
+
+    public double getLastYMotion() {
+        return lastYMotion;
+    }
+
+    public void setLastYMotion(double lastYMotion) {
+        this.lastYMotion = lastYMotion;
+    }
+
+    public int getMotionLoopRepeat() {
+        return motionLoopRepeat;
+    }
+
+    public void setMotionLoopRepeat(int motionLoopRepeat) {
+        this.motionLoopRepeat = motionLoopRepeat;
+    }
+
+    public Location getFirstRepeat() {
+        return firstRepeat;
+    }
+
+    public void setFirstRepeat(Location firstRepeat) {
+        this.firstRepeat = firstRepeat;
     }
 
     public Location getAimBotLoc() {

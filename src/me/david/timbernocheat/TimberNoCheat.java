@@ -43,7 +43,7 @@ import java.util.logging.Level;
 
 public class TimberNoCheat extends ApiPlugin {
 
-    public static final int CONFIGURATION_VERSION = 204;
+    public static final int CONFIGURATION_VERSION = 205;
 
     private static TimberNoCheat instance;
 

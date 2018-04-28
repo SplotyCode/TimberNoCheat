@@ -36,9 +36,17 @@ public class General implements Listener, ExceptionRunnable  {
         for(Player player : Bukkit.getServer().getOnlinePlayers()){
             if(CheckManager.getInstance().isvalid_create(player)) {
                 GeneralValues generals = CheckManager.getInstance().getPlayerdata(player).getGenerals();
-                if(CheckUtils.onGround(player)) generals.ticksInAir = 0;
-                else generals.ticksInAir++;
+
+                if (CheckUtils.onGround(player)) {
+                    generals.ticksInAir = 0;
+                    generals.lastGroundTick = Tps.tickCount;
+                } else {
+                    generals.ticksInAir++;
+                    generals.lastAirTick = Tps.tickCount;
+                }
+
                 if(player.isSprinting()) generals.lastSprintTick = Tps.tickCount;
+
                 generals.lastLocs.put(Tps.tickCount, player.getLocation());
             }
         }
@@ -55,6 +63,7 @@ public class General implements Listener, ExceptionRunnable  {
         private Location lastOnGround;
         private int ticksInAir;
         private int lastSprintTick;
+        private int lastGroundTick, lastAirTick;
 
         private LimitedMap<Integer, Location> lastLocs;
         private LimitedMap<Integer, Boolean> vehicleTicks;
@@ -216,6 +225,18 @@ public class General implements Listener, ExceptionRunnable  {
 
         public Location getLoginLocation() {
             return loginLocation;
+        }
+
+        public int getLastAirTick() {
+            return lastAirTick;
+        }
+
+        public int getLastGroundTick() {
+            return lastGroundTick;
+        }
+
+        public int getLastSprintTick() {
+            return lastSprintTick;
         }
 
         public Location getLastLocations(int tick) {

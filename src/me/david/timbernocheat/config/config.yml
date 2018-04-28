@@ -75,7 +75,7 @@
 #[DE-EN]--------------[DE-EN]
 generel:
    #[DE-EN]config version[DE-EN]
-   version: 204
+   version: 205
    #[DE]globaler plugin prefix[DE]
    #[EN]global plugin prefix[EN]
    prefix: "&7[&9T&cN&eC&7] &6"
@@ -790,7 +790,16 @@ vehiclemove:
    viocachedelay: -1
    vioactions:
       1: "NOTIFY"
-      1: "KICK:A"
+      1: "KICK:Boatfly"
+motionloop:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: -1
+   vioactions:
+      1: "NOTIFY"
+      2: "KICK:Invalid Movement"
 bedleave:
    enable: true
    maxrange: 10
