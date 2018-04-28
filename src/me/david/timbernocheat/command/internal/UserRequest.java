@@ -21,6 +21,7 @@ public abstract class UserRequest<T> extends ListenerHandler<PlayerListener<T>> 
         this.message = message;
     }
 
+    @SafeVarargs
     public UserRequest(String message, PlayerListener<T>... list){
         super(list);
         this.message = message;

@@ -24,6 +24,7 @@ public class MultiSelectUserRequest extends UserRequest<String> {
         register();
     }
 
+    @SafeVarargs
     public MultiSelectUserRequest(String message, String[] options, PlayerListener<String>... list) {
         super(message, list);
         this.options = options;

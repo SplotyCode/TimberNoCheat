@@ -57,26 +57,26 @@ public class SpeedPattern {
 
         SpeedPattern that = (SpeedPattern) o;
 
-        if (!name.equals(that.name)) return false;
-        if (speed != that.speed) return false;
-        if (jumpboost != that.jumpboost) return false;
-        if (slowness != that.slowness) return false;
-        if (Float.compare(that.verticaldown, verticaldown) != 0) return false;
-        if (Float.compare(that.verticalup, verticalup) != 0) return false;
-        if (Float.compare(that.horizontal, horizontal) != 0) return false;
-        if (vehicle != that.vehicle) return false;
-        if (liquid != that.liquid) return false;
-        if (ice != that.ice) return false;
-        if (block != that.block) return false;
-        if (sprint != that.sprint) return false;
-        if (sneak != that.sneak) return false;
-        if (web != that.web) return false;
-        if (ladder != that.ladder) return false;
-        if (slabs != that.slabs) return false;
-        if (stairs != that.stairs) return false;
-        if (blockover != that.blockover) return false;
-        if (wasonground != that.wasonground) return false;
-        return soulsand == that.soulsand;
+        return name.equals(that.name) &&
+                speed == that.speed &&
+                jumpboost == that.jumpboost &&
+                slowness == that.slowness &&
+                Float.compare(that.verticaldown, verticaldown) == 0 &&
+                Float.compare(that.verticalup, verticalup) == 0 &&
+                Float.compare(that.horizontal, horizontal) == 0 &&
+                vehicle == that.vehicle &&
+                liquid == that.liquid &&
+                ice == that.ice &&
+                block == that.block &&
+                sprint == that.sprint &&
+                sneak == that.sneak &&
+                web == that.web &&
+                ladder == that.ladder &&
+                slabs == that.slabs &&
+                stairs == that.stairs &&
+                blockover == that.blockover &&
+                wasonground == that.wasonground &&
+                soulsand == that.soulsand;
     }
 
     public boolean equalsnospeed(Object o) {
@@ -85,22 +85,22 @@ public class SpeedPattern {
 
         SpeedPattern that = (SpeedPattern) o;
 
-        if (speed != that.speed) return false;
-        if (jumpboost != that.jumpboost) return false;
-        if (slowness != that.slowness) return false;
-        if (vehicle != that.vehicle) return false;
-        if (liquid != that.liquid) return false;
-        if (ice != that.ice) return false;
-        if (block != that.block) return false;
-        if (sprint != that.sprint) return false;
-        if (sneak != that.sneak) return false;
-        if (web != that.web) return false;
-        if (ladder != that.ladder) return false;
-        if (slabs != that.slabs) return false;
-        if (stairs != that.stairs) return false;
-        if (blockover != that.blockover) return false;
-        if (wasonground != that.wasonground) return false;
-        return soulsand == that.soulsand;
+        return speed == that.speed &&
+                jumpboost == that.jumpboost &&
+                slowness == that.slowness &&
+                vehicle == that.vehicle &&
+                liquid == that.liquid &&
+                ice == that.ice &&
+                block == that.block &&
+                sprint == that.sprint &&
+                sneak == that.sneak &&
+                web == that.web &&
+                ladder == that.ladder &&
+                slabs == that.slabs &&
+                stairs == that.stairs &&
+                blockover == that.blockover &&
+                wasonground == that.wasonground &&
+                soulsand == that.soulsand;
     }
 
     @Override

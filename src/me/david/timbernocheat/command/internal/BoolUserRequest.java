@@ -28,6 +28,7 @@ public class BoolUserRequest extends UserRequest<Boolean> {
         register();
     }
 
+    @SafeVarargs
     public BoolUserRequest(String message, PlayerListener<Boolean>... list) {
         super(message, list);
         register();
