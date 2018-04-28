@@ -39,7 +39,7 @@ public class BadPackets extends Check {
                 }
             }
         )).startTimer(1));
-        
+
         register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Client.LOOK, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.POSITION) {
             @Override
             public void onPacketReceiving(PacketEvent event) {

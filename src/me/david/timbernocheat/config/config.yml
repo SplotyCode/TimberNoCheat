@@ -444,6 +444,15 @@ godmode:
    vioactions:
       1: "NOTIFY"
       6: "KICK:GODMODE?"
+zerodelay:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 6000
+   vioactions:
+      4: "NOTIFY"
+      14: "KICK:AutoClicker"
 velocity:
    enable: true
    teleport: true
@@ -1088,13 +1097,12 @@ clock:
 #[DE-EN]-------------[DE-EN]
 badpackets:
    enable: true
-   max_moves: 50
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true
    viocachedelay: 2000
    vioactions:
-      14: "NOTIFY"
+      12: "NOTIFY"
       30: "KICK:BadPackets"
 cheststealer:
    enable: true

@@ -136,6 +136,7 @@ public class CheckManager {
         register(new GodMode());
         register(new Elytra());
         register(new Combine());
+        register(new ZeroDelay());
     }
 
     /* Loading all Checks when this Objects gets createt (usually on the start of TNC */

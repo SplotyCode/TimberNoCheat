@@ -16,7 +16,7 @@ import java.util.*;
 
 /*
  * All Variables for PlayerData mostly for checks
- * Also Link to FalsePositive Tool
+ * Also Link to FalsePositive/Generals/AsyncGenerals Tool
  */
 public class PlayerData {
 
@@ -136,6 +136,11 @@ public class PlayerData {
     /* Phase */ private Location lastPhaseOkay;
     /* Fly */ private FlyData flyData;
 
+    /* ZeroDelay */
+    private Location zeroDelayLocation;
+    private long zeroDelayTime;
+    private int zeroDelayBlocked;
+
 
     private FalsePositive.FalsePositiveChecks falsepositives;
     private General.GeneralValues generals;
@@ -216,6 +221,9 @@ public class PlayerData {
         flyData = new FlyData();
         lastFlagloc = null;
         lastPattern = null;
+        zeroDelayLocation = null;
+        zeroDelayTime = System.currentTimeMillis()-15000L;
+        zeroDelayBlocked = 0;
     }
 
     /**
@@ -381,6 +389,30 @@ public class PlayerData {
 
     public void setBot(EntityPlayer bot) {
         this.bot = bot;
+    }
+
+    public Location getZeroDelayLocation() {
+        return zeroDelayLocation;
+    }
+
+    public int getZeroDelayBlocked() {
+        return zeroDelayBlocked;
+    }
+
+    public void setZeroDelayBlocked(int zeroDelayBlocked) {
+        this.zeroDelayBlocked = zeroDelayBlocked;
+    }
+
+    public void setZeroDelayLocation(Location zeroDelayLocation) {
+        this.zeroDelayLocation = zeroDelayLocation;
+    }
+
+    public long getZeroDelayTime() {
+        return zeroDelayTime;
+    }
+
+    public void setZeroDelayTime(long zeroDelayTime) {
+        this.zeroDelayTime = zeroDelayTime;
     }
 
     public Player getLastattaked() {
