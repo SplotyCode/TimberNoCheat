@@ -70,9 +70,10 @@ public class SpeedXZLimit extends AbstractSpeed {
 
         limitXZ += (ground(move)?speedModiGround:speedModiHoping) * CheckUtils.getPotionEffectLevel(player, PotionEffectType.SPEED);
 
-        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PATTERN_SPEED, " max=" + limitXZ + " player=" + move.getXzDiff());
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.SPEED, " max=" + limitXZ + " player=" + move.getXzDiff());
         if(move.getXzDiff() > limitXZ)
-            updateVio(this, player, move.getXzDiff()-limitXZ);
+            if (updateVio(this, player, move.getXzDiff()-limitXZ))
+                move.getMoveEvent().setCancelled(true);
     }
 
     private boolean ground(SpeedMoveData data){
