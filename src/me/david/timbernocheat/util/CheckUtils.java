@@ -20,7 +20,7 @@ public final class CheckUtils {
 
     public static boolean frostWalkers(final Player player) {
         final ItemStack boots = player.getInventory().getBoots();
-        return ServerWorldUtil.getMinecraftVersionInt() >= 19 && boots.containsEnchantment(Enchantment.getByName("FROST_WALKER"));
+        return ServerWorldUtil.getMinecraftVersionInt() >= 190 && boots.containsEnchantment(Enchantment.getByName("FROST_WALKER"));
     }
 
     public static boolean onGround(final Player player){
