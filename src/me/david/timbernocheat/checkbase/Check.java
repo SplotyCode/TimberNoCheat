@@ -5,7 +5,7 @@ import com.comphenix.protocol.events.PacketListener;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.discord.DiscordManager;
 import me.david.timbernocheat.runnable.TimberScheduler;
-import me.david.timbernocheat.storage.YamlSection;
+import me.david.api.storage.YamlSection;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;

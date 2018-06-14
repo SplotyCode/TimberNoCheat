@@ -2,7 +2,7 @@ package me.david.timbernocheat.config;
 
 import com.google.common.io.ByteStreams;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.storage.YamlFile;
+import me.david.api.storage.YamlFile;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;

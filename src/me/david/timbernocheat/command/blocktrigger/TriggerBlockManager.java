@@ -1,8 +1,8 @@
 package me.david.timbernocheat.command.blocktrigger;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.storage.YamlFile;
-import me.david.timbernocheat.storage.YamlSection;
+import me.david.api.storage.YamlFile;
+import me.david.api.storage.YamlSection;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

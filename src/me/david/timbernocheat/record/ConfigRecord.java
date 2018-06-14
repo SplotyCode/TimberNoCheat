@@ -1,7 +1,7 @@
 package me.david.timbernocheat.record;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.storage.YamlSection;
+import me.david.api.storage.YamlSection;
 
 /*
  * Configuration about Recording

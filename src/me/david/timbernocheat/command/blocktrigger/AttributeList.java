@@ -2,9 +2,9 @@ package me.david.timbernocheat.command.blocktrigger;
 
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
-import me.david.timbernocheat.storage.YamlComponent;
+import me.david.api.storage.YamlComponent;
 import me.david.api.utils.NumberUtil;
-import me.david.timbernocheat.storage.YamlSection;
+import me.david.api.storage.YamlSection;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,8 +1,8 @@
 package me.david.timbernocheat.config;
 
 import me.david.timbernocheat.api.RefreshEvent;
-import me.david.timbernocheat.storage.YamlFile;
-import me.david.timbernocheat.storage.YamlSection;
+import me.david.api.storage.YamlFile;
+import me.david.api.storage.YamlSection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
