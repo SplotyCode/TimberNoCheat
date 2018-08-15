@@ -50,7 +50,9 @@ public class TNCCommand extends Command {
                 new Object[]{"playerdebugids", false, Permissions.TRACK_DEBUGVIOLATIONS, new Playercheck(false)},
                 new Object[]{"listuntrackedvios", false, Permissions.TRACK_DEBUGVIOLATIONS, new Playercheck(false)},
                 new Object[]{"debugid", false, Permissions.TRACK_DEBUGVIOLATIONS, new Stringcheck(14)},
-                new Object[]{"listdebugids", false, Permissions.TRACK_DEBUGVIOLATIONS}).
+                new Object[]{"listdebugids", false, Permissions.TRACK_DEBUGVIOLATIONS},
+                new Object[]{"statistics", false, ""},
+                new Object[]{"credits", false, ""}).
                 build(), TimberNoCheat.getInstance().getPrefix(), false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
         setOnlyplayers(false);
     }
@@ -85,6 +87,15 @@ public class TNCCommand extends Command {
                 break;
             case "profiler":
                 TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "ProfilerMulti");
+                break;
+            case "credits":
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Credits]---");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "LiquidBounce: Testing Client | Hat mir viele bypasses bezeigt");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "LaprigerToast#0882: Ein guter rl Freund | Hat (versucht :D) bypasses zu machen. Danke für alles.");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "frozen#4757: Kennt sich soooo gut mit cheats aus | Hat mir sehr viele Ideen geben");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Asfold: NoCheatPlus entwickler | Viele anregende koversationen");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Timber Team: Für die vielen Stunden die ihr in das Testen gesteckt habe <3");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Credits]---");
                 break;
             case "debugger":
                 TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "DebuggerMulti");
