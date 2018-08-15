@@ -55,7 +55,7 @@ public class OreNotifyManager {
     }
 
     public void notifyOre(final Player player, final Material material){
-        final String message = TimberNoCheat.getInstance().prefix + " Player " + player + " mined " + material + " (" + getMaterialCountAndAdd(player, material) + ")";
+        final String message = TimberNoCheat.getInstance().getPrefix() + " Player " + player + " mined " + material + " (" + getMaterialCountAndAdd(player, material) + ")";
         for(final Player supporter : Bukkit.getOnlinePlayers()){
             OreNotifyData data = getData(supporter);
             if(data != null && data.isActive() && data.shoudNotify(material))

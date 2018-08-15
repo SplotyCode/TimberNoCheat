@@ -42,7 +42,7 @@ public class Config {
             new MergeHelper().merge();
         }
         if(yamlFile.getString("generel.prefix") != null && !yamlFile.getString("generel.prefix").equals("") && !yamlFile.getString("generel.prefix").equals(" "))
-            TimberNoCheat.getInstance().prefix = ChatColor.translateAlternateColorCodes('&', yamlFile.getString("generel.prefix"));
+            TimberNoCheat.getInstance().getPrefix() = ChatColor.translateAlternateColorCodes('&', yamlFile.getString("generel.prefix"));
         return false;
     }
 }

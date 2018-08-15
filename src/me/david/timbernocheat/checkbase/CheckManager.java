@@ -240,7 +240,7 @@ public class CheckManager {
         text.setBold(true);
         text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.DARK_PURPLE + "Tleportieren").create()));
         text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "minecraft:tp " + location.getX()));
-        TimberNoCheat.getInstance().permissionCache.sendAll(Permissions.NOTITY, TimberNoCheat.getInstance().prefix + message);
+        TimberNoCheat.getInstance().permissionCache.sendAll(Permissions.NOTITY, TimberNoCheat.getInstance().getPrefix() + message);
         TimberNoCheat.getInstance().getLogger().log(Level.INFO, message.replace("§", "&"));
     }
 

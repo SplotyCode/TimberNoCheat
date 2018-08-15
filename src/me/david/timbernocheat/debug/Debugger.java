@@ -55,7 +55,7 @@ public class Debugger {
             if(isDebugging(entry.getKey(), event.getDebugger().name())){
                 Player player = Bukkit.getPlayer(entry.getKey());
                 if(player == null) continue;
-                player.sendMessage(TimberNoCheat.getInstance().prefix + "§7[§eDEBUG§7][§b" + event.getDebugger().name().toUpperCase() + "§7] §6" + event.getMessage());
+                player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§7[§eDEBUG§7][§b" + event.getDebugger().name().toUpperCase() + "§7] §6" + event.getMessage());
             }
     }
 
@@ -67,7 +67,7 @@ public class Debugger {
             if(isDebugging(entry.getKey(), event.getDebugger().name())){
                 Player player = Bukkit.getPlayer(entry.getKey());
                 if(player == null || !debug.getSetting(player, setting)) continue;
-                player.sendMessage(TimberNoCheat.getInstance().prefix + "§7[§eDEBUG§7][§b" + event.getDebugger().name().toUpperCase() + "§7] §6" + event.getMessage());
+                player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§7[§eDEBUG§7][§b" + event.getDebugger().name().toUpperCase() + "§7] §6" + event.getMessage());
             }
     }
 
@@ -79,7 +79,7 @@ public class Debugger {
             if(isDebugging(entry.getKey(), event.getDebugger().name())){
                 Player player = Bukkit.getPlayer(entry.getKey());
                 if(player == null || debug.getSetting(player, setting)) continue;
-                player.sendMessage(TimberNoCheat.getInstance().prefix + "§7[§eDEBUG§7][§b" + event.getDebugger().name().toUpperCase() + "§7] §6" + event.getMessage());
+                player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§7[§eDEBUG§7][§b" + event.getDebugger().name().toUpperCase() + "§7] §6" + event.getMessage());
             }
     }
 }

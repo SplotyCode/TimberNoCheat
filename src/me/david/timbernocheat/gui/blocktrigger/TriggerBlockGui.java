@@ -27,11 +27,11 @@ public class TriggerBlockGui extends ArrayGui<TriggerAction> {
     @Override
     protected void itemclick(TriggerAction obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         TimberNoCheat.getInstance().getTriggerBlockManager().getPending().put(p.getUniqueId(), obj);
-        p.sendMessage(TimberNoCheat.getInstance().prefix + "Super du kannst nun ein Paar argumente übergeben!");
-        p.sendMessage(TimberNoCheat.getInstance().prefix + "Seperiert werden diese mit einem ',");
+        p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Super du kannst nun ein Paar argumente übergeben!");
+        p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Seperiert werden diese mit einem ',");
         ArrayList<String> args = new ArrayList<>();
         Arrays.stream(obj.getClasses()).forEach((aClass -> args.add(aClass.getSimpleName())));
-        p.sendMessage(TimberNoCheat.getInstance().prefix + "Deine Argument Typen sehen so aus: " + StringUtil.toString(args, ", "));
+        p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Deine Argument Typen sehen so aus: " + StringUtil.toString(args, ", "));
     }
 
     @Override

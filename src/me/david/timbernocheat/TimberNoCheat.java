@@ -244,7 +244,7 @@ public class TimberNoCheat extends ApiPlugin {
     }
 
     public void executeEssentials(final Player player, Consumer<User> runable){
-        if(essentials == null) player.sendMessage(TimberNoCheat.getInstance().prefix + "Es gab ein Fehler dar ein Plugin nicht gefunden/abgestürtzt ist... Du kannst diesen Fehler gerne melden!");
+        if(essentials == null) player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Es gab ein Fehler dar ein Plugin nicht gefunden/abgestürtzt ist... Du kannst diesen Fehler gerne melden!");
         else runable.accept(essentials.getUser(player));
     }
 

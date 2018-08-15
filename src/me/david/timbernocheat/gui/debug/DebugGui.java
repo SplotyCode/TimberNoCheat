@@ -48,7 +48,7 @@ public class DebugGui extends ArrayGui<Debuggers> {
             TimberNoCheat.getInstance().getListenerManager().getInteractHandler().getDebugItems().put(itemStack, new Pair<>(player, clicktype.isRightClick()));
         }else if(clicktype.isLeftClick()) {
             TimberNoCheat.getInstance().getDebugger().toggleDebugger(player.getUniqueId(), obj.name());
-            player.sendMessage(TimberNoCheat.getInstance().prefix + "Der Debugger §b" + obj.name() + "§6 ist nun " + (TimberNoCheat.getInstance().getDebugger().isDebugging(player, obj.name()) ? "§aAktiviert" : "§cDeaktiviert") + "§6!");
+            player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Der Debugger §b" + obj.name() + "§6 ist nun " + (TimberNoCheat.getInstance().getDebugger().isDebugging(player, obj.name()) ? "§aAktiviert" : "§cDeaktiviert") + "§6!");
             TimberNoCheat.getInstance().getGuiManager().reopen(player);
         }else if(clicktype.isRightClick()){
             TimberNoCheat.getInstance().getGuiManager().removeMultiGui(player, false, CloseReason.REMOVE);

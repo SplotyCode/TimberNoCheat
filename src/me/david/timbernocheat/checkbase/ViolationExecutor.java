@@ -69,14 +69,14 @@ public class ViolationExecutor {
             /* Definition for the Types can be read in Vialation.ViolationTypes */
             switch (ctrig.getType()) {
                 case MESSAGE:
-                    new TimberScheduler("ViolationExecutor(Message)", () -> player.sendMessage(TimberNoCheat.getInstance().prefix + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
+                    new TimberScheduler("ViolationExecutor(Message)", () -> player.sendMessage(TimberNoCheat.getInstance().getPrefix() + replaceMarker(ctrig.getRest(), player, check))).runNextTick();
                     break;
                 case KICK:
                     new TimberScheduler("ViolationExecutor(Kick)", () -> {
                         if(TimberNoCheat.getInstance().getDebugConfig().isAntiKick()) {
                             Api.getNms().sendMainTitle(player, "§cYou would be kicked now!", -1, -1, -1);
                             Api.getNms().sendSubTitle(player, "§eId: " + id, -1, -1, -1);
-                            player.sendMessage(TimberNoCheat.getInstance().prefix + "You would be kicked now! Id: " + id);
+                            player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "You would be kicked now! Id: " + id);
                         }else kick(player, replaceMarker(ctrig.getRest(), player, check), check, id);
                     }).runNextTick();
                     canReset = true;
@@ -94,7 +94,7 @@ public class ViolationExecutor {
                 case DAMAGE:
                     new TimberScheduler("ViolationExecutor(Damage)", () -> {
                         if (TimberNoCheat.getInstance().getDebugConfig().isWarnOnSetBacks() && TimberNoCheat.getInstance().getCountdownManager().isFinished(Countdowns.MESSAGE_HEALTH.name(), player))
-                            player.sendMessage(TimberNoCheat.getInstance().prefix + "Du wurdest gerade von TNC 'gedamaged' weil es vermutet das du einen Hack Client benutzt! " +
+                            player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Du wurdest gerade von TNC 'gedamaged' weil es vermutet das du einen Hack Client benutzt! " +
                                     "Falls das nicht der Fall ist kannst du es gerne reporten mit dieser Id: '" + id + "'");
                         player.damage(Double.parseDouble(ctrig.getRest()));
                         TimberNoCheat.getInstance().getCountdownManager().setCountdown(Countdowns.MESSAGE_HEALTH.name(), 20*60*2, player, true);
@@ -103,7 +103,7 @@ public class ViolationExecutor {
                 case SETBACK:
                     new TimberScheduler("ViolationExecutor(SetBack)", () -> {
                         if (TimberNoCheat.getInstance().getDebugConfig().isWarnOnSetBacks() && TimberNoCheat.getInstance().getCountdownManager().isFinished(Countdowns.MESSAGE_SETBACK.name(), player))
-                            player.sendMessage(TimberNoCheat.getInstance().prefix + "Du wurdest gerade von TNC 'geflagdt' weil es vermutet das du einen Hack Client benutzt! " +
+                            player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Du wurdest gerade von TNC 'geflagdt' weil es vermutet das du einen Hack Client benutzt! " +
                                     "Falls das nicht der Fall ist kannst du es gerne reporten mit dieser Id: '" + id + "'");
                         TimberNoCheat.getInstance().getCountdownManager().setCountdown(Countdowns.MESSAGE_SETBACK.name(), 20*60*2, player, true);
                     }).runNextTick();

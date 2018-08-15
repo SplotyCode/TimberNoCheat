@@ -62,7 +62,7 @@ public class GuiMoveProfiler extends Gui implements Listener {
     public void itemclick(Player p, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
         if(itemstack.getType() == Material.SIGN){
             for(Player p1 : profilePlayer){
-                p.sendMessage(TimberNoCheat.getInstance().prefix + p1.getName());
+                p.sendMessage(TimberNoCheat.getInstance().getPrefix() + p1.getName());
             }
         }else if(itemstack.getType() == Material.REDSTONE){
             TimberNoCheat.getInstance().getMoveprofiler().reset();

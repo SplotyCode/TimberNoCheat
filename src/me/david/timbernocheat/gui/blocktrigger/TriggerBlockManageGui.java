@@ -54,16 +54,16 @@ public class TriggerBlockManageGui extends NoStaticListGui<TriggerBlock> {
         }else {
             if(clicktype.isRightClick()){
                 TimberNoCheat.getInstance().getTriggerBlockManager().getTriggerBlocks().remove(obj);
-                p.sendMessage(TimberNoCheat.getInstance().prefix + "§cOkay, killed!");
+                p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§cOkay, killed!");
             }else if(clicktype.isLeftClick()){
                 final Location location = obj.getLocation();
                 final AttributeList atributes = obj.getAtributes();
-                p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Trigger]---");
-                p.sendMessage(TimberNoCheat.getInstance().prefix + "Location: §b" + location.getWorld().getName() + " - " + obj.getLocation().getBlockX() + "/" + obj.getLocation().getBlockY() + "/" + obj.getLocation().getBlockZ());
-                p.sendMessage(TimberNoCheat.getInstance().prefix + "Creator: §b" + Bukkit.getOfflinePlayer(obj.getCreator()).getName());
-                p.sendMessage(TimberNoCheat.getInstance().prefix + "Action: §b" + obj.getAction().name());
-                p.sendMessage(TimberNoCheat.getInstance().prefix + "Attributes: §b" + StringUtil.toString(atributes.getRealArguments(), ", "));
-                p.sendMessage(TimberNoCheat.getInstance().prefix + "---[Trigger]---");
+                p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Trigger]---");
+                p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Location: §b" + location.getWorld().getName() + " - " + obj.getLocation().getBlockX() + "/" + obj.getLocation().getBlockY() + "/" + obj.getLocation().getBlockZ());
+                p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Creator: §b" + Bukkit.getOfflinePlayer(obj.getCreator()).getName());
+                p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Action: §b" + obj.getAction().name());
+                p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Attributes: §b" + StringUtil.toString(atributes.getRealArguments(), ", "));
+                p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Trigger]---");
             }
         }
     }

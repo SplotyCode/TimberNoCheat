@@ -204,7 +204,7 @@ public class old_Settings {
     @Deprecated
     public void load(){
         YamlConfiguration yml = YamlConfiguration.loadConfiguration(TimberNoCheat.getInstance().getConfigFile());
-        TimberNoCheat.getInstance().prefix = yml.getString("generel_prefix");
+        TimberNoCheat.getInstance().getPrefix() = yml.getString("generel_prefix");
         //TimberNoCheat.getInstance().curconfigversion = yml.getInt("generel_configversion");
 
         chat_delay_schwelle = yml.getInt("chat_delay_schwelle");

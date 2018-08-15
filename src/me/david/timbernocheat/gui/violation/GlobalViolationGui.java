@@ -43,13 +43,13 @@ public class GlobalViolationGui extends NoStaticListGui<OfflinePlayer> {
             if(clicktype.isShiftClick()) {
                 TimberNoCheat.getInstance().executeEssentials(p, (user -> {
                     if(user.isVanished()){
-                        p.sendMessage(TimberNoCheat.getInstance().prefix + "§cTrotel Du bist schon im Vanish...");
+                        p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§cTrotel Du bist schon im Vanish...");
                     }else user.setVanished(true);
                 }));
             }
             Player target = Bukkit.getPlayer(obj.getUniqueId());
             if(target == null)
-            p.sendMessage(TimberNoCheat.getInstance().prefix + "§cDer Spieler ist momentan nicht online!");
+            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§cDer Spieler ist momentan nicht online!");
             else p.teleport(target);
         }
     }

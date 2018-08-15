@@ -28,7 +28,7 @@ public abstract class UserRequest<T> extends ListenerHandler<PlayerListener<T>> 
     }
 
     public void display(final Player player){
-        TextComponent message = new TextComponent(TimberNoCheat.getInstance().prefix + getMessage() + " ");
+        TextComponent message = new TextComponent(TimberNoCheat.getInstance().getPrefix() + getMessage() + " ");
         TextComponent options = new TextComponent();
         displayOption(options);
         message.addExtra(options);

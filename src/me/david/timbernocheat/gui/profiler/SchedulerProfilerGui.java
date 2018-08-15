@@ -60,21 +60,21 @@ public class SchedulerProfilerGui extends Gui implements Listener {
     @Override
     public void itemclick(Player p, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
         if(itemstack.getType() == Material.SIGN){
-            p.sendMessage(TimberNoCheat.getInstance().prefix + "---[List]---");
+            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[List]---");
             for(Player p1 : profilePlayer)
-                p.sendMessage(TimberNoCheat.getInstance().prefix + p1.getName());
-            p.sendMessage(TimberNoCheat.getInstance().prefix + "---[List]---");
+                p.sendMessage(TimberNoCheat.getInstance().getPrefix() + p1.getName());
+            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[List]---");
         }else if(itemstack.getType() == Material.REDSTONE){
-            p.sendMessage(TimberNoCheat.getInstance().prefix + ChatColor.RED + "Resete den Profiler");
+            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + ChatColor.RED + "Resete den Profiler");
             TimberNoCheat.getInstance().getSchedulerProfiler().reset();
         }else if(itemstack.getDurability() == FarbCodes.LIME.getId()){
             if(!profilePlayer.contains(p)){
                 profilePlayer.add(p);
             }
-            p.sendMessage(TimberNoCheat.getInstance().prefix + ChatColor.GREEN + "Du bekommst jetzt Profiler Nachichten");
+            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + ChatColor.GREEN + "Du bekommst jetzt Profiler Nachichten");
         }else if(profilePlayer.contains(p)){
             profilePlayer.remove(p);
-            p.sendMessage(TimberNoCheat.getInstance().prefix + ChatColor.RED + "Du bekommst jetzt keine Profiler Nachichten");
+            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + ChatColor.RED + "Du bekommst jetzt keine Profiler Nachichten");
         }
     }
 }

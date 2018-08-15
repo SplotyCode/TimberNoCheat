@@ -184,8 +184,8 @@ public class Speed extends Check {
                             optimalpattern.horizontal = (float) xzDiff;
                             patterns.add(optimalpattern);
                             savepatterns();
-                            p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] Neue Pattern '" + optimalpattern.name + "' erstellt!");
-                        }else p.sendMessage(TimberNoCheat.getInstance().prefix + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
+                            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "[SPEED-PATTERN] Neue Pattern '" + optimalpattern.name + "' erstellt!");
+                        }else p.sendMessage(TimberNoCheat.getInstance().getPrefix() + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
                         continue;
                     }
                     if(disabledpatterns.contains(optimalpattern.name)) continue;
@@ -195,7 +195,7 @@ public class Speed extends Check {
                     TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PATTERN_SPEED, "PATTERN: xz=" + optimalpattern.horizontal + " yUP=" + optimalpattern.verticalup + " yDown=" + optimalpattern.verticaldown);
                     if (optimalpattern.verticaldown < yDiffdown) {
                         if(generators.contains(p.getUniqueId())){
-                            p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffdown to '" + yDiffdown + "'!");
+                            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffdown to '" + yDiffdown + "'!");
                             optimalpattern.verticaldown = (float) yDiffdown;
                             savepatterns();
                             continue;
@@ -205,7 +205,7 @@ public class Speed extends Check {
                     }
                     if (optimalpattern.verticalup < yDiffUp) {
                         if(generators.contains(p.getUniqueId())){
-                            p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffup to '" + yDiffdown + "'!");
+                            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet yDiffup to '" + yDiffdown + "'!");
                             optimalpattern.verticalup = (float) yDiffUp;
                             savepatterns();
                             continue;
@@ -215,7 +215,7 @@ public class Speed extends Check {
                     }
                     if (optimalpattern.horizontal < xzDiff) {
                         if(generators.contains(p.getUniqueId())){
-                            p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet xzDiff to '" + yDiffdown + "'!");
+                            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "[SPEED-PATTERN] '" + optimalpattern.name + "' updatet xzDiff to '" + yDiffdown + "'!");
                             optimalpattern.horizontal = (float) xzDiff;
                             savepatterns();
                             continue;

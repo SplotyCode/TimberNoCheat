@@ -51,7 +51,7 @@ public class TNCCommand extends Command {
                 new Object[]{"listuntrackedvios", false, Permissions.TRACK_DEBUGVIOLATIONS, new Playercheck(false)},
                 new Object[]{"debugid", false, Permissions.TRACK_DEBUGVIOLATIONS, new Stringcheck(14)},
                 new Object[]{"listdebugids", false, Permissions.TRACK_DEBUGVIOLATIONS}).
-                build(), TimberNoCheat.getInstance().prefix, false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
+                build(), TimberNoCheat.getInstance().getPrefix(), false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
         setOnlyplayers(false);
     }
 
@@ -59,7 +59,7 @@ public class TNCCommand extends Command {
     public void execute(CommandSender sender, org.bukkit.command.Command cmd, String[] args) {
         Player p = sender instanceof Player?(Player) sender:null;
         if(args.length == 0){
-            p.sendMessage(TimberNoCheat.getInstance().prefix + "TimberNoCheat (Version: " + TimberNoCheat.getInstance().getDescription().getVersion() + ")");
+            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "TimberNoCheat (Version: " + TimberNoCheat.getInstance().getDescription().getVersion() + ")");
             return;
         }
         switch (args[0].toLowerCase()){
@@ -67,17 +67,17 @@ public class TNCCommand extends Command {
             case "reload":
                 long start = System.currentTimeMillis();
                 Bukkit.getPluginManager().callEvent(new RefreshEvent(sender));
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "Done in " + (System.currentTimeMillis()-start) + " ms!");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Done in " + (System.currentTimeMillis()-start) + " ms!");
                 break;
             /* Speed check */
             case "generate":
                 if(PatternCheck.generators.contains(p.getUniqueId())){
                     PatternCheck.generators.remove(p.getUniqueId());
-                    p.sendMessage(TimberNoCheat.getInstance().prefix + "§cDas Anticheat 'trainiert' sich jetzt nicht mehr an dir!");
+                    p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§cDas Anticheat 'trainiert' sich jetzt nicht mehr an dir!");
                 }else {
                     PatternCheck.generators.add(p.getUniqueId());
-                    p.sendMessage(TimberNoCheat.getInstance().prefix + "Bewege dich um das Anticheat zu 'trainieren'!");
-                    p.sendMessage(TimberNoCheat.getInstance().prefix + "Du darfst jetzt keine Hacks benutzen!");
+                    p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Bewege dich um das Anticheat zu 'trainieren'!");
+                    p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Du darfst jetzt keine Hacks benutzen!");
                 }
                 break;
             case "items":
@@ -90,28 +90,28 @@ public class TNCCommand extends Command {
                 TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "DebuggerMulti");
                 break;
             case "checkmap":
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[CheckMap]---");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[CheckMap]---");
                 for(Check check : CheckManager.getInstance().getChecks()){
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + StringUtil.colorbyBool(true) + check.getName());
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + StringUtil.colorbyBool(true) + check.getName());
                     for(Check child : check.getChilds())
-                        sender.sendMessage(TimberNoCheat.getInstance().prefix + "    ->" + StringUtil.colorbyBool(true) + child.getName());
+                        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "    ->" + StringUtil.colorbyBool(true) + child.getName());
                     for(Check child : check.getDiabledsChilds())
-                        sender.sendMessage(TimberNoCheat.getInstance().prefix + "    ->" + StringUtil.colorbyBool(false) + child.getName());
+                        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "    ->" + StringUtil.colorbyBool(false) + child.getName());
 
                 }
                 for(Check check : CheckManager.getInstance().getDisabledChecks()){
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + StringUtil.colorbyBool(false) + check.getName());
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + StringUtil.colorbyBool(false) + check.getName());
                     for(Check child : check.getChilds())
-                        sender.sendMessage(TimberNoCheat.getInstance().prefix + "    ->" + StringUtil.colorbyBool(true) + child.getName());
+                        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "    ->" + StringUtil.colorbyBool(true) + child.getName());
                     for(Check child : check.getDiabledsChilds())
-                        sender.sendMessage(TimberNoCheat.getInstance().prefix + "    ->" + StringUtil.colorbyBool(false) + child.getName());
+                        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "    ->" + StringUtil.colorbyBool(false) + child.getName());
                 }
                 for(Check check : Tps.disabledChecks){
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + ChatColor.YELLOW + check.getName());
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + ChatColor.YELLOW + check.getName());
                     for(Check child : check.getChilds())
-                        sender.sendMessage(TimberNoCheat.getInstance().prefix + ChatColor.YELLOW + child.getName());
+                        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + ChatColor.YELLOW + child.getName());
                 }
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[CheckMap]---");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[CheckMap]---");
                 break;
             case "settings":
                 TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "SettingsMulti");
@@ -119,28 +119,28 @@ public class TNCCommand extends Command {
             case "playerdata": {
                 final Player target = Bukkit.getPlayer(args[1]);
                 if (!CheckManager.getInstance().isvalid_create(target)) {
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "Es gibt keine SpielerDaten für '" + target.getName() + " :(");
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Es gibt keine SpielerDaten für '" + target.getName() + " :(");
                     return;
                 }
                 PlayerData pd = CheckManager.getInstance().getPlayerdata(target);
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "Playerdata for " + pd.getUuid());
-                sender.sendMessage(new PrettyPrint(pd, true, TimberNoCheat.getInstance().prefix).prettyPrint(0));
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Playerdata for " + pd.getUuid());
+                sender.sendMessage(new PrettyPrint(pd, true, TimberNoCheat.getInstance().getPrefix()).prettyPrint(0));
                 String hastebin = HastebinUtil.paste(new PrettyPrint(pd, false, "").prettyPrint(0));
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "Finished! Now we will make a copy as Hastebin (as this data can get quite confusing in the chat :D ) ");
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + (hastebin == null ? "§cFehler bei Hochladen" : hastebin));
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Finished! Now we will make a copy as Hastebin (as this data can get quite confusing in the chat :D ) ");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + (hastebin == null ? "§cFehler bei Hochladen" : hastebin));
                 break;
             }case "permissionCache":
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Cache]---");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Cache]---");
                 for(Map.Entry<UUID, HashMap<String, Boolean>> cache :  TimberNoCheat.getInstance().permissionCache.getCache().entrySet()){
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + Bukkit.getOfflinePlayer(cache.getKey()).getName());
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + Bukkit.getOfflinePlayer(cache.getKey()).getName());
                     for(Map.Entry<String, Boolean> permission : cache.getValue().entrySet())
-                        sender.sendMessage(TimberNoCheat.getInstance().prefix + "    -> " + permission.getKey() + " <-> " + permission.getValue());
+                        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "    -> " + permission.getKey() + " <-> " + permission.getValue());
                 }
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Cache]---");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Cache]---");
                 break;
             case "resetcache":
                 TimberNoCheat.getInstance().permissionCache.clearAll();
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "Fertig!");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Fertig!");
                 break;
             case "orenotify":
                 TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "OreNotifyMulti");
@@ -155,61 +155,61 @@ public class TNCCommand extends Command {
                 Player target = Bukkit.getPlayer(args[0]);
                 PlayerData data = CheckManager.getInstance().getPlayerdata(target);
                 if(data != null) CheckManager.getInstance().getPlayerData().remove(data);
-                else sender.sendMessage(TimberNoCheat.getInstance().prefix + "Es gibt keine Spielerdaten für '" + target.getName() + "'!");
+                else sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Es gibt keine Spielerdaten für '" + target.getName() + "'!");
                 break;
             case "listdebugids":
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Debug-Ids]---");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Debug-Ids]---");
                 if(TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().isEmpty())
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "§cKeine Debug Ids");
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§cKeine Debug Ids");
                 for(Map.Entry<String, Pair<UUID, ArrayList<DebugEntry>>> entry : TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().entrySet())
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + entry.getKey() + " -> " + Bukkit.getOfflinePlayer(entry.getValue().getOne()).getName());
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Debug-Ids]---");
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + entry.getKey() + " -> " + Bukkit.getOfflinePlayer(entry.getValue().getOne()).getName());
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Debug-Ids]---");
                 break;
             case "playerdebugids": {
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Debug-Ids]---");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Debug-Ids]---");
                 UUID uuid = Bukkit.getOfflinePlayer(args[1]).getUniqueId();
 
                 for (Map.Entry<String, Pair<UUID, ArrayList<DebugEntry>>> entry : TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().entrySet())
                     if (entry.getValue().getOne().equals(uuid))
-                        sender.sendMessage(TimberNoCheat.getInstance().prefix + entry.getKey() + " -> " + format.format(new Date(entry.getValue().getTwo().get(0).getTime())) + " <-> " + format.format(new Date(entry.getValue().getTwo().get(entry.getValue().getTwo().size() - 1).getTime())));
-                sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Debug-Ids]---");
+                        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + entry.getKey() + " -> " + format.format(new Date(entry.getValue().getTwo().get(0).getTime())) + " <-> " + format.format(new Date(entry.getValue().getTwo().get(entry.getValue().getTwo().size() - 1).getTime())));
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Debug-Ids]---");
                 break;
             }case "debugid":
                 Pair<UUID, ArrayList<DebugEntry>> pair = TimberNoCheat.getInstance().getDebugLogManager().getSavedEntries().get(args[1]);
                 if (pair == null)
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "§cDie id konnte nicht gefunden werden");
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§cDie id konnte nicht gefunden werden");
                 else {
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "Spieler: " + Bukkit.getOfflinePlayer(pair.getOne()).getName());
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Timeline]---");
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Spieler: " + Bukkit.getOfflinePlayer(pair.getOne()).getName());
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Timeline]---");
                     for (DebugEntry entry : pair.getTwo()) {
                         double delay = entry.getNewVio() - entry.getOldVio();
-                        sender.sendMessage(TimberNoCheat.getInstance().prefix + format.format(new Date(entry.getTime())) + " +=+ " +
+                        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + format.format(new Date(entry.getTime())) + " +=+ " +
                                 entry.getCheck() + " *=* " +
                                 (entry.getExecutions().length == 0 ? "Keine Bestafungen" : StringUtil.toString(entry.getExecutions(), ", ")) + " *=* " +
                                 StringUtil.colorbyBool(delay > 0, true) + delay + " §6(New=" + entry.getNewVio() + "Old=" + entry.getOldVio() + ")" +
                                 (entry.isCancel() ? " *=* (§cCanceled§6)" : "")
                         );
                     }
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Timeline]---");
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Timeline]---");
                 }
                 break;
             case "listuntrackedvios":
                 UUID uuid = Bukkit.getOfflinePlayer(args[1]).getUniqueId();
                 ArrayList<DebugEntry> entries = TimberNoCheat.getInstance().getDebugLogManager().getDebugEntries().get(uuid);
-                if(entries == null) sender.sendMessage(TimberNoCheat.getInstance().prefix + "§cKeine listuntracked violatrions für den spieler!");
+                if(entries == null) sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§cKeine listuntracked violatrions für den spieler!");
                 else {
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "Spieler: " + Bukkit.getOfflinePlayer(uuid).getName());
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Timeline]---");
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Spieler: " + Bukkit.getOfflinePlayer(uuid).getName());
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Timeline]---");
                     for (DebugEntry entry : entries) {
                         double delay = entry.getNewVio() - entry.getOldVio();
-                        sender.sendMessage(TimberNoCheat.getInstance().prefix + format.format(new Date(entry.getTime())) + " +=+ " +
+                        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + format.format(new Date(entry.getTime())) + " +=+ " +
                                 entry.getCheck() + " *=* " +
                                 (entry.getExecutions() == null || entry.getExecutions().length == 0 ? "Keine Bestafungen" : StringUtil.toString(entry.getExecutions(), ", ")) + " *=* " +
                                 StringUtil.colorbyBool(delay > 0, true) + delay + " §6(New=" + entry.getNewVio() + "Old=" + entry.getOldVio() + ")" +
                                 (entry.isCancel() ? " *=* (§cCanceled§6)" : "")
                         );
                     }
-                    sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Timeline]---");
+                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Timeline]---");
                 }
                 break;
         }

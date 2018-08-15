@@ -57,7 +57,7 @@ public class PatternRunnable implements ExceptionRunnable {
                 if (!found) {
                     if(PatternCheck.getGenerators().contains(p.getUniqueId())){
                         create(p, optimalpattern, (float) yDiffDown, (float) yDiffUp, (float) xzDiff);
-                    }else p.sendMessage(TimberNoCheat.getInstance().prefix + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
+                    }else p.sendMessage(TimberNoCheat.getInstance().getPrefix() + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
                     continue;
                 }
 
@@ -68,7 +68,7 @@ public class PatternRunnable implements ExceptionRunnable {
                 TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PATTERN_SPEED, "PATTERN: xz=" + optimalpattern.getHorizontal() + " yUP=" + optimalpattern.getVerticalup() + " yDown=" + optimalpattern.getVerticaldown());
                 if (optimalpattern.getVerticaldown() < yDiffDown) {
                     if(PatternCheck.getGenerators().contains(p.getUniqueId())){
-                        p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] '" + optimalpattern.getName() + "' updatet yDiffdown to '" + yDiffDown + "'!");
+                        p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "[SPEED-PATTERN] '" + optimalpattern.getName() + "' updatet yDiffdown to '" + yDiffDown + "'!");
                         optimalpattern.setVerticaldown((float) yDiffDown);
                         check.savepatterns();
                         continue;
@@ -78,7 +78,7 @@ public class PatternRunnable implements ExceptionRunnable {
                 }
                 if (optimalpattern.getVerticalup() < yDiffUp) {
                     if(PatternCheck.getGenerators().contains(p.getUniqueId())){
-                        p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] '" + optimalpattern.getName() + "' updatet yDiffup to '" + yDiffDown + "'!");
+                        p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "[SPEED-PATTERN] '" + optimalpattern.getName() + "' updatet yDiffup to '" + yDiffDown + "'!");
                         optimalpattern.setVerticalup((float) yDiffUp);
                         check.savepatterns();
                         continue;
@@ -88,7 +88,7 @@ public class PatternRunnable implements ExceptionRunnable {
                 }
                 if (optimalpattern.getHorizontal() < xzDiff) {
                     if(PatternCheck.getGenerators().contains(p.getUniqueId())){
-                        p.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] '" + optimalpattern.getName() + "' updatet xzDiff to '" + yDiffDown + "'!");
+                        p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "[SPEED-PATTERN] '" + optimalpattern.getName() + "' updatet xzDiff to '" + yDiffDown + "'!");
                         optimalpattern.setHorizontal((float) xzDiff);
                         check.savepatterns();
                         continue;
@@ -118,7 +118,7 @@ public class PatternRunnable implements ExceptionRunnable {
         pattern.setHorizontal(xzDiff);
         check.getPatterns().add(pattern);
         check.savepatterns();
-        player.sendMessage(TimberNoCheat.getInstance().prefix + "[SPEED-PATTERN] Neue Pattern '" + pattern.getName() + "' erstellt!");
+        player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "[SPEED-PATTERN] Neue Pattern '" + pattern.getName() + "' erstellt!");
     }
 
     private SpeedPattern getOptimalPattern(SpeedPattern pattern) {

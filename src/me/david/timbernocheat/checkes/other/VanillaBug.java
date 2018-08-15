@@ -39,6 +39,6 @@ public class VanillaBug extends Check {
         event.setCancelled(true);
         updateVio(this, event.getPlayer(), 1);
         //TimberNoCheat.getInstance().getLogger().log(Level.INFO, "[VanillaBug] " + event.getPlayer().getDisplayName() + " versucht den VanillaFenceBug zu nutzen! Die Aktion wurde gestoppt!");
-        //event.getPlayer().sendMessage(TimberNoCheat.getInstance().prefix + "Durch einen Bug in Minecraft darfst du nur mit blöcken auf ein " + event.getClickedBlock().getType().name() + " Rechts klicken!");
+        //event.getPlayer().sendMessage(TimberNoCheat.getInstance().getPrefix() + "Durch einen Bug in Minecraft darfst du nur mit blöcken auf ein " + event.getClickedBlock().getType().name() + " Rechts klicken!");
     }
 }
