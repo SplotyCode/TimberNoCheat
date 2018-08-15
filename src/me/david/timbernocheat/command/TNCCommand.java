@@ -61,7 +61,8 @@ public class TNCCommand extends Command {
     public void execute(CommandSender sender, org.bukkit.command.Command cmd, String[] args) {
         Player p = sender instanceof Player?(Player) sender:null;
         if(args.length == 0){
-            p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "TimberNoCheat (Version: " + TimberNoCheat.getInstance().getDescription().getVersion() + ")");
+            sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "TimberNoCheat (Version: " + TimberNoCheat.getInstance().getDescription().getVersion() + ")");
+            sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "/tnc -help | /tnc credits | /tnc statistics");
             return;
         }
         switch (args[0].toLowerCase()){
@@ -87,15 +88,6 @@ public class TNCCommand extends Command {
                 break;
             case "profiler":
                 TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "ProfilerMulti");
-                break;
-            case "credits":
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Credits]---");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "LiquidBounce: Testing Client | Hat mir viele bypasses bezeigt");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "LaprigerToast#0882: Ein guter rl Freund | Hat (versucht :D) bypasses zu machen. Danke für alles.");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "frozen#4757: Kennt sich soooo gut mit cheats aus | Hat mir sehr viele Ideen geben");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Asfold: NoCheatPlus entwickler | Viele anregende koversationen");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Timber Team: Für die vielen Stunden die ihr in das Testen gesteckt habe <3");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Credits]---");
                 break;
             case "debugger":
                 TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "DebuggerMulti");
@@ -222,6 +214,23 @@ public class TNCCommand extends Command {
                     }
                     sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Timeline]---");
                 }
+                break;
+            case "credits":
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Credits]---");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "LiquidBounce: Testing Client | Hat mir viele bypasses bezeigt");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "LaprigerToast#0882: Ein guter rl Freund | Hat (versucht :D) bypasses zu machen. Danke für alles.");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "frozen#4757: Kennt sich soooo gut mit cheats aus | Hat mir sehr viele Ideen geben");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Asfold: NoCheatPlus entwickler | Viele anregende koversationen");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Timber Team: Für die vielen Stunden die ihr in das Testen gesteckt habe <3");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Credits]---");
+                break;
+            case "statistics":
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Statistics]---");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "284 Dateien (15/Aug/2018)");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "977,5 kB reiner Code (15/Aug/2018)");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "19957 Zeilen Code (15/Aug/2018)");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + Bukkit.getOfflinePlayers().length + " Spieler");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Statistics]---");
                 break;
         }
     }

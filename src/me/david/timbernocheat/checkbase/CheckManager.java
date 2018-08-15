@@ -27,6 +27,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -34,6 +35,8 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +63,8 @@ public class CheckManager {
 
     private ViolationExecutor executor = new ViolationExecutor();
 
+    /* Globally randedChecks */
+    private BigDecimal runnedChecks;
 
     /*
      * Registering/Starting checks
@@ -147,8 +152,13 @@ public class CheckManager {
 
     private CheckManager(){}
 
-    /* Loading all Checks when this Objects gets createt (usually on the start of TNC */
+    /* Loading all Checks when this Objects gets createt (usually on the start of TNC) */
     public void enableChecks() {
+        try {
+            runnedChecks = new BigDecimal(FileUtils.readFileToString(TimberNoCheat.getInstance().getChecksRunned()));
+        } catch (IOException ex) {
+            TimberNoCheat.getInstance().reportException(ex, "Problem in loading Runned Checks...", DiscordManager.ErrorType.OTHER);
+        }
         try {
             loadChecks();
         }catch (Exception ex){
@@ -172,6 +182,7 @@ public class CheckManager {
      * To prevent NullPointerExeptions call this method before checking players (on events, schedulers etc)
      */
     public boolean isvalid_create(Player p){
+        runnedChecks = runnedChecks.add(new BigDecimal(1));
         if(TimberNoCheat.getInstance().permissionCache.hasPermission(p, Permissions.NOTCHECKT)) {
             TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PLAYERDATA_USE, "Access granted: " + p.getName());
             return false;
@@ -324,5 +335,9 @@ public class CheckManager {
 
     public static CheckManager getInstance() {
         return instance;
+    }
+
+    public BigDecimal getRunnedChecks() {
+        return runnedChecks;
     }
 }

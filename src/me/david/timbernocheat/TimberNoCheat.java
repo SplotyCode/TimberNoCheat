@@ -33,6 +33,7 @@ import me.david.timbernocheat.startup.StartState;
 import me.david.timbernocheat.startup.StartUpHelper;
 import me.david.api.storage.YamlFile;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -52,6 +53,7 @@ public class TimberNoCheat extends ApiPlugin {
     private YamlFile config;
     private final File speedPatterns = new File(getDataFolder(), "speed_pattern.yml");
     private final File triggerBlocks = new File(getDataFolder(), "/triggerBlocks.yml");
+    private final File checksRunned = new File(getDataFolder(), "/checkcount.txt");
 
     /* Does the plugin stops Because of a crash for example old config or capability problem with ProtocolLib */
     private boolean crash = false;
@@ -108,6 +110,7 @@ public class TimberNoCheat extends ApiPlugin {
         });
         startHelper.loadProtocolLib();
         startHelper.loadConfiguration();
+        startHelper.loadOtherFiles();
         clearPlayerData = config.getBoolean("generel.clearPlayerData");
         debug = config.getBoolean("generel.debug");
         debugConfig = new DebugConfig(configFile, debug);
@@ -172,6 +175,11 @@ public class TimberNoCheat extends ApiPlugin {
         Bukkit.getPluginManager().callEvent(new ShutdownEvent());
         debugLogManager.onStop(null);
         getProtocolManager().removePacketListeners(this);
+        try {
+            FileUtils.writeStringToFile(checksRunned, CheckManager.getInstance().getRunnedChecks().toString());
+        } catch (IOException ex) {
+            reportException(ex, "Could not write Checks runned to File");
+        }
         setStartState(StartState.DISABLE_CHECKS);
         if(CheckManager.getInstance().getChecks() == null) getLogger().log(Level.WARNING, "Fatal Error in the CheckManager it is not possible to Shutdown ANY check!");
         else {
@@ -299,5 +307,9 @@ public class TimberNoCheat extends ApiPlugin {
 
     public CountdownManager getCountdownManager() {
         return countdownManager;
+    }
+
+    public File getChecksRunned() {
+        return checksRunned;
     }
 }

@@ -1,5 +1,6 @@
 package me.david.timbernocheat.command.blocktrigger;
 
+import me.david.api.storage.YamlProvider;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.api.storage.YamlComponent;
@@ -103,7 +104,7 @@ public class AttributeList implements YamlComponent {
     }
 
     @Override
-    public void read(YamlSection yaml) {
+    public void read(YamlProvider yaml) {
         booleans = (ArrayList<Boolean>) yaml.getBooleanList("booleans");
         doubles = (ArrayList<Double>) yaml.getDoubleList("doubles");
         floats = (ArrayList<Float>) yaml.getFloatList("floats");
@@ -116,7 +117,7 @@ public class AttributeList implements YamlComponent {
     }
 
     @Override
-    public void save(YamlSection yaml) {
+    public void save(YamlProvider yaml) {
         yaml.set("booleans", booleans);
         yaml.set("doubles", doubles);
         yaml.set("floats", floats);

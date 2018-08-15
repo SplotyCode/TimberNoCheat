@@ -4,6 +4,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.config.Config;
 
+import java.io.IOException;
 import java.util.logging.Level;
 
 public class StartUpHelper {
@@ -36,6 +37,16 @@ public class StartUpHelper {
         if(stopped)return;
         if (Config.check(TimberNoCheat.getInstance().getConfigFile(), TimberNoCheat.CONFIGURATION_VERSION, TimberNoCheat.getInstance().getResource("me/david/timbernocheat/config/config.yml"))) {
             crash();
+        }
+    }
+
+    public void loadOtherFiles() {
+        if (!TimberNoCheat.getInstance().getChecksRunned().exists()) {
+            try {
+                TimberNoCheat.getInstance().getChecksRunned().createNewFile();
+            } catch (IOException ex) {
+                TimberNoCheat.getInstance().reportException(ex, "Count not create Checks Runned file!");
+            }
         }
     }
 
