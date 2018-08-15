@@ -39,6 +39,8 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
@@ -85,6 +87,9 @@ public class TimberNoCheat extends ApiPlugin {
     private Essentials essentials;
 
     private StageHelper stageHelper = new StageHelper();
+
+    /* Runnable's that will be executed after the plugin is enabled */
+    private Set<Runnable> onPostLoad = new HashSet<>();
 
 
     /* Default Prefix normally this prefix gets overridden from the config */
@@ -152,6 +157,8 @@ public class TimberNoCheat extends ApiPlugin {
 
         setStartState(StartState.FINISHING);
         Debuggers.checkDependencies();
+        onPostLoad.forEach(Runnable::run);
+        onPostLoad.clear();
 
         stageHelper.validate();
         setStartState(StartState.RUNNING);
@@ -212,11 +219,15 @@ public class TimberNoCheat extends ApiPlugin {
     public void reportException(Throwable ex, String message, DiscordManager.ErrorType type, MessageEmbed.Field... fields){
         getLogger().log(Level.WARNING, "Ein Fataler Fehler in der stage '" + getStartState() + "' ist passiert! Nachicht: " + message);
         if(TimberNoCheat.getInstance().isDebug()){
-            TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft wird ein Stacktrace direkt in der Konsole ausgegeben! Hier biddde: ");
+            TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft werden ein Stacktrace direkt in der Konsole ausgegeben! Hier biddde: ");
             ex.printStackTrace();
-        }else TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft wird kein Stacktrace direkt in der Konsole ausgegeben!");
+        }else TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC nicht im debug Mode leuft werden kein Stacktrace direkt in der Konsole ausgegeben!");
 
-        discordManager.sendError(message, ex, type, fields);
+        if (discordManager == null) {
+            onPostLoad.add(() -> discordManager.sendError(message, ex, type, fields));
+        } else {
+            discordManager.sendError(message, ex, type, fields);
+        }
     }
 
     public MoveProfiler getMoveprofiler() {

@@ -22,6 +22,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -230,6 +232,7 @@ public class TNCCommand extends Command {
                 sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "977,5 kB reiner Code (15/Aug/2018)");
                 sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "19957 Zeilen Code (15/Aug/2018)");
                 sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + Bukkit.getOfflinePlayers().length + " Spieler");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + CheckManager.getInstance().getRunnedChecks().divide(new BigDecimal(1000000), MathContext.DECIMAL128).toString() + "mil überprüfte aktionen");
                 sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Statistics]---");
                 break;
         }

@@ -154,8 +154,10 @@ public class CheckManager {
 
     /* Loading all Checks when this Objects gets createt (usually on the start of TNC) */
     public void enableChecks() {
+        Bukkit.getPluginManager().registerEvents(executor, TimberNoCheat.getInstance());
         try {
-            runnedChecks = new BigDecimal(FileUtils.readFileToString(TimberNoCheat.getInstance().getChecksRunned()));
+            String raw = FileUtils.readFileToString(TimberNoCheat.getInstance().getChecksRunned());
+            runnedChecks = new BigDecimal(StringUtil.isEmty(raw) ? "0" : raw);
         } catch (IOException ex) {
             TimberNoCheat.getInstance().reportException(ex, "Problem in loading Runned Checks...", DiscordManager.ErrorType.OTHER);
         }

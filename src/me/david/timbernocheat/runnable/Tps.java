@@ -27,9 +27,12 @@ public class Tps implements Runnable{
         if (tickCount < checkTimeRadius) return 20;
         int target = (tickCount - 1 - checkTimeRadius) % ticks.length;
         if(target == -1) return 20;
-        long elapsed = System.currentTimeMillis() - ticks[target];
 
-        return checkTimeRadius / (elapsed / 1000);
+        long elapsed = System.currentTimeMillis() - ticks[target];
+        long elapsedSeconds = elapsed / 1000;
+
+        if (elapsedSeconds == 0) return 20;
+        return checkTimeRadius / elapsedSeconds;
     }
 
     public void run() {

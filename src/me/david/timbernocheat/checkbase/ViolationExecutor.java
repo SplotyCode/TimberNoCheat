@@ -11,10 +11,11 @@ import me.david.timbernocheat.util.Maths;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 /*
@@ -22,7 +23,7 @@ import java.util.logging.Level;
  * The File Parser for the Violation can be found in the Check Constructor
  * TODO: Use Complex Countdowns to only trigger countdows for the same think(check etc..)
  */
-public class ViolationExecutor {
+public class ViolationExecutor implements Listener {
 
     public boolean execute(final Player player, final Check check, double vio, String[] other){
         if(player == null) throw new IllegalArgumentException("Arg Player might not be null...");
@@ -126,7 +127,11 @@ public class ViolationExecutor {
         return setBack;
     }
 
+    private Set<UUID> kicked = new HashSet<>();
+
     private void kick(final Player player, final String reason, final Check check, final String id){
+        if (kicked.contains(player.getUniqueId())) return;
+        kicked.add(player.getUniqueId());
         Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> player.kickPlayer("§f--------§b[§9T§cN§eC§7§b]§f--------\n\n\n" +
                                                                                                 "§9Timber§cNo§eCheat§7\n\n" +
                                                                                                 "§bCheck: §f" + check.displayName() + "\n\n§bGrund: §f" + reason + "\n\n§bDebug-Id: §f" + id + "\n\n\n" +
@@ -156,6 +161,11 @@ public class ViolationExecutor {
         world.playEffect(location, effect, BlockFace.EAST);
         world.playEffect(location, effect, BlockFace.WEST);
         world.playEffect(location, effect, BlockFace.NORTH);
+    }
+
+    @EventHandler
+    public void onJoin(final PlayerJoinEvent event) {
+        kicked.remove(event.getPlayer().getUniqueId());
     }
 
     private void runTask(final Runnable runnable, final long delay, final int times){
