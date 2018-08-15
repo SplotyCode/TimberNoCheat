@@ -14,8 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-
-//TODO CLEANUP (maby a viladator interface for the aabb thingys)
 public final class CheckUtils {
 
     public static boolean frostWalkers(final Player player) {
@@ -24,89 +22,39 @@ public final class CheckUtils {
     }
 
     public static boolean onGround(final Player player){
-        AABBBox playerBox = Api.getNms().getBoundingBox(player).expand(0, 0.15, 0);
-        for(int x = player.getLocation().getBlockX()-1; x<player.getLocation().getBlockX()+3; x++)
-            for(int z = player.getLocation().getBlockZ()-1; z<player.getLocation().getBlockZ()+3; z++)
-                for(double y = 0.1;y<1.1;y+=0.1) {
-                    Location loc = new Location(player.getWorld(), x, player.getLocation().getY() - y, z);
-                    Block block = loc.getBlock();
-                    if(block.getType().isSolid() && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
-                        return true;
-                }
-        return false;
+        return checkSurroundings(player, CheckMode.FEED, (location, block, playerBox, blockBox) -> {
+            return block.getType().isSolid() && playerBox.intersectsWith(blockBox);
+        });
     }
 
     public static boolean headCollidate(final Player player){
-        AABBBox playerBox = Api.getNms().getBoundingBox(player);
-        playerBox = new AABBBox(playerBox.maxX, playerBox.maxZ, playerBox.maxY, playerBox.minX, playerBox.minZ, playerBox.maxY-1);
-        playerBox = playerBox.expand(0, 0.15, 0);
-        for(int x = player.getLocation().getBlockX()-1; x<player.getLocation().getBlockX()+3; x++)
-            for(int z = player.getLocation().getBlockZ()-1; z<player.getLocation().getBlockZ()+3; z++)
-                for(double y = 0.1;y<1.1;y+=0.1) {
-                    Location loc = new Location(player.getWorld(), x, player.getLocation().getY() - y, z);
-                    Block block = loc.getBlock();
-                    if(block.getType().isSolid() && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
-                        return true;
-                }
-        return false;
+        return checkSurroundings(player, CheckMode.HEAD, (location, block, playerBox, blockBox) -> {
+            return block.getType().isSolid() && playerBox.intersectsWith(blockBox);
+        });
     }
 
-    //TODO not 1.9 save because of this flying chestplate thingy
-    //TODO add sneaking (Height: 1.65 Blocks Width: 0.6 Blocks)
     public static boolean onGround(final Location location){
-        AABBBox playerBox = new AABBBox(location.getX()-0.3, location.getY(), location.getZ()-0.3, location.getX()+0.3, location.getY()+1.8, location.getZ()+0.3).expand(0, 0.15, 0);
-        for(int x = location.getBlockX()-1; x<location.getBlockX()+3; x++)
-            for(int z = location.getBlockZ()-1; z<location.getBlockZ()+3; z++)
-                for(double y = 0.1;y<1.1;y+=0.1) {
-                    Location loc = new Location(location.getWorld(), x, location.getY() - y, z);
-                    Block block = loc.getBlock();
-                    if(block.getType().isSolid() && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
-                        return true;
-                }
-        return false;
+        return checkSurroundings(location, CheckMode.FEED, (location2, block, playerBox, blockBox) -> {
+            return block.getType().isSolid() && playerBox.intersectsWith(blockBox);
+        });
     }
 
     public static boolean headCollidate(final Location location){
-        AABBBox playerBox = new AABBBox(location.getX()-0.3, location.getY(), location.getZ()-0.3, location.getX()+0.3, location.getY()+1.8, location.getZ()+0.3);
-        playerBox = new AABBBox(playerBox.maxX, playerBox.maxZ, playerBox.maxY, playerBox.minX, playerBox.minZ, playerBox.maxY-1);
-        playerBox = playerBox.expand(0, 0.15, 0);
-        for(int x = location.getBlockX()-1; x<location.getBlockX()+3; x++)
-            for(int z = location.getBlockZ()-1; z<location.getBlockZ()+3; z++)
-                for(double y = 0.1;y<1.1;y+=0.1) {
-                    Location loc = new Location(location.getWorld(), x, location.getY() - y, z);
-                    Block block = loc.getBlock();
-                    if(block.getType().isSolid() && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
-                        return true;
-                }
-        return false;
+        return checkSurroundings(location, CheckMode.HEAD, (location2, block, playerBox, blockBox) -> {
+            return block.getType().isSolid() && playerBox.intersectsWith(blockBox);
+        });
     }
 
     public static boolean doesColidateWithMaterial(Material material, Player player){
-        AABBBox playerBox = Api.getNms().getBoundingBox(player).expand(0, 0.15, 0);
-        for(int x = player.getLocation().getBlockX()-1; x<player.getLocation().getBlockX()+3; x++)
-            for(int z = player.getLocation().getBlockZ()-1; z<player.getLocation().getBlockZ()+3; z++)
-                for(double y = 0.1;y<1.1;y+=0.1) {
-                    Location loc = new Location(player.getWorld(), x, player  .getLocation().getY() - y, z);
-                    Block block = loc.getBlock();
-                    if(block.getType() == material && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
-                        return true;
-                }
-        return false;
+        return checkSurroundings(player, CheckMode.BODY, (location, block, playerBox, blockBox) -> {
+            return block.getType() == material && playerBox.intersectsWith(blockBox);
+        });
     }
 
     public static boolean doesColidateWithMaterial(Material material, Location location){
-        AABBBox playerBox = new AABBBox(location.getX()-0.3, location.getY(), location.getZ()-0.3, location.getX()+0.3, location.getY()+1.8, location.getZ()+0.3).expand(0, 0.15, 0);
-
-        for(int x = location.getBlockX()-1; x<location.getBlockX()+3; x++)
-            for(int z = location.getBlockZ()-1; z<location.getBlockZ()+3; z++)
-                for(double y = 0.1;y<1.1;y+=0.1) {
-                    Location loc = new Location(location.getWorld(), x, location.getY() - y, z);
-                    Block block = loc.getBlock();
-                    AABBBox blockBox = Api.getNms().getBoundingBox(block);
-                    if(blockBox != null && block.getType() == material && playerBox.intersectsWith(blockBox))
-                        return true;
-                }
-        return false;
+        return checkSurroundings(location, CheckMode.BODY, (location2, block, playerBox, blockBox) -> {
+            return block.getType() == material && playerBox.intersectsWith(blockBox);
+        });
     }
 
     public static int getKnockbag(Entity entity){
@@ -115,11 +63,76 @@ public final class CheckUtils {
         return (is == null?0:is.getEnchantmentLevel(Enchantment.KNOCKBACK));
     }
 
+    public static boolean checkSurroundings(Player player, CheckMode checkMode, BlockValidator validator) {
+        AABBBox playerBox = Api.getNms().getBoundingBox(player).expand(0, 0.15, 0);
+        return checkSurroundings(player.getLocation(), playerBox, checkMode, validator);
+    }
+
+    public static boolean checkSurroundings(Location location, CheckMode checkMode, BlockValidator validator) {
+        AABBBox playerBox = new AABBBox(location.getX()-0.3, location.getY(), location.getZ()-0.3, location.getX()+0.3, location.getY()+1.8, location.getZ()+0.3).expand(0, 0.15, 0);
+        return checkSurroundings(location, playerBox, checkMode, validator);
+    }
+
+    //TODO not 1.9 save because of this flying chestplate thingy
+    //TODO add sneaking (Height: 1.65 Blocks Width: 0.6 Blocks)
+    public static boolean checkSurroundings(Location location, AABBBox playerBox, CheckMode checkMode, BlockValidator validator) {
+        for(int x = location.getBlockX()-1; x<location.getBlockX()+3; x++)
+            for(int z = location.getBlockZ()-1; z<location.getBlockZ()+3; z++) {
+                switch (checkMode) {
+                    case HEAD:
+                        for (double y = 0.1; y < 1.2; y += 0.1) {
+                            Location loc = new Location(location.getWorld(), x, location.getY() - y, z);
+                            Block block = loc.getBlock();
+                            AABBBox blockBox = Api.getNms().getBoundingBox(block);
+
+                            if (validator.check(loc, block, playerBox, blockBox))
+                                return true;
+                        }
+                        break;
+                    case BODY:
+                        for (int y = location.getBlockY()-1; y<location.getBlockY()+3; y++) {
+                            Location loc = new Location(location.getWorld(), x, y, z);
+                            Block block = loc.getBlock();
+                            AABBBox blockBox = Api.getNms().getBoundingBox(block);
+
+                            if (validator.check(loc, block, playerBox, blockBox))
+                                return true;
+                        }
+                        break;
+                    case FEED:
+                        for (double y = 0.2;y > -1.1;y-=0.1) {
+                            Location loc = new Location(location.getWorld(), x, location.getY() - y, z);
+                            Block block = loc.getBlock();
+                            AABBBox blockBox = Api.getNms().getBoundingBox(block);
+
+                            if (validator.check(loc, block, playerBox, blockBox))
+                                return true;
+                        }
+                        break;
+                }
+            }
+        return false;
+    }
+
     /* Return the Level of a Affect */
     public static int getPotionEffectLevel(Player p, PotionEffectType pet) {
         for (PotionEffect pe : p.getActivePotionEffects())
             if (pe.getType().getName().equals(pet.getName()))
                 return pe.getAmplifier() + 1;
         return 0;
+    }
+
+    public enum CheckMode {
+
+        BODY,
+        HEAD,
+        FEED
+
+    }
+
+    public interface BlockValidator {
+
+        boolean check(Location location, Block block, AABBBox playerBox, AABBBox blockBox);
+
     }
 }

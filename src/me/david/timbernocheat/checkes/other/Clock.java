@@ -30,6 +30,7 @@ public class Clock extends Check {
         if(blacklist.containsKey(loc)){
             if(System.currentTimeMillis()-blacklist.get(loc) > 100000){
                 blacklist.remove(loc);
+                return;
             }
             event.setNewCurrent(0);
         }
