@@ -41,15 +41,15 @@ public class CheckGui extends Gui {
         switch (itemstack.getType()){
             case REDSTONE_TORCH_ON:
                 check.setSetting("enable", false);
-                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
+                TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REMOVE);
                 break;
             case REDSTONE_TORCH_OFF:
                 check.setSetting("enable", true);
-                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
+                TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REMOVE);
                 break;
             case STONE_PICKAXE:
-                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "CustomSettingMulti");
+                TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "CustomSettingMulti");
                 break;
         }
     }
@@ -57,6 +57,6 @@ public class CheckGui extends Gui {
     @Override
     public void close(Player player, CloseReason reason) {
         if(reason != CloseReason.REOPEN)
-            Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(player, "ReloadMulti"), 1);
+            Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(player, "ReloadMulti"), 1);
     }
 }

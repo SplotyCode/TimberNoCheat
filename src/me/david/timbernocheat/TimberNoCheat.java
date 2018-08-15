@@ -114,7 +114,7 @@ public class TimberNoCheat extends ApiPlugin {
 
         setStartState(StartState.START_OTHER);
         /* would work but we want our special debug permission cache*/ //startpermissionchache(true, -1, true);
-        permissioncache = new DebugPermissionCache(true, -1, true);
+        permissionCache = new DebugPermissionCache(true, -1, true);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100, 1);
         essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         if(essentials == null) log(false, "§cEssentials konnte nicht unter dem Namen 'Essentials' gefunden werden... Ein paar Features werden nicht funktionieren...");
@@ -171,7 +171,7 @@ public class TimberNoCheat extends ApiPlugin {
         setStartState(StartState.STOP_OTHERS);
         Bukkit.getPluginManager().callEvent(new ShutdownEvent());
         debugLogManager.onStop(null);
-        getProtocolmanager().removePacketListeners(this);
+        getProtocolManager().removePacketListeners(this);
         setStartState(StartState.DISABLE_CHECKS);
         if(CheckManager.getInstance().getChecks() == null) getLogger().log(Level.WARNING, "Fatal Error in the CheckManager it is not possible to Shutdown ANY check!");
         else {
@@ -193,7 +193,7 @@ public class TimberNoCheat extends ApiPlugin {
      * TODO: Add multiple modes for console log(example error, warning, info etc.)
      */
     public void notify(String message){
-        permissioncache.sendAll(Permissions.NOTITY, prefix + message);
+        permissionCache.sendAll(Permissions.NOTITY, prefix + message);
         getLogger().info(message);
     }
 

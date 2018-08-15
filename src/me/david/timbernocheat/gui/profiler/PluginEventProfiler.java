@@ -61,6 +61,6 @@ public class PluginEventProfiler extends NoStaticListGui<TimedRegisteredListener
             for(TimedRegisteredListener listener : getValidListener(EventProfiler.session.get(p.getUniqueId())))
                 listener.reset();
         }else obj.reset();
-        TimberNoCheat.getInstance().getGuimanager().reopen(p);
+        TimberNoCheat.getInstance().getGuiManager().reopen(p);
     }
 }

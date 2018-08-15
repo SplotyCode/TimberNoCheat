@@ -48,6 +48,6 @@ public class OreNotifyGui extends Gui {
                 data.setRedstone(!data.isRedstone());
                 break;
         }
-        TimberNoCheat.getInstance().getGuimanager().reopen(p);
+        TimberNoCheat.getInstance().getGuiManager().reopen(p);
     }
 }

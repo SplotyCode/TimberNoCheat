@@ -273,7 +273,7 @@ public class Check extends YamlSection implements Listener {
     }
 
     public void registernew(){
-        for(PacketListener listener : protocollistener) TimberNoCheat.getInstance().getProtocolmanager().addPacketListener(listener);
+        for(PacketListener listener : protocollistener) TimberNoCheat.getInstance().getProtocolManager().addPacketListener(listener);
     }
 
     public void register(PacketListener... listeners){
@@ -290,7 +290,7 @@ public class Check extends YamlSection implements Listener {
                     failed = true;
                     if(protocollistener.contains(listener)) protocollistener.remove(listener);
                 }
-            if(!failed) TimberNoCheat.getInstance().getProtocolmanager().addPacketListener(listener);
+            if(!failed) TimberNoCheat.getInstance().getProtocolManager().addPacketListener(listener);
         }
     }
 
@@ -303,7 +303,7 @@ public class Check extends YamlSection implements Listener {
     }
 
     public void disableListeners(){
-        for(PacketListener listener : protocollistener) TimberNoCheat.getInstance().getProtocolmanager().removePacketListener(listener);
+        for(PacketListener listener : protocollistener) TimberNoCheat.getInstance().getProtocolManager().removePacketListener(listener);
     }
 
     public double getViolation(Player player){

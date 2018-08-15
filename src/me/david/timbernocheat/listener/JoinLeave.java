@@ -22,6 +22,6 @@ public class JoinLeave implements Listener{
             CheckManager.getInstance().getPlayerData().remove(data);
 
         //Normally the cache shut automatically clear itself this is not the case...
-        TimberNoCheat.getInstance().permissioncache.clearAll();
+        TimberNoCheat.getInstance().permissionCache.clearAll();
     }
 }

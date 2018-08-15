@@ -47,8 +47,8 @@ permissions:
             default: true
          invalidate:
              description: Allows Players to invalidate Playerdata
-   tnc.permissioncache:
-         description: Allow Players to execute /tnc permissioncache
+   tnc.permissionCache:
+         description: Allow Players to execute /tnc permissionCache
    tnc.clearcache:
          description: Allow Players to execute /tnc clearcache
    tnc.orenotify:

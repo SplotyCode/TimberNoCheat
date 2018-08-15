@@ -37,8 +37,8 @@ public class GlobalViolationGui extends NoStaticListGui<OfflinePlayer> {
     protected void itemclick(OfflinePlayer obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         if(clicktype.isLeftClick()) {
             PlayerViolationGui.data.put(p.getUniqueId(), obj.getUniqueId());
-            TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
-            TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "PlayerViolationMulti");
+            TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REMOVE);
+            TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "PlayerViolationMulti");
         }else if(clicktype.isRightClick()) {
             if(clicktype.isShiftClick()) {
                 TimberNoCheat.getInstance().executeEssentials(p, (user -> {

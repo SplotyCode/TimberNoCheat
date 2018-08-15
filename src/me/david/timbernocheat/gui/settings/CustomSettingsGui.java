@@ -40,13 +40,13 @@ public class CustomSettingsGui extends NoStaticListGui<String> {
     @Override
     protected void itemclick(String obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         players.put(p.getUniqueId(), obj);
-        TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
+        TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REMOVE);
         p.sendMessage(TimberNoCheat.getInstance().prefix + "Du kannst den neuen Wert von '" + obj + "' in den Chat eingeben");
     }
 
     @Override
     public void close(Player player, CloseReason reason) {
         if(reason != CloseReason.REMOVE)
-            Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(player, "ReloadMulti"), 1);
+            Bukkit.getScheduler().runTaskLater(TimberNoCheat.getInstance(), () -> TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(player, "ReloadMulti"), 1);
     }
 }

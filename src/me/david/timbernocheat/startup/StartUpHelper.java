@@ -20,12 +20,12 @@ public class StartUpHelper {
         TimberNoCheat.getInstance().setStartState(StartState.LOAD_DEPENDENCY);
         if(stopped)return;
         try{
-            TimberNoCheat.getInstance().setProtocolmanager(ProtocolLibrary.getProtocolManager());
+            TimberNoCheat.getInstance().setProtocolManager(ProtocolLibrary.getProtocolManager());
         }catch (NoClassDefFoundError ex){
             TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "ProtocolLib konnte nicht gefunden wurde!");
             crash();
         }
-        if(TimberNoCheat.getInstance().getProtocolmanager() == null){
+        if(TimberNoCheat.getInstance().getProtocolManager() == null){
             TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Es sieht so aus als hätte ProtocolLib probleme...");
             crash();
         }

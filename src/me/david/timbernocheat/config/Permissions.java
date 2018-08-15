@@ -29,7 +29,7 @@ public final class Permissions {
     public static final String PLAYER_DATA = "tnc.playerdata.see";
     public static final String PLAYER_DAYA_INVALIDATE = "tnc.playerdata.invalidate";
 
-    public static final String PERMISSION_CACHE = "tnc.permissioncache";
+    public static final String PERMISSION_CACHE = "tnc.permissionCache";
     public static final String PERMISSION_CACHE_CLEAR = "tnc.clearcache";
 
     public static final String ORE_NOTIFY = "tnc.orenotify";

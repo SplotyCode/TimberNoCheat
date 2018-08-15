@@ -48,7 +48,7 @@ public class DebugSetting extends Gui {
         if(debugger.isExternal())
             handeled = debugger.getDebugger().handleButtonClick(player, itemstack);
         if(!handeled) debugger.setSetting(player, name, !debugger.getSetting(player, name));
-        TimberNoCheat.getInstance().getGuimanager().reopen(player);
+        TimberNoCheat.getInstance().getGuiManager().reopen(player);
     }
 
     @Override

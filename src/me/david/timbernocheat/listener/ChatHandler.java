@@ -15,6 +15,6 @@ public class ChatHandler implements Listener {
         String node = CustomSettingsGui.players.get(event.getPlayer().getUniqueId());
         if(node == null)return;
         SettingsGui.currentCheck.get(event.getPlayer().getUniqueId()).set(node, event.getMessage());
-        TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(event.getPlayer(), "ReloadMulti");
+        TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(event.getPlayer(), "ReloadMulti");
     }
 }

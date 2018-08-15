@@ -36,7 +36,7 @@ public class Tps implements Runnable{
         ticks[(tickCount % ticks.length)] = System.currentTimeMillis();
         tickCount++;
         if(!lowTpsMode && getTPS() < 16){
-            TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wegen der geringen Tps deaktiviert!");
+            TimberNoCheat.getInstance().permissionCache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wegen der geringen Tps deaktiviert!");
             for(Check check : new ArrayList<>(CheckManager.getInstance().getChecks()))
                 if(check.getCategory() == Category.MOVEMENT) {
                     CheckManager.getInstance().unregister(check);
@@ -45,7 +45,7 @@ public class Tps implements Runnable{
             lowTpsMode = true;
             TimberNoCheat.getInstance().getDiscordManager().sendWarning("LowTps mode wurde aktiviert!", new MessageEmbed.Field("Tps", getTPS()+"", true));
         }else if(lowTpsMode && getTPS() > 17){
-            TimberNoCheat.getInstance().permissioncache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wieder aktiviert!");
+            TimberNoCheat.getInstance().permissionCache.sendAll(Permissions.NOTITY, "Alle Movement checks wurden wieder aktiviert!");
             for(Check check : disabledChecks)
                 CheckManager.getInstance().register(check);
             disabledChecks.clear();

@@ -20,6 +20,6 @@ public class ReloadGui extends BooleanGui {
         if(SettingsGui.currentCheck.containsKey(p.getUniqueId()))
             SettingsGui.currentCheck.remove(p.getUniqueId());
         if(result) p.performCommand("tnc reload");
-        TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
+        TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REMOVE);
     }
 }

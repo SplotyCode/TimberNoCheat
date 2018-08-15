@@ -49,11 +49,11 @@ public class DebugGui extends ArrayGui<Debuggers> {
         }else if(clicktype.isLeftClick()) {
             TimberNoCheat.getInstance().getDebugger().toggleDebugger(player.getUniqueId(), obj.name());
             player.sendMessage(TimberNoCheat.getInstance().prefix + "Der Debugger §b" + obj.name() + "§6 ist nun " + (TimberNoCheat.getInstance().getDebugger().isDebugging(player, obj.name()) ? "§aAktiviert" : "§cDeaktiviert") + "§6!");
-            TimberNoCheat.getInstance().getGuimanager().reopen(player);
+            TimberNoCheat.getInstance().getGuiManager().reopen(player);
         }else if(clicktype.isRightClick()){
-            TimberNoCheat.getInstance().getGuimanager().removeMultiGui(player, false, CloseReason.REMOVE);
+            TimberNoCheat.getInstance().getGuiManager().removeMultiGui(player, false, CloseReason.REMOVE);
             DebugSetting.data.put(player.getUniqueId(), obj);
-            TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(player, "DebugSettingMulti");
+            TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(player, "DebugSettingMulti");
         }
     }
 }

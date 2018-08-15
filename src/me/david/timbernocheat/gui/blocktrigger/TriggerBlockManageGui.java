@@ -49,8 +49,8 @@ public class TriggerBlockManageGui extends NoStaticListGui<TriggerBlock> {
     @Override
     protected void itemclick(TriggerBlock obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         if(obj.getAtributes() == null && obj.getAction() == null && obj.getCreator() == null && obj.getLocation() == null){
-            TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
-            TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "TriggerBlockMulti");
+            TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REMOVE);
+            TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "TriggerBlockMulti");
         }else {
             if(clicktype.isRightClick()){
                 TimberNoCheat.getInstance().getTriggerBlockManager().getTriggerBlocks().remove(obj);

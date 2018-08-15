@@ -60,9 +60,9 @@ public class AntiESP extends Check {
             removeEntity(entity);
             return;
         }
-        if (TimberNoCheat.getInstance().getProtocolmanager() != null && hiddenBefore) {
+        if (TimberNoCheat.getInstance().getProtocolManager() != null && hiddenBefore) {
             try{
-                TimberNoCheat.getInstance().getProtocolmanager().updateEntity(entity, Collections.singletonList(observer));
+                TimberNoCheat.getInstance().getProtocolManager().updateEntity(entity, Collections.singletonList(observer));
             } catch (IllegalArgumentException e){
                 e.printStackTrace();
             } finally {
@@ -72,7 +72,7 @@ public class AntiESP extends Check {
                     mountEntity.getIntegers().write(0, entity.getVehicle().getEntityId());
                     mountEntity.getIntegerArrays().write(0, new int[]{entity.getEntityId()});
                     try {
-                        TimberNoCheat.getInstance().getProtocolmanager().sendServerPacket(observer, mountEntity);
+                        TimberNoCheat.getInstance().getProtocolManager().sendServerPacket(observer, mountEntity);
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     }
@@ -86,7 +86,7 @@ public class AntiESP extends Check {
             PacketContainer destroyEntity = new PacketContainer(PacketType.Play.Server.ENTITY_DESTROY);
             destroyEntity.getIntegerArrays().write(0, new int[]{entity.getEntityId()});
             try {
-                TimberNoCheat.getInstance().getProtocolmanager().sendServerPacket(observer, destroyEntity);
+                TimberNoCheat.getInstance().getProtocolManager().sendServerPacket(observer, destroyEntity);
             } catch (InvocationTargetException e) {
                e.printStackTrace();
             }

@@ -15,7 +15,7 @@ import org.bukkit.Location;
 public class AsyncGeneral {
 
     public AsyncGeneral(){
-        TimberNoCheat.getInstance().getProtocolmanager().addPacketListener(new PacketAdapter(TimberNoCheat.getInstance(), ListenerPriority.LOW, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.LOOK, PacketType.Play.Client.POSITION, PacketType.Play.Client.FLYING) {
+        TimberNoCheat.getInstance().getProtocolManager().addPacketListener(new PacketAdapter(TimberNoCheat.getInstance(), ListenerPriority.LOW, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.LOOK, PacketType.Play.Client.POSITION, PacketType.Play.Client.FLYING) {
             @Override
             public void onPacketReceiving(PacketEvent event) {
                 PacketType type = event.getPacket().getType();

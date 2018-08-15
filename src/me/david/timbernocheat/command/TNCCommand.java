@@ -42,7 +42,7 @@ public class TNCCommand extends Command {
                 new Object[]{"settings", true, Permissions.SETTINGS},
                 new Object[]{"playerdata", false, Permissions.PLAYER_DATA, new Playercheck(true)},
                 new Object[]{"invalidate", false, Permissions.PLAYER_DAYA_INVALIDATE, new Playercheck(true)},
-                new Object[]{"permissioncache", false, Permissions.PERMISSION_CACHE},
+                new Object[]{"permissionCache", false, Permissions.PERMISSION_CACHE},
                 new Object[]{"oreNotify", true, Permissions.ORE_NOTIFY},
                 new Object[]{"blockTriggers", true, Permissions.BLOCK_TRIGGERS},
                 new Object[]{"violations", true, Permissions.VIOLATIONMENU},
@@ -81,13 +81,13 @@ public class TNCCommand extends Command {
                 }
                 break;
             case "items":
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "ItemsMulti");
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "ItemsMulti");
                 break;
             case "profiler":
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "ProfilerMulti");
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "ProfilerMulti");
                 break;
             case "debugger":
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "DebuggerMulti");
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "DebuggerMulti");
                 break;
             case "checkmap":
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[CheckMap]---");
@@ -114,7 +114,7 @@ public class TNCCommand extends Command {
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[CheckMap]---");
                 break;
             case "settings":
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "SettingsMulti");
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "SettingsMulti");
                 break;
             case "playerdata": {
                 final Player target = Bukkit.getPlayer(args[1]);
@@ -129,9 +129,9 @@ public class TNCCommand extends Command {
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + "Finished! Now we will make a copy as Hastebin (as this data can get quite confusing in the chat :D ) ");
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + (hastebin == null ? "§cFehler bei Hochladen" : hastebin));
                 break;
-            }case "permissioncache":
+            }case "permissionCache":
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Cache]---");
-                for(Map.Entry<UUID, HashMap<String, Boolean>> cache :  TimberNoCheat.getInstance().permissioncache.getCache().entrySet()){
+                for(Map.Entry<UUID, HashMap<String, Boolean>> cache :  TimberNoCheat.getInstance().permissionCache.getCache().entrySet()){
                     sender.sendMessage(TimberNoCheat.getInstance().prefix + Bukkit.getOfflinePlayer(cache.getKey()).getName());
                     for(Map.Entry<String, Boolean> permission : cache.getValue().entrySet())
                         sender.sendMessage(TimberNoCheat.getInstance().prefix + "    -> " + permission.getKey() + " <-> " + permission.getValue());
@@ -139,17 +139,17 @@ public class TNCCommand extends Command {
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + "---[Cache]---");
                 break;
             case "resetcache":
-                TimberNoCheat.getInstance().permissioncache.clearAll();
+                TimberNoCheat.getInstance().permissionCache.clearAll();
                 sender.sendMessage(TimberNoCheat.getInstance().prefix + "Fertig!");
                 break;
             case "orenotify":
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "OreNotifyMulti");
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "OreNotifyMulti");
                 break;
             case "blocktriggers":
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "TriggerBlockManageMulti");
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "TriggerBlockManageMulti");
                 break;
             case "violations":
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "GlobalViolationMulti");
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "GlobalViolationMulti");
                 break;
             case "invalidate":
                 Player target = Bukkit.getPlayer(args[0]);

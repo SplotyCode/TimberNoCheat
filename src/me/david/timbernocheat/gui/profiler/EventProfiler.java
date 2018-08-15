@@ -49,7 +49,7 @@ public class EventProfiler extends NoStaticListGui<Plugin> {
     @Override
     protected void itemclick(Plugin obj, Player p, Inventory inv, ItemStack is, InventoryAction action, ClickType clicktype, int slot) {
         session.put(p.getUniqueId(), obj);
-        TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REMOVE);
-        TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "PluginEventProfilerMulti");
+        TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REMOVE);
+        TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "PluginEventProfilerMulti");
     }
 }

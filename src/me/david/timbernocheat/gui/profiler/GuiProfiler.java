@@ -35,20 +35,20 @@ public class GuiProfiler extends Gui {
     public void itemclick(Player p, Inventory inv, ItemStack itemstack, InventoryAction inventoryaction, ClickType clicktype, int slot) {
         switch (itemstack.getItemMeta().getDisplayName()){
             case "§6All Sheduler":
-                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "ProfilerAllSchedulerMulti");
+                TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "ProfilerAllSchedulerMulti");
                 break;
             case "§6Move":
-                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "MoveProfilerMulti");
+                TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "MoveProfilerMulti");
                 break;
             case "§6Sheduler":
-                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "ProfilerSchedulerMulti");
+                TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "ProfilerSchedulerMulti");
                 break;
             case "§6Event":
-                TimberNoCheat.getInstance().getGuimanager().removeMultiGui(p, false, CloseReason.REOPEN);
-                TimberNoCheat.getInstance().getGuimanager().startMultidefaultStage(p, "EventProfilerMulti");
+                TimberNoCheat.getInstance().getGuiManager().removeMultiGui(p, false, CloseReason.REOPEN);
+                TimberNoCheat.getInstance().getGuiManager().startMultidefaultStage(p, "EventProfilerMulti");
                 break;
         }
     }
