@@ -22,6 +22,7 @@ import me.david.timbernocheat.debug.log.DebugLogManager;
 import me.david.timbernocheat.debug.obj.DebugPermissionCache;
 import me.david.timbernocheat.discord.DiscordManager;
 import me.david.timbernocheat.event.internal.ShutdownEvent;
+import me.david.timbernocheat.exeptions.ExceptionHelper;
 import me.david.timbernocheat.gui.GuiLoader;
 import me.david.timbernocheat.listener.*;
 import me.david.timbernocheat.record.RecordManager;
@@ -87,6 +88,7 @@ public class TimberNoCheat extends ApiPlugin {
     private Essentials essentials;
 
     private StageHelper stageHelper = new StageHelper();
+    private ExceptionHelper exceptionHelper = new ExceptionHelper();
 
     /* Runnable's that will be executed after the plugin is enabled */
     private Set<Runnable> onPostLoad = new HashSet<>();
@@ -213,21 +215,16 @@ public class TimberNoCheat extends ApiPlugin {
     }
 
     public void reportException(Throwable ex, String message){
-        reportException(ex, message, DiscordManager.ErrorType.OTHER);
+        exceptionHelper.reportException(ex, message);
     }
 
     public void reportException(Throwable ex, String message, DiscordManager.ErrorType type, MessageEmbed.Field... fields){
-        getLogger().log(Level.WARNING, "Ein Fataler Fehler in der stage '" + getStartState() + "' ist passiert! Nachicht: " + message);
-        if(TimberNoCheat.getInstance().isDebug()){
-            TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft werden ein Stacktrace direkt in der Konsole ausgegeben! Hier biddde: ");
-            ex.printStackTrace();
-        }else TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC nicht im debug Mode leuft werden kein Stacktrace direkt in der Konsole ausgegeben!");
+        exceptionHelper.reportException(ex, message, type, fields);
+    }
 
-        if (discordManager == null) {
-            onPostLoad.add(() -> discordManager.sendError(message, ex, type, fields));
-        } else {
-            discordManager.sendError(message, ex, type, fields);
-        }
+    public void executeEssentials(final Player player, Consumer<User> runable){
+        if(essentials == null) player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Es gab ein Fehler dar ein Plugin nicht gefunden/abgestürtzt ist... Du kannst diesen Fehler gerne melden!");
+        else runable.accept(essentials.getUser(player));
     }
 
     public MoveProfiler getMoveprofiler() {
@@ -260,11 +257,6 @@ public class TimberNoCheat extends ApiPlugin {
 
     public SchedulerProfiler getSchedulerProfiler() {
         return schedulerProfiler;
-    }
-
-    public void executeEssentials(final Player player, Consumer<User> runable){
-        if(essentials == null) player.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Es gab ein Fehler dar ein Plugin nicht gefunden/abgestürtzt ist... Du kannst diesen Fehler gerne melden!");
-        else runable.accept(essentials.getUser(player));
     }
 
     @Override
@@ -322,5 +314,9 @@ public class TimberNoCheat extends ApiPlugin {
 
     public File getChecksRunned() {
         return checksRunned;
+    }
+
+    public Set<Runnable> getOnPostLoad() {
+        return onPostLoad;
     }
 }
