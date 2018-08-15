@@ -88,7 +88,7 @@ public class TimberNoCheat extends ApiPlugin {
     /* Default Prefix normally this prefix gets overridden from the config */
     @Override
     public void pluginLoad() {
-        prefix = "§7[§9T§cN§eC§7] §6";
+        setPrefix("§7[§9T§cN§eC§7] §6");
     }
 
     /*
@@ -193,7 +193,7 @@ public class TimberNoCheat extends ApiPlugin {
      * TODO: Add multiple modes for console log(example error, warning, info etc.)
      */
     public void notify(String message){
-        permissionCache.sendAll(Permissions.NOTITY, prefix + message);
+        permissionCache.sendAll(Permissions.NOTITY, getPrefix() + message);
         getLogger().info(message);
     }
 
