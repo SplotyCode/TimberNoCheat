@@ -24,6 +24,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.potion.PotionEffectType;
 
@@ -140,6 +141,9 @@ public class FalsePositive implements Listener {
         /* The last time a Player collidates with a Slme*/
         long lastSlime;
 
+        /* Is the Player CURRENTLY in a vehicle */
+        boolean inVehicle;
+
         /* Has the Player JumpBoost or clout the currently be in such a Jump? */
         long jumpBoost;
         public boolean jumpboost(Player player){
@@ -231,7 +235,7 @@ public class FalsePositive implements Listener {
         }
 
         public boolean hasVehicle(long l){
-            return System.currentTimeMillis()-vehicle<l;
+            return System.currentTimeMillis()-vehicle<l || inVehicle;
         }
 
         public boolean hasRod(long l){
@@ -263,25 +267,36 @@ public class FalsePositive implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void onRod(PlayerFishEvent event) {
         if (!event.isCancelled() && event.getCaught() != null && event.getCaught() instanceof Player && CheckManager.getInstance().isvalid_create((Player) event.getCaught()))
             CheckManager.getInstance().getPlayerdata((Player) event.getCaught()).getFalsePositives().rod = System.currentTimeMillis();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void onVehicle(VehicleExitEvent event) {
-        if (event.getExited() instanceof Player && CheckManager.getInstance().isvalid_create((Player) event.getExited()) && !event.isCancelled())
-            CheckManager.getInstance().getPlayerdata((Player) event.getExited()).getFalsePositives().vehicle = System.currentTimeMillis();
+        if (event.getExited() instanceof Player && CheckManager.getInstance().isvalid_create((Player) event.getExited()) && !event.isCancelled()) {
+            FalsePositiveChecks fpc = CheckManager.getInstance().getPlayerdata((Player) event.getExited()).getFalsePositives();
+            fpc.vehicle = System.currentTimeMillis();
+            fpc.inVehicle = false;
+        }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void onVehicle(VehicleEnterEvent event) {
+        if (event.getEntered() instanceof Player && CheckManager.getInstance().isvalid_create((Player) event.getEntered()) && !event.isCancelled()) {
+            FalsePositiveChecks fpc = CheckManager.getInstance().getPlayerdata((Player) event.getEntered()).getFalsePositives();
+            fpc.inVehicle = true;
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     private void onVelocity(PlayerVelocityEvent event){
         if(CheckManager.getInstance().isvalid_create(event.getPlayer()))
             CheckManager.getInstance().getPlayerdata(event.getPlayer()).getFalsePositives().knockbag = System.currentTimeMillis();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     private void onHitorBow(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player) {
             if(!CheckManager.getInstance().isvalid_create((Player) event.getEntity())){
@@ -299,7 +314,7 @@ public class FalsePositive implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageEvent event){
         if(!(event.getEntity() instanceof Player))return;
         final Player player = (Player) event.getEntity();
@@ -309,7 +324,7 @@ public class FalsePositive implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     private void onMove(PlayerMoveEvent event) {
         if(!CheckManager.getInstance().isvalid_create(event.getPlayer())){
             return;
@@ -337,7 +352,7 @@ public class FalsePositive implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void onTeleport(PlayerTeleportEvent event) {
         if(event.isCancelled() || !CheckManager.getInstance().isvalid_create(event.getPlayer())){
             return;
@@ -348,27 +363,27 @@ public class FalsePositive implements Listener {
             pd.getFalsePositives().enderpearl = true;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void onbed(PlayerBedLeaveEvent event) {
         if(CheckManager.getInstance().isvalid_create(event.getPlayer())) CheckManager.getInstance().getPlayerdata(event.getPlayer()).getFalsePositives().bed = System.currentTimeMillis();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void onworld(PlayerChangedWorldEvent event) {
         if(CheckManager.getInstance().isvalid_create(event.getPlayer())) CheckManager.getInstance().getPlayerdata(event.getPlayer()).getFalsePositives().world = System.currentTimeMillis();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void death(PlayerDeathEvent event){
         if(CheckManager.getInstance().isvalid_create(event.getEntity())) CheckManager.getInstance().getPlayerdata(event.getEntity()).getFalsePositives().deathorrespawn = System.currentTimeMillis();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void respawn(PlayerRespawnEvent event){
         if(CheckManager.getInstance().isvalid_create(event.getPlayer())) CheckManager.getInstance().getPlayerdata(event.getPlayer()).getFalsePositives().deathorrespawn = System.currentTimeMillis();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void onPistion(BlockPistonExtendEvent event) {
         Location loc = event.getBlock().getLocation();
         if(event.isCancelled()) return;
