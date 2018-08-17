@@ -26,7 +26,8 @@ public class AirFall extends AbstractFlyCheck {
         final Player player = (Player) event.getEntity();
         if (!CheckManager.getInstance().isvalid_create(player)) return;
         FlyData data = CheckManager.getInstance().getPlayerdata(player).getFlyData();
-        if(!data.getLastMove().isToGround()) if(updateVio(this, player, 1, "Want me to believe he fall on air ^^"))
-            setBack(player);
+        if(!data.getLastMove().isToGround())
+            if(updateVio(this, player, 1, "Want me to believe he fall on air ^^"))
+                setBack(player);
     }
 }

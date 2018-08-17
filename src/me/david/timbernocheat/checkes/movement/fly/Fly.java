@@ -30,8 +30,8 @@ public class Fly extends Check {
         super("Fly", Category.MOVEMENT);
         setback = getString("setbackmethode");
         registerChilds(new Vanilla(this), new AirFall(this),
-                new WrongDirection(this), new TicksUpgoing(this),
-                new WrongDamage(this));
+                       new WrongDirection(this), new TicksUpgoing(this),
+                       new WrongDamage(this), new Ability(this));
     }
     
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
