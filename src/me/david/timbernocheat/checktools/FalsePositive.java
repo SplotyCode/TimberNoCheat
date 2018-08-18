@@ -22,6 +22,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
@@ -146,6 +147,10 @@ public class FalsePositive implements Listener {
 
         /* Has the Player JumpBoost or clout the currently be in such a Jump? */
         long jumpBoost;
+
+        /* Has the player an elytra enabled? */
+        boolean elytra;
+
         public boolean jumpboost(Player player){
             if (System.currentTimeMillis()- jumpBoost < 100) return true;
             boolean bool = (player.hasPotionEffect(PotionEffectType.JUMP)) && (CheckUtils.getPotionEffectLevel(player, PotionEffectType.JUMP) < 128 || CheckUtils.getPotionEffectLevel(player, PotionEffectType.JUMP) > 250);
@@ -265,6 +270,10 @@ public class FalsePositive implements Listener {
         public boolean hasChest(long l){
             return System.currentTimeMillis()-chest<l;
         }
+
+        public boolean hasElytra() {
+            return elytra;
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -321,6 +330,16 @@ public class FalsePositive implements Listener {
         if(CheckManager.getInstance().isvalid_create(player)){
             PlayerData pd = CheckManager.getInstance().getPlayerdata((Player) event.getEntity());
             if(ServerWorldUtil.getMinecraftVersionInt() >= 190 && event.getCause() == EntityDamageEvent.DamageCause.valueOf("HOT_FLOOR")) pd.getFalsePositives().lastMagma = System.currentTimeMillis();
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onElytra(EntityToggleGlideEvent event) {
+        if(!(event.getEntity() instanceof Player))return;
+        final Player player = (Player) event.getEntity();
+        if (CheckManager.getInstance().isvalid_create(player)){
+            FalsePositiveChecks fpc = CheckManager.getInstance().getPlayerdata(player).getFalsePositives();
+            fpc.elytra = event.isGliding();
         }
     }
 

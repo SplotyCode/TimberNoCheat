@@ -1,5 +1,8 @@
 package me.david.timbernocheat.debug;
 
+import me.david.timbernocheat.TimberNoCheat;
+import org.bukkit.Bukkit;
+
 import java.util.HashMap;
 
 public class MoveProfiler {
@@ -15,7 +18,7 @@ public class MoveProfiler {
     }
 
     public void start(String section){
-        if(running) {
+        if (running) {
             currentSection = section;
             measuring = true;
             startSection = System.currentTimeMillis();

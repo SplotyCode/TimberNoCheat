@@ -899,7 +899,7 @@ fly:
       viocachedelay: 800000
       vioactions:
           1: "NOTIFY"
-   ticksupgoing:
+   ticwksupgoing:
       enable: true
       max_ping: -1
       min_tps: -1
@@ -908,13 +908,23 @@ fly:
       vioactions:
           1: "NOTIFY"
    wrongdamage:
-         enable: true
-         max_ping: -1
-         min_tps: -1
-         vioresetafteraction: false
-         viocachedelay: 8000
-         vioactions:
-             1: "NOTIFY"
+      enable: true
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: false
+      viocachedelay: 8000
+      vioactions:
+         1: "NOTIFY"
+   ability:
+      enable: true
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: false
+      #30 minutes
+      viocachedelay: 1800000
+      vioactions:
+         1: "NOTIFY"
+         1: "MESSAGE:Illegal Activity!"
    #none = do nothink
    #cancel = set the player to the start position
    #down = teleoprts the player down
@@ -928,9 +938,6 @@ fly:
       14: "KICK:FLY!"
 jesus:
    enable: true
-   speed: true
-   #lower = more sesetiv
-   sensitivity: 8
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true

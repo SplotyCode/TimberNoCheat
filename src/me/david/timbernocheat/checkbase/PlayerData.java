@@ -145,6 +145,10 @@ public class PlayerData {
     private int motionLoopRepeat;
     private Location firstRepeat;
 
+    /* Jesus */
+    private int waterJumpingTicks;
+    private Location jumpStart;
+    private double jesusJumpLenght;
 
 
     private FalsePositive.FalsePositiveChecks falsePositives;
@@ -865,5 +869,29 @@ public class PlayerData {
 
     public void setMovePackets(LimitedMap<Integer, Pair<Double, Integer>> movePackets) {
         this.movePackets = movePackets;
+    }
+
+    public int getWaterJumpingTicks() {
+        return waterJumpingTicks;
+    }
+
+    public void setWaterJumpingTicks(int waterJumpingTicks) {
+        this.waterJumpingTicks = waterJumpingTicks;
+    }
+
+    public double getJesusJumpLenght() {
+        return jesusJumpLenght;
+    }
+
+    public Location getJumpStart() {
+        return jumpStart;
+    }
+
+    public void setJesusJumpLenght(double jesusJumpLenght) {
+        this.jesusJumpLenght = jesusJumpLenght;
+    }
+
+    public void setJumpStart(Location jumpStart) {
+        this.jumpStart = jumpStart;
     }
 }
