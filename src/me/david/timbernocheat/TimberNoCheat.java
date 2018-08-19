@@ -227,6 +227,14 @@ public class TimberNoCheat extends ApiPlugin {
         else runable.accept(essentials.getUser(player));
     }
 
+    public double getVersion() {
+        return Double.valueOf(getDescription().getVersion());
+    }
+
+    public String pluginDisplayName() {
+        return getDescription().getName() + " v" + getDescription().getVersion() + " (Config Version: " + CONFIGURATION_VERSION + ")";
+    }
+
     public MoveProfiler getMoveprofiler() {
         return moveprofiler;
     }

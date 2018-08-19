@@ -45,8 +45,12 @@ public class ExceptionHelper {
             return longPair.getOne().apply(information) && delay >= identifier.getBlockedTime();
         });
         if (!blocked) {
-            tnc.getLogger().log(level.getLevel(), message);
+            log(message, level);
         }
+    }
+
+    public void log(String message, LogLevel level) {
+        tnc.getLogger().log(level.getLevel(), message);
     }
 
 }
