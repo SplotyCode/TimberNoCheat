@@ -62,8 +62,11 @@ public class TNCCommand extends Command {
         setOnlyplayers(false);
     }
 
+    private CommandSender sender;
+
     @Override
     public void execute(CommandSender sender, org.bukkit.command.Command cmd, String[] args) {
+        this.sender = sender;
         Player p = sender instanceof Player?(Player) sender:null;
         if(args.length == 0){
             sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "TimberNoCheat (Version: " + TimberNoCheat.getInstance().getDescription().getVersion() + ")");
@@ -204,50 +207,54 @@ public class TNCCommand extends Command {
             case "listuntrackedvios":
                 UUID uuid = Bukkit.getOfflinePlayer(args[1]).getUniqueId();
                 ArrayList<DebugEntry> entries = TimberNoCheat.getInstance().getDebugLogManager().getDebugEntries().get(uuid);
-                if(entries == null) sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "§cKeine listuntracked violatrions für den spieler!");
+                if(entries == null) sendMessage("§cKeine listuntracked violatrions für den spieler!");
                 else {
-                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Spieler: " + Bukkit.getOfflinePlayer(uuid).getName());
-                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Timeline]---");
+                    sendMessage("Spieler: " + Bukkit.getOfflinePlayer(uuid).getName());
+                    sendMessage("---[Timeline]---");
                     for (DebugEntry entry : entries) {
                         double delay = entry.getNewVio() - entry.getOldVio();
-                        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + format.format(new Date(entry.getTime())) + " +=+ " +
+                        sendMessage(format.format(new Date(entry.getTime())) + " +=+ " +
                                 entry.getCheck() + " *=* " +
                                 (entry.getExecutions() == null || entry.getExecutions().length == 0 ? "Keine Bestafungen" : StringUtil.toString(entry.getExecutions(), ", ")) + " *=* " +
                                 StringUtil.colorbyBool(delay > 0, true) + delay + " §6(New=" + entry.getNewVio() + "Old=" + entry.getOldVio() + ")" +
                                 (entry.isCancel() ? " *=* (§cCanceled§6)" : "")
                         );
                     }
-                    sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Timeline]---");
+                    sendMessage("---[Timeline]---");
                 }
                 break;
             case "credits":
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Credits]---");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "LiquidBounce: Testing Client | Hat mir viele bypasses bezeigt");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "LaprigerToast#0882: Ein guter rl Freund | Hat (versucht :D) bypasses zu machen. Danke für alles.");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "frozen#4757: Kennt sich soooo gut mit cheats aus | Hat mir sehr viele Ideen geben");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Asfold: NoCheatPlus entwickler | Viele anregende koversationen");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Timber Team: Für die vielen Stunden die ihr in das Testen gesteckt habe <3");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Credits]---");
+                sendMessage("---[Credits]---");
+                sendMessage("LiquidBounce: Testing Client | Hat mir viele bypasses bezeigt");
+                sendMessage("LaprigerToast#0882: Ein guter rl Freund | Hat (versucht :D) bypasses zu machen. Danke für alles.");
+                sendMessage("frozen#4757: Kennt sich soooo gut mit cheats aus | Hat mir sehr viele Ideen geben");
+                sendMessage("Asfold: NoCheatPlus entwickler | Viele anregende koversationen");
+                sendMessage("Timber Team: Für die vielen Stunden die ihr in das Testen gesteckt habe <3");
+                sendMessage("---[Credits]---");
                 break;
             case "statistics":
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Statistics]---");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "284 Dateien (15/Aug/2018)");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "977,5 kB reiner Code (15/Aug/2018)");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "19957 Zeilen Code (15/Aug/2018)");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + Bukkit.getOfflinePlayers().length + " Spieler");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + CheckManager.getInstance().getRunnedChecks().divide(new BigDecimal(1000000), MathContext.DECIMAL128).toString() + "mil überprüfte aktionen");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Statistics]---");
+                sendMessage("---[Statistics]---");
+                sendMessage("284 Dateien (15/Aug/2018)");
+                sendMessage("977,5 kB reiner Code (15/Aug/2018)");
+                sendMessage("19957 Zeilen Code (15/Aug/2018)");
+                sendMessage(Bukkit.getOfflinePlayers().length + " Spieler");
+                sendMessage(CheckManager.getInstance().getRunnedChecks().divide(new BigDecimal(1000000), MathContext.DECIMAL128).toString() + "mil überprüfte aktionen");
+                sendMessage("---[Statistics]---");
                 break;
             case "version":
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Version]---");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "TimberNoCheat Version: " + TimberNoCheat.getInstance().getDescription().getVersion() + " (" + TimberNoCheat.getInstance().getVersion() + ")");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Config Version: " + TimberNoCheat.CONFIGURATION_VERSION);
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Server Version: " + Bukkit.getVersion() + " (" + ServerWorldUtil.getMinecraftVersion() + " | " + ServerWorldUtil.getMinecraftVersionInt() + ")");
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Bukkit Version: " + Bukkit.getBukkitVersion());
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Api Version: " + Api.instance.getDescription().getVersion());
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "NMS Version: " + Api.getNms().getClass().getName() + " | " + Api.getNms().getClass().getSimpleName());
-                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Version]---");
+                sendMessage("---[Version]---");
+                sendMessage("TimberNoCheat Version: " + TimberNoCheat.getInstance().getDescription().getVersion() + " (" + TimberNoCheat.getInstance().getVersion() + ")");
+                sendMessage("Config Version: " + TimberNoCheat.CONFIGURATION_VERSION);
+                sendMessage("Server Version: " + Bukkit.getVersion() + " (" + ServerWorldUtil.getMinecraftVersion() + " | " + ServerWorldUtil.getMinecraftVersionInt() + ")");
+                sendMessage("Bukkit Version: " + Bukkit.getBukkitVersion());
+                sendMessage("Api Version: " + Api.instance.getDescription().getVersion());
+                sendMessage("NMS Version: " + Api.getNms().getClass().getName() + " | " + Api.getNms().getClass().getSimpleName());
+                sendMessage("---[Version]---");
                 break;
         }
+    }
+
+    private void sendMessage(String message) {
+        sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + message);
     }
 }
