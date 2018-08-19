@@ -3,6 +3,7 @@ package me.david.timbernocheat;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import me.david.api.ApiPlugin;
+import me.david.timbernocheat.api.hook.HookManager;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checktools.AsyncGeneral;
@@ -126,6 +127,8 @@ public class TimberNoCheat extends ApiPlugin {
         /* would work but we want our special debug permission cache*/ //startpermissionchache(true, -1, true);
         permissionCache = new DebugPermissionCache(true, -1, true);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100, 1);
+        HookManager.getInstance().loadInternals();
+
         essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         if(essentials == null) log(false, "§cEssentials konnte nicht unter dem Namen 'Essentials' gefunden werden... Ein paar Features werden nicht funktionieren...");
 

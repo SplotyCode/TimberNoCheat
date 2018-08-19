@@ -11,7 +11,7 @@ public interface TNCHook {
         return getName() + " v" + version();
     }
 
-    int version();
+    double version();
 
     LoadVerifier versionVerifier();
 

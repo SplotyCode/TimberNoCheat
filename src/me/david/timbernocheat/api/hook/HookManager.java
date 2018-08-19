@@ -1,5 +1,6 @@
 package me.david.timbernocheat.api.hook;
 
+import com.google.common.reflect.ClassPath;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.ViolationUpdateEvent;
 import me.david.timbernocheat.checkbase.Check;
@@ -7,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +17,28 @@ public class HookManager implements Listener {
 
     private Set<TNCHook> loadedHooks = new HashSet<>();
     private Set<TNCHook> disabledHooks = new HashSet<>();
+
+    private boolean defaultHooksLoaded = false;
+
+    private static HookManager instance = new HookManager();
+
+    private HookManager() {}
+
+    public void loadInternals() {
+        if (defaultHooksLoaded) throw new IllegalStateException("Internal Hooks already loaded!");
+        defaultHooksLoaded = true;
+
+        try {
+            for (ClassPath.ClassInfo classInfo : ClassPath.from(ClassLoader.getSystemClassLoader()).getTopLevelClassesRecursive("me.david.timbernocheat.defaulthooks")) {
+                Class<?> clazz = classInfo.load();
+                if (TNCHook.class.isAssignableFrom(clazz) && !clazz.isAnnotationPresent(DisabledHook.class)) {
+                    load((Class<? extends TNCHook>) clazz);
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public void load(TNCHook hook) {
         if (hook.versionVerifier().verify(TimberNoCheat.getInstance().getVersion())) {
@@ -50,7 +74,8 @@ public class HookManager implements Listener {
         final double addedVio = event.getNewViolation() - event.getOldViolation();
 
         if (addedVio > 0) {
-            loadedHooks.forEach(hook -> hook.violation(check, player, afterVio, addedVio));
+            event.setCancelled(loadedHooks.stream().anyMatch(hook -> hook.violation(check, player, afterVio, addedVio)));
+
         }
     }
 
@@ -60,5 +85,9 @@ public class HookManager implements Listener {
 
     public Collection<TNCHook> getLoadedHooks() {
         return loadedHooks;
+    }
+
+    public static HookManager getInstance() {
+        return instance;
     }
 }
