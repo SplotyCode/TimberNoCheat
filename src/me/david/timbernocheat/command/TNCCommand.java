@@ -1,11 +1,13 @@
 package me.david.timbernocheat.command;
 
+import me.david.api.Api;
 import me.david.api.commands.CheckBuilder;
 import me.david.api.commands.Command;
 import me.david.api.commands.checkers.Playercheck;
 import me.david.api.commands.checkers.Stringcheck;
 import me.david.api.objects.Pair;
 import me.david.api.utils.HastebinUtil;
+import me.david.api.utils.ServerWorldUtil;
 import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
@@ -54,7 +56,8 @@ public class TNCCommand extends Command {
                 new Object[]{"debugid", false, Permissions.TRACK_DEBUGVIOLATIONS, new Stringcheck(14)},
                 new Object[]{"listdebugids", false, Permissions.TRACK_DEBUGVIOLATIONS},
                 new Object[]{"statistics", false, ""},
-                new Object[]{"credits", false, ""}).
+                new Object[]{"credits", false, ""},
+                new Object[]{"version", false, ""}).
                 build(), TimberNoCheat.getInstance().getPrefix(), false, new String[]{"tnc", "ncp", "aac", "spartan", "anticheat", "cheat", "nocheat", "nocheatplus", "advancedanticheat", "ac"});
         setOnlyplayers(false);
     }
@@ -64,7 +67,7 @@ public class TNCCommand extends Command {
         Player p = sender instanceof Player?(Player) sender:null;
         if(args.length == 0){
             sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "TimberNoCheat (Version: " + TimberNoCheat.getInstance().getDescription().getVersion() + ")");
-            sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "/tnc -help | /tnc credits | /tnc statistics");
+            sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "/tnc -help | /tnc version | /tnc credits | /tnc statistics");
             return;
         }
         switch (args[0].toLowerCase()){
@@ -234,6 +237,16 @@ public class TNCCommand extends Command {
                 sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + Bukkit.getOfflinePlayers().length + " Spieler");
                 sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + CheckManager.getInstance().getRunnedChecks().divide(new BigDecimal(1000000), MathContext.DECIMAL128).toString() + "mil überprüfte aktionen");
                 sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Statistics]---");
+                break;
+            case "version":
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Version]---");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "TimberNoCheat Version: " + TimberNoCheat.getInstance().getDescription().getVersion() + " (" + TimberNoCheat.getInstance().getVersion() + ")");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Config Version: " + TimberNoCheat.CONFIGURATION_VERSION);
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Server Version: " + Bukkit.getVersion() + " (" + ServerWorldUtil.getMinecraftVersion() + " | " + ServerWorldUtil.getMinecraftVersionInt() + ")");
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Bukkit Version: " + Bukkit.getBukkitVersion());
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "Api Version: " + Api.instance.getDescription().getVersion());
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "NMS Version: " + Api.getNms().getClass().getName() + " | " + Api.getNms().getClass().getSimpleName());
+                sender.sendMessage(TimberNoCheat.getInstance().getPrefix() + "---[Version]---");
                 break;
         }
     }
