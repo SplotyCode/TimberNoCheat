@@ -24,6 +24,8 @@ import me.david.timbernocheat.debug.obj.DebugPermissionCache;
 import me.david.timbernocheat.discord.DiscordManager;
 import me.david.timbernocheat.event.internal.ShutdownEvent;
 import me.david.timbernocheat.exeptions.ExceptionHelper;
+import me.david.timbernocheat.exeptions.logging.Identifiers;
+import me.david.timbernocheat.exeptions.logging.LogLevel;
 import me.david.timbernocheat.gui.GuiLoader;
 import me.david.timbernocheat.listener.*;
 import me.david.timbernocheat.record.RecordManager;
@@ -223,6 +225,14 @@ public class TimberNoCheat extends ApiPlugin {
 
     public void reportException(Throwable ex, String message, DiscordManager.ErrorType type, MessageEmbed.Field... fields){
         exceptionHelper.reportException(ex, message, type, fields);
+    }
+
+    public void log(String message, LogLevel level, Identifiers identifier) {
+        exceptionHelper.log(message, level, identifier);
+    }
+
+    public void log(String message, LogLevel level) {
+        exceptionHelper.log(message, level);
     }
 
     public void executeEssentials(final Player player, Consumer<User> runable){
