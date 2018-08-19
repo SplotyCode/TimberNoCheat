@@ -187,8 +187,8 @@ public class TimberNoCheat extends ApiPlugin {
         }
         setStartState(StartState.STOP_OTHERS);
         Bukkit.getPluginManager().callEvent(new ShutdownEvent());
-        debugLogManager.onStop(null);
-        getProtocolManager().removePacketListeners(this);
+        if (debugLogManager != null) debugLogManager.onStop(null);
+        if (getProtocolManager() != null) getProtocolManager().removePacketListeners(this);
         try {
             FileUtils.writeStringToFile(checksRunned, CheckManager.getInstance().getRunnedChecks().toString());
         } catch (IOException ex) {
@@ -206,7 +206,7 @@ public class TimberNoCheat extends ApiPlugin {
         if(recordManager == null) getLogger().log(Level.WARNING, "Fatal Error in the RecordManager it is not possible to stop ANY Record!");
         else recordManager.stopAll();
         setStartState(StartState.STOPPED);
-        discordManager.sendInfo("Server wurde gestoppt!");
+        if (discordManager != null) discordManager.sendInfo("Server wurde gestoppt!");
     }
 
     /*

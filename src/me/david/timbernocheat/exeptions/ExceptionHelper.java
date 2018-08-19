@@ -50,7 +50,11 @@ public class ExceptionHelper {
     }
 
     public void log(String message, LogLevel level) {
-        tnc.getLogger().log(level.getLevel(), message);
+        TimberNoCheat.getInstance().
+                getLogger().
+                log(
+                level.getLevel(),
+                        message);
     }
 
 }

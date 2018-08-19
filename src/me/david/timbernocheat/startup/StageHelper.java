@@ -29,7 +29,7 @@ public class StageHelper {
                         "Stages die nicht zuende gelaufen sind: " + startState + "\n" +
                         "Stages die garnicht erst angefangen wurden: " + StringUtil.toString(notCalledStages(), Enum::name, ", ");
                 TimberNoCheat.getInstance().getLogger().log(Level.WARNING, message);
-                TimberNoCheat.getInstance().getDiscordManager().sendWarning(message);
+                TimberNoCheat.getInstance().getOnPostLoad().add(() -> TimberNoCheat.getInstance().getDiscordManager().sendWarning(message));
             }
         }, 2);
     }

@@ -11,7 +11,7 @@ public enum LogLevel {
     DEBUG_LAYER_2(Level.FINER),
     DEBUG_LAYER_3(Level.FINEST);
 
-    private Level level;
+    private final Level level;
 
     LogLevel(Level level) {
         this.level = level;

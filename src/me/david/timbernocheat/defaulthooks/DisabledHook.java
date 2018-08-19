@@ -1,4 +1,4 @@
-package me.david.timbernocheat.api.hook;
+package me.david.timbernocheat.defaulthooks;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

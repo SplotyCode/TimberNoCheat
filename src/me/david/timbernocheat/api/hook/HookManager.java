@@ -4,6 +4,8 @@ import com.google.common.reflect.ClassPath;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.ViolationUpdateEvent;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.defaulthooks.DisabledHook;
+import me.david.timbernocheat.exeptions.logging.LogLevel;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,9 +29,9 @@ public class HookManager implements Listener {
     public void loadInternals() {
         if (defaultHooksLoaded) throw new IllegalStateException("Internal Hooks already loaded!");
         defaultHooksLoaded = true;
-
+        final ClassLoader loader = TimberNoCheat.getInstance().getClass().getClassLoader();
         try {
-            for (ClassPath.ClassInfo classInfo : ClassPath.from(ClassLoader.getSystemClassLoader()).getTopLevelClassesRecursive("me.david.timbernocheat.defaulthooks")) {
+            for (ClassPath.ClassInfo classInfo : ClassPath.from(loader).getTopLevelClasses("me.david.timbernocheat.defaulthooks")) {
                 Class<?> clazz = classInfo.load();
                 if (TNCHook.class.isAssignableFrom(clazz) && !clazz.isAnnotationPresent(DisabledHook.class)) {
                     load((Class<? extends TNCHook>) clazz);
@@ -44,6 +46,7 @@ public class HookManager implements Listener {
         if (hook.versionVerifier().verify(TimberNoCheat.getInstance().getVersion())) {
             disabledHooks.remove(hook);
             loadedHooks.add(hook);
+            TimberNoCheat.getInstance().log("Loaded Hook: " + hook.getDisplayName(), LogLevel.INFO);
         } else {
             String message = hook.getDisplayName() + " is not compatible with " + TimberNoCheat.getInstance().pluginDisplayName();
             TimberNoCheat.getInstance().reportException(new VersionVerifierException(message), message);
@@ -75,7 +78,6 @@ public class HookManager implements Listener {
 
         if (addedVio > 0) {
             event.setCancelled(loadedHooks.stream().anyMatch(hook -> hook.violation(check, player, afterVio, addedVio)));
-
         }
     }
 

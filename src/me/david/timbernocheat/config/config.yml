@@ -899,7 +899,7 @@ fly:
       viocachedelay: 800000
       vioactions:
           1: "NOTIFY"
-   ticwksupgoing:
+   ticksupgoing:
       enable: true
       max_ping: -1
       min_tps: -1

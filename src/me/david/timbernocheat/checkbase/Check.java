@@ -2,6 +2,7 @@ package me.david.timbernocheat.checkbase;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketListener;
+import com.google.common.collect.Sets;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.discord.DiscordManager;
 import me.david.timbernocheat.runnable.TimberScheduler;
@@ -106,6 +107,7 @@ public class Check extends YamlSection implements Listener {
         vios = new ArrayList<>();
         try {
            //for(String s: getKeys(false)) System.out.println(name + " " + s);
+            //System.out.println(name + " " + Arrays.toString(getKeys(true).toArray(new String[0])));
             this.maxping = getInt("max_ping");
             this.mintps = getInt("min_tps");
             this.resetafter = getBoolean("vioresetafteraction");
