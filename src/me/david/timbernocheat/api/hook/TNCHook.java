@@ -15,6 +15,9 @@ public interface TNCHook {
 
     LoadVerifier versionVerifier();
 
+    /* null = all checks */
+    Check check();
+
     boolean violation(Check check, Player player, double afterVio, double addedVio);
 
 }

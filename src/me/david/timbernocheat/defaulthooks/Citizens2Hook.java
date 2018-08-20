@@ -26,6 +26,11 @@ public class Citizens2Hook implements TNCHook {
     }
 
     @Override
+    public Check check() {
+        return null;
+    }
+
+    @Override
     public boolean violation(Check check, Player player, double afterVio, double addedVio) {
         return CitizensAPI.getNPCRegistry().isNPC(player);
     }

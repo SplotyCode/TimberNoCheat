@@ -29,6 +29,8 @@ public class HookManager implements Listener {
     public void loadInternals() {
         if (defaultHooksLoaded) throw new IllegalStateException("Internal Hooks already loaded!");
         defaultHooksLoaded = true;
+
+        /* Taken me 40minutes before i noticed that Plugin classes are not in the normal class loader or in the class loader of the main thread */
         final ClassLoader loader = TimberNoCheat.getInstance().getClass().getClassLoader();
         try {
             for (ClassPath.ClassInfo classInfo : ClassPath.from(loader).getTopLevelClasses("me.david.timbernocheat.defaulthooks")) {
@@ -77,7 +79,10 @@ public class HookManager implements Listener {
         final double addedVio = event.getNewViolation() - event.getOldViolation();
 
         if (addedVio > 0) {
-            event.setCancelled(loadedHooks.stream().anyMatch(hook -> hook.violation(check, player, afterVio, addedVio)));
+            event.setCancelled(loadedHooks.stream().anyMatch(hook ->
+                (hook.check() == null || hook.check() == check) &&
+                        hook.violation(check, player, afterVio, addedVio)
+            ));
         }
     }
 
