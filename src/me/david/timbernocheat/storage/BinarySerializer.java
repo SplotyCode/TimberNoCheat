@@ -4,14 +4,13 @@ import com.google.common.primitives.Longs;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.zip.Deflater;
+import java.util.zip.InflaterInputStream;
 
 public class BinarySerializer {
 
@@ -69,7 +68,9 @@ public class BinarySerializer {
     public BinarySerializer readFile(File file) {
         try {
             FileInputStream fis = new FileInputStream(file);
-            bytes = new ArrayList<>(Arrays.asList(ArrayUtils.toObject(IOUtils.toByteArray(fis))));
+            ByteArrayInputStream bais = new ByteArrayInputStream(IOUtils.toByteArray(fis));
+            InflaterInputStream iis = new InflaterInputStream(bais);
+            bytes = new ArrayList<>(Arrays.asList(ArrayUtils.toObject(IOUtils.toByteArray(iis))));
             fis.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,7 +81,26 @@ public class BinarySerializer {
     public void writeFile(File file) {
         try {
             FileOutputStream fos = new FileOutputStream(file);
-            IOUtils.write(ArrayUtils.toPrimitive(bytes.toArray(new Byte[bytes.size()])), fos);
+            byte[] uncompressed = ArrayUtils.toPrimitive(bytes.toArray(new Byte[bytes.size()]));
+
+            Deflater compressor = new Deflater();
+            compressor.setLevel(Deflater.BEST_COMPRESSION);
+            compressor.setInput(uncompressed);
+            compressor.finish();
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(uncompressed.length);
+            byte[] buf = new byte[1024];
+            while (!compressor.finished()) {
+                int count = compressor.deflate(buf);
+                bos.write(buf, 0, count);
+            }
+            try {
+                bos.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            IOUtils.write(bos.toByteArray(), fos);
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
