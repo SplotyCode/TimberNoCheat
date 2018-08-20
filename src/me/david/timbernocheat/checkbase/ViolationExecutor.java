@@ -68,7 +68,7 @@ public class ViolationExecutor implements Listener {
         if(entry != null) entry.setExecutions(violationExecutionNames.toArray(new String[violationExecutionNames.size()]));
         final String id = triggert.isEmpty()?null:TimberNoCheat.getInstance().getDebugLogManager().generadeDebugId(player);
         for(Violation ctrig : triggert) {
-            PunishmentEvent event = new PunishmentEvent(player, ctrig.getType());
+            PunishmentEvent event = new PunishmentEvent(player, ctrig.getType(), check);
             Bukkit.getPluginManager().callEvent(event);
             if (event.isCancelled()) continue;
             /* Definition for the Types can be read in Vialation.ViolationTypes */
