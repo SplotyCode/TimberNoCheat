@@ -2,6 +2,7 @@ package me.david.timbernocheat.checkbase;
 
 import me.david.api.Api;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.api.PunishmentEvent;
 import me.david.timbernocheat.api.ViolationUpdateEvent;
 import me.david.timbernocheat.debug.log.DebugEntry;
 import me.david.timbernocheat.runnable.TimberScheduler;
@@ -67,6 +68,9 @@ public class ViolationExecutor implements Listener {
         if(entry != null) entry.setExecutions(violationExecutionNames.toArray(new String[violationExecutionNames.size()]));
         final String id = triggert.isEmpty()?null:TimberNoCheat.getInstance().getDebugLogManager().generadeDebugId(player);
         for(Violation ctrig : triggert) {
+            PunishmentEvent event = new PunishmentEvent(player, ctrig.getType());
+            Bukkit.getPluginManager().callEvent(event);
+            if (event.isCancelled()) continue;
             /* Definition for the Types can be read in Vialation.ViolationTypes */
             switch (ctrig.getType()) {
                 case MESSAGE:

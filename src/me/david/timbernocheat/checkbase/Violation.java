@@ -6,7 +6,7 @@ package me.david.timbernocheat.checkbase;
 public class Violation {
 
     /* Types of Violation */
-    public enum ViolationTypes{
+    public enum ViolationTypes {
 
         /* Notify Staff */
         NOTIFY,
