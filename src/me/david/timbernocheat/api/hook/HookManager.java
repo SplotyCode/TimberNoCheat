@@ -2,8 +2,10 @@ package me.david.timbernocheat.api.hook;
 
 import com.google.common.reflect.ClassPath;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.api.PunishmentEvent;
 import me.david.timbernocheat.api.ViolationUpdateEvent;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.Violation;
 import me.david.timbernocheat.defaulthooks.DisabledHook;
 import me.david.timbernocheat.exeptions.logging.LogLevel;
 import org.bukkit.entity.Player;
@@ -84,6 +86,18 @@ public class HookManager implements Listener {
                         hook.violation(check, player, afterVio, addedVio)
             ));
         }
+    }
+
+    @EventHandler
+    public void onPunishment(final PunishmentEvent event) {
+        final Check check = event.getCheck();
+        final Player player = event.getPlayer();
+        final Violation.ViolationTypes type = event.getType();
+        
+        event.setCancelled(loadedHooks.stream().anyMatch(hook ->
+                (hook.check() == null || hook.check() == check) &&
+                        hook.punishment(check, player, type)
+        ));
     }
 
     public Collection<TNCHook> getDisabledHooks() {

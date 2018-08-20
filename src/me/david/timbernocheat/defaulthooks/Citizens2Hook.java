@@ -5,6 +5,7 @@ import me.david.timbernocheat.api.hook.TNCHook;
 import me.david.timbernocheat.api.hook.verfier.PluginLoadVerifier;
 import me.david.timbernocheat.api.hook.verfier.VerifierCollection;
 import me.david.timbernocheat.checkbase.Check;
+import me.david.timbernocheat.checkbase.Violation;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.entity.Player;
 
@@ -32,6 +33,11 @@ public class Citizens2Hook implements TNCHook {
 
     @Override
     public boolean violation(Check check, Player player, double afterVio, double addedVio) {
+        return CitizensAPI.getNPCRegistry().isNPC(player);
+    }
+
+    @Override
+    public boolean punishment(Check check, Player player, Violation.ViolationTypes type) {
         return CitizensAPI.getNPCRegistry().isNPC(player);
     }
 }
