@@ -15,7 +15,7 @@ public class FastBow extends Check {
     private final double mimimumforce;
     private final long delay;
     public FastBow(){
-        super("FastBow", Category.COBMAT);
+        super("FastBow", Category.COMBAT);
         mimimumforce = getDouble("mimimumforce");
         delay = getLong("delay");
     }

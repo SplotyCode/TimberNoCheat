@@ -2,7 +2,6 @@ package me.david.timbernocheat.checkbase;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketListener;
-import com.google.common.collect.Sets;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.discord.DiscordManager;
 import me.david.timbernocheat.runnable.TimberScheduler;
@@ -21,21 +20,21 @@ public class Check extends YamlSection implements Listener {
 
     private String name;
     private Category category;
-    private long viodelay;
+    private long vioDelay;
     private HashMap<UUID, HashMap<Long, Double>> vioCache;
     private HashMap<UUID, Double> violations;
     private HashMap<UUID, HashMap<String, Double>> counts;
     public HashMap<UUID, HashMap<String, Double>> tickCounts;
     private HashMap<UUID, Map.Entry<Long, Long>> whitelist;
-    private boolean resetafter;
+    private boolean resetAfter;
     private ArrayList<Violation> vios;
-    private ArrayList<Integer> bukkittasks;
-    private ArrayList<PacketListener> protocollistener;
-    private int maxping;
-    private int mintps;
+    private ArrayList<Integer> bukkitTasks;
+    private ArrayList<PacketListener> protocolListener;
+    private int maxPing;
+    private int minTps;
 
-    private ArrayList<Check> childs = new ArrayList<>();
-    private ArrayList<Check> diabledsChilds = new ArrayList<>();
+    private ArrayList<Check> childes = new ArrayList<>();
+    private ArrayList<Check> disabledsChilds = new ArrayList<>();
     private Check parent = null;
     private boolean isChild = false;
 
@@ -49,24 +48,24 @@ public class Check extends YamlSection implements Listener {
                 continue;
             }
             try {
-                if(check.getBoolean("enable")) {
-                    childs.add(check);
+                if(check.getBoolean("enable") && getBoolean("enabled")) {
+                    childes.add(check);
                     Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.getInstance());
                 }
-                else diabledsChilds.add(check);
+                else disabledsChilds.add(check);
             }catch (Exception ex){
-                TimberNoCheat.getInstance().reportException(ex, "Error loading config for module '"  + name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
+                TimberNoCheat.getInstance().reportException(ex, "Error loading config for module '"  + name + "'(register childes)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
             }
         }
     }
 
     public void registerChilds(Check... checks) {
         for(Check check : checks)
-            if(check.getBoolean("enable")) {
-                childs.add(check);
+            if(check.getBoolean("enable") && getBoolean("enabled")) {
+                childes.add(check);
                 Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.getInstance());
             }
-            else diabledsChilds.add(check);
+            else disabledsChilds.add(check);
     }
 
     public void registerChilds(String[] list) {
@@ -79,12 +78,12 @@ public class Check extends YamlSection implements Listener {
                 continue;
             }
             try {
-                if(check.getBoolean("enable")) {
-                    childs.add(check);
+                if(check.getBoolean("enable") && getBoolean("enabled")) {
+                    childes.add(check);
                     Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.getInstance());
-                } else diabledsChilds.add(check);
+                } else disabledsChilds.add(check);
             }catch (Exception ex){
-                TimberNoCheat.getInstance().reportException(ex, "Error loading config for module '"  + this.name + "'(register childs)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
+                TimberNoCheat.getInstance().reportException(ex, "Error loading config for module '"  + this.name + "'(register childes)! The config seems to be the newest version so this may be you error!\nWe will try to still resume the Plugin load... You will probably sea errors from this error!", DiscordManager.ErrorType.SUBMODULE_LOAD);
             }
         }
     }
@@ -102,16 +101,16 @@ public class Check extends YamlSection implements Listener {
         this.counts = new HashMap<>();
         this.tickCounts = new HashMap<>();
         this.whitelist = new HashMap<>();
-        this.bukkittasks = new ArrayList<>();
-        this.protocollistener = new ArrayList<>();
+        this.bukkitTasks = new ArrayList<>();
+        this.protocolListener = new ArrayList<>();
         vios = new ArrayList<>();
         try {
            //for(String s: getKeys(false)) System.out.println(name + " " + s);
             //System.out.println(name + " " + Arrays.toString(getKeys(true).toArray(new String[0])));
-            this.maxping = getInt("max_ping");
-            this.mintps = getInt("min_tps");
-            this.resetafter = getBoolean("vioresetafteraction");
-            this.viodelay = getLong("viocachedelay");
+            this.maxPing = getInt("max_ping");
+            this.minTps = getInt("min_tps");
+            this.resetAfter = getBoolean("vioresetafteraction");
+            this.vioDelay = getLong("viocachedelay");
             ConfigurationSection confsec = getConfigurationSection(".vioactions");
             if(confsec == null) return;
             for(String cvio : confsec.getKeys(false)) {
@@ -126,12 +125,12 @@ public class Check extends YamlSection implements Listener {
                 ex.printStackTrace();
             }else TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft wird kein Stacktrace direkt in der Konsole ausgegeben!");
         }
-        startTasks();
+        if (getBoolean("enabled")) startTasks();
     }
 
     public Check(String name, Category category, boolean child, Check parent) {
         this(name, category, parent.name.toLowerCase() + "." + name.toLowerCase());
-        if(parent.isChild) throw new IllegalArgumentException("Childs can not have childs :(");
+        if(parent.isChild) throw new IllegalArgumentException("Childs can not have childes :(");
         isChild = child;
         this.parent = parent;
     }
@@ -175,16 +174,24 @@ public class Check extends YamlSection implements Listener {
     }
 
     public Check getChildByString(String name){
-        for(Check check : childs)
+        for(Check check : childes)
+            if (check.name.equalsIgnoreCase(name))
+                return check;
+        for(Check check : disabledsChilds)
             if (check.name.equalsIgnoreCase(name))
                 return check;
         return null;
     }
 
     public Check getChildbyEnum(Enum en){
-        //System.out.println(this.name + " " + en.name() + " " + childs.size());
-        for(Check check : childs) {
+        //System.out.println(this.name + " " + en.name() + " " + childes.size());
+        for(Check check : childes) {
            // System.out.println(check.getName() + " " + en.name());
+            if (check.name.equalsIgnoreCase(en.name()))
+                return check;
+        }
+        for(Check check : disabledsChilds) {
+            // System.out.println(check.getName() + " " + en.name());
             if (check.name.equalsIgnoreCase(en.name()))
                 return check;
         }
@@ -260,7 +267,7 @@ public class Check extends YamlSection implements Listener {
 
     @Deprecated
     public void register(int... tasks){
-        for(int task : tasks) bukkittasks.add(task);
+        for(int task : tasks) bukkitTasks.add(task);
     }
 
     public void register(TimberScheduler... schedulers){
@@ -270,27 +277,28 @@ public class Check extends YamlSection implements Listener {
                 TimberNoCheat.getInstance().log(false, Level.WARNING, "Unfortunately we can not start it because we don't know the mode and the timing...");
                 continue;
             }
-            bukkittasks.add(scheduler.getTaskId());
+            bukkitTasks.add(scheduler.getTaskId());
         }
     }
 
     public void registernew(){
-        for(PacketListener listener : protocollistener) TimberNoCheat.getInstance().getProtocolManager().addPacketListener(listener);
+        for(PacketListener listener : protocolListener) TimberNoCheat.getInstance().getProtocolManager().addPacketListener(listener);
     }
 
     public void register(PacketListener... listeners){
-        Collections.addAll(protocollistener, listeners);
+        if (!getBoolean("enabled")) return;
+        Collections.addAll(protocolListener, listeners);
         for(PacketListener listener : listeners) {
             boolean failed = false;
             for(PacketType type : listener.getReceivingWhitelist().getTypes())
                 if(!type.isSupported()) {
                     failed = true;
-                    if(protocollistener.contains(listener)) protocollistener.remove(listener);
+                    if(protocolListener.contains(listener)) protocolListener.remove(listener);
                 }
             for(PacketType type : listener.getSendingWhitelist().getTypes())
                 if(!type.isSupported()) {
                     failed = true;
-                    if(protocollistener.contains(listener)) protocollistener.remove(listener);
+                    if(protocolListener.contains(listener)) protocolListener.remove(listener);
                 }
             if(!failed) TimberNoCheat.getInstance().getProtocolManager().addPacketListener(listener);
         }
@@ -301,11 +309,11 @@ public class Check extends YamlSection implements Listener {
     }
 
     public void disableTasks(){
-        for(int task : bukkittasks) Bukkit.getScheduler().cancelTask(task);
+        for(int task : bukkitTasks) Bukkit.getScheduler().cancelTask(task);
     }
 
     public void disableListeners(){
-        for(PacketListener listener : protocollistener) TimberNoCheat.getInstance().getProtocolManager().removePacketListener(listener);
+        for(PacketListener listener : protocolListener) TimberNoCheat.getInstance().getProtocolManager().removePacketListener(listener);
     }
 
     public double getViolation(Player player){
@@ -316,20 +324,20 @@ public class Check extends YamlSection implements Listener {
         return violations.getOrDefault(uuid, 0d);
     }
 
-    public long getViodelay() {
-        return viodelay;
+    public long getVioDelay() {
+        return vioDelay;
     }
 
-    public void setViodelay(long viodelay) {
-        this.viodelay = viodelay;
+    public void setVioDelay(long vioDelay) {
+        this.vioDelay = vioDelay;
     }
 
-    public boolean isResetafter() {
-        return resetafter;
+    public boolean isResetAfter() {
+        return resetAfter;
     }
 
-    public void setResetafter(boolean resetafter) {
-        this.resetafter = resetafter;
+    public void setResetAfter(boolean resetAfter) {
+        this.resetAfter = resetAfter;
     }
 
     public ArrayList<Violation> getVios() {
@@ -340,20 +348,20 @@ public class Check extends YamlSection implements Listener {
         this.vios = vios;
     }
 
-    public int getMaxping() {
-        return maxping;
+    public int getMaxPing() {
+        return maxPing;
     }
 
-    public void setMaxping(int maxping) {
-        this.maxping = maxping;
+    public void setMaxPing(int maxPing) {
+        this.maxPing = maxPing;
     }
 
-    public int getMintps() {
-        return mintps;
+    public int getMinTps() {
+        return minTps;
     }
 
-    public void setMintps(int mintps) {
-        this.mintps = mintps;
+    public void setMinTps(int minTps) {
+        this.minTps = minTps;
     }
 
     public HashMap<UUID, HashMap<Long, Double>> getVioCache() {
@@ -396,12 +404,12 @@ public class Check extends YamlSection implements Listener {
         return parent;
     }
 
-    public ArrayList<Check> getChilds() {
-        return childs;
+    public ArrayList<Check> getChildes() {
+        return childes;
     }
 
-    public ArrayList<Check> getDiabledsChilds() {
-        return diabledsChilds;
+    public ArrayList<Check> getDisabledsChilds() {
+        return disabledsChilds;
     }
 
     public HashMap<UUID, Map.Entry<Long, Long>> getWhitelist() {

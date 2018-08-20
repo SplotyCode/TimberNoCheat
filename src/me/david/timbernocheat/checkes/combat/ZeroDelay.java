@@ -20,7 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 public class ZeroDelay extends Check {
 
     public ZeroDelay() {
-        super("ZeroDelay", Category.COBMAT);
+        super("ZeroDelay", Category.COMBAT);
 
         register(new PacketAdapter(TimberNoCheat.getInstance(), PacketType.Play.Client.BLOCK_DIG) {
             public void onPacketReceiving(PacketEvent event) {

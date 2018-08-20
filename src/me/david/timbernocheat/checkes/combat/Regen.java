@@ -17,7 +17,7 @@ public class Regen extends Check {
     private final Long[] delayRegens;
 
     public Regen(){
-        super("Regen", Category.COBMAT);
+        super("Regen", Category.COMBAT);
         delaySatiated = getLong("delaySatiated");
         delayPeaceful = getLong("delayPeaceful");
         delayRegens = getLangLongArray("delayRegens");

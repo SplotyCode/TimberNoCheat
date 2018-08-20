@@ -31,7 +31,7 @@ public class Speed extends Check {
 
         TimberNoCheat.getInstance().getMoveprofiler().start("Speed");
 
-        for(Check child : getChilds())
+        for(Check child : getChildes())
             ((AbstractSpeed) child).move(move, player, playerData, falsePositive, generals);
 
         TimberNoCheat.getInstance().getMoveprofiler().end();

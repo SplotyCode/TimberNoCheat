@@ -106,7 +106,7 @@ public class Interact extends Check {
                 }
 
                 //TODO: Validate event.getBlockFace() or the player facing(by yaw and pitch) with the facing from raytrace?!
-                TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.RAY_TRACE, " calc=" + rayTrace.getFaing().name() + " packet=" + event.getBlockFace().name());
+                TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.RAY_TRACE, " calc=" + rayTrace.getFaceing().name() + " packet=" + event.getBlockFace().name());
 
             }
         }

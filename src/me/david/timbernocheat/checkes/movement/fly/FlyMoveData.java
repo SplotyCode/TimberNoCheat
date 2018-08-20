@@ -15,6 +15,7 @@ public class FlyMoveData {
     private final double yVelocity, velocityDistance;
     private final Vector velocity;
     private final double toGroundDistance, fromGroundDistance;
+    private final boolean onlyRotation;
 
     public FlyMoveData(PlayerMoveEvent event) {
         this.event = event;
@@ -35,6 +36,10 @@ public class FlyMoveData {
 
         toGroundDistance = MoveingUtils.groundDistance(event.getTo());
         fromGroundDistance = MoveingUtils.groundDistance(event.getFrom());
+
+        onlyRotation = getTo().getX() == getFrom().getX() &&
+                getTo().getZ() == getFrom().getZ() &&
+                getTo().getY() == getFrom().getY();
     }
 
     public Location getTo(){
@@ -120,5 +125,9 @@ public class FlyMoveData {
 
     public double getFromGroundDistance() {
         return fromGroundDistance;
+    }
+
+    public boolean isOnlyRotation() {
+        return onlyRotation;
     }
 }

@@ -85,7 +85,7 @@ public final class CheckUtils {
                             Block block = loc.getBlock();
                             AABBBox blockBox = Api.getNms().getBoundingBox(block);
 
-                            if (validator.check(loc, block, playerBox, blockBox))
+                            if (blockBox != null && validator.check(loc, block, playerBox, blockBox))
                                 return true;
                         }
                         break;
@@ -95,7 +95,7 @@ public final class CheckUtils {
                             Block block = loc.getBlock();
                             AABBBox blockBox = Api.getNms().getBoundingBox(block);
 
-                            if (validator.check(loc, block, playerBox, blockBox))
+                            if (blockBox != null && validator.check(loc, block, playerBox, blockBox))
                                 return true;
                         }
                         break;
@@ -105,7 +105,7 @@ public final class CheckUtils {
                             Block block = loc.getBlock();
                             AABBBox blockBox = Api.getNms().getBoundingBox(block);
 
-                            if (validator.check(loc, block, playerBox, blockBox))
+                            if (blockBox != null && validator.check(loc, block, playerBox, blockBox))
                                 return true;
                         }
                         break;

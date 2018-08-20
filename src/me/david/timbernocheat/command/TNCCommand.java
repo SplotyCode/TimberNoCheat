@@ -12,7 +12,6 @@ import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.api.RefreshEvent;
 import me.david.timbernocheat.api.hook.HookManager;
-import me.david.timbernocheat.api.hook.TNCHook;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
@@ -106,22 +105,22 @@ public class TNCCommand extends Command {
                 sendMessage("---[CheckMap]---");
                 for(Check check : CheckManager.getInstance().getChecks()){
                     sendMessage(StringUtil.colorbyBool(true) + check.getName());
-                    for(Check child : check.getChilds())
+                    for(Check child : check.getChildes())
                         sendMessage("    ->" + StringUtil.colorbyBool(true) + child.getName());
-                    for(Check child : check.getDiabledsChilds())
+                    for(Check child : check.getDisabledsChilds())
                         sendMessage("    ->" + StringUtil.colorbyBool(false) + child.getName());
 
                 }
                 for(Check check : CheckManager.getInstance().getDisabledChecks()){
                     sendMessage(StringUtil.colorbyBool(false) + check.getName());
-                    for(Check child : check.getChilds())
+                    for(Check child : check.getChildes())
                         sendMessage("    ->" + StringUtil.colorbyBool(true) + child.getName());
-                    for(Check child : check.getDiabledsChilds())
+                    for(Check child : check.getDisabledsChilds())
                         sendMessage("    ->" + StringUtil.colorbyBool(false) + child.getName());
                 }
                 for(Check check : Tps.disabledChecks){
                     sendMessage(ChatColor.YELLOW + check.getName());
-                    for(Check child : check.getChilds())
+                    for(Check child : check.getChildes())
                         sendMessage(ChatColor.YELLOW + child.getName());
                 }
                 sendMessage("---[CheckMap]---");
@@ -257,22 +256,22 @@ public class TNCCommand extends Command {
                 sendMessage("Modules: ");
                 for(Check check : CheckManager.getInstance().getChecks()){
                     sendMessage("    " + StringUtil.colorbyBool(true) + check.getName());
-                    for(Check child : check.getChilds())
+                    for(Check child : check.getChildes())
                         sendMessage("        ->" + StringUtil.colorbyBool(true) + child.getName());
-                    for(Check child : check.getDiabledsChilds())
+                    for(Check child : check.getDisabledsChilds())
                         sendMessage("        ->" + StringUtil.colorbyBool(false) + child.getName());
 
                 }
                 for(Check check : CheckManager.getInstance().getDisabledChecks()){
                     sendMessage("    " + StringUtil.colorbyBool(false) + check.getName());
-                    for(Check child : check.getChilds())
+                    for(Check child : check.getChildes())
                         sendMessage("        ->" + StringUtil.colorbyBool(true) + child.getName());
-                    for(Check child : check.getDiabledsChilds())
+                    for(Check child : check.getDisabledsChilds())
                         sendMessage("        ->" + StringUtil.colorbyBool(false) + child.getName());
                 }
                 for(Check check : Tps.disabledChecks){
                     sendMessage("    " + ChatColor.YELLOW + check.getName());
-                    for(Check child : check.getChilds())
+                    for(Check child : check.getChildes())
                         sendMessage("    " + ChatColor.YELLOW + child.getName());
                 }
                 sendMessage("---[Version]---");

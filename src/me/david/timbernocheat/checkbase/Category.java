@@ -22,7 +22,7 @@ public enum Category {
     /* All Movement related Checks */
     MOVEMENT(Material.ENDER_PEARL),
     /* All Combat related Checks */
-    COBMAT(Material.DIAMOND_SWORD);
+    COMBAT(Material.DIAMOND_SWORD);
 
     private final Material material;
 

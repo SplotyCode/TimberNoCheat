@@ -28,7 +28,7 @@ public class Velocity extends Check {
     private final boolean teleport;
 
     public Velocity() {
-        super("Velocity", Category.COBMAT);
+        super("Velocity", Category.COMBAT);
         teleport = getBoolean("teleport");
         register(new TimberScheduler("Velocity-Check", () -> {
             for(Player p : Bukkit.getOnlinePlayers())

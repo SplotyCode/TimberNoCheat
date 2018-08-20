@@ -64,7 +64,7 @@ public class Break extends Check {
                 event.setCancelled(true);
         }
 
-        if(neenable && !pd.getStartBreak().getLocation().equals(event.getBlock().getLocation())){
+        if(neenable && pd.getStartBreak() != null && !pd.getStartBreak().getLocation().equals(event.getBlock().getLocation())){
             event.setCancelled(true);
             if (updateVio(this, player, nevio, " §6CHECK: §bNOTEQULS"))
                 event.setCancelled(true);

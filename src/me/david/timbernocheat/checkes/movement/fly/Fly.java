@@ -175,7 +175,7 @@ public class Fly extends Check {
 
     private ArrayList<AbstractFlyCheck> getSubChecks(){
         ArrayList<AbstractFlyCheck> list = new ArrayList<>();
-        for(Check check : getChilds()) list.add((AbstractFlyCheck) check);
+        for(Check check : getChildes()) list.add((AbstractFlyCheck) check);
         return list;
     }
 

@@ -132,7 +132,7 @@ public final class TNCAPI {
     public static void clearViolcation(final Player player){
         for(Check c : CheckManager.getInstance().getChecks()){
             c.resetVio(player);
-            for(Check child : c.getChilds())
+            for(Check child : c.getChildes())
                 child.resetVio(player);
         }
     }

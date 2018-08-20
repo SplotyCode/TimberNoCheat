@@ -39,7 +39,7 @@ public class SettingsGui extends ListGui<Check> {
     protected ItemStack getItemStack(Check obj, Player player) {
         boolean enabled = CheckManager.getInstance().getChecks().contains(obj);
         Material mat = obj.getCategory().getMaterial();
-        return ItemStackUtil.createLohre("§6" + obj.getName(), 1, mat, "§6Enabled: §b" + StringUtil.colorbyBool(enabled) + enabled, "§6Category: §b" + obj.getCategory(), "§6Childs: §b" + obj.getChilds().size());
+        return ItemStackUtil.createLohre("§6" + obj.getName(), 1, mat, "§6Enabled: §b" + StringUtil.colorbyBool(enabled) + enabled, "§6Category: §b" + obj.getCategory(), "§6Childs: §b" + obj.getChildes().size());
     }
 
     @Override

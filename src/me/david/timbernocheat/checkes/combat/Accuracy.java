@@ -22,7 +22,7 @@ public class Accuracy extends Check {
     private final long MOVEDELAY;
 
     public Accuracy() {
-        super("Accuracy", Category.COBMAT);
+        super("Accuracy", Category.COMBAT);
         MINDATA = getInt("mindata");
         MINDELAY = getLong("mindelay");
         MINACCURACY = (float) getDouble("minaccuracy");

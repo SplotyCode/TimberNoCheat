@@ -13,7 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 public class Criticals extends Check {
 
     public Criticals() {
-        super("Criticals", Category.COBMAT);
+        super("Criticals", Category.COMBAT);
     }
 
     @EventHandler

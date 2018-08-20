@@ -45,7 +45,7 @@ public class Killaura extends Check {
     private final int max_targets;
 
     public Killaura() {
-        super("Killaura", Category.COBMAT);
+        super("Killaura", Category.COMBAT);
         registerChilds(Types.values());
         Check range = getChildbyEnum(Types.RANGE);
         multi_delay = getChildbyEnum(Types.MULTIDELAY).getLong("delay");

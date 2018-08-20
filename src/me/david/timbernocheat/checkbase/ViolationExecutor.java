@@ -31,11 +31,11 @@ public class ViolationExecutor implements Listener {
         final UUID uuid = player.getUniqueId();
         if(check.getWhitelist().containsKey(uuid) && System.currentTimeMillis()-check.getWhitelist().get(uuid).getKey()<check.getWhitelist().get(uuid).getValue()) return false;
         boolean down = vio < 0;
-        if(((check.getMaxping() > 0 && CheckManager.getInstance().getping(player) >= check.getMaxping()) || (check.getMintps() > 0 && check.getMintps() <= Tps.getTPS()))) return false;
-        if(check.getViodelay() > 0 && check.getVioCache().containsKey(uuid) && check.getViolations().containsKey(uuid))
+        if(((check.getMaxPing() > 0 && CheckManager.getInstance().getping(player) >= check.getMaxPing()) || (check.getMinTps() > 0 && check.getMinTps() <= Tps.getTPS()))) return false;
+        if(check.getVioDelay() > 0 && check.getVioCache().containsKey(uuid) && check.getViolations().containsKey(uuid))
             for(Map.Entry<Long, Double> v : check.getVioCache().get(uuid).entrySet()){
                 long delay = System.currentTimeMillis()-v.getKey();
-                if(delay > check.getViodelay()){
+                if(delay > check.getVioDelay()){
                     check.getViolations().put(uuid, check.getViolations().get(uuid)-v.getValue());
                     check.getVioCache().get(uuid).remove(v.getKey());
                 }
@@ -120,7 +120,7 @@ public class ViolationExecutor implements Listener {
             }
         }
 
-        if(check.isResetafter() && canReset) {
+        if(check.isResetAfter() && canReset) {
             ViolationUpdateEvent e1 = new ViolationUpdateEvent(player, 0, check.getViolations().get(uuid), check);
             Bukkit.getServer().getPluginManager().callEvent(e1);
             if(e1.isCancelled()){

@@ -1,5 +1,6 @@
 package me.david.timbernocheat.checkbase;
 
+import com.google.common.reflect.ClassPath;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkes.clientchanel.Vape;
 import me.david.timbernocheat.checkes.combat.*;
@@ -73,6 +74,14 @@ public class CheckManager {
     public void loadChecks(){
         checks.clear();
         disabledChecks.clear();
+        ClassLoader classLoader = TimberNoCheat.getInstance().getClass().getClassLoader();
+        try {
+            for (ClassPath.ClassInfo classInfo : ClassPath.from(classLoader).getTopLevelClassesRecursive("me.david.timbernocheat.checkes")) {
+
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         register(new Address());
         register(new Delay());
         register(new Sign());
@@ -230,7 +239,7 @@ public class CheckManager {
         check.disableListeners();
         check.disableTasks();
 
-        for(Check child : check.getChilds()){
+        for(Check child : check.getChildes()){
             child.disable();
             HandlerList.unregisterAll(child);
             child.disableListeners();

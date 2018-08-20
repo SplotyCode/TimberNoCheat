@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 public class SelfHit extends Check {
 
     public SelfHit(){
-        super("SelfHit", Category.COBMAT);
+        super("SelfHit", Category.COMBAT);
     }
 
     @EventHandler(priority = EventPriority.LOW)

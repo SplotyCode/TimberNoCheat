@@ -15,7 +15,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 public class GodMode extends Check {
 
     public GodMode() {
-        super("GodMode", Category.COBMAT);
+        super("GodMode", Category.COMBAT);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

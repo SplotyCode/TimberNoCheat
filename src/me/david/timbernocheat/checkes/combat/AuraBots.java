@@ -29,7 +29,7 @@ public class AuraBots extends Check {
     private final boolean realplayer;
 
     public AuraBots() {
-        super("AuraBots", Category.COBMAT);
+        super("AuraBots", Category.COMBAT);
         armor = getBoolean("armor");
         armor_enchant = getBoolean("armor_enchant");
         visible = getBoolean("visible");

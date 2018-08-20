@@ -24,7 +24,7 @@ public class FightSpeed extends Check {
     private final int mincachesize;
 
     public FightSpeed(){
-        super("FightSpeed", Category.COBMAT);
+        super("FightSpeed", Category.COMBAT);
         hitspersecond = getInt("hitspersecond");
         interactspersecond = getInt("interactspersecond");
         enable = getBoolean("consisdent.enable");

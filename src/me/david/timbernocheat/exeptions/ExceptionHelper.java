@@ -16,8 +16,6 @@ import java.util.logging.Level;
 
 public class ExceptionHelper {
 
-    private final TimberNoCheat tnc = TimberNoCheat.getInstance();
-
     private Set<Pair<? extends Function<BlockingInformation, Boolean>, Long>> loggingBlocked = new HashSet<>();
 
     public void reportException(Throwable ex, String message){
@@ -25,16 +23,16 @@ public class ExceptionHelper {
     }
 
     public void reportException(Throwable ex, String message, DiscordManager.ErrorType type, MessageEmbed.Field... fields){
-        tnc.getLogger().log(Level.WARNING, "Ein Fataler Fehler in der stage '" + tnc.getStartState() + "' ist passiert! Nachicht: " + message);
-        if(tnc.isDebug()){
-            tnc.getLogger().log(Level.INFO, "Da TNC im debug Mode leuft werden ein Stacktrace direkt in der Konsole ausgegeben! Hier biddde: ");
+        TimberNoCheat.getInstance().getLogger().log(Level.WARNING, "Ein Fataler Fehler in der stage '" + TimberNoCheat.getInstance().getStartState() + "' ist passiert! Nachicht: " + message);
+        if(TimberNoCheat.getInstance().isDebug()){
+            TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC im debug Mode leuft werden ein Stacktrace direkt in der Konsole ausgegeben! Hier biddde: ");
             ex.printStackTrace();
-        }else tnc.getLogger().log(Level.INFO, "Da TNC nicht im debug Mode leuft werden kein Stacktrace direkt in der Konsole ausgegeben!");
+        }else TimberNoCheat.getInstance().getLogger().log(Level.INFO, "Da TNC nicht im debug Mode leuft werden kein Stacktrace direkt in der Konsole ausgegeben!");
 
-        if (tnc.getDiscordManager() == null) {
-            tnc.getOnPostLoad().add(() -> tnc.getDiscordManager().sendError(message, ex, type, fields));
+        if (TimberNoCheat.getInstance().getDiscordManager() == null) {
+            TimberNoCheat.getInstance().getOnPostLoad().add(() -> TimberNoCheat.getInstance().getDiscordManager().sendError(message, ex, type, fields));
         } else {
-            tnc.getDiscordManager().sendError(message, ex, type, fields);
+            TimberNoCheat.getInstance().getDiscordManager().sendError(message, ex, type, fields);
         }
     }
 
@@ -50,11 +48,7 @@ public class ExceptionHelper {
     }
 
     public void log(String message, LogLevel level) {
-        TimberNoCheat.getInstance().
-                getLogger().
-                log(
-                level.getLevel(),
-                        message);
+        TimberNoCheat.getInstance().getLogger().log(level.getLevel(), message);
     }
 
 }

@@ -28,7 +28,7 @@ public class HitBoxes extends Check {
     private final boolean normal;
 
     public HitBoxes() {
-        super("HitBoxes", Category.COBMAT);
+        super("HitBoxes", Category.COMBAT);
         advanced = getBoolean("advanced.enable");
         advancedincrease = (float) getDouble("advanced.increase");
         normal = getBoolean("normal");
