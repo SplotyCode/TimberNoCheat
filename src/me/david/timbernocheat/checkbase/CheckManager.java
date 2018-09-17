@@ -77,12 +77,22 @@ public class CheckManager {
         ClassLoader classLoader = TimberNoCheat.getInstance().getClass().getClassLoader();
         try {
             for (ClassPath.ClassInfo classInfo : ClassPath.from(classLoader).getTopLevelClassesRecursive("me.david.timbernocheat.checkes")) {
-
+                Class<?> clazz = classInfo.load();
+                if (Check.class.isAssignableFrom(clazz)) {
+                    try {
+                        Check check = (Check) clazz.newInstance();
+                        register(check);
+                    } catch (InstantiationException ex) {
+                        TimberNoCheat.getInstance().reportException(ex, "Error Loading Check File " + clazz.getSimpleName() + " with Class#newInstance (Error in targeted Check Constructor)");
+                    } catch (IllegalAccessException e) {
+                        TimberNoCheat.getInstance().reportException(e, "Error Loading Check File " + clazz.getSimpleName() + " with Class#newInstance (Access Denied)");
+                    }
+                }
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            TimberNoCheat.getInstance().reportException(ex, "Error Loading classes from TimberNoCheat Classpath");
         }
-        register(new Address());
+        /*register(new Address());
         register(new Delay());
         register(new Sign());
         register(new Spamming());
@@ -156,7 +166,7 @@ public class CheckManager {
         register(new Elytra());
         register(new Combine());
         register(new ZeroDelay());
-        register(new MotionLoop());
+        register(new MotionLoop());*/
     }
 
     private CheckManager(){}
