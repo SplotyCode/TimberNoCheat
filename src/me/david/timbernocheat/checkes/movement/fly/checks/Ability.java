@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
 
 @Disable(reason = "This Check is handled by the Main Flying Check")
 public class Ability extends AbstractFlyCheck {
-    
+
     public Ability(Fly flyCheck) {
         super("Ability", flyCheck);
         register(new PacketAdapter(TimberNoCheat.getInstance(), ListenerPriority.HIGH, PacketType.Play.Client.ABILITIES) {

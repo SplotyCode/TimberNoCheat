@@ -32,7 +32,7 @@ public class TriggerBlockManageGui extends NoStaticListGui<TriggerBlock> {
 
     @Override
     protected List<TriggerBlock> getList(Player player) {
-        ArrayList<TriggerBlock> list = (ArrayList<TriggerBlock>) TimberNoCheat.getInstance().getTriggerBlockManager().getTriggerBlocks().clone();
+        ArrayList<TriggerBlock> list = new ArrayList<>(TimberNoCheat.getInstance().getTriggerBlockManager().getTriggerBlocks());
         //AddButton
         list.add(new TriggerBlock());
         return list;

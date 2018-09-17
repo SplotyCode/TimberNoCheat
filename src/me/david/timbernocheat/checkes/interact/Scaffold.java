@@ -39,7 +39,7 @@ public class Scaffold extends Check {
         locs.add(loc.clone().add(-2, 0, 0));
         locs.add(loc.clone().add(0, 0, 2));
         locs.add(loc.clone().add(0, 0, -2));
-        for(Location locc : (ArrayList<Location>)locs.clone()) {
+        for(Location locc : new ArrayList<>(locs)) {
             ArrayList<Block> blocks = BlockUtil.getSurrounding(locc.getBlock(), false);
             blocks.remove(0);
             for(Block b : BlockUtil.getSurrounding(loc.getBlock(), false))
