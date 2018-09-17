@@ -1,6 +1,7 @@
 package me.david.timbernocheat.checkbase;
 
 import com.google.common.reflect.ClassPath;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkes.clientchanel.Vape;
 import me.david.timbernocheat.checkes.combat.*;
@@ -18,6 +19,7 @@ import me.david.timbernocheat.checkes.player.*;
 import me.david.timbernocheat.debug.obj.DebugPlayerDataList;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.discord.DiscordManager;
+import me.david.timbernocheat.exeptions.logging.LogLevel;
 import me.david.timbernocheat.runnable.TickCountTimer;
 import me.david.timbernocheat.runnable.Tps;
 import me.david.timbernocheat.config.Permissions;
@@ -37,6 +39,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,13 +82,19 @@ public class CheckManager {
             for (ClassPath.ClassInfo classInfo : ClassPath.from(classLoader).getTopLevelClassesRecursive("me.david.timbernocheat.checkes")) {
                 Class<?> clazz = classInfo.load();
                 if (Check.class.isAssignableFrom(clazz)) {
-                    try {
-                        Check check = (Check) clazz.newInstance();
-                        register(check);
-                    } catch (InstantiationException ex) {
-                        TimberNoCheat.getInstance().reportException(ex, "Error Loading Check File " + clazz.getSimpleName() + " with Class#newInstance (Error in targeted Check Constructor)");
-                    } catch (IllegalAccessException e) {
-                        TimberNoCheat.getInstance().reportException(e, "Error Loading Check File " + clazz.getSimpleName() + " with Class#newInstance (Access Denied)");
+                    if (clazz.isAnnotationPresent(Disable.class)) {
+                        TimberNoCheat.getInstance().log("Skipping loading: " + classInfo.getSimpleName() + " reason: " + clazz.getAnnotation(Disable.class).reason() + "(@Disable.java)", LogLevel.INFO);
+                    } else if (Modifier.isAbstract(clazz.getModifiers())) {
+                        TimberNoCheat.getInstance().log("Skipping loading: " + classInfo.getSimpleName() + " reason: Class is Abstract", LogLevel.INFO);
+                    } else {
+                        try {
+                            Check check = (Check) clazz.newInstance();
+                            register(check);
+                        } catch (InstantiationException ex) {
+                            TimberNoCheat.getInstance().reportException(ex, "Error Loading Check File " + clazz.getSimpleName() + " with Class#newInstance (Error in targeted Check Constructor)");
+                        } catch (IllegalAccessException e) {
+                            TimberNoCheat.getInstance().reportException(e, "Error Loading Check File " + clazz.getSimpleName() + " with Class#newInstance (Access Denied)");
+                        }
                     }
                 }
             }

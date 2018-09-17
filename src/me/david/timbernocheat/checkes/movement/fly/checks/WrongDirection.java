@@ -1,9 +1,11 @@
 package me.david.timbernocheat.checkes.movement.fly.checks;
 
+import me.david.timbernocheat.checkbase.Disable;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.fly.*;
 import org.bukkit.entity.Player;
 
+@Disable(reason = "This Check is handled by the Main Flying Check")
 public class WrongDirection extends AbstractFlyCheck {
 
     public WrongDirection(Fly flyCheck) {

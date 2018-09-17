@@ -1,6 +1,7 @@
 package me.david.timbernocheat.checkes.movement.fly.checks;
 
 import me.david.timbernocheat.checkbase.CheckManager;
+import me.david.timbernocheat.checkbase.Disable;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.fly.Fly;
 import me.david.timbernocheat.checkes.movement.fly.AbstractFlyCheck;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerKickEvent;
 
+@Disable(reason = "This Check is handled by the Main Flying Check")
 public class Vanilla extends AbstractFlyCheck {
 
     public Vanilla(Fly flyCheck) {

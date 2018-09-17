@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import me.david.api.utils.JsonFileUtil;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.checkbase.Disable;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.speed.pattern.PatternRunnable;
 import me.david.timbernocheat.checkes.movement.speed.pattern.SpeedPattern;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Disable(reason = "Handled by Main Speed Check")
 public class PatternCheck extends AbstractSpeed {
 
     private final List<String> disabledpatterns;

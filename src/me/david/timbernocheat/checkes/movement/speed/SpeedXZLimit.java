@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkes.movement.speed;
 import me.david.api.utils.BlockUtil;
 import me.david.api.utils.player.PlayerUtil;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.checkbase.Disable;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
@@ -14,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
+@Disable(reason = "Handled by Main Speed Check")
 public class SpeedXZLimit extends AbstractSpeed {
 
     private double groundBase;

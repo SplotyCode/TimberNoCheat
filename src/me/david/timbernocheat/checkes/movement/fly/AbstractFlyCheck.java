@@ -1,10 +1,7 @@
 package me.david.timbernocheat.checkes.movement.fly;
 
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkbase.Category;
-import me.david.timbernocheat.checkbase.Check;
-import me.david.timbernocheat.checkbase.CheckManager;
-import me.david.timbernocheat.checkbase.PlayerData;
+import me.david.timbernocheat.checkbase.*;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.util.MoveingUtils;
 import org.bukkit.entity.Player;
@@ -12,6 +9,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
 
+@Disable(reason = "This Check is handled by the Main Flying Check")
 public abstract class AbstractFlyCheck extends Check {
 
     private Fly flyCheck;

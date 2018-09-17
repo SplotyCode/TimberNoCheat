@@ -2,6 +2,7 @@ package me.david.timbernocheat.checkes.movement.speed;
 
 import me.david.api.utils.BlockUtil;
 import me.david.api.utils.cordinates.LocationUtil;
+import me.david.timbernocheat.checkbase.Disable;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
@@ -9,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+@Disable(reason = "Handled by Main Speed Check")
 public class UnusualY extends AbstractSpeed {
 
     public UnusualY(Speed speed) {
