@@ -84,10 +84,11 @@ public class HookManager implements Listener {
         final double addedVio = event.getNewViolation() - event.getOldViolation();
 
         if (addedVio > 0) {
-            event.setCancelled(loadedHooks.stream().anyMatch(hook ->
-                (hook.check() == null || hook.check() == check) &&
-                        hook.violation(check, player, afterVio, addedVio)
-            ));
+            boolean cancel = loadedHooks.stream().anyMatch(hook ->
+                    (hook.check() == null || hook.check() == check) &&
+                            hook.violation(check, player, afterVio, addedVio)
+            );
+            if (cancel) event.setCancelled(true);
         }
     }
 
