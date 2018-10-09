@@ -1,21 +1,7 @@
 package me.david.timbernocheat.checkbase;
 
 import com.google.common.reflect.ClassPath;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import me.david.timbernocheat.TimberNoCheat;
-import me.david.timbernocheat.checkes.clientchanel.Vape;
-import me.david.timbernocheat.checkes.combat.*;
-import me.david.timbernocheat.checkes.interact.*;
-import me.david.timbernocheat.checkes.chat.*;
-import me.david.timbernocheat.checkes.clientchanel.LabyMod;
-import me.david.timbernocheat.checkes.clientchanel.Other;
-import me.david.timbernocheat.checkes.clientchanel.Shematica;
-import me.david.timbernocheat.checkes.exploits.*;
-import me.david.timbernocheat.checkes.movement.*;
-import me.david.timbernocheat.checkes.movement.fly.Fly;
-import me.david.timbernocheat.checkes.movement.speed.Speed;
-import me.david.timbernocheat.checkes.other.*;
-import me.david.timbernocheat.checkes.player.*;
 import me.david.timbernocheat.debug.obj.DebugPlayerDataList;
 import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.discord.DiscordManager;
@@ -184,7 +170,7 @@ public class CheckManager {
     public void enableChecks() {
         Bukkit.getPluginManager().registerEvents(executor, TimberNoCheat.getInstance());
         try {
-            String raw = FileUtils.readFileToString(TimberNoCheat.getInstance().getChecksRunned());
+            String raw = FileUtils.readFileToString(TimberNoCheat.getInstance().getChecksRan());
             runnedChecks = new BigDecimal(StringUtil.isEmty(raw) ? "0" : raw);
         } catch (IOException ex) {
             TimberNoCheat.getInstance().reportException(ex, "Problem in loading Runned Checks...", DiscordManager.ErrorType.OTHER);

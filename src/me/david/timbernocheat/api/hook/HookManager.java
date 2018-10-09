@@ -17,6 +17,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Manages all Hooks
+ */
 public class HookManager implements Listener {
 
     private Set<TNCHook> loadedHooks = new HashSet<>();

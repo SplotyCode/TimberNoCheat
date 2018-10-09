@@ -1,9 +1,11 @@
 package me.david.timbernocheat.api.hook;
 
+/**
+ * Thrown when the current TimerNoCheat is not Compatible with a hook
+ */
 public class VersionVerifierException extends HookLoadException {
 
-    public VersionVerifierException() {
-    }
+    public VersionVerifierException() {}
 
     public VersionVerifierException(String s) {
         super(s);
@@ -20,4 +22,5 @@ public class VersionVerifierException extends HookLoadException {
     public VersionVerifierException(String s, Throwable throwable, boolean b, boolean b1) {
         super(s, throwable, b, b1);
     }
+
 }

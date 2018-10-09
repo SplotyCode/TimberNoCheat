@@ -4,6 +4,9 @@ import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.Violation;
 import org.bukkit.entity.Player;
 
+/**
+ * Called everytime a player gets punished
+ */
 public class PunishmentEvent extends TNCCancelEvent {
 
     private final Player player;

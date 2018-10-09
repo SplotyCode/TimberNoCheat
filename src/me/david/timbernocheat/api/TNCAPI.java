@@ -11,9 +11,11 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 import java.util.logging.Level;
 
-/* The Main Api Class for other plugins that want to communicate with TNC */
-/* This class is just for Backwards Capability */
-/** @see TNCApi */
+/**
+ * The Main Api Class for other plugins that want to communicate with TNC
+ * This class is just for Backwards Capability
+ * @see TNCApi
+ */
 @Deprecated
 public final class TNCAPI {
 

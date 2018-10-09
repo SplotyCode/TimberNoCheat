@@ -41,9 +41,9 @@ public class StartUpHelper {
     }
 
     public void loadOtherFiles() {
-        if (!TimberNoCheat.getInstance().getChecksRunned().exists()) {
+        if (!TimberNoCheat.getInstance().getChecksRan().exists()) {
             try {
-                TimberNoCheat.getInstance().getChecksRunned().createNewFile();
+                TimberNoCheat.getInstance().getChecksRan().createNewFile();
             } catch (IOException ex) {
                 TimberNoCheat.getInstance().reportException(ex, "Count not create Checks Runned file!");
             }

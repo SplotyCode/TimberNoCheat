@@ -2,16 +2,19 @@ package me.david.timbernocheat.api;
 
 import me.david.timbernocheat.debug.Debuggers;
 
+/**
+ * Called when a Debugger sends a message
+ */
 public class DebugMessageEvent extends TNCCancelEvent {
 
     private Debuggers debugger;
     private String message;
-    private final Object[] DATA;
+    private final Object[] data;
 
     public DebugMessageEvent(Debuggers debugger, String message, Object[] data) {
         this.debugger = debugger;
         this.message = message;
-        this.DATA = data;
+        this.data = data;
     }
 
     public Debuggers getDebugger() {
@@ -31,6 +34,7 @@ public class DebugMessageEvent extends TNCCancelEvent {
     }
 
     public Object[] getData() {
-        return DATA;
+        return data;
     }
+
 }

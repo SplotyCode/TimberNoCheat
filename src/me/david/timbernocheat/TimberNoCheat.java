@@ -59,7 +59,7 @@ public class TimberNoCheat extends ApiPlugin {
     private YamlFile config;
     private final File speedPatterns = new File(getDataFolder(), "speed_pattern.yml");
     private final File triggerBlocks = new File(getDataFolder(), "/triggerBlocks.yml");
-    private final File checksRunned = new File(getDataFolder(), "/checkcount.txt");
+    private final File checksRan = new File(getDataFolder(), "/checkcount.txt");
 
     /* Does the plugin stops Because of a crash for example old config or capability problem with ProtocolLib */
     private boolean crash = false;
@@ -190,7 +190,7 @@ public class TimberNoCheat extends ApiPlugin {
         if (debugLogManager != null) debugLogManager.onStop(null);
         if (getProtocolManager() != null) getProtocolManager().removePacketListeners(this);
         try {
-            FileUtils.writeStringToFile(checksRunned, CheckManager.getInstance().getRunnedChecks().toString());
+            FileUtils.writeStringToFile(checksRan, CheckManager.getInstance().getRunnedChecks().toString());
         } catch (IOException ex) {
             reportException(ex, "Could not write Checks runned to File");
         }
@@ -333,8 +333,8 @@ public class TimberNoCheat extends ApiPlugin {
         return countdownManager;
     }
 
-    public File getChecksRunned() {
-        return checksRunned;
+    public File getChecksRan() {
+        return checksRan;
     }
 
     public Set<Runnable> getOnPostLoad() {
