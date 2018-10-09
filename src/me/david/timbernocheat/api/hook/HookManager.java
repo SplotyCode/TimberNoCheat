@@ -85,7 +85,7 @@ public class HookManager implements Listener {
 
         if (addedVio > 0) {
             boolean cancel = loadedHooks.stream().anyMatch(hook ->
-                    (hook.check() == null || hook.check() == check) &&
+                    (hook.check() == null || hook.check().equals(check)) &&
                             hook.violation(check, player, afterVio, addedVio)
             );
             if (cancel) event.setCancelled(true);

@@ -316,6 +316,23 @@ public class Check extends YamlSection implements Listener {
         for(PacketListener listener : protocolListener) TimberNoCheat.getInstance().getProtocolManager().removePacketListener(listener);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Check check = (Check) o;
+
+        if (isChild() != check.isChild()) return false;
+        if (getName() != null ? !getName().equals(check.getName()) : check.getName() != null) return false;
+        return getParent() != null ? getParent().equals(check.getParent()) : check.getParent() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getName() != null ? getName().hashCode() : 0;
+    }
+
     public double getViolation(Player player){
         return violations.getOrDefault(player.getUniqueId(), 0d);
     }
