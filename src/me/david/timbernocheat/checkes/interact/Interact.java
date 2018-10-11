@@ -101,13 +101,15 @@ public class Interact extends Check {
                 Location pLoc = player.getLocation();
                 Location bLoc = event.getClickedBlock().getLocation();
                 RayTraceResult rayTrace = Api.getNms().rayTrace(new Vector(pLoc.getX(), pLoc.getY() + player.getEyeHeight(), pLoc.getZ()), new Vector(bLoc.getX(), bLoc.getY(), bLoc.getZ()), false, true, false, player.getWorld());
-                if(rayTrace.getType() != RayTraceResult.Type.BLOCK){
-                    updateVio(this, player, 1, " §6CHECK: §bRAYTRACE");
+
+                if (rayTrace.isValid()) {
+                    if (rayTrace.getType() != RayTraceResult.Type.BLOCK) {
+                        updateVio(this, player, 0.3, " §6CHECK: §bRAYTRACE");
+                    }
+
+                    //TODO: Validate event.getBlockFace() or the player facing(by yaw and pitch) with the facing from raytrace?!
+                    TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.RAY_TRACE, " calc=" + rayTrace.getFaceing().name() + " packet=" + event.getBlockFace().name());
                 }
-
-                //TODO: Validate event.getBlockFace() or the player facing(by yaw and pitch) with the facing from raytrace?!
-                TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.RAY_TRACE, " calc=" + rayTrace.getFaceing().name() + " packet=" + event.getBlockFace().name());
-
             }
         }
         if(event.getClickedBlock() == null || !ghost)
