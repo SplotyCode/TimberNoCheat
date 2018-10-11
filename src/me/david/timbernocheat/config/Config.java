@@ -10,6 +10,8 @@ import java.util.logging.Level;
 
 public class Config {
 
+    private static int nodeCount;
+
     /*
      * Create Config if not exists
      * Check config Version
@@ -43,6 +45,11 @@ public class Config {
         }
         if(yamlFile.getString("generel.prefix") != null && !yamlFile.getString("generel.prefix").equals("") && !yamlFile.getString("generel.prefix").equals(" "))
             TimberNoCheat.getInstance().setPrefix(ChatColor.translateAlternateColorCodes('&', yamlFile.getString("generel.prefix")));
+        yamlFile.getValues(true).size();
         return false;
+    }
+
+    public static int getNodeCount() {
+        return nodeCount;
     }
 }

@@ -16,6 +16,7 @@ import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.speed.PatternCheck;
+import me.david.timbernocheat.config.Config;
 import me.david.timbernocheat.config.Permissions;
 import me.david.timbernocheat.debug.log.DebugEntry;
 import me.david.timbernocheat.runnable.Tps;
@@ -238,6 +239,7 @@ public class TNCCommand extends Command {
                 sendMessage("284 Dateien (15/Aug/2018)");
                 sendMessage("977,5 kB reiner Code (15/Aug/2018)");
                 sendMessage("19957 Zeilen Code (15/Aug/2018)");
+                sendMessage("1229 Zeilen lange Config (15/Aug/2018) (" + Config.getNodeCount() + " Settings)");
                 sendMessage(Bukkit.getOfflinePlayers().length + " Spieler");
                 sendMessage(CheckManager.getInstance().getRunnedChecks().divide(new BigDecimal(1000000), MathContext.DECIMAL128).toString() + "mil überprüfte aktionen");
                 sendMessage("---[Statistics]---");
