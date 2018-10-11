@@ -998,6 +998,14 @@ speed:
       viocachedelay: -1
       vioactions:
          1: "NOTIFY"
+   lowhop:
+      enable: true
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: true
+      viocachedelay: 8000
+      vioactions:
+         1: "NOTIFY"
    max_ping: -1
    min_tps: -1
    vioresetafteraction: true

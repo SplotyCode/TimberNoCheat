@@ -1,5 +1,6 @@
 package me.david.timbernocheat.checkes.movement.speed;
 
+import me.david.timbernocheat.checkbase.Disable;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checktools.FalsePositive;
 import me.david.timbernocheat.checktools.General;
@@ -7,6 +8,7 @@ import me.david.timbernocheat.util.CheckUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+@Disable(reason = "Startup is handled by Main Speed Check")
 public class LowHop extends AbstractSpeed {
 
     public LowHop(Speed speed) {
