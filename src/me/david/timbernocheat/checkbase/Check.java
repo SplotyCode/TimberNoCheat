@@ -199,7 +199,7 @@ public class Check extends YamlSection implements Listener {
     }
 
     public String displayName(){
-        return parent != null?parent.getName() + "_":"" + name;
+        return (parent != null?parent.getName() + "_":"") + name;
     }
 
     public void updatevioChild(String c, Player p, double vio, String... other){
