@@ -45,7 +45,8 @@ public class General implements Listener, ExceptionRunnable  {
                     generals.lastAirTick = Tps.tickCount;
                 }
 
-                if(player.isSprinting()) generals.lastSprintTick = Tps.tickCount;
+                if (player.isSprinting()) generals.lastSprintTick = Tps.tickCount;
+                if (player.isSneaking()) generals.lastSneakTick = Tps.tickCount;
 
                 generals.lastLocs.put(Tps.tickCount, player.getLocation());
             }
@@ -64,6 +65,7 @@ public class General implements Listener, ExceptionRunnable  {
         private int ticksInAir;
         private int lastSprintTick;
         private int lastGroundTick, lastAirTick;
+        private int lastSneakTick;
 
         private LimitedMap<Integer, Location> lastLocs;
         private LimitedMap<Integer, Boolean> vehicleTicks;
@@ -101,6 +103,7 @@ public class General implements Listener, ExceptionRunnable  {
             lastOnGround = null;
             ticksInAir = 0;
             lastSprintTick = 0;
+            lastSneakTick = 0;
             lastLocs = new LimitedMap<>(8);
             vehicleTicks = new LimitedMap<>(4);
             speedTicks = new LimitedMap<>(4);
@@ -203,6 +206,10 @@ public class General implements Listener, ExceptionRunnable  {
             return Tps.tickCount-lastSprintTick;
         }
 
+        public int ticksSinceSneak(){
+            return Tps.tickCount-lastSneakTick;
+        }
+
         public Location getLastOnGround() {
             return lastOnGround;
         }
@@ -236,6 +243,10 @@ public class General implements Listener, ExceptionRunnable  {
         }
 
         public int getLastSprintTick() {
+            return lastSprintTick;
+        }
+
+        public int getLastSneakTick() {
             return lastSprintTick;
         }
 

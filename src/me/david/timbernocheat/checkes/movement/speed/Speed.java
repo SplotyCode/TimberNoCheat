@@ -15,7 +15,10 @@ public class Speed extends Check {
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
-        registerChilds(new SpeedXZLimit(this), new PatternCheck(this), new UnusualY(this));
+        registerChilds(new SpeedXZLimit(this),
+                       new PatternCheck(this),
+                       new UnusualY(this),
+                       new LowHop(this));
     }
 
     @EventHandler

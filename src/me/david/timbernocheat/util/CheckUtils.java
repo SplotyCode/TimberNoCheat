@@ -33,6 +33,21 @@ public final class CheckUtils {
         });
     }
 
+    public static boolean collidate(final Player player){
+        return checkSurroundings(player, CheckMode.BODY, (location, block, playerBox, blockBox) -> {
+            return block.getType().isSolid() && playerBox.intersectsWith(blockBox);
+        });
+    }
+
+    public static boolean collidateLiquid(final Player player){
+        return checkSurroundings(player, CheckMode.BODY, (location, block, playerBox, blockBox) -> {
+            return (block.getType() == Material.LAVA ||
+                    block.getType() == Material.STATIONARY_LAVA ||
+                    block.getType() == Material.WATER ||
+                    block.getType() == Material.STATIONARY_WATER) && playerBox.intersectsWith(blockBox);
+        });
+    }
+
     public static boolean onGround(final Location location){
         return checkSurroundings(location, CheckMode.FEED, (location2, block, playerBox, blockBox) -> {
             return block.getType().isSolid() && playerBox.intersectsWith(blockBox);

@@ -55,13 +55,13 @@ public class PatternRunnable implements ExceptionRunnable {
                 double yDiffDown = from.getY() - to.getY();
 
                 if (!found) {
-                    if(PatternCheck.getGenerators().contains(p.getUniqueId())){
+                    if (PatternCheck.getGenerators().contains(p.getUniqueId())) {
                         create(p, optimalpattern, (float) yDiffDown, (float) yDiffUp, (float) xzDiff);
-                    }else p.sendMessage(TimberNoCheat.getInstance().getPrefix() + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
+                    } else p.sendMessage(TimberNoCheat.getInstance().getPrefix() + " [DEBUG] [SPEED-PATTERN] Es konnte keine Pattern gefunden werden!");
                     continue;
                 }
 
-                if(check.getDisabledpatterns().contains(optimalpattern.getName())) continue;
+                if (check.getDisabledpatterns().contains(optimalpattern.getName())) continue;
                 double toomuch = 0;
                 int toomushper = 0;
                 TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.PATTERN_SPEED, "CAPTURED: xz=" + xzDiff + " yUp=" + yDiffUp + " yDown=" + yDiffDown);
@@ -77,7 +77,7 @@ public class PatternRunnable implements ExceptionRunnable {
                     toomushper += optimalpattern.getVerticaldown()/yDiffDown;
                 }
                 if (optimalpattern.getVerticalup() < yDiffUp) {
-                    if(PatternCheck.getGenerators().contains(p.getUniqueId())){
+                    if (PatternCheck.getGenerators().contains(p.getUniqueId())){
                         p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "[SPEED-PATTERN] '" + optimalpattern.getName() + "' updatet yDiffup to '" + yDiffDown + "'!");
                         optimalpattern.setVerticalup((float) yDiffUp);
                         check.savepatterns();
@@ -87,7 +87,7 @@ public class PatternRunnable implements ExceptionRunnable {
                     toomushper +=  optimalpattern.getVerticalup()/yDiffUp;
                 }
                 if (optimalpattern.getHorizontal() < xzDiff) {
-                    if(PatternCheck.getGenerators().contains(p.getUniqueId())){
+                    if (PatternCheck.getGenerators().contains(p.getUniqueId())){
                         p.sendMessage(TimberNoCheat.getInstance().getPrefix() + "[SPEED-PATTERN] '" + optimalpattern.getName() + "' updatet xzDiff to '" + yDiffDown + "'!");
                         optimalpattern.setHorizontal((float) xzDiff);
                         check.savepatterns();

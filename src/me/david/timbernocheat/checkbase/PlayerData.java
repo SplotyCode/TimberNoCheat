@@ -150,6 +150,10 @@ public class PlayerData {
     private Location jumpStart;
     private double jesusJumpLenght;
 
+    /* LowHop */
+    private double lowHopDiff;
+    private boolean lowHopInvalid;
+
 
     private FalsePositive.FalsePositiveChecks falsePositives;
     private General.GeneralValues generals;
@@ -236,6 +240,8 @@ public class PlayerData {
         firstRepeat = null;
         motionLoopRepeat = 0;
         lastYMotion = Double.MIN_VALUE;
+        lowHopDiff = 0;
+        lowHopInvalid = false;
     }
 
     /**
@@ -893,5 +899,21 @@ public class PlayerData {
 
     public void setJumpStart(Location jumpStart) {
         this.jumpStart = jumpStart;
+    }
+
+    public double getLowHopDiff() {
+        return lowHopDiff;
+    }
+
+    public void setLowHopDiff(double lowHopDiff) {
+        this.lowHopDiff = lowHopDiff;
+    }
+
+    public boolean isLowHopInvalid() {
+        return lowHopInvalid;
+    }
+
+    public void setLowHopInvalid(boolean lowHopInvalid) {
+        this.lowHopInvalid = lowHopInvalid;
     }
 }
