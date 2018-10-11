@@ -661,6 +661,15 @@ fastplace:
    vioactions:
       1: "NOTIFY"
       4: "KICK:FastPlace"
+fastbreak:
+   enable: true
+   max_ping: -1
+   min_tps: -1
+   vioresetafteraction: true
+   viocachedelay: 3200
+   vioactions:
+      1: "NOTIFY"
+      18: "KICK:FastBreak"
 interact:
    enable: true
    visible: true

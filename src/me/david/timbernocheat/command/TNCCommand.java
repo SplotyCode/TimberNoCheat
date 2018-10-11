@@ -231,7 +231,7 @@ public class TNCCommand extends Command {
                 sendMessage("LaprigerToast#0882: Ein guter rl Freund | Hat (versucht :D) bypasses zu machen. Danke für alles.");
                 sendMessage("frozen#4757: Kennt sich soooo gut mit cheats aus | Hat mir sehr viele Ideen geben");
                 sendMessage("Asfold: NoCheatPlus entwickler | Viele anregende koversationen");
-                sendMessage("Timber Team: Für die vielen Stunden die ihr in das Testen gesteckt habe <3");
+                sendMessage("Timber Team: Für die vielen Stunden die ihr in das Testen gesteckt habt <3");
                 sendMessage("---[Credits]---");
                 break;
             case "statistics":

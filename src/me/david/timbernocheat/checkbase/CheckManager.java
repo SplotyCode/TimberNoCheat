@@ -54,7 +54,7 @@ public class CheckManager {
     private ViolationExecutor executor = new ViolationExecutor();
 
     /* Globally randedChecks */
-    private BigDecimal runnedChecks;
+    private BigDecimal runnedChecks = null;
 
     /*
      * Registering/Starting checks

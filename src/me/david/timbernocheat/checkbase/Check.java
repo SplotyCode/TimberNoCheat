@@ -48,7 +48,7 @@ public class Check extends YamlSection implements Listener {
                 continue;
             }
             try {
-                if(check.getBoolean("enable") && getBoolean("enabled")) {
+                if(check.getBoolean("enable") && getBoolean("enable")) {
                     childes.add(check);
                     Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.getInstance());
                 }
@@ -61,7 +61,7 @@ public class Check extends YamlSection implements Listener {
 
     public void registerChilds(Check... checks) {
         for(Check check : checks)
-            if(check.getBoolean("enable") && getBoolean("enabled")) {
+            if(check.getBoolean("enable") && getBoolean("enable")) {
                 childes.add(check);
                 Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.getInstance());
             }
@@ -78,7 +78,7 @@ public class Check extends YamlSection implements Listener {
                 continue;
             }
             try {
-                if(check.getBoolean("enable") && getBoolean("enabled")) {
+                if(check.getBoolean("enable") && getBoolean("enable")) {
                     childes.add(check);
                     Bukkit.getPluginManager().registerEvents(check, TimberNoCheat.getInstance());
                 } else disabledsChilds.add(check);

@@ -50,13 +50,14 @@ import java.util.logging.Level;
 
 public class TimberNoCheat extends ApiPlugin {
 
-    public static final int CONFIGURATION_VERSION = 205;
+    public static final int CONFIGURATION_VERSION = 206;
 
     private static TimberNoCheat instance;
 
     /* The Location of the TNC Config File normally plugins/TimberNoCheat/config.yml */
     private final File configFile = new File(getDataFolder(), "config.yml");
     private YamlFile config;
+
     private final File speedPatterns = new File(getDataFolder(), "speed_pattern.yml");
     private final File triggerBlocks = new File(getDataFolder(), "/triggerBlocks.yml");
     private final File checksRan = new File(getDataFolder(), "/checkcount.txt");
@@ -72,6 +73,7 @@ public class TimberNoCheat extends ApiPlugin {
 
     /* Debug mode aka Verbose */
     private boolean debug = false;
+    private boolean forceDebug = new File(getDataFolder(), "DEBUG").exists();
     private DebugConfig debugConfig;
 
     private ListenerManager listenerManager;
@@ -96,6 +98,8 @@ public class TimberNoCheat extends ApiPlugin {
     /* Runnable's that will be executed after the plugin is enabled */
     private Set<Runnable> onPostLoad = new HashSet<>();
 
+    private boolean loaded = false;
+
 
     /* Default Prefix normally this prefix gets overridden from the config */
     @Override
@@ -113,6 +117,7 @@ public class TimberNoCheat extends ApiPlugin {
     @Override
     public void pluginEnable() throws IOException {
         instance = this;
+        if (forceDebug) debug = true;
         stageHelper.onPluginStart();
         StartUpHelper startHelper = new StartUpHelper(() -> {
             crash = true;
@@ -123,6 +128,10 @@ public class TimberNoCheat extends ApiPlugin {
         startHelper.loadOtherFiles();
         clearPlayerData = config.getBoolean("generel.clearPlayerData");
         debug = config.getBoolean("generel.debug");
+        if (forceDebug) {
+            TimberNoCheat.log(Level.INFO, "Debug Mode was set from " + debug + " to true because DEBUG File exists");
+            debug = true;
+        }
         debugConfig = new DebugConfig(configFile, debug);
 
         setStartState(StartState.START_OTHER);
@@ -169,6 +178,7 @@ public class TimberNoCheat extends ApiPlugin {
 
         stageHelper.validate();
         setStartState(StartState.RUNNING);
+        loaded = true;
         discordManager.sendInfo("Plugin wurde gestartet!");
         log(false, "Es wurden " + CheckManager.getInstance().getChecks().size() + " module geladen mit vielen unterchecks!");
     }
@@ -186,13 +196,16 @@ public class TimberNoCheat extends ApiPlugin {
             return;
         }
         setStartState(StartState.STOP_OTHERS);
-        Bukkit.getPluginManager().callEvent(new ShutdownEvent());
-        if (debugLogManager != null) debugLogManager.onStop(null);
+        ShutdownEvent event = new ShutdownEvent();
+        Bukkit.getPluginManager().callEvent(event);
+        if (debugLogManager != null) debugLogManager.onStop(event);
         if (getProtocolManager() != null) getProtocolManager().removePacketListeners(this);
-        try {
-            FileUtils.writeStringToFile(checksRan, CheckManager.getInstance().getRunnedChecks().toString());
-        } catch (IOException ex) {
-            reportException(ex, "Could not write Checks runned to File");
+        if (CheckManager.getInstance().getRunnedChecks() != null) {
+            try {
+                FileUtils.writeStringToFile(checksRan, CheckManager.getInstance().getRunnedChecks().toString());
+            } catch (IOException ex) {
+                reportException(ex, "Could not write Checks runned to File");
+            }
         }
         setStartState(StartState.DISABLE_CHECKS);
         if(CheckManager.getInstance().getChecks() == null) getLogger().log(Level.WARNING, "Fatal Error in the CheckManager it is not possible to Shutdown ANY check!");
@@ -306,7 +319,16 @@ public class TimberNoCheat extends ApiPlugin {
     }
 
     public static void log(Level level, String message){
-        TimberNoCheat.getInstance().getLogger().log(level, message);
+        getInstance().getLogger().log(level, message);
+    }
+
+    public static void logWarningDiscord(String consoleMessage, String discordMessage) {
+        log(Level.WARNING, consoleMessage);
+        if (TimberNoCheat.getInstance().loaded) {
+            TimberNoCheat.getInstance().getDiscordManager().sendWarning(discordMessage);
+        } else {
+            TimberNoCheat.getInstance().getOnPostLoad().add(() -> TimberNoCheat.getInstance().getDiscordManager().sendWarning(discordMessage));
+        }
     }
 
     public File getSpeedPatterns() {
