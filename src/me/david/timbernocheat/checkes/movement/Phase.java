@@ -43,8 +43,8 @@ public class Phase extends Check {
         for(Block block : BlockUtil.getBlocksAround(event.getTo(), 3)){
             if(block == null || !block.getType().isSolid())continue;
             AABBBox boundingBox = Api.getNms().getBoundingBox(block);
+            if (boundingBox == null) continue;
             boundingBox = boundingBox.expand(BLOCK_XZ, BLOCK_Y, BLOCK_XZ);
-            if(boundingBox == null)continue;
 
             if(MaterialHelper.GATES.contains(block.getType()) && ((Gate) block).isOpen())continue;
             if(playerBox.intersectsWith(boundingBox)) diff = true;
