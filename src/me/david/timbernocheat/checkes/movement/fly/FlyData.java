@@ -40,6 +40,10 @@ public class FlyData implements Cloneable {
     private boolean moveSince = false;
     private int movesSince = 0;
 
+    /* Distance Upgoing */
+    private int jumpPotionThisJump = 0;
+    private double currentUp = -1;
+    private double maxUp = 0;
 
     @Override
     public FlyData clone() {
@@ -271,5 +275,29 @@ public class FlyData implements Cloneable {
 
     public void setJumpPotionLastTick(int jumpPotionLastTick) {
         this.jumpPotionLastTick = jumpPotionLastTick;
+    }
+
+    public void setJumpPotionThisJump(int jumpPotionThisJump) {
+        this.jumpPotionThisJump = jumpPotionThisJump;
+    }
+
+    public int getJumpPotionThisJump() {
+        return jumpPotionThisJump;
+    }
+
+    public double getCurrentUp() {
+        return currentUp;
+    }
+
+    public void setCurrentUp(double currentUp) {
+        this.currentUp = currentUp;
+    }
+
+    public void setMaxUp(double maxUp) {
+        this.maxUp = maxUp;
+    }
+
+    public double getMaxUp() {
+        return maxUp;
     }
 }

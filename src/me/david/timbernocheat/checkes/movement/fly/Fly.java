@@ -31,7 +31,8 @@ public class Fly extends Check {
         setback = getString("setbackmethode");
         registerChilds(new Vanilla(this), new AirFall(this),
                        new WrongDirection(this), new TicksUpgoing(this),
-                       new WrongDamage(this), new Ability(this));
+                       new WrongDamage(this), new Ability(this),
+                       new DistanceUpgoing(this));
     }
     
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -110,7 +111,7 @@ public class Fly extends Check {
         final Player player = (Player) event.getEntity();
         final FlyData data = CheckManager.getInstance().getPlayerdata(player).getFlyData();
         switch (event.getCause()){
-            case ENTITY_EXPLOSION:case BLOCK_EXPLOSION:case PROJECTILE:case WITHER:
+            case ENTITY_EXPLOSION:case BLOCK_EXPLOSION:case PROJECTILE:case WITHER:case ENTITY_ATTACK:
                 data.setWaitingForVelocity(true);
             break;
         }

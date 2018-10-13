@@ -934,6 +934,14 @@ fly:
       vioactions:
          1: "NOTIFY"
          1: "MESSAGE:Illegal Activity!"
+   distanceupgoing:
+      enable: true
+      max_ping: -1
+      min_tps: -1
+      vioresetafteraction: false
+      viocachedelay: 6500
+      vioactions:
+         1: "NOTIFY"
    #none = do nothink
    #cancel = set the player to the start position
    #down = teleoprts the player down
