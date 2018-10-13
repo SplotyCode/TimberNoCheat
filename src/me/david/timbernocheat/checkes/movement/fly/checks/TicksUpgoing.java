@@ -36,9 +36,9 @@ public class TicksUpgoing extends AbstractFlyCheck {
                     getSlimeBlocksTime(flyData)
                 )
             );
-            debug("Max upgoingticks is " + max + " for " + player.getName(), "max");
+            debug("Max upgoingticks is " + max + " for " + player.getName() + " real: " + flyData.getTicksUpgoing(), "max");
             if(flyData.getTicksUpgoing() > max)
-                if(updateVio(this, player, max-flyData.getTicksUpgoing()*2.8))
+                if(updateVio(this, player, (flyData.getTicksUpgoing()-max)*2.8))
                     setBack(player);
 
             if(newTick) flyData.setJumpPotionLastTick(CheckUtils.getPotionEffectLevel(player, PotionEffectType.JUMP));
