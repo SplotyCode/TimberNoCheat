@@ -3,6 +3,7 @@ package me.david.timbernocheat;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import me.david.api.ApiPlugin;
+import me.david.api.anotations.Plugin;
 import me.david.timbernocheat.api.hook.HookManager;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
@@ -48,6 +49,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
+@Plugin(name = "TimberNoCheat", version = "2.8")
 public class TimberNoCheat extends ApiPlugin {
 
     public static final int CONFIGURATION_VERSION = 206;

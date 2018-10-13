@@ -32,7 +32,7 @@ public class DebugGui extends ArrayGui<Debuggers> {
                 TimberNoCheat.getInstance().getDebugger().isDebugging(player, obj.name())?Material.GLOWSTONE_DUST:Material.REDSTONE,
                 "§6External: " + StringUtil.colorbyBool(obj.isExternal()) + (obj.isExternal()?"Ja":"Nein"),
                 ("§b" + obj.getSettings().size() + " §6Options §b" + (obj.isExternal()?obj.getDebugger().getButtonNames().size():0) + " §6Actions"),
-                "§6Dependecy: §b" + obj.getDependency().getCategory().name() + "_" + obj.getDependency().displayName(),
+                "§6Dependecy: §b" + (obj.getDependency() == null ? "Keine" : obj.getDependency().getCategory().name() + "_" + obj.getDependency().displayName()),
                 "§6Left-Click => Toggle",
                 "§6Right-Click => Settings/Actions",
                 "§6Shit-Left-Click => Create Toggle Item",

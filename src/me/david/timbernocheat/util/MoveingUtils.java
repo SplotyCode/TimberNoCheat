@@ -13,6 +13,7 @@ public final class MoveingUtils {
     }
 
     public static double groundDistance(Location location) {
+        if (location.getBlock().getType().isSolid() || MaterialHelper.LIQUID.contains(location.getBlock().getType())) return 0;
         while (!location.getBlock().getType().isSolid() && !MaterialHelper.LIQUID.contains(location.getBlock().getType()))
             location.subtract(0, 0.1, 0);
         return location.getY()-location.getY();
