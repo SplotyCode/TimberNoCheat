@@ -4,10 +4,7 @@ import me.david.api.utils.StringUtil;
 import me.david.timbernocheat.TimberNoCheat;
 import me.david.timbernocheat.checkbase.Check;
 import me.david.timbernocheat.checkbase.CheckManager;
-import me.david.timbernocheat.debug.debuggers.MotionLoop;
-import me.david.timbernocheat.debug.debuggers.MoveVelocity;
-import me.david.timbernocheat.debug.debuggers.OnGround;
-import me.david.timbernocheat.debug.debuggers.OnGroundCheckDiff;
+import me.david.timbernocheat.debug.debuggers.*;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -33,7 +30,9 @@ public enum  Debuggers {
     BOWFORCE("FastBow"),
     FLYDEBUG("Fly", "ticksup", "max"),
     NOFALL("NoFall"),
-    MOTIONLOOP(new MotionLoop());
+    MOTIONLOOP(new MotionLoop()),
+    ALL_VIOLATIONS(new AllViolations()),
+    MOVE_EVENTS(new SpigotMoveEvent());
 
     private final ExternalDebugger debugger;
     private boolean disabled = false;
