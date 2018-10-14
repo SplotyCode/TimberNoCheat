@@ -1,5 +1,6 @@
 package me.david.timbernocheat.checkes.movement.fly.checks;
 
+import me.david.timbernocheat.checkbase.Disable;
 import me.david.timbernocheat.checkbase.PlayerData;
 import me.david.timbernocheat.checkes.movement.fly.AbstractFlyCheck;
 import me.david.timbernocheat.checkes.movement.fly.Fly;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+@Disable(reason = "Handled by Fly")
 public class DistanceUpgoing extends AbstractFlyCheck {
 
     public DistanceUpgoing(Fly flyCheck) {

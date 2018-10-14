@@ -210,7 +210,7 @@ public class TimberNoCheat extends ApiPlugin {
             }
         }
         setStartState(StartState.DISABLE_CHECKS);
-        if(CheckManager.getInstance().getChecks() == null) getLogger().log(Level.WARNING, "Fatal Error in the CheckManager it is not possible to Shutdown ANY check!");
+        if (CheckManager.getInstance().getChecks() == null) getLogger().log(Level.WARNING, "Fatal Error in the CheckManager it is not possible to Shutdown ANY check!");
         else {
             for (Check c : CheckManager.getInstance().getChecks())
                 if (c == null)

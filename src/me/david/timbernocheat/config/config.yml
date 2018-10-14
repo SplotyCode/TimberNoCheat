@@ -103,6 +103,7 @@ debugsettings:
    discord: true
    antikick: true
    warnonsetback: true
+   notifyallviolations: false
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]-----------[DE-EN]
 #[DE-EN]Chat Checks[DE-EN]
