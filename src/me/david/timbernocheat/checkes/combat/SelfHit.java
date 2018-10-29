@@ -24,7 +24,7 @@ public class SelfHit extends Check {
         final Player player = (Player) event.getDamager();
         if (!CheckManager.getInstance().isvalid_create(player)) return;
         if(event.getEntity().getEntityId() == event.getDamager().getEntityId()){
-            if(updateVio(this, player, 1))
+            if (updateVio(this, player, 1))
                 event.setCancelled(true);
         }
     }

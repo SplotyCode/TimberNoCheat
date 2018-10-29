@@ -3,6 +3,7 @@ package me.david.timbernocheat.checkbase;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketListener;
 import me.david.timbernocheat.TimberNoCheat;
+import me.david.timbernocheat.debug.Debuggers;
 import me.david.timbernocheat.discord.DiscordManager;
 import me.david.timbernocheat.runnable.TimberScheduler;
 import me.david.api.storage.YamlSection;
@@ -207,7 +208,9 @@ public class Check extends YamlSection implements Listener {
     }
 
     public boolean updateVio(Check check, Player player, double vio, String... other){
-        return CheckManager.getInstance().getExecutor().execute(player, check, vio, other);
+        boolean result = CheckManager.getInstance().getExecutor().execute(player, check, vio, other);
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.VIOLATION_DEBUG, check.displayName() + " with result " + result + " " + String.join(", ", other));
+        return result;
     }
 
     public double getCount(Player player, String count){

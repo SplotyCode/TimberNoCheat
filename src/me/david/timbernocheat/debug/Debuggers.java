@@ -32,7 +32,10 @@ public enum  Debuggers {
     NOFALL("NoFall"),
     MOTIONLOOP(new MotionLoop()),
     ALL_VIOLATIONS(new AllViolations()),
-    MOVE_EVENTS(new SpigotMoveEvent());
+    MOVE_EVENTS(new SpigotMoveEvent()),
+    VIOLATION_DEBUG(""),
+    PUNISHMENTS(new Punishments()),
+    FLY_SETBACK("");
 
     private final ExternalDebugger debugger;
     private boolean disabled = false;

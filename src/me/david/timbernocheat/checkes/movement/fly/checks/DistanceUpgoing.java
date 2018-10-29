@@ -15,7 +15,7 @@ import org.bukkit.util.Vector;
 public class DistanceUpgoing extends AbstractFlyCheck {
 
     public DistanceUpgoing(Fly flyCheck) {
-        super("Distance Upgoing", flyCheck);
+        super("DistanceUpgoing", flyCheck);
     }
 
     @Override

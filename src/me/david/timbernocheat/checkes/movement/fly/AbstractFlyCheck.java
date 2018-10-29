@@ -45,12 +45,13 @@ public abstract class AbstractFlyCheck extends Check {
 
     public void setBack(Player player){
         PlayerData pd = CheckManager.getInstance().getPlayerdata(player);
-        switch (flyCheck.getSetback()){
+        TimberNoCheat.getInstance().getDebugger().sendDebug(Debuggers.FLY_SETBACK, flyCheck.getSetback() + " " + getClass().getSimpleName());
+        switch (flyCheck.getSetback()) {
             case "cancel":
                 player.teleport(pd.getGenerals().getLastOnGround(), PlayerTeleportEvent.TeleportCause.PLUGIN);
                 break;
             case "down":
-                player.teleport(player.getLocation().subtract(0, Math.min(3, MoveingUtils.groundDistance(player)), 0));
+                player.teleport(player.getLocation().clone().subtract(0, Math.min(3, MoveingUtils.groundDistance(player)), 0));
                 break;
         }
 
