@@ -33,7 +33,9 @@ public class OnGround extends ExternalDebugger {
                 for(double y = 0.1;y<1.1;y+=0.1) {
                     Location loc = new Location(player.getWorld(), x, player  .getLocation().getY() - y, z);
                     Block block = loc.getBlock();
-                    if(block.getType().isSolid() && playerBox.intersectsWith(Api.getNms().getBoundingBox(block)))
+                    AABBBox blockBox = Api.getNms().getBoundingBox(block);
+                    if (blockBox == null) continue;
+                    if(block.getType().isSolid() && playerBox.intersectsWith(blockBox))
                         onGround = true;
                 }
         return onGround;
