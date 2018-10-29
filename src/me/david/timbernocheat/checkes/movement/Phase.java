@@ -46,7 +46,7 @@ public class Phase extends Check {
             if (boundingBox == null) continue;
             boundingBox = boundingBox.expand(BLOCK_XZ, BLOCK_Y, BLOCK_XZ);
 
-            if(MaterialHelper.GATES.contains(block.getType()) && ((Gate) block).isOpen())continue;
+            if(block instanceof Gate && ((Gate) block).isOpen()) continue;
             if(playerBox.intersectsWith(boundingBox)) diff = true;
             break;
         }

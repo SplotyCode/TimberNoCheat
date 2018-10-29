@@ -24,6 +24,9 @@ public class Combine extends Check {
 
     @EventHandler
     public void onMove(final PlayerMoveEvent event){
+        if (!CheckManager.getInstance().isvalid_create(event.getPlayer())) {
+            return;
+        }
         final Player player = event.getPlayer();
         if(player.isSprinting() && player.isSneaking()){
             event.setCancelled(true);
